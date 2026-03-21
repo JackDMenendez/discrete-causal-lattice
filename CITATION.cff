@@ -1,0 +1,10 @@
+nstitution: Independent Scholar (Eugene, OR)
+cff-version: 1.0.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: Menendez
+  given-names: Jack
+orcid: https://orcid.org/0009-0003-1166-307X
+title: "A Discrete Causal Lattice Foundation for Physics: The Octahedral A=1 Framework"
+version: v1.1.1
+date-released: 2026-03-07

@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{3}{section.2}%
+\contentsline {section}{\numberline {3}Causal Sessions and the Phase Rotor}{3}{section.3}%
+\contentsline {section}{\numberline {4}The Tick Scheduler}{3}{section.4}%
+\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{3}{section.5}%
+\contentsline {section}{\numberline {6}Gravity as Clock Density}{3}{section.6}%
+\contentsline {section}{\numberline {7}Interference and the Huygens Lantern}{3}{section.7}%
+\contentsline {section}{\numberline {8}The Observer as Clock}{3}{section.8}%
+\contentsline {section}{\numberline {9}Path Counting and Falsifiable Predictions}{3}{section.9}%
+\contentsline {section}{\numberline {10}System Audit and Traceability Matrix}{4}{section.10}%
+\contentsline {section}{\numberline {11}Conclusion}{4}{section.11}%

@@ -1,10 +1,17 @@
 \documentclass[12pt, letterpaper]{article}
 
+%% Load packages -- build from the paper/ directory:
+%%   cd paper && pdflatex main.tex
+%% or set TEXINPUTS if building from repo root.
 \input{macros/packages}
 \input{macros/commands}
 
+%% Page geometry (also set here as fallback in case packages.tex path fails)
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+
 \title{A Discrete Causal Lattice Foundation for Physics:\\
-       The Octahedral A=1 Framework}
+       \texorpdfstring{The Octahedral $\mathcal{A}=1$ Framework}
+                      {The Octahedral A=1 Framework}}
 \author{Jack Menendez\\
         \small Eugene, OR\\
         \small ORCID: 0009-0003-1166-307X}
