@@ -1,0 +1,31 @@
+% ============================================================
+% audit_table.tex
+% STATUS: STUB -- populate as experiments are completed
+% ============================================================
+
+% This table maps physical phenomena to lattice logic, manifold limit,
+% and experiment module. A row should only be marked PASS when the
+% experiment produces the result from genuine lattice dynamics,
+% not from analytical formulas used as proxies.
+
+\begin{table}[h!]
+\centering
+\caption{System Audit: Mapping $\mathcal{T}_\diamond^3$ Protocols to Experiments}
+\label{tab:audit}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllll}
+\hline
+\textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Manifold Limit} & \textbf{Experiment} & \textbf{Status} \\
+\hline
+Speed of Light Limit    & Topological Adjacency ($v_{max}=1$)     & Planck Ratio ($c = l_P/t_P$)   & exp\_00\_causal\_cone.py       & \texttt{STUB} \\
+Inertial Persistence    & Phase Gradient ($\nabla\phi$)            & Newton's First Law              & exp\_01\_inertia.py            & \texttt{STUB} \\
+Gravitational Pull      & Clock Density Gradient                   & Schwarzschild Metric            & exp\_02\_gravity\_clock\_density.py & \texttt{STUB} \\
+Quantum Interference    & Discrete Path Summation                  & Schr\"{o}dinger Equation        & exp\_03\_interference.py       & \texttt{STUB} \\
+Wave Function Collapse  & Observer Clock Addition                  & Density Matrix Decay            & exp\_04\_decoherence.py        & \texttt{STUB} \\
+Measurement Problem     & Tick Sequence Entanglement               & Decoherence Theory              & exp\_05\_observer\_clock.py    & \texttt{STUB} \\
+$1/r^2$ Correction      & Discrete Path Count Deviation            & Gaussian CLT Limit              & exp\_06\_path\_counting.py     & \texttt{STUB} \\
+Time Dilation Quantum   & Minimum Clock Increment                  & Schwarzschild Time Dilation     & exp\_06\_path\_counting.py     & \texttt{STUB} \\
+\hline
+\end{tabular}%
+}
+\end{table}
