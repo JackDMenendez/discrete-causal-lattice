@@ -1,0 +1,31 @@
+% ============================================================
+% causal_sessions.tex
+% STATUS: STUB
+% Corresponds to: src/core/CausalSession.py, src/core/PhaseRotor.py
+% Experiment: exp_01_inertia.py
+% ============================================================
+
+% OPEN QUESTION (from exp_01 results):
+% In the current tick() implementation, higher omega causes FASTER propagation
+% given the same phase gradient, because omega amplifies the phase-alignment
+% weighting. True inertial behavior requires heavier particles to resist
+% changes in velocity -- omega should damp the phase-alignment response,
+% not amplify it. The correct formulation needs further work.
+% Candidate fix: weight emission by 1/(omega * phase_alignment) so that
+% high-frequency packets are less responsive to the gradient per tick.
+% This is the key open theoretical question for Section 3.
+
+
+% - The CausalSession: a particle as a persistent probability flux
+% - The PhaseRotor: U(1) internal clock
+%   - omega as instruction frequency (mass)
+%   - Phase gradient as momentum
+% - The hop probability distribution
+%   - At rest: 1/6 to each neighbor, probability of staying put
+%   - In motion: asymmetric distribution encoding velocity
+%   - The temperature analogy for the stay-put probability
+% - Compact support: probability strictly zero outside causal cone
+% - Inertia as phase-gradient persistence (U(1) stability)
+% - Mass as instruction overhead: F = ma as state-update cost
+
+\textbf{[STUB]}

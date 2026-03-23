@@ -1,23 +1,4 @@
 
-## MAJOR RESULT -- Hydrogen Spectrum Confirmed
-
-Experiment exp_10_v2.py on 197^3 grid (600 ticks each level):
-
-  r_2/r_1 = 4.42   (Bohr predicts 4.000,  error 10%)
-  E_2/E_1 = 0.229  (Bohr predicts 0.250,  error  8%)
-
-Both within 10% of exact Bohr prediction.
-Residual error: Zitterbewegung damping + softening correction.
-
-BONUS RESULT: Spontaneous emission observed.
-  n=2 orbit stable for ~340 ticks, then collapses to n=1.
-  Not programmed -- emerges from Zitterbewegung phase dynamics.
-  Lattice analog of 2p->1s hydrogen transition.
-
-This is the first derivation of the hydrogen spectrum from
-discrete causal lattice geometry.
-
-
 ## v2.0.0 -- Session update
 
 ### Experiments: 10/10 passing (exp_08 still stub)

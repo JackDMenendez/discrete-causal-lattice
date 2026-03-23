@@ -1,0 +1,35 @@
+% ============================================================
+% interference.tex
+% STATUS: STUB
+% Corresponds to: src/experiments/exp_03_interference.py
+% ============================================================
+
+% CRITICAL NOTE FOR AUTHOR:
+% v1.0 exp_04 used the continuous Huygens-Fresnel analytical formula,
+% NOT a genuine lattice simulation. v2.0 must implement true discrete
+% propagation: complex amplitudes hop between octahedral neighbors,
+% phase accumulates through discrete steps only, |psi|^2 is taken
+% after summation. The interference pattern must emerge from path
+% counting, not from sqrt() distance calculations.
+
+% Topics to cover:
+% - The Huygens Lantern in 3D
+%   - Each active node emits phase to all 6 neighbors per tick
+%   - Amplitude at target node = sum of all arriving complex amplitudes
+%   - Constructive: phases arrive aligned -> bright node
+%   - Destructive: phases arrive opposed -> dark node
+% - The double slit in the octahedral lattice
+%   - Barrier as a plane of nodes with zero hop probability
+%   - Two slit openings as the only active boundary nodes
+%   - Fringe pattern emerges from discrete path count differences
+% - Why complex amplitudes (not densities) are essential
+%   - Real positive densities cannot cancel
+%   - The phase must carry through to the summation
+% - Comparison: discrete fringe pattern vs continuous Fresnel prediction
+%   - Agreement at large distance (CLT regime)
+%   - Discrete corrections at small distance (falsifiable)
+% - The decoherence transition
+%   - Observer clock added at one slit
+%   - Phase scrambled -> fringes collapse to two-clump classical pattern
+
+\textbf{[STUB]}

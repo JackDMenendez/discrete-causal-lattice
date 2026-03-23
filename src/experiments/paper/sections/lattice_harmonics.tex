@@ -1,0 +1,74 @@
+% ============================================================
+% lattice_harmonics.tex
+% STATUS: STUB -- see notes/lattice_harmonics.md
+% Corresponds to: src/experiments/exp_09_harmonics.py
+% ============================================================
+
+% This section derives the discrete harmonic structure of T^3_diamond
+% and shows that quantization of mass, charge, and atomic spectra
+% emerges from lattice resonance conditions.
+
+% 10.1 The Zitterbewegung Mass Spectrum
+% ---------------------------------------------------------
+% p_stay = sin^2(omega/2) is periodic in omega with period 2*pi.
+% Therefore mass is quantized: omega and omega + 2*pi*n give identical mass.
+% The allowed stable frequencies are rational multiples of pi.
+% This is geometric mass quantization without a Higgs mechanism.
+% Reference: \cite{schrodinger1930} for original Zitterbewegung;
+%            exp_09 Part A for the frequency scan.
+
+% 10.2 The Vacuum Carrier and Resonance Condition
+% ---------------------------------------------------------
+% The bipartite RGB/CMY alternation is a built-in oscillation at
+% omega_vacuum = pi per tick (period = 2 ticks).
+% Particles near resonance (omega ~ pi) are phase-matched with vacuum.
+% The resonance condition determines preferred stable frequencies:
+%   omega_n = pi * p/q  (rational multiples)
+% Massless particles (omega = 0) and maximum-mass states (omega = pi)
+% are the two extremes of this spectrum.
+
+% 10.3 Orbital Resonance and the Bohr Spectrum
+% ---------------------------------------------------------
+% A wave packet in a clock-density well oscillates with orbital frequency
+% omega_orb(r) that depends on radius.
+% Stable orbits require: omega_zitt / omega_orb = integer (commensurate)
+% This is the Bohr-Sommerfeld condition from lattice geometry.
+% For a 1/r^2 clock density gradient:
+%   omega_orb(r) ~ 1/r^2 * omega_fundamental
+% Stable orbit radii: r_n ~ n * r_fundamental
+% Energy levels: E_n ~ -1/n^2 * E_fundamental
+% If E_fundamental matches the Rydberg constant at Bohr calibration:
+%   this is the hydrogen spectrum from lattice resonance.
+% Reference: exp_09 Part B for orbital resonance simulation.
+
+% 10.4 Path Length Resonances and de Broglie
+% ---------------------------------------------------------
+% From exp_06: discrete path counts P(N, dx, dy, dz) have
+% peaks at specific N values -- these are resonant propagation lengths.
+% The resonant lengths correspond to allowed de Broglie wavelengths:
+%   lambda_n = 2*pi / k_n  where k_n = 2*pi*n / (circumference)
+% This is Wilson-Sommerfeld quantization in lattice form.
+% Connection to \cite{feynman1948} path integral formulation.
+
+% 10.5 The Brillouin Zone and Photon Dispersion
+% ---------------------------------------------------------
+% The diagonal FCC-like basis vectors generate an FCC reciprocal lattice.
+% The first Brillouin zone is a truncated octahedron.
+% Photon dispersion relation:
+%   At small k: omega(k) = c*|k|  (linear -- standard EM)
+%   Near zone boundary: omega(k) = c*sin(|k|*a/2)/(a/2)  (nonlinear)
+%   At zone boundary: zero group velocity (standing wave mode)
+% FALSIFIABLE PREDICTION: photon group velocity decreases near Planck scale.
+% Reference: exp_09 Part C for dispersion measurement.
+
+% 10.6 Temporal Locking and Charge Quantization
+% ---------------------------------------------------------
+% Sessions with incommensurate tick frequencies may synchronize
+% (Kuramoto-like frequency locking) over many macro-ticks.
+% Locked frequencies are rational multiples of each other.
+% HYPOTHESIS: integer electric charge quantization is temporal
+% frequency locking -- charge = winding number of phase resonance
+% with the vacuum carrier frequency omega_vacuum = pi/tick.
+% Reference: exp_09 Part D for temporal locking simulation.
+
+\textbf{[STUB -- see notes/lattice\_harmonics.md and exp\_09\_harmonics.py]}
