@@ -1,3 +1,19 @@
+
+## v2.0.0 -- In Progress (updated)
+
+### Experiments passing (7/9):
+- exp_00: Causal cone -- speed limit c=1 confirmed
+- exp_01: Inertia -- phase gradient persistence, linear trajectory
+- exp_02: Gravity -- clock density gradient, differential Zitterbewegung
+- exp_03: Interference -- genuine discrete fringes, no analytical formula
+- exp_04: Decoherence -- phase scrambling collapses two-source pattern
+- exp_06: Path counting -- discrete corrections, falsifiable predictions
+- exp_07: Clock conservation -- continuity equation confirmed (Step 1 of GR)
+
+### Remaining stubs:
+- exp_05: Observer as clock (TickScheduler combinatorics)
+- exp_08: Vacuum twist (gravity vs EM as div vs curl)
+
 # CHANGELOG
 
 ## v2.0.0 -- In Progress

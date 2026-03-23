@@ -1,0 +1,65 @@
+% ============================================================
+% hydrogen_spectrum.tex
+% STATUS: IN PROGRESS -- see exp_10_hydrogen_spectrum.py
+%         and notes/lattice_harmonics.md for current results
+% ============================================================
+
+% This section derives the Bohr energy levels E_n ~ -1/n^2
+% from orbital resonance in a Coulomb clock-density well.
+
+% 11.1 The Coulomb Clock-Density Well
+% ---------------------------------------------------------
+% V(r) = -strength / (r + softening)
+% This is the 1/r analog of the Gaussian well used in exp_02.
+% Unlike the Gaussian, it supports an infinite series of bound states.
+% The softening parameter regularizes the singularity at r=0,
+% analogous to the finite nuclear size in the actual hydrogen atom.
+% Reference: \cite{feynman1948} (path integral in Coulomb potential)
+
+% 11.2 Orbital Motion and Tangential Momentum
+% ---------------------------------------------------------
+% A packet initialized with tangential momentum along V2=(1,-1,-1)
+% (perpendicular to the V1=(1,1,1) radial direction) orbits the well.
+% The orbital period T_orb is measured via zero-crossing counting
+% of the radial distance history.
+% exp_10 confirms: genuine orbital motion with T ~ 87-94 ticks at r=4.
+
+% 11.3 The Bohr-Sommerfeld Quantization from Zitterbewegung
+% ---------------------------------------------------------
+% The quantization condition is:
+%   omega * T_orb(r_n) / (2*pi) = n   (integer n)
+% This states that the Zitterbewegung frequency must complete
+% exactly n cycles per orbit.
+% This is the Bohr-Sommerfeld condition derived from lattice resonance.
+% exp_10 finds: n=1 at omega/pi~0.021, T~87; n=2 at omega/pi~0.059, T~69.
+
+% 11.4 Energy Level Ratios
+% ---------------------------------------------------------
+% STATUS: IN PROGRESS
+%
+% To derive E_n ~ 1/n^2 cleanly:
+%   Fix omega (same particle mass throughout)
+%   Sweep initial radius r from r_min to r_max
+%   Find resonant radii r_n where omega * T_orb(r_n) / (2*pi) = n
+%   These are the Bohr radii a_n in lattice units
+%   Energy at radius r_n: E_n ~ -strength / (r_n + softening)
+%   Check: E_n / E_1 ~ 1/n^2
+%
+% If r_n ~ n^2 * r_1 (standard Bohr scaling), and V(r) ~ -1/r,
+% then E_n ~ -1/r_n ~ -1/n^2 * (1/r_1) ~ E_1/n^2.
+%
+% The key is demonstrating r_n ~ n^2 from the lattice simulation.
+% This is the main remaining computational task for this section.
+
+% 11.5 Calibration to Physical Units
+% ---------------------------------------------------------
+% If the lattice spacing is set to the Bohr radius a_0 = 5.29e-11 m,
+% then the n=1 orbit radius should be 1 lattice node.
+% The Rydberg energy E_1 = -13.6 eV then fixes the Coulomb strength.
+% This calibration predicts measurable discrete corrections to
+% hydrogen energy levels at the lattice scale (r ~ a_0).
+% Connection to precision hydrogen spectroscopy: \cite{planck2020}.
+
+\textbf{[IN PROGRESS -- see exp\_10\_hydrogen\_spectrum.py]}
+\textbf{Orbital motion confirmed. Quantization condition n=1,2 found.}
+\textbf{E\_n ~ 1/n\^{}2 derivation: fix omega, sweep radius -- in progress.}

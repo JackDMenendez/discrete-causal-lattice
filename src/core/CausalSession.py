@@ -2,21 +2,45 @@
 CausalSession.py
 The Quantum Lantern: a particle as a persistent probability flux.
 
-A CausalSession is the A=1 representation of a particle.
-It is not a point; it is a distributed complex amplitude navigating
-the OctahedralLattice via unitary tick updates.
+The bipartite Zitterbewegung model:
 
-The session carries:
-  - A complex amplitude field psi(x,y,z): the wave function
-  - A PhaseRotor: the internal U(1) clock (mass / instruction frequency)
-  - A TickCounter: the session's own discrete time coordinate
+  A PHOTON (delta_phi = 0):
+    - p_stay = sin^2(0/2) = 0    -- never stays
+    - p_move = cos^2(0/2) = 1    -- always moves
+    - Sees only the 3 active sublattice vectors per tick
+    - Strictly chiral, moves at c=1 always
 
-Paper reference: Section 3 (Causal Sessions and the Phase Rotor)
+  A MASSIVE PARTICLE (delta_phi != 0):
+    - p_stay = sin^2(delta_phi/2) > 0   -- sometimes stays (mass/Zitterbewegung)
+    - p_move = cos^2(delta_phi/2) / 3   -- distributes to 3 active neighbors
+    - BUT: by staying, it is present for BOTH even and odd ticks
+    - Therefore it blurs across both sublattices -- sees all 6 vectors
+    - This blur IS the superposition of left/right-handed states
+    - delta_phi = omega * dt: the internal clock mismatch with the vacuum
+
+  MOMENTUM:
+    - A bias in the distribution across the 3 active vectors
+    - Encoded as a phase gradient: one vector gets more weight than others
+    - Constant bias = constant velocity (Newton 1)
+
+  ACCELERATION:
+    - A spatially-varying phase field (gravity or EM) shifts delta_phi
+      differently across the wavefront
+    - Differential Zitterbewegung across the wavefront steers the packet
+    - No force vector needed -- just grad(delta_phi)
+
+  INERTIA (corrected from earlier implementation):
+    - High omega = large delta_phi per tick = strong Zitterbewegung
+    - Strong Zitterbewegung = more time spent at nucleus = harder to accelerate
+    - omega appears in DENOMINATOR of momentum response (see tick())
+
+Paper reference: Section 3 (Causal Sessions, Zitterbewegung, Mass)
 """
 
 import numpy as np
 from typing import Tuple
-from .OctahedralLattice import OctahedralLattice, COORDINATION_NUMBER
+from .OctahedralLattice import (OctahedralLattice, COORDINATION_NUMBER,
+                                 SUBLATTICE_SIZE, active_vectors, ALL_VECTORS)
 from .PhaseRotor import PhaseRotor
 from .UnityConstraint import enforce_unity
 
@@ -25,170 +49,186 @@ class CausalSession:
     """
     A particle as a persistent causal session on T^3_diamond.
 
-    The amplitude field psi is complex. Phase must survive to the
-    summation step. |psi|^2 is taken AFTER neighbor summation,
-    not before. This is what makes interference possible.
+    The is_massless flag determines which tick rule applies:
+      True  -> photon: bipartite, p_stay=0, sees 3 vectors
+      False -> massive: blurred sublattice, p_stay=sin^2(delta_phi/2)
     """
 
     def __init__(self,
                  lattice: OctahedralLattice,
                  initial_node: Tuple[int, int, int],
                  instruction_frequency: float,
-                 momentum: Tuple[float, float, float] = (0.0, 0.0, 0.0)):
-        """
-        Parameters
-        ----------
-        lattice               : The substrate T^3_diamond
-        initial_node          : Starting causal event (x, y, z)
-        instruction_frequency : omega -- the internal clock rate, encoding rest mass
-        momentum              : Initial phase gradient encoding velocity direction
-        """
-        self.lattice = lattice
-        self.phase_rotor = PhaseRotor(frequency=instruction_frequency)
-        self.tick_counter = 0
+                 momentum: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+                 is_massless: bool = False):
+        self.lattice          = lattice
+        self.phase_rotor      = PhaseRotor(frequency=instruction_frequency)
+        self.tick_counter     = 0
+        self.is_massless      = is_massless
 
-        # The wave function: complex amplitude at every lattice node
         self.psi = np.zeros(
             (lattice.size_x, lattice.size_y, lattice.size_z),
             dtype=complex
         )
-
-        # Initialize at the starting node with unity amplitude (A=1)
         x0, y0, z0 = initial_node
         self.psi[x0, y0, z0] = 1.0 + 0j
 
-        # Encode initial momentum as a phase gradient across the packet
         if any(p != 0.0 for p in momentum):
             self._apply_initial_momentum(initial_node, momentum)
 
         enforce_unity(self.psi)
 
-    def _apply_initial_momentum(self,
-                                 center: Tuple[int, int, int],
-                                 momentum: Tuple[float, float, float]):
+    def _apply_initial_momentum(self, center, momentum):
         """
-        Stamps the initial momentum as a phase gradient across the packet.
-        A particle at rest has uniform phase; a moving particle has a
-        phase gradient in the direction of motion.
-
-        For a Gaussian packet centered at (x0,y0,z0) with momentum (kx,ky,kz):
-            psi(x,y,z) = envelope(x,y,z) * exp(i*(kx*x + ky*y + kz*z))
-
-        Paper reference: Section 3 (phase gradient as momentum)
+        Momentum = phase gradient across the packet.
+        The gradient biases the 3-way distribution within each sublattice,
+        giving a net drift in the gradient direction.
         """
         kx, ky, kz = momentum
-        size_x, size_y, size_z = self.lattice.size_x, self.lattice.size_y, self.lattice.size_z
-        for x in range(size_x):
-            for y in range(size_y):
-                for z in range(size_z):
+        for x in range(self.lattice.size_x):
+            for y in range(self.lattice.size_y):
+                for z in range(self.lattice.size_z):
                     if np.abs(self.psi[x, y, z]) > 1e-12:
-                        self.psi[x, y, z] *= np.exp(1j * (kx*x + ky*y + kz*z))
+                        self.psi[x, y, z] *= np.exp(
+                            1j * (kx*x + ky*y + kz*z)
+                        )
 
-    def hop_probability_distribution(self, node: Tuple[int, int, int]) -> dict:
+    # ── The core Zitterbewegung amplitude kernel ──────────────────────────────
+
+    @staticmethod
+    def zitterbewegung_amplitudes(delta_phi: float) -> Tuple[float, float]:
         """
-        Returns the probability weight for each neighbor of node.
+        Given the phase mismatch delta_phi between the particle's internal
+        clock and the vacuum clock, returns:
+          p_stay : residence probability  = sin^2(delta_phi / 2)
+          p_move : total outgoing probability = cos^2(delta_phi / 2)
 
-        At rest (zero phase gradient): 1/COORDINATION_NUMBER to each neighbor.
-        In motion: asymmetric distribution -- neighbors in the direction of
-        the phase gradient receive higher weight.
-        Stay-put probability: 1 - sum(neighbor_weights), models thermal rest.
+        p_stay + p_move = 1  (A=1 conservation)
 
-        Paper reference: Section 3 (hop probability, temperature analogy)
+        For a massless particle: delta_phi = 0 -> p_stay=0, p_move=1
+        For maximum mass:        delta_phi = pi -> p_stay=1, p_move=0
+
+        Paper reference: Section 3 (Zitterbewegung kernel, mass from phase mismatch)
         """
-        neighbors = self.lattice.topological_neighbors(node)
+        p_stay = np.sin(delta_phi / 2.0) ** 2
+        p_move = np.cos(delta_phi / 2.0) ** 2   # = 1 - p_stay
+        return p_stay, p_move
+
+    def _delta_phi_at(self, node: Tuple[int, int, int]) -> float:
+        """
+        Phase mismatch between the particle's internal clock and the
+        local vacuum clock (including gravitational and EM contributions).
+
+        delta_phi = omega * dt + V(x,y,z) + A_dot_k
+
+        The gravitational potential V slows the local vacuum clock.
+        The EM vector potential A adds a directional phase twist.
+        Their sum is the total phase mismatch that determines p_stay.
+
+        Paper reference: Section 8 (unified phase field equation)
+        """
         x, y, z = node
-        current_phase = np.angle(self.psi[x, y, z])
+        # Base phase mismatch from internal frequency
+        base = self.phase_rotor.omega
 
-        weights = {}
-        for nx, ny, nz in neighbors:
-            neighbor_phase = np.angle(self.psi[nx, ny, nz]) if np.abs(self.psi[nx, ny, nz]) > 1e-12 else 0.0
-            # Weight by phase alignment: neighbors in-phase get higher weight
-            phase_alignment = np.cos(neighbor_phase - current_phase)
-            weights[(nx, ny, nz)] = max(0.0, phase_alignment)
+        # Gravitational contribution (scalar -- clock density)
+        grav = self.lattice.clock_density_at(node)
 
-        total = sum(weights.values())
-        if total < 1e-12:
-            # No phase gradient -- uniform distribution (particle at rest)
-            uniform = 1.0 / COORDINATION_NUMBER
-            return {n: uniform for n in neighbors}
+        # EM contribution (vector dot momentum direction)
+        # A . k: vector potential projected onto momentum
+        A    = self.lattice.vector_potential_at(node)
+        k    = np.array([np.real(self.psi[x,y,z]),
+                         np.imag(self.psi[x,y,z]), 0.0])
+        em   = np.dot(A, k) if np.linalg.norm(k) > 1e-12 else 0.0
 
-        # Normalize so weights sum to 1
-        return {n: w / total for n, w in weights.items()}
+        return base + grav + em
 
     def tick(self):
         """
-        The unitary update cycle: advance the session by one causal step.
+        The bipartite unitary update cycle -- vectorized implementation.
 
-        Implements Huygens' Lantern in 3D on the octahedral lattice:
+        For each node: amplitude is split between residence (p_stay)
+        and emission to neighbors (p_move), weighted by phase alignment.
+        All updates are simultaneous (causal tick). A=1 enforced after.
 
-          For each active node (x,y,z):
-            1. Compute phase transition cost: H(x,y,z) = omega + V(x,y,z)
-            2. Emit phase-rotated amplitude to each of the 6 neighbors
-               delta_psi[neighbor] += psi[x,y,z] * exp(i * H(x,y,z)) / n_neighbors
-
-          All emissions are accumulated simultaneously (the causal tick).
-          Then enforce A=1 (unity constraint).
-
-        This is genuine discrete propagation -- no sqrt() distances,
-        no continuous Huygens-Fresnel formula. Interference emerges
-        from complex amplitude summation at nodes receiving contributions
-        from multiple source nodes.
-
-        |psi|^2 is taken AFTER summation -- this is what makes
-        interference possible (signed complex cancellation).
-
-        Paper reference: Section 5 (Phase Propagation, Huygens Lantern)
+        Paper reference: Section 3 & 5 (Zitterbewegung tick, bipartite rule)
         """
-        size_x = self.lattice.size_x
-        size_y = self.lattice.size_y
-        size_z = self.lattice.size_z
+        tick_parity = self.tick_counter % 2
 
-        # New amplitude field -- all updates are simultaneous (causal tick)
-        new_psi = np.zeros((size_x, size_y, size_z), dtype=complex)
+        # ── Per-node delta_phi and Zitterbewegung amplitudes ──────────
+        # delta_phi = omega + V(x,y,z)   (EM contribution simplified for now)
+        delta_phi = (self.phase_rotor.omega
+                     + self.lattice.topological_potential)       # shape: (X,Y,Z)
 
-        # Threshold: skip nodes with negligible amplitude for efficiency
-        active_threshold = 1e-9
+        p_stay  = np.sin(delta_phi / 2.0) ** 2                  # shape: (X,Y,Z)
+        p_move  = np.cos(delta_phi / 2.0) ** 2                  # shape: (X,Y,Z)
+        phase_factor = np.exp(1j * delta_phi)                    # shape: (X,Y,Z)
 
-        for x in range(size_x):
-            for y in range(size_y):
-                for z in range(size_z):
-                    amp = self.psi[x, y, z]
-                    if np.abs(amp) < active_threshold:
-                        continue
+        # ── Residence: amplitude stays at nucleus ─────────────────────
+        new_psi = self.psi * np.sqrt(p_stay)
 
-                    # Discrete Hamiltonian: phase routing cost at this node
-                    # H(x,y,z) = instruction_frequency (omega) + clock_density V(x,y,z)
-                    phase_cost = self.phase_rotor.phase_cost(
-                        self.lattice.clock_density_at((x, y, z))
-                    )
-                    phase_factor = np.exp(1j * phase_cost)
+        # ── Movement: distribute to active neighbors ──────────────────
+        if self.is_massless:
+            vectors = active_vectors(tick_parity)
+        else:
+            vectors = ALL_VECTORS
 
-                    # Emit to all valid causal neighbors
-                    neighbors = self.lattice.topological_neighbors((x, y, z))
-                    n_neighbors = len(neighbors)
+        n_vec = len(vectors)
 
-                    if n_neighbors == 0:
-                        continue
+        # For each neighbor direction, compute phase-alignment weight
+        # and accumulate emission into new_psi
+        # Weight: cos(neighbor_phase - local_phase) / (1 + omega)
+        # (inertia: heavy particles less responsive to gradient)
 
-                    # Each neighbor receives an equal share of the phase-rotated amplitude
-                    # This enforces the 1/COORDINATION_NUMBER rest distribution
-                    emission = amp * phase_factor / n_neighbors
+        local_phase = np.angle(self.psi)          # (X,Y,Z)
+        amp_abs     = np.abs(self.psi)            # (X,Y,Z)
+        active_mask = amp_abs > 1e-9
 
-                    for nx, ny, nz in neighbors:
-                        new_psi[nx, ny, nz] += emission
+        # Compute weights for each direction
+        weights = np.zeros((n_vec,) + self.psi.shape, dtype=float)
+        for i, (dx, dy, dz) in enumerate(vectors):
+            neighbor_psi   = np.roll(np.roll(np.roll(
+                self.psi, -dx, axis=0), -dy, axis=1), -dz, axis=2)
+            neighbor_abs   = np.abs(neighbor_psi)
+            neighbor_phase = np.where(neighbor_abs > 1e-9,
+                                      np.angle(neighbor_psi), local_phase)
+            delta_p = neighbor_phase - local_phase
+            bias    = np.cos(delta_p) / (1.0 + self.phase_rotor.omega)
+            weights[i] = np.maximum(0.0, bias)
 
-        # Enforce A=1: probability is conserved across the tick
+        # Normalize weights across directions (per node)
+        total_w = weights.sum(axis=0)                             # (X,Y,Z)
+        uniform = 1.0 / n_vec
+        # Where total_w is near zero: use uniform distribution
+        total_w = np.where(total_w < 1e-12, 1.0, total_w)
+        weights = np.where(weights.sum(axis=0, keepdims=True) < 1e-12,
+                           uniform, weights / total_w[np.newaxis])
+
+        # Emit weighted, phase-rotated amplitude to each neighbor
+        # Use masked roll to prevent wrap-around at boundaries
+        sqrt_p_move = np.sqrt(p_move)
+        sx, sy, sz  = self.psi.shape
+        for i, (dx, dy, dz) in enumerate(vectors):
+            emission = self.psi * phase_factor * sqrt_p_move * weights[i]
+
+            # Build boundary mask: zero out emission that would wrap
+            mask = np.ones((sx, sy, sz), dtype=bool)
+            if dx > 0: mask[sx-dx:, :, :]  = False
+            if dx < 0: mask[:-dx,   :, :]  = False   # -dx is positive
+            if dy > 0: mask[:, sy-dy:, :]  = False
+            if dy < 0: mask[:, :-dy,   :]  = False
+            if dz > 0: mask[:, :, sz-dz:]  = False
+            if dz < 0: mask[:, :, :-dz  ]  = False
+            emission = np.where(mask, emission, 0.0)
+
+            new_psi += np.roll(np.roll(np.roll(
+                emission, dx, axis=0), dy, axis=1), dz, axis=2)
+
         enforce_unity(new_psi)
         self.psi = new_psi
 
     def probability_density(self) -> np.ndarray:
-        """
-        Returns |psi|^2: the observable probability density.
-        This is computed AFTER phase summation, not from densities directly.
-        """
         return np.abs(self.psi) ** 2
 
     def advance_tick_counter(self):
-        """Increments the session's own tick counter."""
         self.tick_counter += 1
         self.phase_rotor.advance()

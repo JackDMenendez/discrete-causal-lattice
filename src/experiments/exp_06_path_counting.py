@@ -66,17 +66,17 @@ def run_path_counting_audit():
     print("  " + "-" * 75)
 
     crossover_n = None
-    for n in range(1, 20):
+    for n in range(1, 52, 2):
         exact  = count_paths(n, 1, 0, 0)
         if exact == 0:
             continue
-        gauss  = gaussian_prediction(n, 1, 0, 0)
         corr   = discrete_correction(n, 1, 0, 0) * 100
-        in_clt = abs(corr) < 1.0
+        in_clt = (n > 1) and abs(corr) < 1.0   # exclude N=1 trivial case
         if in_clt and crossover_n is None:
             crossover_n = n
-        print(f"  {n:<8d} {exact:<24d} {gauss:<18.6f} "
-              f"{corr:<+15.2f} {'YES' if in_clt else 'no'}")
+        if n <= 19:   # print first 10 rows as before
+            print(f"  {n:<8d} {exact:<24d} {gaussian_prediction(n,1,0,0):<18.6f} "
+                  f"{corr:<+15.2f} {'YES' if in_clt else 'no'}")
 
     # ── Part 4: Physical scale of the crossover ───────────────────────
     print("\n[Part 4] Physical scale of discrete corrections by calibration...")

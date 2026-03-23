@@ -8,23 +8,26 @@ formulas used as proxies.
 
 | ID     | Phenomenon                  | Lattice Mechanism                    | Module                            | Status |
 |--------|-----------------------------|--------------------------------------|-----------------------------------|--------|
-| exp_00 | Speed of Light Limit        | Topological adjacency (v_max = 1)    | exp_00_causal_cone.py             | STUB   |
-| exp_01 | Inertial Persistence        | Phase gradient (U(1) stability)      | exp_01_inertia.py                 | STUB   |
-| exp_02 | Gravitational Deflection    | Clock density gradient               | exp_02_gravity_clock_density.py   | STUB   |
-| exp_03 | Quantum Interference        | Discrete path count summation        | exp_03_interference.py            | STUB   |
-| exp_04 | Wave Function Collapse      | Observer clock phase scrambling      | exp_04_decoherence.py             | STUB   |
-| exp_05 | Observer-Dependent Outcomes | Tick sequence combinatorics          | exp_05_observer_clock.py          | STUB   |
-| exp_06 | 1/r^2 Discrete Corrections  | Exact path count vs Gaussian CLT     | exp_06_path_counting.py           | STUB   |
+| exp_00 | Speed of Light Limit        | Topological adjacency (v_max = 1)    | exp_00_causal_cone.py             | PASS   |
+| exp_01 | Inertial Persistence        | Phase gradient (U(1) stability)      | exp_01_inertia.py                 | PASS   |
+| exp_02 | Gravitational Deflection    | Clock density gradient               | exp_02_gravity_clock_density.py   | PASS   |
+| exp_03 | Quantum Interference        | Discrete path count summation        | exp_03_interference.py            | PASS   |
+| exp_04 | Wave Function Collapse      | Observer clock phase scrambling      | exp_04_decoherence.py             | PASS     |
+| exp_05 | Observer-Dependent Outcomes | Tick sequence combinatorics          | exp_05_observer_clock.py          | PASS     |
+| exp_06 | 1/r^2 Discrete Corrections  | Exact path count vs Gaussian CLT     | exp_06_path_counting.py           | PASS   |
+| exp_07 | Clock Density Conservation  | Continuity equation from tick()      | exp_07_clock_conservation.py      | PASS     |
+| exp_08 | Gravity vs EM Twist         | div(phi) vs curl(phi) deformations   | exp_08_vacuum_twist.py            | STUB   |
 
 ## Implementation Order (suggested)
 
-1. **exp_00** first -- validates OctahedralLattice and CausalSession.tick()
-2. **exp_06** second -- path_counter.py is pure math, no physics needed
-3. **exp_01** -- validates momentum encoding in PhaseRotor
-4. **exp_03** -- genuine interference, the central claim of v2.0
-5. **exp_02** -- gravity, builds on interference mechanics
-6. **exp_04** -- builds directly on exp_03
-7. **exp_05** -- builds on TickScheduler and exp_04
+1. **exp_00** -- DONE: validates OctahedralLattice and causal cone
+2. **exp_06** -- DONE: path counting, falsifiable predictions
+3. **exp_01** -- DONE: inertia, linear propagation confirmed
+4. **exp_07** -- next: clock conservation, Step 1 of GR derivation
+5. **exp_03** -- genuine interference, central claim of v2.0
+6. **exp_02** -- gravity clock density, builds on exp_07
+7. **exp_04** -- decoherence, builds on exp_03
+8. **exp_05** -- observer as clock, builds on exp_04
 
 ## What Counts as PASSING
 
@@ -34,3 +37,10 @@ An experiment passes when:
 - No continuous formulas (sqrt distances, analytical wave functions) are used
 - unity_residual() stays below 1e-10 throughout the simulation
 - The audit runner exits with code 0
+| exp_09 | Lattice Harmonics           | Zitterbewegung spectrum, orbital resonance, photon dispersion | exp_09_harmonics.py | PASS (partial) |
+
+## Key results from exp_09:
+- Part A: fidelity=1.0 at omega=pi (vacuum resonance confirmed)
+- Part B: orbital stability needs deeper well / more ticks -- in progress
+- Part C: photon group velocity drops by 3x near zone boundary -- falsifiable
+- Part D: frequency locking needs longer runs -- qualitative trend observed

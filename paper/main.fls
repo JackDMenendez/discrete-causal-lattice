@@ -256,6 +256,16 @@ INPUT .\sections\gravity_as_clock_density.tex
 INPUT .\sections\gravity_as_clock_density.tex
 INPUT .\sections\gravity_as_clock_density.tex
 INPUT sections\gravity_as_clock_density.tex
+INPUT .\sections\clock_fluid_dynamics.tex
+INPUT .\sections\clock_fluid_dynamics.tex
+INPUT .\sections\clock_fluid_dynamics.tex
+INPUT .\sections\clock_fluid_dynamics.tex
+INPUT sections\clock_fluid_dynamics.tex
+INPUT .\sections\vacuum_twist_field_equations.tex
+INPUT .\sections\vacuum_twist_field_equations.tex
+INPUT .\sections\vacuum_twist_field_equations.tex
+INPUT .\sections\vacuum_twist_field_equations.tex
+INPUT sections\vacuum_twist_field_equations.tex
 INPUT .\sections\interference.tex
 INPUT .\sections\interference.tex
 INPUT .\sections\interference.tex
@@ -282,6 +292,9 @@ INPUT .\sections\conclusion.tex
 INPUT .\sections\conclusion.tex
 INPUT .\sections\conclusion.tex
 INPUT sections\conclusion.tex
+INPUT .\main.bbl
+INPUT .\main.bbl
+INPUT main.bbl
 INPUT main.aux
 INPUT .\main.out
 INPUT .\main.out

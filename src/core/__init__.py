@@ -3,7 +3,9 @@ src/core/__init__.py
 The A=1 framework core modules.
 """
 
-from .OctahedralLattice import OctahedralLattice, OCTAHEDRAL_DIRECTIONS, COORDINATION_NUMBER
+from .OctahedralLattice import (OctahedralLattice, RGB_VECTORS, CMY_VECTORS,
+                                  ALL_VECTORS, SUBLATTICE_SIZE, COORDINATION_NUMBER,
+                                  active_vectors, EVEN_TICK, ODD_TICK)
 from .PhaseRotor import PhaseRotor
 from .UnityConstraint import enforce_unity, unity_residual, is_unity
 from .CausalSession import CausalSession

@@ -1,38 +1,63 @@
 """
 OctahedralLattice.py
-The Primal 3D Topology: T^3_diamond
+The Primal 3D Topology: T^3_diamond (Bipartite Structure)
 
-The substrate of the universe modeled as a 3D octahedral lattice.
-Each node is a potential causal event. Edges are causal adjacency only.
-Space and time are emergent from information propagation, not containers.
+The substrate of the universe modeled as a bipartite 3D lattice.
+The six basis vectors split into two chirally-opposite sets:
 
-Paper reference: Section 2 (The Octahedral Substrate)
+  RGB sublattice (even ticks):  V1=(1,1,1)  V2=(1,-1,-1)  V3=(-1,1,-1)
+  CMY sublattice (odd ticks):  -V1=(-1,-1,-1) -V2=(-1,1,1) -V3=(1,-1,1)
+
+CMY = -RGB exactly. The bipartite structure is the geometric origin of:
+  - The speed of light (photons always move, never stay)
+  - Chirality (photons see only 3 vectors per tick)
+  - Mass (massive particles blur across both sublattices via Zitterbewegung)
+  - The distinction between EM (curl of phase field) and gravity (div)
+
+Paper reference: Section 2 (The Octahedral Substrate, Bipartite Structure)
 """
 
 import numpy as np
 from typing import Tuple, List
 
-# The 6 principal directions of the octahedral lattice.
-# These are the only valid causal adjacencies.
-OCTAHEDRAL_DIRECTIONS = [
-    (+1,  0,  0),  # +x
-    (-1,  0,  0),  # -x
-    ( 0, +1,  0),  # +y
-    ( 0, -1,  0),  # -y
-    ( 0,  0, +1),  # +z
-    ( 0,  0, -1),  # -z
+# ── Bipartite basis vectors (from T3d diagram) ────────────────────────────────
+
+RGB_VECTORS = [
+    ( 1,  1,  1),   # V1  RED
+    ( 1, -1, -1),   # V2  GREEN
+    (-1,  1, -1),   # V3  BLUE
 ]
 
-COORDINATION_NUMBER = len(OCTAHEDRAL_DIRECTIONS)  # 6: the natural rest distribution denominator
+CMY_VECTORS = [
+    (-1, -1, -1),   # -V1  CYAN
+    (-1,  1,  1),   # -V2  MAGENTA
+    ( 1, -1,  1),   # -V3  YELLOW
+]
+
+ALL_VECTORS         = RGB_VECTORS + CMY_VECTORS
+SUBLATTICE_SIZE     = len(RGB_VECTORS)      # 3: vectors per sublattice
+COORDINATION_NUMBER = len(ALL_VECTORS)      # 6: full coordination
+EVEN_TICK = 0
+ODD_TICK  = 1
+
+
+def active_vectors(tick_parity: int) -> List[Tuple[int, int, int]]:
+    """
+    Returns the 3 active basis vectors for this tick's sublattice.
+    Photons (massless) only ever see these 3 -- strict chirality.
+    """
+    return RGB_VECTORS if tick_parity == EVEN_TICK else CMY_VECTORS
 
 
 class OctahedralLattice:
     """
-    The discrete 3D causal substrate T^3_diamond.
+    The discrete 3D causal substrate T^3_diamond with bipartite structure.
 
-    Nodes are causal events. Edges are adjacency only.
-    The topological_potential V(x,y,z) encodes clock density (gravity).
-    Default is 0.0 everywhere (flat vacuum).
+    Nodes are causal events. Edges are causal adjacency only.
+    The topological_potential V(x,y,z) encodes clock density (gravity) --
+    a divergence deformation of the phase field.
+    The vector_potential A(x,y,z) encodes electromagnetism --
+    a curl deformation of the phase field.
     """
 
     def __init__(self, size_x: int, size_y: int, size_z: int):
@@ -40,83 +65,129 @@ class OctahedralLattice:
         self.size_y = size_y
         self.size_z = size_z
 
-        # V(x,y,z): Clock density / topological potential.
-        # Higher values = more scheduler load = gravitational time dilation.
-        self.topological_potential = np.zeros((size_x, size_y, size_z), dtype=float)
+        # V(x,y,z): Clock density / gravitational potential (div deformation)
+        self.topological_potential = np.zeros(
+            (size_x, size_y, size_z), dtype=float
+        )
 
-    def topological_neighbors(self, node: Tuple[int, int, int]) -> List[Tuple[int, int, int]]:
+        # A(x,y,z): EM vector potential (curl deformation)
+        # Shape: (3, size_x, size_y, size_z)
+        self.vector_potential = np.zeros(
+            (3, size_x, size_y, size_z), dtype=float
+        )
+
+    def active_neighbors(self, node: Tuple[int,int,int],
+                         tick_parity: int) -> List[Tuple[int,int,int]]:
         """
-        Returns the valid causal neighbors of a node.
-        Enforces strict locality: only the 6 octahedral adjacencies are valid.
-        Nodes outside the lattice boundary do not exist.
+        Returns the 3 causally active neighbors for this tick's sublattice.
+        Photons use only these 3. Massive particles use all 6.
         """
         x, y, z = node
         neighbors = []
-        for dx, dy, dz in OCTAHEDRAL_DIRECTIONS:
-            nx, ny, nz = x + dx, y + dy, z + dz
+        for dx, dy, dz in active_vectors(tick_parity):
+            nx, ny, nz = x+dx, y+dy, z+dz
+            if 0 <= nx < self.size_x and 0 <= ny < self.size_y and 0 <= nz < self.size_z:
+                neighbors.append((nx, ny, nz))
+        return neighbors
+
+    def all_neighbors(self, node: Tuple[int,int,int]) -> List[Tuple[int,int,int]]:
+        """
+        All 6 causal neighbors (both sublattices).
+        Used by massive particles whose Zitterbewegung blurs both parities.
+        """
+        x, y, z = node
+        neighbors = []
+        for dx, dy, dz in ALL_VECTORS:
+            nx, ny, nz = x+dx, y+dy, z+dz
             if 0 <= nx < self.size_x and 0 <= ny < self.size_y and 0 <= nz < self.size_z:
                 neighbors.append((nx, ny, nz))
         return neighbors
 
     def set_clock_density_well(self, center: Tuple, width: float, depth: float):
         """
-        Creates a Gaussian region of elevated clock density.
-        Models a mass: more clocks -> higher scheduler load -> time dilation.
-
-        The potential V(x,y,z) represents the local clock density.
-        A region of high clock density accumulates phase faster relative
-        to the spatial step, causing refractive bending (gravity).
-
-        Paper reference: Section 6 (Gravity as Clock Density)
+        Gaussian clock density well -- gravitational source.
+        DIV deformation of the phase field.
         """
         cx, cy, cz = center
-        for x in range(self.size_x):
-            for y in range(self.size_y):
-                for z in range(self.size_z):
-                    r_sq = (x - cx)**2 + (y - cy)**2 + (z - cz)**2
-                    self.topological_potential[x, y, z] += (
-                        depth * np.exp(-0.5 * r_sq / width**2)
-                    )
+        x = np.arange(self.size_x)
+        y = np.arange(self.size_y)
+        z = np.arange(self.size_z)
+        xx, yy, zz = np.meshgrid(x, y, z, indexing='ij')
+        r_sq = (xx - cx)**2 + (yy - cy)**2 + (zz - cz)**2
+        self.topological_potential += depth * np.exp(-0.5 * r_sq / width**2)
 
-    def clock_density_at(self, node: Tuple[int, int, int]) -> float:
+    def set_coulomb_well(self, center: Tuple, strength: float,
+                          softening: float = 1.0):
         """
-        Returns the local clock density (topological potential) at a node.
-        This is the V(x,y,z) term in the discrete Hamiltonian.
+        Creates a 1/r clock density well -- Coulombic gravitational source.
+
+        V(r) = -strength / (r + softening)
+
+        Unlike the Gaussian well (exp_02), this falls off as 1/r and
+        supports an infinite series of bound states at E_n ~ -1/n^2.
+        The softening parameter regularizes the singularity at r=0.
+
+        This is the correct potential for deriving the hydrogen spectrum.
+        The Gaussian well has only one characteristic depth; the Coulomb
+        well has a ladder of quantized bound state energies.
+
+        Paper reference: Section 11 (Hydrogen Spectrum from Lattice Geometry)
         """
+        cx, cy, cz = center
+        x = np.arange(self.size_x)
+        y = np.arange(self.size_y)
+        z = np.arange(self.size_z)
+        xx, yy, zz = np.meshgrid(x, y, z, indexing='ij')
+        r = np.sqrt((xx-cx)**2 + (yy-cy)**2 + (zz-cz)**2)
+        self.topological_potential += -strength / (r + softening)
+
+    def set_em_twist(self, center: Tuple, width: float,
+                     strength: float, axis: int = 2):
+        """
+        Gaussian curl deformation -- electromagnetic source.
+        CURL deformation of the phase field.
+        Positive/negative strength = opposite charge signs.
+        axis: rotation axis (0=x, 1=y, 2=z)
+        """
+        cx, cy, cz = center
+        tang_axes = [a for a in [0,1,2] if a != axis]
+        a1, a2 = tang_axes
+        coords = np.mgrid[0:self.size_x, 0:self.size_y, 0:self.size_z]
+        r_sq = (coords[0]-cx)**2 + (coords[1]-cy)**2 + (coords[2]-cz)**2
+        envelope = strength * np.exp(-0.5 * r_sq / width**2)
+        self.vector_potential[a1] += envelope
+        self.vector_potential[a2] -= envelope
+
+    def clock_density_at(self, node: Tuple[int,int,int]) -> float:
         x, y, z = node
         return self.topological_potential[x, y, z]
 
-    def causal_cone_nodes(self, origin: Tuple[int, int, int], n_ticks: int) -> List[Tuple]:
+    def vector_potential_at(self, node: Tuple[int,int,int]) -> np.ndarray:
+        x, y, z = node
+        return self.vector_potential[:, x, y, z]
+
+    def causal_cone_nodes(self, origin: Tuple[int,int,int],
+                          n_ticks: int) -> List[Tuple]:
         """
-        Returns all nodes reachable from origin in exactly n_ticks hops.
-        The causal cone is an expanding octahedron, not a sphere.
-        Used by exp_00_causal_cone.py and path_counter.py.
-
-        Uses BFS to enumerate the exact reachable shell at depth n_ticks.
-        A node at displacement (dx, dy, dz) is reachable in n_ticks hops
-        iff |dx| + |dy| + |dz| <= n_ticks and (|dx|+|dy|+|dz|) has
-        the same parity as n_ticks.
-
-        Paper reference: Section 2 (causal cone, speed limit)
+        BFS over actual diagonal step vectors.
+        The causal cone with these basis vectors is a rhombic dodecahedron.
         """
         if n_ticks == 0:
             return [origin]
-
-        ox, oy, oz = origin
-        reachable = set()
-
-        # BFS: track (node, ticks_remaining)
-        # Use the parity+Manhattan distance condition for efficiency
-        for dx in range(-n_ticks, n_ticks + 1):
-            for dy in range(-n_ticks, n_ticks + 1):
-                for dz in range(-n_ticks, n_ticks + 1):
-                    manhattan = abs(dx) + abs(dy) + abs(dz)
-                    # Reachable iff within cone AND correct parity
-                    if manhattan <= n_ticks and (n_ticks - manhattan) % 2 == 0:
-                        nx, ny, nz = ox + dx, oy + dy, oz + dz
-                        if (0 <= nx < self.size_x and
-                                0 <= ny < self.size_y and
-                                0 <= nz < self.size_z):
-                            reachable.add((nx, ny, nz))
-
+        reachable = {origin}
+        frontier  = {origin}
+        for _ in range(n_ticks):
+            new_frontier = set()
+            for node in frontier:
+                x, y, z = node
+                for dx, dy, dz in ALL_VECTORS:
+                    nx, ny, nz = x+dx, y+dy, z+dz
+                    c = (nx, ny, nz)
+                    if (0 <= nx < self.size_x and
+                            0 <= ny < self.size_y and
+                            0 <= nz < self.size_z and
+                            c not in reachable):
+                        reachable.add(c)
+                        new_frontier.add(c)
+            frontier = new_frontier
         return list(reachable)

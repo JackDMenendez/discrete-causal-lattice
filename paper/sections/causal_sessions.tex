@@ -5,7 +5,17 @@
 % Experiment: exp_01_inertia.py
 % ============================================================
 
-% Topics to cover:
+% OPEN QUESTION (from exp_01 results):
+% In the current tick() implementation, higher omega causes FASTER propagation
+% given the same phase gradient, because omega amplifies the phase-alignment
+% weighting. True inertial behavior requires heavier particles to resist
+% changes in velocity -- omega should damp the phase-alignment response,
+% not amplify it. The correct formulation needs further work.
+% Candidate fix: weight emission by 1/(omega * phase_alignment) so that
+% high-frequency packets are less responsive to the gradient per tick.
+% This is the key open theoretical question for Section 3.
+
+
 % - The CausalSession: a particle as a persistent probability flux
 % - The PhaseRotor: U(1) internal clock
 %   - omega as instruction frequency (mass)

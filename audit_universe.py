@@ -16,13 +16,17 @@ import traceback
 
 
 EXPERIMENTS = [
-    ("exp_00", "src.experiments.exp_00_causal_cone",       "run_causal_cone_audit"),
-    ("exp_01", "src.experiments.exp_01_inertia",           "run_inertia_audit"),
-    ("exp_02", "src.experiments.exp_02_gravity_clock_density", "run_gravity_clock_density_audit"),
-    ("exp_03", "src.experiments.exp_03_interference",      "run_interference_audit"),
-    ("exp_04", "src.experiments.exp_04_decoherence",       "run_decoherence_audit"),
-    ("exp_05", "src.experiments.exp_05_observer_clock",    "run_observer_clock_audit"),
-    ("exp_06", "src.experiments.exp_06_path_counting",     "run_path_counting_audit"),
+    ("exp_00", "src.experiments.exp_00_causal_cone",          "run_causal_cone_audit"),
+    ("exp_01", "src.experiments.exp_01_inertia",              "run_inertia_audit"),
+    ("exp_02", "src.experiments.exp_02_gravity_clock_density","run_gravity_clock_density_audit"),
+    ("exp_03", "src.experiments.exp_03_interference",         "run_interference_audit"),
+    ("exp_04", "src.experiments.exp_04_decoherence",          "run_decoherence_audit"),
+    ("exp_05", "src.experiments.exp_05_observer_clock",       "run_observer_clock_audit"),
+    ("exp_06", "src.experiments.exp_06_path_counting",        "run_path_counting_audit"),
+    ("exp_07", "src.experiments.exp_07_clock_conservation",   "run_clock_conservation_audit"),
+    ("exp_08", "src.experiments.exp_08_vacuum_twist",         "run_vacuum_twist_audit"),
+    ("exp_09", "src.experiments.exp_09_harmonics",            "run_harmonics_audit"),
+    ("exp_10", "src.experiments.exp_10_hydrogen_spectrum",    "run_hydrogen_spectrum_audit"),
 ]
 
 
