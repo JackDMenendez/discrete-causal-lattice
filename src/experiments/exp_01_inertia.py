@@ -163,7 +163,7 @@ def run_inertia_audit():
     else:
         print("[AUDIT FAILED]")
         if not linear_pass:  print("  FAIL: trajectory not linear")
-        if not lateral_pass: print("  FAIL: lateral drift too large")
+        if not symmetry_pass: print("  FAIL: lateral drift too large")
         if not moving_pass:  print("  FAIL: packet not moving")
         if not unity_pass:   print("  FAIL: unity constraint violated")
         if not test2_pass:   print("  FAIL: mass comparison failed")

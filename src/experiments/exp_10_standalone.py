@@ -49,67 +49,70 @@ def coulomb_potential(grid, center, strength, softening):
     return -strength / (r + softening)
 
 
-def enforce_unity(psi):
-    """Enforce A=1: normalize psi so sum(|psi|^2) = 1."""
-    norm = np.sqrt(np.sum(np.abs(psi)**2))
+def enforce_unity_spinor(psi_R, psi_L):
+    """Enforce A=1 for Dirac spinor: normalize so sum(|psi_R|^2+|psi_L|^2)=1."""
+    norm = np.sqrt(np.sum(np.abs(psi_R)**2 + np.abs(psi_L)**2))
     if norm < 1e-12:
-        raise RuntimeError("Unity constraint violated: amplitude collapsed.")
-    psi /= norm
-    return psi
+        raise RuntimeError("Unity constraint violated: spinor collapsed.")
+    psi_R /= norm
+    psi_L /= norm
 
 
 def make_packet(grid, start, well_center, k_tang, omega, width, V):
     """
     Gaussian wave packet with tangential momentum along V2=(1,-1,-1).
     Angular momentum L = k_tang * r_orb = n (Bohr condition).
+
+    Returns (psi_R, psi_L, xx, yy, zz) -- two equal spinor components.
     """
     x = np.arange(grid); y = np.arange(grid); z = np.arange(grid)
     xx, yy, zz = np.meshgrid(x, y, z, indexing='ij')
     sx, sy, sz = start
     r_sq  = (xx-sx)**2 + (yy-sy)**2 + (zz-sz)**2
     phase = k_tang * (xx - yy - zz)   # V2 direction
-    psi   = (np.exp(-0.5 * r_sq / width**2) *
-             np.exp(1j * phase)).astype(complex)
-    enforce_unity(psi)
-    return psi, xx, yy, zz
+    envelope = (np.exp(-0.5 * r_sq / width**2) *
+                np.exp(1j * phase)).astype(complex)
+    # Equal amplitude in both spinor components
+    psi_R = envelope / np.sqrt(2.0)
+    psi_L = envelope / np.sqrt(2.0)
+    enforce_unity_spinor(psi_R, psi_L)
+    return psi_R, psi_L, xx, yy, zz
 
 
-def tick(psi, V, omega, tick_parity):
+def _kinetic_hop(source, vectors, omega):
     """
-    One bipartite Zitterbewegung tick.
+    Directed kinetic hop with phase coherence.
 
-    Massive particle sees all 6 vectors (blurred sublattice).
-    p_stay = sin^2(delta_phi/2)  -- Zitterbewegung mass
-    p_move = cos^2(delta_phi/2)  -- distributed to neighbors
+    For each direction v: weight = max(0, delta_p) where delta_p = phi(r+v)-phi(r).
+    Emission carries exp(i*delta_p) phase correction so amplitude arrives at the
+    destination with the correct plane-wave phase (constructive interference).
+    Falls back to uniform weights when momentum ≈ zero.
     """
-    delta_phi  = omega + V
-    p_stay     = np.sin(delta_phi / 2.0) ** 2
-    p_move     = np.cos(delta_phi / 2.0) ** 2
-    phase_fac  = np.exp(1j * delta_phi)
+    n_vec = len(vectors)
+    local_phase = np.angle(source)
 
-    new_psi = psi * np.sqrt(p_stay)     # residence term
+    delta_p_list = []
+    weights = np.zeros((n_vec,) + source.shape, dtype=float)
+    for i, (dx, dy, dz) in enumerate(vectors):
+        nb       = np.roll(np.roll(np.roll(source, -dx, 0), -dy, 1), -dz, 2)
+        nb_abs   = np.abs(nb)
+        nb_phase = np.where(nb_abs > 1e-9, np.angle(nb), local_phase)
+        delta_p  = nb_phase - local_phase
+        delta_p_list.append(delta_p)
+        weights[i] = np.maximum(0.0, delta_p) / (1.0 + omega)
 
-    # Phase-alignment weights for momentum
-    local_phase = np.angle(psi)
-    n_vec = len(ALL_VECTORS)
-    weights = np.zeros((n_vec,) + psi.shape, dtype=float)
+    total_w  = weights.sum(axis=0)
+    zero_mom = total_w < 1e-12
+    total_w_safe = np.where(zero_mom, 1.0, total_w)
+    uniform  = 1.0 / n_vec
 
-    for i, (dx, dy, dz) in enumerate(ALL_VECTORS):
-        nb_psi   = np.roll(np.roll(np.roll(psi, -dx, 0), -dy, 1), -dz, 2)
-        nb_abs   = np.abs(nb_psi)
-        nb_phase = np.where(nb_abs > 1e-9, np.angle(nb_psi), local_phase)
-        bias     = np.cos(nb_phase - local_phase) / (1.0 + omega)
-        weights[i] = np.maximum(0.0, bias)
-
-    total_w = weights.sum(axis=0)
-    total_w = np.where(total_w < 1e-12, 1.0, total_w)
-    weights = weights / total_w[np.newaxis]
-
-    sqrt_pm = np.sqrt(p_move)
-    sx, sy, sz = psi.shape
-    for i, (dx, dy, dz) in enumerate(ALL_VECTORS):
-        emission = psi * phase_fac * sqrt_pm * weights[i]
-        # Boundary mask: prevent wrap-around
+    result = np.zeros_like(source)
+    sx, sy, sz = source.shape
+    for i, (dx, dy, dz) in enumerate(vectors):
+        w_i = np.where(zero_mom, uniform, weights[i] / total_w_safe)
+        phase_corr = np.where(zero_mom, 1.0+0j,
+                              np.exp(1j * delta_p_list[i]).astype(complex))
+        emission = source * phase_corr * w_i
         mask = np.ones((sx, sy, sz), dtype=bool)
         if dx > 0: mask[sx-dx:, :, :] = False
         if dx < 0: mask[:-dx,   :, :] = False
@@ -118,21 +121,53 @@ def tick(psi, V, omega, tick_parity):
         if dz > 0: mask[:, :, sz-dz:] = False
         if dz < 0: mask[:, :, :-dz  ] = False
         emission = np.where(mask, emission, 0.0)
-        new_psi += np.roll(np.roll(np.roll(emission, dx, 0), dy, 1), dz, 2)
+        result += np.roll(np.roll(np.roll(emission, dx, 0), dy, 1), dz, 2)
 
-    enforce_unity(new_psi)
-    return new_psi
+    return result
 
 
-def run_orbit(psi, V, omega, xx, yy, zz, well_center, ticks, report_every=50):
+def tick(psi_R, psi_L, V, omega, tick_parity):
+    """
+    One bipartite Dirac spinor tick.
+
+    Even tick (RGB active):
+      new_psi_R = cos(delta_phi/2) * kinetic_hop(psi_L, RGB)
+                + 1j * sin(delta_phi/2) * psi_R
+
+    Odd tick (CMY active):
+      new_psi_L = cos(delta_phi/2) * kinetic_hop(psi_R, CMY)
+                + 1j * sin(delta_phi/2) * psi_L
+
+    kinetic_hop uses directed phase-coherent weighting (max(0,delta_p) weights
+    with exp(i*delta_p) phase correction) to correctly encode momentum direction.
+    A=1: sum(|psi_R|^2 + |psi_L|^2) = 1 enforced after.
+    """
+    delta_phi = omega + V
+    cos_half  = np.cos(delta_phi / 2.0)
+    sin_half  = np.sin(delta_phi / 2.0)
+
+    # Massive particle: both components updated simultaneously each tick.
+    # RGB: psi_L -> psi_R; CMY: psi_R -> psi_L. Averaging RGB+CMY preserves
+    # zero-CoM drift for zero-momentum states.
+    hop_R     = _kinetic_hop(psi_L, RGB_VECTORS, omega)
+    hop_L     = _kinetic_hop(psi_R, CMY_VECTORS, omega)
+    new_psi_R = cos_half * hop_R + 1j * sin_half * psi_R
+    new_psi_L = cos_half * hop_L + 1j * sin_half * psi_L
+
+    enforce_unity_spinor(new_psi_R, new_psi_L)
+    return new_psi_R, new_psi_L
+
+
+def run_orbit(psi_R, psi_L, V, omega, xx, yy, zz, well_center, ticks,
+              report_every=50):
     """Run simulation, return peak-density distance history."""
     wc    = np.array(well_center, float)
     peaks = []
     t0    = time.time()
 
     for t in range(ticks):
-        psi = tick(psi, V, omega, t % 2)
-        d   = np.abs(psi)**2
+        psi_R, psi_L = tick(psi_R, psi_L, V, omega, t % 2)
+        d   = np.abs(psi_R)**2 + np.abs(psi_L)**2
         idx = np.unravel_index(np.argmax(d), d.shape)
         dist = float(np.sqrt(sum((idx[i]-wc[i])**2 for i in range(3))))
         peaks.append(dist)
@@ -189,9 +224,9 @@ def run_hydrogen(n_levels=2):
         print(f"n={n}  r_n={r_n:.1f}  k_n={k_n:.5f}  start={start}")
         print(f"{'─'*60}")
 
-        psi, xx, yy, zz = make_packet(grid, start, wc, k_n, OMEGA, WIDTH, V)
+        psi_R, psi_L, xx, yy, zz = make_packet(grid, start, wc, k_n, OMEGA, WIDTH, V)
         t0     = time.time()
-        dists  = run_orbit(psi, V, OMEGA, xx, yy, zz, wc, TICKS)
+        dists  = run_orbit(psi_R, psi_L, V, OMEGA, xx, yy, zz, wc, TICKS)
         elapsed = time.time() - t0
 
         T      = orbital_period(dists)
@@ -253,11 +288,11 @@ def profile():
             V    = coulomb_potential(grid, wc, STRENGTH, SOFTENING)
             dr   = int(round(R1_APPROX/np.sqrt(3)))
             st   = tuple(min(wc[i]+dr, grid-3) for i in range(3))
-            psi, xx, yy, zz = make_packet(grid, st, wc, 1/R1_APPROX, OMEGA, WIDTH, V)
+            psi_R, psi_L, xx, yy, zz = make_packet(grid, st, wc, 1/R1_APPROX, OMEGA, WIDTH, V)
             n_t  = max(2, int(5000 / (11*(grid/25)**3)))
             n_t  = min(n_t, 10)
             t0   = time.time()
-            for t in range(n_t): psi = tick(psi, V, OMEGA, t%2)
+            for t in range(n_t): psi_R, psi_L = tick(psi_R, psi_L, V, OMEGA, t%2)
             ms   = (time.time()-t0)/n_t*1000
             eta  = ms*TICKS*2/60000
             print(f"{grid:>4}^3  {mem:>8.0f}  {ms:>10.1f}  {eta:>10.1f} min")

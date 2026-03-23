@@ -22,7 +22,8 @@ import sys, os, math
 import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession,
-                      TickScheduler, ShuffleScheme, enforce_unity)
+                      TickScheduler, ShuffleScheme,
+                      enforce_unity, enforce_unity_spinor)
 
 
 def make_gaussian(lattice, center, width, omega):
@@ -34,8 +35,10 @@ def make_gaussian(lattice, center, width, omega):
     xx, yy, zz = np.meshgrid(x, y, z, indexing='ij')
     r_sq = (xx-cx)**2 + (yy-cy)**2 + (zz-cz)**2
     s = CausalSession(lattice, center, instruction_frequency=omega)
-    s.psi = np.exp(-0.5 * r_sq / width**2).astype(complex)
-    enforce_unity(s.psi)
+    envelope = np.exp(-0.5 * r_sq / width**2).astype(complex) / np.sqrt(2.0)
+    s.psi_R = envelope.copy()
+    s.psi_L = envelope.copy()
+    enforce_unity_spinor(s.psi_R, s.psi_L)
     return s
 
 

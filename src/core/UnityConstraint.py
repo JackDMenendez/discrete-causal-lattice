@@ -53,3 +53,31 @@ def unity_residual(psi: np.ndarray) -> float:
 def is_unity(psi: np.ndarray, tolerance: float = 1e-10) -> bool:
     """Returns True if the amplitude field satisfies A=1 within tolerance."""
     return unity_residual(psi) < tolerance
+
+
+def enforce_unity_spinor(psi_R: np.ndarray, psi_L: np.ndarray):
+    """
+    Enforce A=1 for a two-component Dirac spinor.
+
+    Normalizes both components in-place so sum(|psi_R|^2 + |psi_L|^2) = 1.
+    Modifies arrays in-place and returns (psi_R, psi_L) for convenience.
+
+    Paper reference: Section 3 (Dirac spinor, A=1 unity constraint)
+    """
+    norm = np.sqrt(np.sum(np.abs(psi_R) ** 2 + np.abs(psi_L) ** 2))
+    if norm < 1e-12:
+        raise RuntimeError(
+            "Unity constraint violated: spinor amplitude collapsed to zero. "
+            "Check lattice boundary conditions and Hamiltonian parameters."
+        )
+    psi_R /= norm
+    psi_L /= norm
+    return psi_R, psi_L
+
+
+def unity_residual_spinor(psi_R: np.ndarray, psi_L: np.ndarray) -> float:
+    """
+    Returns the deviation from unity for a Dirac spinor:
+    |sum(|psi_R|^2 + |psi_L|^2) - 1|
+    """
+    return abs(np.sum(np.abs(psi_R) ** 2 + np.abs(psi_L) ** 2) - 1.0)

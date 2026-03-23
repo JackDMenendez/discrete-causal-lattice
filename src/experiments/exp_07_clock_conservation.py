@@ -18,7 +18,8 @@ import sys, os
 import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession,
-                      TickScheduler, ShuffleScheme, enforce_unity,
+                      TickScheduler, ShuffleScheme,
+                      enforce_unity, enforce_unity_spinor,
                       ALL_VECTORS)
 from src.utilities.lattice_calibrator import PLANCK_CALIBRATION
 
@@ -54,8 +55,10 @@ def run_clock_conservation_audit():
     x=np.arange(grid); y=np.arange(grid); z=np.arange(grid)
     xx,yy,zz = np.meshgrid(x,y,z,indexing='ij')
     r = np.sqrt((xx-10)**2+(yy-10)**2+(zz-10)**2)
-    session1.psi = np.exp(-0.5*(r/3.0)**2).astype(complex)
-    enforce_unity(session1.psi)
+    envelope = np.exp(-0.5*(r/3.0)**2).astype(complex) / np.sqrt(2.0)
+    session1.psi_R = envelope.copy()
+    session1.psi_L = envelope.copy()
+    enforce_unity_spinor(session1.psi_R, session1.psi_L)
 
     ticks = 20
     total_probs = []
@@ -87,8 +90,10 @@ def run_clock_conservation_audit():
         x=np.arange(grid2); y=np.arange(grid2); z=np.arange(grid2)
         xx,yy,zz = np.meshgrid(x,y,z,indexing='ij')
         r = np.sqrt((xx-sx)**2+(yy-sy)**2+(zz-sz)**2)
-        s.psi = np.exp(-0.5*(r/2.5)**2).astype(complex)
-        enforce_unity(s.psi)
+        envelope = np.exp(-0.5*(r/2.5)**2).astype(complex) / np.sqrt(2.0)
+        s.psi_R = envelope.copy()
+        s.psi_L = envelope.copy()
+        enforce_unity_spinor(s.psi_R, s.psi_L)
         scheduler.register_session(s)
         sessions.append(s)
 
@@ -123,8 +128,10 @@ def run_clock_conservation_audit():
     x=np.arange(grid3); y=np.arange(grid3); z=np.arange(grid3)
     xx,yy,zz = np.meshgrid(x,y,z,indexing='ij')
     r = np.sqrt((xx-22)**2+(yy-22)**2+(zz-22)**2)
-    session3.psi = np.exp(-0.5*(r/3.0)**2).astype(complex)
-    enforce_unity(session3.psi)
+    envelope3 = np.exp(-0.5*(r/3.0)**2).astype(complex) / np.sqrt(2.0)
+    session3.psi_R = envelope3.copy()
+    session3.psi_L = envelope3.copy()
+    enforce_unity_spinor(session3.psi_R, session3.psi_L)
 
     # Measure density near well vs far from well
     def rho_near_well(sess, center, radius=5):
@@ -158,23 +165,25 @@ def run_clock_conservation_audit():
     x=np.arange(grid4); y=np.arange(grid4); z=np.arange(grid4)
     xx,yy,zz = np.meshgrid(x,y,z,indexing='ij')
     r = np.sqrt((xx-10)**2+(yy-10)**2+(zz-10)**2)
-    session4.psi = np.exp(-0.5*(r/3.0)**2).astype(complex)
-    enforce_unity(session4.psi)
+    envelope4 = np.exp(-0.5*(r/3.0)**2).astype(complex) / np.sqrt(2.0)
+    session4.psi_R = envelope4.copy()
+    session4.psi_L = envelope4.copy()
+    enforce_unity_spinor(session4.psi_R, session4.psi_L)
 
     continuity_errors = []
-    psi_prev = session4.psi.copy()
-    rho_prev = np.abs(psi_prev)**2
+    psi_R_prev = session4.psi_R.copy()
+    rho_prev   = session4.probability_density()
 
     for t in range(10):
         session4.tick(); session4.advance_tick_counter()
-        psi_curr = session4.psi.copy()
-        rho_curr = np.abs(psi_curr)**2
+        psi_R_curr = session4.psi_R.copy()
+        rho_curr   = session4.probability_density()
 
         # d(rho)/dt (finite difference)
         drho_dt = rho_curr - rho_prev
 
-        # div(J): estimated from flux divergence
-        flux     = compute_flux(psi_prev, psi_curr, lattice4)
+        # div(J): estimated from flux divergence (using psi_R as representative field)
+        flux     = compute_flux(psi_R_prev, psi_R_curr, lattice4)
         # Divergence: difference of flux between node and its neighbors
         div_J    = np.zeros_like(flux)
         for dx, dy, dz in ALL_VECTORS:
@@ -186,8 +195,8 @@ def run_clock_conservation_audit():
         residual = np.mean(np.abs(drho_dt + div_J))
         continuity_errors.append(residual)
 
-        psi_prev = psi_curr
-        rho_prev = rho_curr
+        psi_R_prev = psi_R_curr
+        rho_prev   = rho_curr
 
     mean_residual = np.mean(continuity_errors)
     print(f"  Mean continuity residual : {mean_residual:.4e}")

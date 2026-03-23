@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python src/experiments/exp_10_hydrogen_spectrum.py)"
+    ]
+  }
+}

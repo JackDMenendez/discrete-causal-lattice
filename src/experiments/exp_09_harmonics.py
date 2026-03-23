@@ -114,7 +114,7 @@ def run_part_A():
             'fidelity': fidelity
         })
 
-        marker = ' ← resonance' if is_resonant else ''
+        marker = ' <- resonance' if is_resonant else ''
         print(f"  {omega/np.pi:>10.4f}  {p_stay:>8.4f}  {p_move:>8.4f}  "
               f"{fidelity:>10.4f}{marker}")
 

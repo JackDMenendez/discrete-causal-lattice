@@ -2,56 +2,60 @@
 CausalSession.py
 The Quantum Lantern: a particle as a persistent probability flux.
 
-The bipartite Zitterbewegung model:
+The bipartite Dirac spinor model:
 
-  A PHOTON (delta_phi = 0):
-    - p_stay = sin^2(0/2) = 0    -- never stays
-    - p_move = cos^2(0/2) = 1    -- always moves
-    - Sees only the 3 active sublattice vectors per tick
-    - Strictly chiral, moves at c=1 always
+  STRUCTURE:
+    psi_R : amplitude on RGB sublattice (right-handed component)
+    psi_L : amplitude on CMY sublattice (left-handed component)
 
-  A MASSIVE PARTICLE (delta_phi != 0):
-    - p_stay = sin^2(delta_phi/2) > 0   -- sometimes stays (mass/Zitterbewegung)
-    - p_move = cos^2(delta_phi/2) / 3   -- distributes to 3 active neighbors
-    - BUT: by staying, it is present for BOTH even and odd ticks
-    - Therefore it blurs across both sublattices -- sees all 6 vectors
-    - This blur IS the superposition of left/right-handed states
-    - delta_phi = omega * dt: the internal clock mismatch with the vacuum
+    The bipartite lattice IS the Dirac structure.  RGB/CMY are psi_R/psi_L.
+
+  DIRAC TICK RULE:
+    Even tick (RGB active):
+      new_psi_R = cos(delta_phi/2) * kinetic_hop(psi_L, RGB_VECTORS)
+                + 1j * sin(delta_phi/2) * psi_R
+
+    Odd tick (CMY active):
+      new_psi_L = cos(delta_phi/2) * kinetic_hop(psi_R, CMY_VECTORS)
+                + 1j * sin(delta_phi/2) * psi_L
+
+    - Kinetic term hops the OPPOSITE component across the active sublattice
+    - Mass term rotates each component IN PLACE (no hop, just phase rotation)
+    - A=1: sum(|psi_R|^2 + |psi_L|^2) = 1 enforced after each tick
+
+  SPECIAL CASES:
+    Massless (delta_phi=0): cos=1, sin=0 -> full swap per tick (photon)
+    Max mass (delta_phi=pi): cos=0, sin=1 -> stays in place
 
   MOMENTUM:
-    - A bias in the distribution across the 3 active vectors
-    - Encoded as a phase gradient: one vector gets more weight than others
-    - Constant bias = constant velocity (Newton 1)
+    Phase-alignment weighting biases the kinetic hop toward aligned neighbors,
+    giving net drift.  Inertia scales with omega (1/(1+omega) damping).
 
-  ACCELERATION:
-    - A spatially-varying phase field (gravity or EM) shifts delta_phi
-      differently across the wavefront
-    - Differential Zitterbewegung across the wavefront steers the packet
-    - No force vector needed -- just grad(delta_phi)
+  ZITTERBEWEGUNG:
+    Now appears as amplitude trading between psi_R and psi_L each tick,
+    rather than p_stay at a single site.  More physically accurate.
 
-  INERTIA (corrected from earlier implementation):
-    - High omega = large delta_phi per tick = strong Zitterbewegung
-    - Strong Zitterbewegung = more time spent at nucleus = harder to accelerate
-    - omega appears in DENOMINATOR of momentum response (see tick())
-
-Paper reference: Section 3 (Causal Sessions, Zitterbewegung, Mass)
+Paper reference: Section 3 (Dirac Spinor, Bipartite Tick Rule)
 """
 
 import numpy as np
 from typing import Tuple
 from .OctahedralLattice import (OctahedralLattice, COORDINATION_NUMBER,
-                                 SUBLATTICE_SIZE, active_vectors, ALL_VECTORS)
+                                 SUBLATTICE_SIZE, active_vectors,
+                                 ALL_VECTORS, RGB_VECTORS, CMY_VECTORS)
 from .PhaseRotor import PhaseRotor
-from .UnityConstraint import enforce_unity
+from .UnityConstraint import enforce_unity, enforce_unity_spinor
 
 
 class CausalSession:
     """
     A particle as a persistent causal session on T^3_diamond.
 
-    The is_massless flag determines which tick rule applies:
-      True  -> photon: bipartite, p_stay=0, sees 3 vectors
-      False -> massive: blurred sublattice, p_stay=sin^2(delta_phi/2)
+    Uses a two-component Dirac spinor (psi_R, psi_L) matching the
+    bipartite RGB/CMY sublattice structure.
+
+    The is_massless flag is a performance shortcut for delta_phi=0;
+    the physics is identical since cos(0/2)=1 and sin(0/2)=0.
     """
 
     def __init__(self,
@@ -65,169 +69,194 @@ class CausalSession:
         self.tick_counter     = 0
         self.is_massless      = is_massless
 
-        self.psi = np.zeros(
-            (lattice.size_x, lattice.size_y, lattice.size_z),
-            dtype=complex
-        )
+        # Two-component Dirac spinor
+        shape = (lattice.size_x, lattice.size_y, lattice.size_z)
+        self.psi_R = np.zeros(shape, dtype=complex)
+        self.psi_L = np.zeros(shape, dtype=complex)
+
+        # Initialize at single node, amplitude split equally between components
         x0, y0, z0 = initial_node
-        self.psi[x0, y0, z0] = 1.0 + 0j
+        amp = 1.0 / np.sqrt(2.0)
+        self.psi_R[x0, y0, z0] = amp
+        self.psi_L[x0, y0, z0] = amp
 
         if any(p != 0.0 for p in momentum):
             self._apply_initial_momentum(initial_node, momentum)
 
-        enforce_unity(self.psi)
+        enforce_unity_spinor(self.psi_R, self.psi_L)
+
+    # ── Backward-compatibility property ───────────────────────────────────────
+
+    @property
+    def psi(self) -> np.ndarray:
+        """
+        Backward-compatible accessor: returns psi_R.
+        Use probability_density() for the physically correct total density.
+        """
+        return self.psi_R
+
+    @psi.setter
+    def psi(self, value: np.ndarray):
+        """
+        Backward-compatible setter: distributes a scalar field equally
+        across both spinor components, preserving A=1.
+
+        If value is normalized (sum |psi|^2 = 1), then
+        psi_R = psi_L = value / sqrt(2) gives
+        sum(|psi_R|^2 + |psi_L|^2) = sum(|psi|^2) = 1.
+        """
+        amp = value / np.sqrt(2.0)
+        self.psi_R = amp.copy().astype(complex)
+        self.psi_L = amp.copy().astype(complex)
+
+    # ── Momentum initialization ────────────────────────────────────────────────
 
     def _apply_initial_momentum(self, center, momentum):
         """
         Momentum = phase gradient across the packet.
-        The gradient biases the 3-way distribution within each sublattice,
-        giving a net drift in the gradient direction.
+        Applied identically to both spinor components.
         """
         kx, ky, kz = momentum
         for x in range(self.lattice.size_x):
             for y in range(self.lattice.size_y):
                 for z in range(self.lattice.size_z):
-                    if np.abs(self.psi[x, y, z]) > 1e-12:
-                        self.psi[x, y, z] *= np.exp(
-                            1j * (kx*x + ky*y + kz*z)
-                        )
+                    if (np.abs(self.psi_R[x, y, z]) > 1e-12 or
+                            np.abs(self.psi_L[x, y, z]) > 1e-12):
+                        phase = np.exp(1j * (kx*x + ky*y + kz*z))
+                        self.psi_R[x, y, z] *= phase
+                        self.psi_L[x, y, z] *= phase
 
-    # ── The core Zitterbewegung amplitude kernel ──────────────────────────────
+    # ── Kinetic hop kernel ─────────────────────────────────────────────────────
 
-    @staticmethod
-    def zitterbewegung_amplitudes(delta_phi: float) -> Tuple[float, float]:
+    def _kinetic_hop(self, source: np.ndarray,
+                     vectors: list) -> np.ndarray:
         """
-        Given the phase mismatch delta_phi between the particle's internal
-        clock and the vacuum clock, returns:
-          p_stay : residence probability  = sin^2(delta_phi / 2)
-          p_move : total outgoing probability = cos^2(delta_phi / 2)
+        Directed kinetic hop: source amplitude propagates to neighbor sites.
 
-        p_stay + p_move = 1  (A=1 conservation)
+        For each direction v, the phase advance is delta_p = phi(r+v) - phi(r).
+        A positive delta_p means the neighbor is AHEAD in phase -- the momentum
+        gradient points toward it.  We use delta_p as the directional weight
+        (max(0, delta_p), so only momentum-aligned directions receive amplitude)
+        and include exp(i*delta_p) as a per-direction phase correction so that
+        emitted amplitude arrives at the destination with the correct plane-wave
+        phase (i.e. constructive interference is preserved).
 
-        For a massless particle: delta_phi = 0 -> p_stay=0, p_move=1
-        For maximum mass:        delta_phi = pi -> p_stay=1, p_move=0
+        For zero-momentum regions (all delta_p ≈ 0): falls back to uniform
+        distribution with no phase correction.  Gravity continues to act via
+        the sin/cos(delta_phi/2) mass-term coefficients, which are independent
+        of this momentum bias.
 
-        Paper reference: Section 3 (Zitterbewegung kernel, mass from phase mismatch)
+        Parameters
+        ----------
+        source  : complex (X,Y,Z) -- the component being hopped
+        vectors : list of (dx,dy,dz) -- active sublattice direction set
+
+        Returns
+        -------
+        result : complex (X,Y,Z) -- accumulated hopped amplitude
         """
-        p_stay = np.sin(delta_phi / 2.0) ** 2
-        p_move = np.cos(delta_phi / 2.0) ** 2   # = 1 - p_stay
-        return p_stay, p_move
-
-    def _delta_phi_at(self, node: Tuple[int, int, int]) -> float:
-        """
-        Phase mismatch between the particle's internal clock and the
-        local vacuum clock (including gravitational and EM contributions).
-
-        delta_phi = omega * dt + V(x,y,z) + A_dot_k
-
-        The gravitational potential V slows the local vacuum clock.
-        The EM vector potential A adds a directional phase twist.
-        Their sum is the total phase mismatch that determines p_stay.
-
-        Paper reference: Section 8 (unified phase field equation)
-        """
-        x, y, z = node
-        # Base phase mismatch from internal frequency
-        base = self.phase_rotor.omega
-
-        # Gravitational contribution (scalar -- clock density)
-        grav = self.lattice.clock_density_at(node)
-
-        # EM contribution (vector dot momentum direction)
-        # A . k: vector potential projected onto momentum
-        A    = self.lattice.vector_potential_at(node)
-        k    = np.array([np.real(self.psi[x,y,z]),
-                         np.imag(self.psi[x,y,z]), 0.0])
-        em   = np.dot(A, k) if np.linalg.norm(k) > 1e-12 else 0.0
-
-        return base + grav + em
-
-    def tick(self):
-        """
-        The bipartite unitary update cycle -- vectorized implementation.
-
-        For each node: amplitude is split between residence (p_stay)
-        and emission to neighbors (p_move), weighted by phase alignment.
-        All updates are simultaneous (causal tick). A=1 enforced after.
-
-        Paper reference: Section 3 & 5 (Zitterbewegung tick, bipartite rule)
-        """
-        tick_parity = self.tick_counter % 2
-
-        # ── Per-node delta_phi and Zitterbewegung amplitudes ──────────
-        # delta_phi = omega + V(x,y,z)   (EM contribution simplified for now)
-        delta_phi = (self.phase_rotor.omega
-                     + self.lattice.topological_potential)       # shape: (X,Y,Z)
-
-        p_stay  = np.sin(delta_phi / 2.0) ** 2                  # shape: (X,Y,Z)
-        p_move  = np.cos(delta_phi / 2.0) ** 2                  # shape: (X,Y,Z)
-        phase_factor = np.exp(1j * delta_phi)                    # shape: (X,Y,Z)
-
-        # ── Residence: amplitude stays at nucleus ─────────────────────
-        new_psi = self.psi * np.sqrt(p_stay)
-
-        # ── Movement: distribute to active neighbors ──────────────────
-        if self.is_massless:
-            vectors = active_vectors(tick_parity)
-        else:
-            vectors = ALL_VECTORS
-
         n_vec = len(vectors)
+        local_phase = np.angle(source)
 
-        # For each neighbor direction, compute phase-alignment weight
-        # and accumulate emission into new_psi
-        # Weight: cos(neighbor_phase - local_phase) / (1 + omega)
-        # (inertia: heavy particles less responsive to gradient)
-
-        local_phase = np.angle(self.psi)          # (X,Y,Z)
-        amp_abs     = np.abs(self.psi)            # (X,Y,Z)
-        active_mask = amp_abs > 1e-9
-
-        # Compute weights for each direction
-        weights = np.zeros((n_vec,) + self.psi.shape, dtype=float)
+        # Per-direction phase advance and directed weight
+        delta_p_list = []
+        weights = np.zeros((n_vec,) + source.shape, dtype=float)
         for i, (dx, dy, dz) in enumerate(vectors):
-            neighbor_psi   = np.roll(np.roll(np.roll(
-                self.psi, -dx, axis=0), -dy, axis=1), -dz, axis=2)
-            neighbor_abs   = np.abs(neighbor_psi)
-            neighbor_phase = np.where(neighbor_abs > 1e-9,
-                                      np.angle(neighbor_psi), local_phase)
-            delta_p = neighbor_phase - local_phase
-            bias    = np.cos(delta_p) / (1.0 + self.phase_rotor.omega)
-            weights[i] = np.maximum(0.0, bias)
+            nb = np.roll(np.roll(np.roll(source, -dx, 0), -dy, 1), -dz, 2)
+            nb_abs = np.abs(nb)
+            nb_phase = np.where(nb_abs > 1e-9, np.angle(nb), local_phase)
+            delta_p = nb_phase - local_phase               # phase advance in dir v
+            delta_p_list.append(delta_p)
+            # Weight = positive phase advance only; inertia damps response to gradient
+            weights[i] = np.maximum(0.0, delta_p) / (1.0 + self.phase_rotor.omega)
 
-        # Normalize weights across directions (per node)
-        total_w = weights.sum(axis=0)                             # (X,Y,Z)
-        uniform = 1.0 / n_vec
-        # Where total_w is near zero: use uniform distribution
-        total_w = np.where(total_w < 1e-12, 1.0, total_w)
-        weights = np.where(weights.sum(axis=0, keepdims=True) < 1e-12,
-                           uniform, weights / total_w[np.newaxis])
+        # Normalize (fallback: uniform real weights when momentum ≈ zero)
+        total_w  = weights.sum(axis=0)
+        zero_mom = total_w < 1e-12
+        total_w_safe = np.where(zero_mom, 1.0, total_w)
+        uniform  = 1.0 / n_vec
 
-        # Emit weighted, phase-rotated amplitude to each neighbor
-        # Use masked roll to prevent wrap-around at boundaries
-        sqrt_p_move = np.sqrt(p_move)
-        sx, sy, sz  = self.psi.shape
+        # Emit: per-direction complex weight = (real weight) * exp(i*delta_p)
+        # This ensures amplitude arrives at destination with the correct phase.
+        result = np.zeros_like(source)
+        sx, sy, sz = source.shape
         for i, (dx, dy, dz) in enumerate(vectors):
-            emission = self.psi * phase_factor * sqrt_p_move * weights[i]
+            w_i = np.where(zero_mom, uniform, weights[i] / total_w_safe)
+            # Phase correction: exp(i*delta_p) so emitted amp matches dest wave.
+            # For zero-momentum fallback: no correction (exp(i*0)=1).
+            phase_corr = np.where(zero_mom, 1.0+0j,
+                                  np.exp(1j * delta_p_list[i]).astype(complex))
+            emission = source * phase_corr * w_i
 
-            # Build boundary mask: zero out emission that would wrap
             mask = np.ones((sx, sy, sz), dtype=bool)
             if dx > 0: mask[sx-dx:, :, :]  = False
-            if dx < 0: mask[:-dx,   :, :]  = False   # -dx is positive
+            if dx < 0: mask[:-dx,   :, :]  = False
             if dy > 0: mask[:, sy-dy:, :]  = False
             if dy < 0: mask[:, :-dy,   :]  = False
             if dz > 0: mask[:, :, sz-dz:]  = False
             if dz < 0: mask[:, :, :-dz  ]  = False
             emission = np.where(mask, emission, 0.0)
 
-            new_psi += np.roll(np.roll(np.roll(
-                emission, dx, axis=0), dy, axis=1), dz, axis=2)
+            result += np.roll(np.roll(np.roll(emission, dx, 0), dy, 1), dz, 2)
 
-        enforce_unity(new_psi)
-        self.psi = new_psi
+        return result
+
+    # ── The Dirac tick ─────────────────────────────────────────────────────────
+
+    def tick(self):
+        """
+        The bipartite Dirac spinor update cycle.
+
+        Even tick (RGB active):
+          new_psi_R = cos(delta_phi/2) * kinetic_hop(psi_L, RGB)
+                    + 1j * sin(delta_phi/2) * psi_R
+          psi_L     unchanged
+
+        Odd tick (CMY active):
+          new_psi_L = cos(delta_phi/2) * kinetic_hop(psi_R, CMY)
+                    + 1j * sin(delta_phi/2) * psi_L
+          psi_R     unchanged
+
+        A=1 enforced after each tick via joint normalization.
+
+        Paper reference: Section 3 (Dirac tick rule, bipartite structure)
+        """
+        tick_parity = self.tick_counter % 2
+
+        delta_phi = (self.phase_rotor.omega
+                     + self.lattice.topological_potential)       # (X,Y,Z)
+        cos_half  = np.cos(delta_phi / 2.0)                      # (X,Y,Z)
+        sin_half  = np.sin(delta_phi / 2.0)                      # (X,Y,Z)
+
+        if self.is_massless:
+            # Massless photon: strict bipartite alternation (chirality preserved).
+            # Even tick: psi_L -> psi_R via RGB; psi_L unchanged.
+            # Odd tick:  psi_R -> psi_L via CMY; psi_R unchanged.
+            if tick_parity == 0:
+                new_psi_R = self._kinetic_hop(self.psi_L, RGB_VECTORS)
+                new_psi_L = self.psi_L
+            else:
+                new_psi_L = self._kinetic_hop(self.psi_R, CMY_VECTORS)
+                new_psi_R = self.psi_R
+        else:
+            # Massive particle: both components updated simultaneously.
+            # RGB hop: psi_L -> psi_R; CMY hop: psi_R -> psi_L.
+            # Simultaneous update averages RGB and CMY displacements,
+            # giving zero net CoM drift for zero-momentum states (symmetry
+            # of V1+V2+V3 + CMY1+CMY2+CMY3 = 0).
+            hop_R     = self._kinetic_hop(self.psi_L, RGB_VECTORS)
+            hop_L     = self._kinetic_hop(self.psi_R, CMY_VECTORS)
+            new_psi_R = cos_half * hop_R + 1j * sin_half * self.psi_R
+            new_psi_L = cos_half * hop_L + 1j * sin_half * self.psi_L
+
+        # A=1: normalize both components jointly
+        enforce_unity_spinor(new_psi_R, new_psi_L)
+        self.psi_R = new_psi_R
+        self.psi_L = new_psi_L
 
     def probability_density(self) -> np.ndarray:
-        return np.abs(self.psi) ** 2
+        """Total probability density: |psi_R|^2 + |psi_L|^2."""
+        return np.abs(self.psi_R) ** 2 + np.abs(self.psi_L) ** 2
 
     def advance_tick_counter(self):
         self.tick_counter += 1

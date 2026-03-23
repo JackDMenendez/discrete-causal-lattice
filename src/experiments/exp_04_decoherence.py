@@ -23,7 +23,8 @@ import sys, os
 import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession,
-                      TickScheduler, ShuffleScheme, enforce_unity)
+                      TickScheduler, ShuffleScheme,
+                      enforce_unity, enforce_unity_spinor)
 
 
 # ── Shared geometry (matches exp_03) ─────────────────────────────────────────
@@ -54,7 +55,8 @@ def build_two_source_session(lattice, scramble_source_A=False,
         instruction_frequency=OMEGA,
         is_massless=False
     )
-    session.psi[:] = 0.0
+    session.psi_R[:] = 0.0
+    session.psi_L[:] = 0.0
 
     for y in range(GRID_Y):
         for z in range(GRID_Z):
@@ -73,16 +75,19 @@ def build_two_source_session(lattice, scramble_source_A=False,
                 else:
                     phaseA = 1.0 + 0j
 
-                session.psi[SRC_X, y, z] = (ampA * phaseA + ampB) + 0j
+                val = (ampA * phaseA + ampB) / np.sqrt(2.0)
+                session.psi_R[SRC_X, y, z] = val + 0j
+                session.psi_L[SRC_X, y, z] = val + 0j
 
-    enforce_unity(session.psi)
+    enforce_unity_spinor(session.psi_R, session.psi_L)
     return session
 
 
 def measure_screen(session):
     """Returns normalised density and contrast at the screen plane."""
-    psi_screen = np.sum(session.psi[SCREEN_X, :, :], axis=1)
-    dens       = np.abs(psi_screen) ** 2
+    psi_screen_R = np.sum(session.psi_R[SCREEN_X, :, :], axis=1)
+    psi_screen_L = np.sum(session.psi_L[SCREEN_X, :, :], axis=1)
+    dens         = np.abs(psi_screen_R)**2 + np.abs(psi_screen_L)**2
     total      = np.sum(dens)
     if total < 1e-14:
         return dens, 0.0, 0
@@ -153,8 +158,9 @@ def run_decoherence_audit():
         for _ in range(TICKS):
             session.tick()
             session.advance_tick_counter()
-        psi_s = np.sum(session.psi[SCREEN_X, :, :], axis=1)
-        ensemble_density += np.abs(psi_s) ** 2
+        psi_s_R = np.sum(session.psi_R[SCREEN_X, :, :], axis=1)
+        psi_s_L = np.sum(session.psi_L[SCREEN_X, :, :], axis=1)
+        ensemble_density += np.abs(psi_s_R)**2 + np.abs(psi_s_L)**2
 
     ensemble_density /= n_ensemble
     norm_ens  = ensemble_density / (np.max(ensemble_density) + 1e-30)

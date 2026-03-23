@@ -120,35 +120,38 @@ class TickScheduler:
         locally, which is what collapses the interference pattern.
 
         The mixing is proportional to the overlap amplitude.
-        A=1 is preserved per session after mixing (re-normalize).
+        A=1 is preserved per session after mixing (re-normalize both spinor
+        components jointly).
         """
-        from .UnityConstraint import enforce_unity
+        from .UnityConstraint import enforce_unity_spinor
         n = len(self.sessions)
         for i in range(n):
             for j in range(i+1, n):
                 si = self.sessions[i]
                 sj = self.sessions[j]
-                # Find nodes where both sessions have significant amplitude
-                abs_i = np.abs(si.psi)
-                abs_j = np.abs(sj.psi)
-                overlap_mask = (abs_i > threshold) & (abs_j > threshold)
+                # Find nodes where both sessions have significant total amplitude
+                amp_i = np.sqrt(np.abs(si.psi_R)**2 + np.abs(si.psi_L)**2)
+                amp_j = np.sqrt(np.abs(sj.psi_R)**2 + np.abs(sj.psi_L)**2)
+                overlap_mask = (amp_i > threshold) & (amp_j > threshold)
                 if not np.any(overlap_mask):
                     continue
-                # Phase exchange: mix phases at overlap nodes
-                # This represents the physical interaction (measurement)
-                phase_i = np.angle(si.psi)
-                phase_j = np.angle(sj.psi)
-                # Small perturbation: each session's phase shifts by
-                # a fraction of the other's phase (weak coupling)
+                # Phase exchange: mix phases at overlap nodes using psi_R as
+                # the phase reference (same rotation applied to both components)
+                phase_i = np.angle(si.psi_R)
+                phase_j = np.angle(sj.psi_R)
                 coupling = 0.1 * np.where(overlap_mask, 1.0, 0.0)
                 new_phase_i = phase_i + coupling * (phase_j - phase_i)
                 new_phase_j = phase_j + coupling * (phase_i - phase_j)
-                si.psi = np.where(overlap_mask,
-                                  abs_i * np.exp(1j * new_phase_i), si.psi)
-                sj.psi = np.where(overlap_mask,
-                                  abs_j * np.exp(1j * new_phase_j), sj.psi)
-                enforce_unity(si.psi)
-                enforce_unity(sj.psi)
+                phase_rot_i = np.where(overlap_mask,
+                                       np.exp(1j * (new_phase_i - phase_i)), 1.0+0j)
+                phase_rot_j = np.where(overlap_mask,
+                                       np.exp(1j * (new_phase_j - phase_j)), 1.0+0j)
+                si.psi_R = si.psi_R * phase_rot_i
+                si.psi_L = si.psi_L * phase_rot_i
+                sj.psi_R = sj.psi_R * phase_rot_j
+                sj.psi_L = sj.psi_L * phase_rot_j
+                enforce_unity_spinor(si.psi_R, si.psi_L)
+                enforce_unity_spinor(sj.psi_R, sj.psi_L)
 
     def clock_count(self) -> int:
         """Returns the total number of active clocks in the scheduler."""

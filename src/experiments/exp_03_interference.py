@@ -14,7 +14,8 @@ Paper reference: Section 7 (Interference and the Huygens Lantern)
 import sys, os
 import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from src.core import OctahedralLattice, CausalSession, enforce_unity
+from src.core import (OctahedralLattice, CausalSession,
+                      enforce_unity, enforce_unity_spinor)
 
 
 def run_interference_audit():
@@ -41,7 +42,8 @@ def run_interference_audit():
     lattice = OctahedralLattice(grid_x, grid_y, grid_z)
     session = CausalSession(lattice, (src_x,slit_y1,z_mid),
                             instruction_frequency=omega, is_massless=False)
-    session.psi[:] = 0.0
+    session.psi_R[:] = 0.0
+    session.psi_L[:] = 0.0
 
     # Two coherent sources: same phase (coherent illumination)
     src_w = 2.0
@@ -52,8 +54,9 @@ def run_interference_audit():
             val = (np.exp(-0.5*(rA/src_w)**2) +
                    np.exp(-0.5*(rB/src_w)**2))
             if val > 1e-4:
-                session.psi[src_x, y, z] = val + 0j
-    enforce_unity(session.psi)
+                session.psi_R[src_x, y, z] = val / np.sqrt(2.0) + 0j
+                session.psi_L[src_x, y, z] = val / np.sqrt(2.0) + 0j
+    enforce_unity_spinor(session.psi_R, session.psi_L)
 
     print(f"\nRunning {ticks} ticks...")
     for t in range(ticks):
@@ -61,8 +64,9 @@ def run_interference_audit():
         session.advance_tick_counter()
 
     # ── Screen measurement ─────────────────────────────────────────────
-    psi_screen    = np.sum(session.psi[screen_x, :, :], axis=1)
-    dens          = np.abs(psi_screen) ** 2
+    psi_screen_R  = np.sum(session.psi_R[screen_x, :, :], axis=1)
+    psi_screen_L  = np.sum(session.psi_L[screen_x, :, :], axis=1)
+    dens          = np.abs(psi_screen_R)**2 + np.abs(psi_screen_L)**2
     total         = np.sum(dens)
     print(f"\n  Total probability at screen : {total:.6e}")
     print(f"  Peak density                : {np.max(dens):.4e}")
@@ -103,10 +107,10 @@ def run_interference_audit():
     print(f"\n  Normalized screen profile (y=8..{slit_y2+12}):")
     print(f"  {'y':>4}  {'norm':>7}  pattern")
     for y in range(8, min(slit_y2+13, grid_y)):
-        bar = '█' * int(norm[y] * 30)
-        mk  = (' ← A' if y==slit_y1 else
-               ' ← B' if y==slit_y2 else
-               ' ← midpoint' if y==(slit_y1+slit_y2)//2 else '')
+        bar = '#' * int(norm[y] * 30)
+        mk  = (' <- A' if y==slit_y1 else
+               ' <- B' if y==slit_y2 else
+               ' <- midpoint' if y==(slit_y1+slit_y2)//2 else '')
         print(f"  {y:>4}  {norm[y]:>7.4f}  {bar}{mk}")
 
     # ── Summary ───────────────────────────────────────────────────────

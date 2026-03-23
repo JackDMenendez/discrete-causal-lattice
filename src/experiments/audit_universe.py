@@ -11,8 +11,9 @@ Usage:
     python audit_universe.py --list    # list experiments without running
 """
 
-import sys
+import sys, os
 import traceback
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 
 EXPERIMENTS = [
