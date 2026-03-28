@@ -11,3 +11,4 @@ from .UnityConstraint import (enforce_unity, unity_residual, is_unity,
                                enforce_unity_spinor, unity_residual_spinor)
 from .CausalSession import CausalSession
 from .TickScheduler import TickScheduler, ShuffleScheme
+from .CompositeCausalSession import CompositeCausalSession

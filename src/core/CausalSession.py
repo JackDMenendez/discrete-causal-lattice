@@ -47,6 +47,41 @@ from .PhaseRotor import PhaseRotor
 from .UnityConstraint import enforce_unity, enforce_unity_spinor
 
 
+def _precompute_shift_slices(shape, vectors):
+    """
+    For each direction vector (dx, dy, dz), compute 4 slice-tuples:
+      nb_src, nb_dst  -- for  nb_buf[nb_dst] = source[nb_src]
+      out_src, out_dst -- for  result[out_dst] += emission[out_src]
+
+    These replace triple np.roll chains and boundary masks, giving the
+    same physics with zero temporary array allocation for the shift.
+    """
+    sx, sy, sz = shape
+
+    def axis_slices(d, n):
+        """Return (nb_src, nb_dst) for one axis."""
+        if d > 0:
+            return slice(d, n),  slice(0, n - d)
+        elif d < 0:
+            return slice(0, n + d), slice(-d, n)
+        else:
+            return slice(None), slice(None)
+
+    slices = []
+    for (dx, dy, dz) in vectors:
+        x_nb_src, x_nb_dst = axis_slices(dx, sx)
+        y_nb_src, y_nb_dst = axis_slices(dy, sy)
+        z_nb_src, z_nb_dst = axis_slices(dz, sz)
+        # Output slices are the exact reverse of the neighbor lookup slices:
+        #   emission at source site lands at destination site.
+        nb_src  = (x_nb_src, y_nb_src, z_nb_src)
+        nb_dst  = (x_nb_dst, y_nb_dst, z_nb_dst)
+        out_src = nb_dst   # emission pulled from interior (no wrap)
+        out_dst = nb_src   # lands at displaced positions
+        slices.append((nb_src, nb_dst, out_src, out_dst))
+    return slices
+
+
 class CausalSession:
     """
     A particle as a persistent causal session on T^3_diamond.
@@ -84,6 +119,16 @@ class CausalSession:
             self._apply_initial_momentum(initial_node, momentum)
 
         enforce_unity_spinor(self.psi_R, self.psi_L)
+
+        # Pre-compute shift slices for all direction vectors to avoid np.roll
+        # in the hot _kinetic_hop path.  Each entry is a 4-tuple:
+        #   (nb_src, nb_dst, out_src, out_dst)
+        # nb:  nb_arr[nb_dst] = source[nb_src]   -- look up neighbor in dir v
+        # out: result[out_dst] += emission[out_src] -- shift emission to dest
+        self._rgb_slices = _precompute_shift_slices(shape, RGB_VECTORS)
+        self._cmy_slices = _precompute_shift_slices(shape, CMY_VECTORS)
+        # Reusable neighbor buffer (zeroed at start of each direction)
+        self._nb_buf = np.zeros(shape, dtype=complex)
 
     # ── Backward-compatibility property ───────────────────────────────────────
 
@@ -129,7 +174,7 @@ class CausalSession:
     # ── Kinetic hop kernel ─────────────────────────────────────────────────────
 
     def _kinetic_hop(self, source: np.ndarray,
-                     vectors: list) -> np.ndarray:
+                     precomputed_slices: list) -> np.ndarray:
         """
         Directed kinetic hop: source amplitude propagates to neighbor sites.
 
@@ -146,25 +191,32 @@ class CausalSession:
         the sin/cos(delta_phi/2) mass-term coefficients, which are independent
         of this momentum bias.
 
+        Uses pre-computed shift slices (stored in self._rgb_slices /
+        self._cmy_slices) instead of np.roll chains, eliminating ~24 full-grid
+        temporary array allocations per call.
+
         Parameters
         ----------
-        source  : complex (X,Y,Z) -- the component being hopped
-        vectors : list of (dx,dy,dz) -- active sublattice direction set
+        source             : complex (X,Y,Z) -- the component being hopped
+        precomputed_slices : list of (nb_src, nb_dst, out_src, out_dst)
 
         Returns
         -------
         result : complex (X,Y,Z) -- accumulated hopped amplitude
         """
-        n_vec = len(vectors)
+        n_vec = len(precomputed_slices)
         local_phase = np.angle(source)
+        nb_buf = self._nb_buf          # reuse pre-allocated buffer
 
         # Per-direction phase advance and directed weight
         delta_p_list = []
         weights = np.zeros((n_vec,) + source.shape, dtype=float)
-        for i, (dx, dy, dz) in enumerate(vectors):
-            nb = np.roll(np.roll(np.roll(source, -dx, 0), -dy, 1), -dz, 2)
-            nb_abs = np.abs(nb)
-            nb_phase = np.where(nb_abs > 1e-9, np.angle(nb), local_phase)
+        for i, (nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
+            # Look up neighbor via slice: no np.roll, no temporary arrays
+            nb_buf[:] = 0.0
+            nb_buf[nb_dst] = source[nb_src]
+            nb_abs = np.abs(nb_buf)
+            nb_phase = np.where(nb_abs > 1e-9, np.angle(nb_buf), local_phase)
             delta_p = nb_phase - local_phase               # phase advance in dir v
             delta_p_list.append(delta_p)
             # Weight = positive phase advance only; inertia damps response to gradient
@@ -179,25 +231,15 @@ class CausalSession:
         # Emit: per-direction complex weight = (real weight) * exp(i*delta_p)
         # This ensures amplitude arrives at destination with the correct phase.
         result = np.zeros_like(source)
-        sx, sy, sz = source.shape
-        for i, (dx, dy, dz) in enumerate(vectors):
+        for i, (nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
             w_i = np.where(zero_mom, uniform, weights[i] / total_w_safe)
             # Phase correction: exp(i*delta_p) so emitted amp matches dest wave.
             # For zero-momentum fallback: no correction (exp(i*0)=1).
             phase_corr = np.where(zero_mom, 1.0+0j,
                                   np.exp(1j * delta_p_list[i]).astype(complex))
             emission = source * phase_corr * w_i
-
-            mask = np.ones((sx, sy, sz), dtype=bool)
-            if dx > 0: mask[sx-dx:, :, :]  = False
-            if dx < 0: mask[:-dx,   :, :]  = False
-            if dy > 0: mask[:, sy-dy:, :]  = False
-            if dy < 0: mask[:, :-dy,   :]  = False
-            if dz > 0: mask[:, :, sz-dz:]  = False
-            if dz < 0: mask[:, :, :-dz  ]  = False
-            emission = np.where(mask, emission, 0.0)
-
-            result += np.roll(np.roll(np.roll(emission, dx, 0), dy, 1), dz, 2)
+            # Shift emission to destination via slice: no np.roll, no mask array
+            result[out_dst] += emission[out_src]
 
         return result
 
@@ -233,10 +275,10 @@ class CausalSession:
             # Even tick: psi_L -> psi_R via RGB; psi_L unchanged.
             # Odd tick:  psi_R -> psi_L via CMY; psi_R unchanged.
             if tick_parity == 0:
-                new_psi_R = self._kinetic_hop(self.psi_L, RGB_VECTORS)
+                new_psi_R = self._kinetic_hop(self.psi_L, self._rgb_slices)
                 new_psi_L = self.psi_L
             else:
-                new_psi_L = self._kinetic_hop(self.psi_R, CMY_VECTORS)
+                new_psi_L = self._kinetic_hop(self.psi_R, self._cmy_slices)
                 new_psi_R = self.psi_R
         else:
             # Massive particle: both components updated simultaneously.
@@ -244,8 +286,8 @@ class CausalSession:
             # Simultaneous update averages RGB and CMY displacements,
             # giving zero net CoM drift for zero-momentum states (symmetry
             # of V1+V2+V3 + CMY1+CMY2+CMY3 = 0).
-            hop_R     = self._kinetic_hop(self.psi_L, RGB_VECTORS)
-            hop_L     = self._kinetic_hop(self.psi_R, CMY_VECTORS)
+            hop_R     = self._kinetic_hop(self.psi_L, self._rgb_slices)
+            hop_L     = self._kinetic_hop(self.psi_R, self._cmy_slices)
             new_psi_R = cos_half * hop_R + 1j * sin_half * self.psi_R
             new_psi_L = cos_half * hop_L + 1j * sin_half * self.psi_L
 
@@ -257,6 +299,166 @@ class CausalSession:
     def probability_density(self) -> np.ndarray:
         """Total probability density: |psi_R|^2 + |psi_L|^2."""
         return np.abs(self.psi_R) ** 2 + np.abs(self.psi_L) ** 2
+
+    # ── Cone measurement ──────────────────────────────────────────────────────
+
+    def cone_amplitude_profile(self, center, n_shells: int = 50):
+        """
+        Radial amplitude profile: total probability in each shell at distance r
+        from center.  Returns (radii, profile) arrays of length n_shells.
+
+        Massless:   profile concentrated near max radius  (wavefront at boundary)
+        Massive:    profile peaked near center, tailing off  (amplitude hugs origin)
+        Very massive: profile almost entirely in shell 0  (barely moves)
+
+        This is the direct observable of cone shape — the same quantity plotted
+        in the quantization scan heatmap, but for a free particle instead of
+        an orbital.  Use it to verify that interior_fraction tracks p_stay.
+        """
+        cx, cy, cz = center
+        x = np.arange(self.lattice.size_x)
+        xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
+        r    = np.sqrt((xx - cx)**2 + (yy - cy)**2 + (zz - cz)**2)
+        P    = self.probability_density()
+        r_max = float(r.max())
+        edges   = np.linspace(0, r_max, n_shells + 1)
+        centers = 0.5 * (edges[:-1] + edges[1:])
+        profile = np.array([float(P[(r >= edges[i]) & (r < edges[i+1])].sum())
+                             for i in range(n_shells)])
+        return centers, profile
+
+    def interior_fraction(self, center, radius: float) -> float:
+        """
+        Fraction of total amplitude inside given radius from center.
+
+        This is the direct measurement of the mass proxy:
+          interior_fraction → 1.0  massive  (amplitude hugs center)
+          interior_fraction → 0.0  massless (amplitude at boundary)
+
+        After T ticks without interaction, interior_fraction should approach
+        p_stay = sin²(ω/2).  This is the empirical check of the claim that
+        mass is the fraction of cone information that stays interior.
+        """
+        cx, cy, cz = center
+        x = np.arange(self.lattice.size_x)
+        xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
+        r = np.sqrt((xx - cx)**2 + (yy - cy)**2 + (zz - cz)**2)
+        return float(self.probability_density()[r <= radius].sum())
+
+    def phase_gradient_field(self) -> np.ndarray:
+        """
+        The phase gradient field ∇φ — the quantity that drives the kinetic hop.
+        Returns a (3, X, Y, Z) array: [∂φ/∂x, ∂φ/∂y, ∂φ/∂z] at each node.
+
+        Interpretation:
+          Uniform ∇φ = k  →  free particle with momentum k
+          Zero ∇φ         →  no preferred direction, amplitude stays put
+          Curl(∇φ) ≠ 0    →  angular momentum / charge winding
+
+        Uses psi_R as the phase reference.  For a composite neutral particle
+        whose constituent phases cancel, ∇φ of the COHERENT sum is near zero
+        even though each constituent has non-zero ∇φ — that cancellation is
+        the phase mechanism of cone narrowing.
+        See notes/material_cone_and_composites.md.
+        """
+        phi = np.angle(self.psi_R)
+        return np.stack([np.gradient(phi, axis=0),
+                         np.gradient(phi, axis=1),
+                         np.gradient(phi, axis=2)], axis=0)
+
+    # ── Cone modification ─────────────────────────────────────────────────────
+
+    def apply_phase_map(self, delta_phase: np.ndarray):
+        """
+        Apply a spatially varying phase rotation to both spinor components.
+        Multiplies psi_R and psi_L by exp(i * delta_phase) at every node.
+
+        A=1 is preserved exactly — phase rotation is unitary, no renormalization
+        needed.
+
+        Class 1 cone modification: phase engineering.
+        Common uses:
+          Linear gradient  np.dot([kx,ky,kz], [xx,yy,zz])  → impose momentum
+          Azimuthal phase  m * arctan2(y,x)                 → orbital angular momentum
+          Arbitrary array                                    → arbitrary interference
+
+        Parameters
+        ----------
+        delta_phase : real (X,Y,Z) array — phase advance in radians at each node
+        """
+        rotation = np.exp(1j * delta_phase).astype(complex)
+        self.psi_R *= rotation
+        self.psi_L *= rotation
+
+    def impose_sublattice_ratio(self, target_R_fraction: float):
+        """
+        Redistribute amplitude between psi_R and psi_L toward a target ratio.
+
+        target_R_fraction in [0, 1]:
+          0.5  balanced (default for a massive particle)
+          1.0  fully right-handed  (Class 2: sublattice selection)
+          0.0  fully left-handed   (neutrino-like, CMY-only cone)
+
+        Preserves the spatial distribution of each component; only rescales
+        the overall amplitude of each.  A=1 enforced after redistribution.
+
+        Physical cost note: applying this every tick is unphysical — real
+        sublattice selection requires doing work against Zitterbewegung, which
+        continuously drives psi_R ↔ psi_L oscillation.  Intended for
+        initialization or as a controlled forcing term in experiments.
+        """
+        p_R = float(np.sum(np.abs(self.psi_R) ** 2))
+        p_L = float(np.sum(np.abs(self.psi_L) ** 2))
+        total = p_R + p_L
+        if total < 1e-12:
+            return
+        scale_R = (np.sqrt(target_R_fraction / (p_R / total))
+                   if p_R > 1e-12 else 0.0)
+        scale_L = (np.sqrt((1.0 - target_R_fraction) / (p_L / total))
+                   if p_L > 1e-12 else 0.0)
+        self.psi_R *= scale_R
+        self.psi_L *= scale_L
+        enforce_unity_spinor(self.psi_R, self.psi_L)
+
+    @property
+    def cone_half_angle(self) -> float:
+        """
+        Material cone half-angle in radians: arcsin(cos(ω/2)) = arcsin(√p_move).
+
+        The material cone is the sub-luminal analogue of the light cone.  Its
+        half-angle shrinks as mass (ω) increases:
+          - Photon  (ω=0):  θ = π/4  (45°, full light cone)
+          - Massive (ω>0):  θ < π/4
+          - Max-mass(ω=π):  θ = 0    (no spreading, pure clock)
+
+        For a composite neutral object the constituent cones partially cancel,
+        giving an effective cone much narrower than any individual constituent.
+        See notes/material_cone_and_composites.md.
+        """
+        return float(np.arcsin(np.cos(self.phase_rotor.omega / 2.0)))
+
+    @property
+    def rgb_cmy_imbalance(self) -> float:
+        """
+        Charge proxy: Σ|ψ_R|² - Σ|ψ_L|²  ∈ [-1, 1].
+
+        +1  = fully right-handed (RGB-dominant)
+        -1  = fully left-handed  (CMY-dominant)
+         0  = balanced (neutral)
+
+        For a composite particle, the sum of rgb_cmy_imbalance across all
+        constituent sessions is the net charge proxy.
+
+        NOTE: the cone-narrowing mechanism for neutral composites is PHASE
+        cancellation, not sublattice amplitude balancing.  When constituent
+        phases cancel (Σ ψ_i ≈ 0), the net phase gradient ∇Φ ≈ 0, which
+        eliminates the directed hop.  The coherent probability density
+        |Σ ψ_i|² must be used (not Σ|ψ_i|²) to observe this effect.
+        See notes/material_cone_and_composites.md.
+        """
+        p_R = float(np.sum(np.abs(self.psi_R) ** 2))
+        p_L = float(np.sum(np.abs(self.psi_L) ** 2))
+        return p_R - p_L
 
     def advance_tick_counter(self):
         self.tick_counter += 1

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"sys.exit\\\\|run_all\\\\|if __name__\" d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/src/experiments/exp_0*.py)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//d/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/**)",
+      "Bash(done)",
+      "Bash(grep -n \"sys.exit\\\\|run_all\\\\|if __name__\" d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/src/experiments/exp_10*.py d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/src/experiments/exp_11*.py)",
+      "Bash(\"../../.venv/Scripts/python\" exp_00_causal_cone.py)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(ls -la \"d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/src/experiments/\"*.npy)",
+      "Bash(.venv/Scripts/python -c \":*)",
+      "Bash(.venv/Scripts/python -c \"import src.experiments.exp_11_quantization_scan; import src.experiments.plot_quantization_scan; print\\(''OK''\\)\")"
+    ]
+  }
+}

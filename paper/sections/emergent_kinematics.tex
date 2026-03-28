@@ -1,0 +1,189 @@
+\section{Emergent Kinematics on the $\Tdiamond$ Lattice}
+\label{sec:kinematics}
+
+Momentum, inertia, and force are not postulated in the $\unity$ framework.
+They emerge from the geometry of phase interference across the bipartite
+sublattice structure.  This section derives the kinematic relations
+from the Dirac tick rule and connects each result to the corresponding
+numerical verification in the experiment suite.
+
+% ── Subsection 1 ─────────────────────────────────────────────────────────────
+\subsection{The Bipartite Velocity}
+\label{subsec:bipartite_velocity}
+
+A massive Dirac fermion~\cite{dirac1928} on $\Tdiamond$ carries two spinor components:
+$\psi_R$ on the RGB sublattice (even ticks) and $\psi_L$ on the CMY
+sublattice (odd ticks).  The $\unity$ constraint requires
+\begin{equation}
+    \sum_{\mathbf{x}} \bigl(|\psi_R(\mathbf{x})|^2 +
+                            |\psi_L(\mathbf{x})|^2\bigr) = 1.
+    \label{eq:unity_spinor}
+\end{equation}
+Over one complete two-tick cycle the kinetic fraction
+$p_\mathrm{hop} = \cos^2(\omega/2)$ is distributed across the six
+basis vectors, split equally between the three RGB directions
+($\mathbf{V}_{1\text{--}3}$, even tick) and the three CMY directions
+($-\mathbf{V}_{1\text{--}3}$, odd tick):
+\begin{equation}
+    1 = p_\mathrm{stay} + P_\mathrm{fwd} + P_\mathrm{bwd},
+    \qquad
+    p_\mathrm{stay} = \sin^2\!\tfrac{\omega}{2},
+    \quad
+    P_\mathrm{fwd} + P_\mathrm{bwd} = \cos^2\!\tfrac{\omega}{2}.
+    \label{eq:probability_partition}
+\end{equation}
+Here $P_\mathrm{fwd} = \sum_{i=1}^{3} p(\mathbf{V}_i)$ is the total
+probability flowing along the RGB sublattice and
+$P_\mathrm{bwd} = \sum_{i=1}^{3} p(-\mathbf{V}_i)$ along CMY.
+The lattice speed limit $c = 1$ node/tick gives the net velocity
+\begin{equation}
+    v = c\,(P_\mathrm{fwd} - P_\mathrm{bwd}).
+    \label{eq:velocity}
+\end{equation}
+For a packet at rest the two sublattices are populated symmetrically,
+$P_\mathrm{fwd} = P_\mathrm{bwd} = \tfrac{1}{2}\cos^2(\omega/2)$,
+so $v = 0$ and the amplitude oscillates between $\psi_R$ and $\psi_L$
+without net displacement — the lattice realisation of Zitterbewegung~\cite{schrodinger1930}.
+
+% ── Subsection 2 ─────────────────────────────────────────────────────────────
+\subsection{Phase Gradient as Momentum}
+\label{subsec:momentum_emergence}
+
+A uniform spatial phase gradient with advance $\theta$ per lattice edge
+breaks the RGB/CMY symmetry.  In the implementation this gradient
+appears as the per-direction phase advance
+\begin{equation}
+    \delta_p(\mathbf{V}_i, \mathbf{x})
+        = \arg\psi(\mathbf{x} + \mathbf{V}_i) - \arg\psi(\mathbf{x}),
+    \label{eq:delta_p}
+\end{equation}
+which is the quantity \texttt{delta\_p} computed in
+\texttt{CausalSession.\_kinetic\_hop}.  Only positive advances
+contribute to the hop weight, so amplitude flows preferentially in the
+direction of increasing phase — the lattice realisation of the
+de~Broglie relation~\cite{debroglie1924}.
+
+To derive $v(\theta)$ analytically, consider a packet with mass
+parameter $\omega$ (the instruction frequency) subject to a gradient
+$\theta$ directed along the net RGB axis.  On the even (RGB) tick
+$\psi_R$ hops forward: the phase gradient $+\theta$ reduces the
+effective mismatch from $\omega$ to $\omega - \theta$, increasing the
+kinetic weight.  On the odd (CMY) tick $\psi_L$ hops backward: the
+reversed gradient adds $+\theta$ to the mismatch, decreasing the
+kinetic weight:
+\begin{align}
+    P_\mathrm{fwd} &= \tfrac{1}{2}\cos^2\!\tfrac{\omega - \theta}{2},
+    \qquad (\psi_R\text{ hop, even tick})
+    \label{eq:Pfwd} \\
+    P_\mathrm{bwd} &= \tfrac{1}{2}\cos^2\!\tfrac{\omega + \theta}{2}.
+    \qquad (\psi_L\text{ hop, odd tick})
+    \label{eq:Pbwd}
+\end{align}
+Substituting into Eq.~\eqref{eq:velocity} and applying
+$\cos^2\alpha - \cos^2\beta = -\sin(\alpha+\beta)\sin(\alpha-\beta)$
+yields
+\begin{equation}
+    v = \tfrac{c}{2}\,\sin(\omega)\,\sin(\theta).
+    \label{eq:v_omega_theta}
+\end{equation}
+Table~\ref{tab:mass_velocity} illustrates how $p_\mathrm{stay}$,
+$m_\mathrm{inertial}$, and the resulting velocity vary across
+representative values of $\omega$:
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc}
+\hline
+$\omega$ & $p_\mathrm{stay} = \sin^2(\omega/2)$ &
+           $m_\mathrm{inertial} = \sin(\omega)/2$ &
+           $v/c$ at $\theta = 0.1$ \\
+\hline
+$0$       & $0$     & $0$     & $1$ \quad (photon limit) \\
+$\pi/4$   & $0.146$ & $0.354$ & $0.035$ \\
+$\pi/2$   & $0.500$ & $0.500$ & $0.050$ \\
+$\pi$     & $1.000$ & $0$     & $0$ \quad (frozen, max mass) \\
+\hline
+\end{tabular}
+\caption{Selected values of the two mass-related quantities and the
+  resulting lattice velocity at a small phase gradient $\theta = 0.1$.
+  The photon row ($\omega = 0$) is handled by the massless limit
+  (Section~\ref{sec:causal_cone}); the other rows follow
+  Eq.~\eqref{eq:v_omega_theta}.}
+\label{tab:mass_velocity}
+\end{table}
+In the macroscopic limit $\theta \ll 1$ (gradient small compared to
+$2\pi$), $\sin\theta \approx \theta$.  Identifying the lattice momentum
+$p \equiv m\,v / c$ and the effective mass $m \equiv \sin(\omega)/2$\footnote{%
+  The inertial mass $m_\mathrm{inertial} = \sin(\omega)/2$ is \emph{not} the
+  same as the residence probability $p_\mathrm{stay} = \sin^2(\omega/2)$.
+  They coincide only at $\omega = \pi/2$, the unique frequency at which
+  the particle spends exactly half its time at rest.  At $\omega = \pi$
+  (maximum residence) the particle is frozen, $m_\mathrm{inertial} = 0$,
+  while $p_\mathrm{stay} = 1$.}
+recovers the classical kinematic relation
+\begin{equation}
+    p = m\,\theta \cdot c,
+    \label{eq:momentum}
+\end{equation}
+where $\theta$ is the phase advance per lattice edge — the discrete
+analogue of the wavenumber $k$.  Momentum is thus strictly the
+cross-term between the particle's internal mass-phase $\omega$ and the
+spatial phase gradient of the bipartite vacuum.
+
+\paragraph{Massless limit.}
+Equation~\eqref{eq:v_omega_theta} gives $v = 0$ when $\omega = 0$,
+which is not the photon behaviour.  The massless case is qualitatively
+distinct: with $\omega = 0$ the residence probability vanishes,
+$p_\mathrm{stay} = 0$, and the amplitude hops entirely via the
+directional weighting of Eq.~\eqref{eq:delta_p}.  The hop is strictly
+one-way along the gradient ($\delta_p > 0$ only), so $P_\mathrm{bwd}
+= 0$ and $v = c$ regardless of $\theta$.  The two-sublattice
+derivation above applies to massive particles ($\omega > 0$); the
+photon is the $\omega \to 0$ limit treated separately in
+Section~\ref{sec:causal_cone}.
+
+\paragraph{Numerical verification.}
+Experiment~\texttt{exp\_01\_inertia.py} initialises a Gaussian wavepacket
+($\sigma = 3$, $\omega = 0.2$) with momentum $\mathbf{k} = (k,k,k)$,
+$k = 0.3/\sqrt{3}$, corresponding to a phase advance
+$\theta = \mathbf{k} \cdot \mathbf{V}_1 = 0.3\sqrt{3} \approx 0.520$
+rad per hop along the $\mathbf{V}_1 = (1,1,1)$ direction.
+Equation~\eqref{eq:v_omega_theta} predicts
+\[
+    v_x = \tfrac{1}{2}\sin(0.2)\sin(0.3\sqrt{3})
+        \approx 0.0493 \text{ nodes/tick}.
+\]
+The measured x-component fit over 12 ticks gives
+$v_x = 0.0464$ nodes/tick — a 6\% discrepancy attributable to
+finite packet width and the short run length.  The heavy particle
+($\omega = 0.5$, same $\mathbf{k}$) drifts measurably slower,
+confirming that $\sin(\omega)$ governs inertial resistance: a larger
+phase cost per hop reduces the net kinetic probability imbalance.
+
+% ── Subsection 3 ─────────────────────────────────────────────────────────────
+\subsection{Acceleration and Force}
+\label{subsec:force}
+
+Acceleration requires a time-varying gradient.  Taking the discrete
+time derivative of Eq.~\eqref{eq:v_omega_theta} with $\omega$ held
+constant:
+\begin{equation}
+    a = \frac{\Delta v}{\Delta t}
+      = \frac{c}{2}\,\sin(\omega)\,\cos(\theta)\,\frac{\Delta\theta}{\Delta t}.
+    \label{eq:acceleration}
+\end{equation}
+For small gradients ($\cos\theta \approx 1$) this reduces to the
+lattice analogue of Newton's second law~\cite{newton1687}:
+\begin{equation}
+    a = \frac{c}{2m}\,F_\theta,
+    \qquad
+    F_\theta \equiv \frac{\Delta\theta}{\Delta t}.
+    \label{eq:newton}
+\end{equation}
+The quantity $F_\theta$ — the rate at which the spatial phase gradient
+changes per tick — is the lattice definition of force.  A gravitational
+or electromagnetic field acts by twisting the phase of the vacuum over
+time, unbalancing $P_\mathrm{fwd}$ and $P_\mathrm{bwd}$ and
+continuously converting $p_\mathrm{stay}$ into directed kinetic
+probability.  The mechanism by which the Coulomb potential produces
+$F_\theta$ in the hydrogen orbital is analysed in
+Section~\ref{sec:hydrogen}.

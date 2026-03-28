@@ -1,0 +1,22 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{3}{section.2}%
+\contentsline {section}{\numberline {3}Causal Sessions and the Phase Rotor}{3}{section.3}%
+\contentsline {section}{\numberline {4}The Tick Scheduler}{3}{section.4}%
+\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{3}{section.5}%
+\contentsline {section}{\numberline {6}Emergent Kinematics: Momentum and Force in the $\mathcal {T}_{3d}$ Manifold}{3}{section.6}%
+\contentsline {section}{\numberline {7}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{3}{section.7}%
+\contentsline {subsection}{\numberline {7.1}The Bipartite Velocity}{4}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Phase Gradient as Momentum}{4}{subsection.7.2}%
+\contentsline {paragraph}{Massless limit.}{5}{section*.3}%
+\contentsline {paragraph}{Numerical verification.}{6}{section*.4}%
+\contentsline {subsection}{\numberline {7.3}Acceleration and Force}{6}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Gravity as Clock Density}{6}{section.8}%
+\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{6}{section.9}%
+\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{7}{section.10}%
+\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{7}{section.11}%
+\contentsline {section}{\numberline {12}The Observer as Clock}{7}{section.12}%
+\contentsline {section}{\numberline {13}Path Counting and Falsifiable Predictions}{7}{section.13}%
+\contentsline {section}{\numberline {14}Lattice Harmonics and Quantization}{7}{section.14}%
+\contentsline {section}{\numberline {15}The Hydrogen Spectrum from Lattice Geometry}{7}{section.15}%
+\contentsline {section}{\numberline {16}System Audit and Traceability Matrix}{7}{section.16}%
+\contentsline {section}{\numberline {17}Conclusion}{7}{section.17}%

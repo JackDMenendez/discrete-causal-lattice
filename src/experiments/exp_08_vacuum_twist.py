@@ -56,4 +56,10 @@ def run_vacuum_twist_audit():
 
 
 if __name__ == "__main__":
-    run_vacuum_twist_audit()
+    import sys
+    try:
+        passed = run_vacuum_twist_audit()
+        sys.exit(0 if passed else 1)
+    except NotImplementedError:
+        print("[STUB] exp_08 not yet implemented -- exit 1")
+        sys.exit(1)

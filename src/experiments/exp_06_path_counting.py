@@ -110,4 +110,5 @@ def run_path_counting_audit():
 
 
 if __name__ == "__main__":
-    run_path_counting_audit()
+    import sys
+    sys.exit(0 if run_path_counting_audit() else 1)

@@ -252,4 +252,5 @@ def run_decoherence_audit():
 
 
 if __name__ == "__main__":
-    run_decoherence_audit()
+    import sys
+    sys.exit(0 if run_decoherence_audit() else 1)

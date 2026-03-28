@@ -1,3 +1,26 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{dirac1928}
+Paul A.~M. Dirac.
+\newblock The quantum theory of the electron.
+\newblock {\em Proceedings of the Royal Society A}, 117(778):610--624, 1928.
+
+\bibitem{schrodinger1930}
+Erwin Schr{\"o}dinger.
+\newblock About the force-free motion in relativistic quantum mechanics.
+\newblock {\em Sitzungsberichte der Preussischen Akademie der Wissenschaften},
+  pages 418--428, 1930.
+\newblock Original derivation of Zitterbewegung.
+
+\bibitem{debroglie1924}
+Louis de~Broglie.
+\newblock Recherches sur la th{\'e}orie des quanta.
+\newblock {\em Annales de Physique}, 3:22--128, 1925.
+\newblock Wave--particle duality and the matter wavelength $\lambda = h/p$.
+
+\bibitem{newton1687}
+Isaac Newton.
+\newblock {\em Philosophi{\ae} Naturalis Principia Mathematica}.
+\newblock Royal Society, London, 1687.
 
 \end{thebibliography}

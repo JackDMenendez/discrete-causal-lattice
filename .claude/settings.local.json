@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python src/experiments/exp_10_hydrogen_spectrum.py)"
+      "Bash(python src/experiments/exp_10_hydrogen_spectrum.py)",
+      "Bash(python src/experiments/exp_01_inertia.py)",
+      "Bash(python src/experiments/exp_00_causal_cone.py)",
+      "Bash(\"../../.venv/Scripts/python\" -c \":*)",
+      "Bash(make exp_00_causal_cone)"
     ]
   }
 }

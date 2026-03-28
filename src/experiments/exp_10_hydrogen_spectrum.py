@@ -236,8 +236,9 @@ def run_hydrogen_spectrum_audit(n_levels=2):
 
 
 if __name__ == "__main__":
-    import argparse
+    import argparse, sys
     ap = argparse.ArgumentParser()
     ap.add_argument('--n3', action='store_true', help='Run n=1,2,3')
     args = ap.parse_args()
-    run_hydrogen_spectrum_audit(n_levels=3 if args.n3 else 2)
+    passed = run_hydrogen_spectrum_audit(n_levels=3 if args.n3 else 2)
+    sys.exit(0 if passed else 1)

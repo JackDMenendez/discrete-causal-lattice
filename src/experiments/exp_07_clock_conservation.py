@@ -227,4 +227,5 @@ def run_clock_conservation_audit():
 
 
 if __name__ == "__main__":
-    run_clock_conservation_audit()
+    import sys
+    sys.exit(0 if run_clock_conservation_audit() else 1)

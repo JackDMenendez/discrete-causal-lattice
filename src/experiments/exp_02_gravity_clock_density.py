@@ -171,4 +171,5 @@ def run_gravity_clock_density_audit():
 
 
 if __name__ == "__main__":
-    run_gravity_clock_density_audit()
+    import sys
+    sys.exit(0 if run_gravity_clock_density_audit() else 1)

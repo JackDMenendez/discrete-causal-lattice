@@ -186,4 +186,5 @@ def run_observer_clock_audit():
 
 
 if __name__ == "__main__":
-    run_observer_clock_audit()
+    import sys
+    sys.exit(0 if run_observer_clock_audit() else 1)

@@ -55,6 +55,7 @@ class TickScheduler:
         self.sessions = []          # All registered CausalSessions
         self.macro_tick = 0         # The global scheduler cycle count
         self.rng = np.random.default_rng(seed=42)  # Reproducible audits
+        self._bindings  = {}        # (i,j) -> coupling strength  (see bind_sessions)
 
     def register_session(self, session) -> int:
         """
@@ -122,6 +123,24 @@ class TickScheduler:
         The mixing is proportional to the overlap amplitude.
         A=1 is preserved per session after mixing (re-normalize both spinor
         components jointly).
+
+        Binding strength and composite particles
+        ----------------------------------------
+        The coupling coefficient (currently 0.1) controls how tightly two
+        sessions are bound:
+          coupling → 0:  free particles  (weak entanglement, observer effect)
+          coupling → 1:  bound composite (sessions move as a unit)
+
+        For a neutral composite (neutron, atom), constituent sessions should
+        have coupling near 1 AND opposite rgb_cmy_imbalance so that their
+        material cones partially cancel in the combined probability density.
+        This cone cancellation is the lattice mechanism for why neutral
+        composites behave more classically than their charged constituents.
+
+        A future CompositeCausalSession class should encapsulate this:
+        it wraps N sessions with specified coupling and computes the effective
+        cone half-angle and charge balance of the composite.
+        See notes/material_cone_and_composites.md.
         """
         from .UnityConstraint import enforce_unity_spinor
         n = len(self.sessions)
@@ -139,7 +158,9 @@ class TickScheduler:
                 # the phase reference (same rotation applied to both components)
                 phase_i = np.angle(si.psi_R)
                 phase_j = np.angle(sj.psi_R)
-                coupling = 0.1 * np.where(overlap_mask, 1.0, 0.0)
+                key = (min(i, j), max(i, j))
+                coupling_strength = self._bindings.get(key, 0.1)
+                coupling = coupling_strength * np.where(overlap_mask, 1.0, 0.0)
                 new_phase_i = phase_i + coupling * (phase_j - phase_i)
                 new_phase_j = phase_j + coupling * (phase_i - phase_j)
                 phase_rot_i = np.where(overlap_mask,
@@ -152,6 +173,35 @@ class TickScheduler:
                 sj.psi_L = sj.psi_L * phase_rot_j
                 enforce_unity_spinor(si.psi_R, si.psi_L)
                 enforce_unity_spinor(sj.psi_R, sj.psi_L)
+
+    def bind_sessions(self, i: int, j: int, coupling: float = 0.9):
+        """
+        Register a persistent coupling strength between two sessions.
+
+        This controls how tightly two sessions' phases are mixed each macro-tick
+        in _apply_pairwise_interactions:
+
+          coupling = 0.0   no interaction          (free particles)
+          coupling = 0.1   weak interaction        (default observer/decoherence)
+          coupling = 0.9   strong binding          (composite particle constituents)
+          coupling = 1.0   perfect phase lock      (fully bound, move as one unit)
+
+        Binding is the mechanism for composite particles.  Two sessions bound
+        with coupling → 1 evolve as a unit: their phases lock, their cones
+        interfere coherently, and for a neutral pair (opposite rgb_cmy_imbalance)
+        their phase gradients cancel — producing a narrower effective cone.
+
+        The phase cancellation (not amplitude cancellation) is what narrows the
+        effective material cone of a neutral composite.
+        See notes/material_cone_and_composites.md and cone_modification_classes.md.
+
+        Parameters
+        ----------
+        i, j     : session indices (from register_session)
+        coupling : float in [0, 1]
+        """
+        key = (min(i, j), max(i, j))
+        self._bindings[key] = float(np.clip(coupling, 0.0, 1.0))
 
     def clock_count(self) -> int:
         """Returns the total number of active clocks in the scheduler."""

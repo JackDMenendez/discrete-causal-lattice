@@ -1,0 +1,79 @@
+============================================================
+EXPERIMENT 00  -  Part A: Causal Cone and Speed Limit
+============================================================
+
+Calibration               Node spacing (m)     Min dilation (s)     Correction scale (m)   c error
+----------------------------------------------------------------------------------------------------
+Planck Scale              1.616e-35            5.391e-44            1.616e-34              1.17e-07
+Electron Compton Wavelength 2.426e-12            8.093e-21            2.426e-11              0.00e+00
+Bohr Radius               5.292e-11            1.765e-19            5.292e-10              0.00e+00
+
+Point source at (15, 15, 15), unity residual = -2.22e-16
+  Tick  1: P_total=1.00000000  reachable=7  active=7
+  Tick  2: P_total=1.00000000  reachable=25  active=7
+  Tick  3: P_total=1.00000000  reachable=63  active=7
+  Tick  4: P_total=1.00000000  reachable=129  active=7
+  Tick  5: P_total=1.00000000  reachable=231  active=13
+  Tick  6: P_total=1.00000000  reachable=377  active=31
+  Tick  7: P_total=1.00000000  reachable=575  active=31
+  Tick  8: P_total=1.00000000  reachable=833  active=31
+  Tick  9: P_total=1.00000000  reachable=1159  active=43
+  Tick 10: P_total=1.00000000  reachable=1561  active=73
+
+Causal violations: 0
+[PASSED] Speed limit c=1 confirmed.  Cone is octahedral.
+
+============================================================
+EXPERIMENT 00  -  Part B: Cone Shape vs. Mass
+============================================================
+  Claim: interior_fraction -> p_stay = sin^2(omega/2) over time
+  interior radius = 4,  profile at tick 8
+
+  particle     omega    p_stay   interior@t=5  interior@t=10
+  ----------------------------------------------------------
+  photon       0.00    0.0000       0.828498       0.686920
+    radial profile at tick 8  (r=radius, P=fraction of total amplitude in shell):
+      r=  1.1  P=0.18923  ########################################################
+      r=  5.4  P=0.21573  ################################################################
+      r=  9.7  P=0.00019  
+      r= 14.1  P=0.00000  
+      r= 18.4  P=0.00000  
+      r= 22.7  P=0.00000  
+
+  light        1.00    0.2298       1.000000       0.968201
+    radial profile at tick 8  (r=radius, P=fraction of total amplitude in shell):
+      r=  1.1  P=0.91117  #################################################################################################################################################################################################################################################################################
+      r=  5.4  P=0.04667  ##############
+      r=  9.7  P=0.00000  
+      r= 14.1  P=0.00000  
+      r= 18.4  P=0.00000  
+      r= 22.7  P=0.00000  
+
+  massive      2.00    0.7081       0.998877       0.952269
+    radial profile at tick 8  (r=radius, P=fraction of total amplitude in shell):
+      r=  1.1  P=0.81826  #####################################################################################################################################################################################################################################################
+      r=  5.4  P=0.02352  #######
+      r=  9.7  P=0.00000  
+      r= 14.1  P=0.00000  
+      r= 18.4  P=0.00000  
+      r= 22.7  P=0.00000  
+
+============================================================
+EXPERIMENT 00  -  Part C: Class 1 Cone Modification (Phase Map)
+============================================================
+  Apply linear phase gradient k=(0.3,0,0) to a photon session.
+  Prediction: amplitude shifts toward +x (cone tilts).
+
+  After 10 ticks:
+    Free photon   CoM x offset = -0.0009
+    Kicked photon CoM x offset = +9.5738
+
+[PASSED] Phase map tilted the cone: Deltax = 9.575 nodes.
+
+============================================================
+EXPERIMENT 00 SUMMARY
+============================================================
+  Part A  -  Speed limit:         PASSED
+  Part B  -  Cone shape vs mass:  PASSED
+  Part C  -  Phase map (Class 1): PASSED
+Saved: ../../figures/exp_00_cone_structure.pdf

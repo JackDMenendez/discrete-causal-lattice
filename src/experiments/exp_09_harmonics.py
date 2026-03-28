@@ -389,4 +389,5 @@ def run_harmonics_audit():
 
 
 if __name__ == "__main__":
-    run_harmonics_audit()
+    import sys
+    sys.exit(0 if run_harmonics_audit() else 1)
