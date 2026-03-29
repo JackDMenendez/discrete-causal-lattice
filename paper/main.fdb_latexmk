@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1774683663.75509 "main.aux" "main.bbl" "main" 1774683669.04605 0
-  "./paper-bib/references.bib" 1774683636 10357 02d9af8be0dffaa6dd55cc64ef851176 ""
+["bibtex main"] 1774688640.02902 "main.aux" "main.bbl" "main" 1774688645.7632 0
+  "./paper-bib/references.bib" 1774688628 10947 9916ca462b99fc23ad76c1de221e829e ""
   "C:/Program Files/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1774683666 5557 b9d57bddc5e0c27cb1f0d669517693fe "pdflatex"
+  "main.aux" 1774688643 7164 8f47d442909bb8cbaf5c0c3668e01d41 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1774683664.7258 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1774683669.04822 0
+["pdflatex"] 1774688640.98246 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1774688645.76515 0
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1233951848 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1233951854 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -23,6 +23,7 @@
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmbx7.tfm" 1136765053 1336 3125ccb448c1a09074e3aa4a9832f130 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmbx8.tfm" 1136765053 1332 1fde11373e221473104d6cc5993f046e ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmex10.tfm" 1136765053 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
+  "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmitt10.tfm" 1136765053 768 2297ad2ac26f37e67f756dad27c77d68 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmmi10.tfm" 1136765053 1528 abec98dbc43e172678c11b3b9031252a ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmmi12.tfm" 1136765053 1524 4414a8315f39513458b80dfc63bff03a ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmmi6.tfm" 1136765053 1512 f21f83efb36853c0b70002322c1ab3ad ""
@@ -42,6 +43,7 @@
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb" 1247596666 32166 b0c356b15f19587482a9217ce1d8fa67 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1247596667 30251 6afa5cb1d0204815a708a080681d4674 ""
+  "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmitt10.pfb" 1247596666 26057 4749ebe351ca6b60601cf0ab49d1bf5d ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1247596667 36741 0ee9e374ec3e30da87cdfb0ea3575226 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1247596666 35469 dcf3a5f2fc1862f5952e3ee5eb1d98c4 ""
@@ -125,11 +127,11 @@
   "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" 1774541583 2883 5c30be702df9f0ac78ef0f602f971ac1 ""
   "macros/commands.tex" 1774231911 576 e0c2368a599899984e8b72e87fec9a6d ""
   "macros/packages.tex" 1774245800 555 c3773703994eb14de8ff8d97cb232fe5 ""
-  "main.aux" 1774683666 5557 b9d57bddc5e0c27cb1f0d669517693fe "pdflatex"
-  "main.bbl" 1774683664 878 2bc9195f9261d57bcaa1ea57e38d8b9b "bibtex main"
-  "main.out" 1774683666 4470 928cd2c5bc035a3ed89998626bd882c6 "pdflatex"
+  "main.aux" 1774688643 7164 8f47d442909bb8cbaf5c0c3668e01d41 "pdflatex"
+  "main.bbl" 1774688640 1259 fa4d3f551aba870dacad6bab750aa573 "bibtex main"
+  "main.out" 1774688643 5664 187b370e20505d647086091704d662e8 "pdflatex"
   "main.tex" 1774541583 2883 5c30be702df9f0ac78ef0f602f971ac1 ""
-  "main.toc" 1774683666 2019 12e86c4d5880d64555daf2a3a57863ff "pdflatex"
+  "main.toc" 1774688643 2686 6f481457951478e5fccca7b4f97f6c42 "pdflatex"
   "sections/abstract.tex" 1774245800 1064 bcf05d6205f0ad85ed8616ce4cacc4ae ""
   "sections/audit_table.tex" 1774675041 3237 65f6a0361166878c677da4bed7e6f580 ""
   "sections/causal_sessions.tex" 1774245800 1479 e9bd453dbc4509854cca81a8f6d1d8a0 ""
@@ -141,7 +143,7 @@
   "sections/interference.tex" 1774245800 1655 c2cbe70315bc4a4131c72e730b1d12eb ""
   "sections/introduction.tex" 1774245800 1044 cfac5d09cad7545711287c67aff1df55 ""
   "sections/lattice_harmonics.tex" 1774629424 3857 2bd090e5fee609e557a3e5af1ff51290 ""
-  "sections/observer_as_clock.tex" 1774245800 1309 794dfa8e3a44edc3e10801a6c2a97adc ""
+  "sections/observer_as_clock.tex" 1774688620 10381 dae2db8801a2995be275e75554972644 ""
   "sections/octahedral_substrate.tex" 1774245800 1357 60df1b379a015f57513d6d06277d4e86 ""
   "sections/phase_propagation.tex" 1774245800 1076 a91b418d248e8b51ab2413d593754954 ""
   "sections/predictions.tex" 1774245800 2845 7eff2169fa5004f22bda7358363e5247 ""

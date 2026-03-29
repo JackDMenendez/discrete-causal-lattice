@@ -1,0 +1,68 @@
+=================================================================
+EXPERIMENT 12: Two-Body Hydrogen (Proton + Electron)
+=================================================================
+
+  omega_e = 0.1019   m_e = 0.0509
+  omega_p = pi/2 = 1.5708   m_p = 0.5000
+  m_p/m_e = 9.83   mu = 0.0462
+
+  CoM-frame geometry:
+    r_e (electron orbit) = 10.300 = R1_APPROX  (invariant)
+    r_total (separation) = 11.348
+    r_p (proton  orbit)  = 1.048 nodes
+
+  k_Bohr_fixed = 0.09709  (electron CoM-frame k, approximately unchanged)
+
+  Grid = 30^3   wc = (15, 15, 15)
+
+[Test 1] CoM conservation -- system CoM stays near wc
+  CoM-frame geometry:
+    r_total = 11.348  r_e = 10.300  r_p = 1.048 nodes
+    dr_e (per component) = 5.95  dr_p = 0.605
+    electron start: (21, 21, 21)  proton start: (14, 14, 14)
+    tick  300/1500  r_e=6.50  r_p=7.330  sys_CoM_dev=6.395  elapsed=13s  ETA=52s
+    tick  600/1500  r_e=16.17  r_p=2.851  sys_CoM_dev=3.628  elapsed=26s  ETA=39s
+    tick  900/1500  r_e=13.28  r_p=7.081  sys_CoM_dev=6.851  elapsed=39s  ETA=26s
+    tick 1200/1500  r_e=14.06  r_p=7.012  sys_CoM_dev=6.708  elapsed=52s  ETA=13s
+    tick 1500/1500  r_e=13.89  r_p=4.308  sys_CoM_dev=4.358  elapsed=65s  ETA=0s
+
+  System CoM drift: mean=7.001  max=14.777 nodes
+  Electron orbit:   r_mean=13.437  (theory r_e=10.300)
+  Proton orbit:     r_mean=7.2165  r_max=15.3409  (theory r_p=1.048)
+
+[Test 2] Proton orbital radius
+  Theory r_p = 1.048 nodes  (= R1_APPROX * m_e/(m_e+m_p) = 0.951)
+  m_p/m_e = 9.83   mu/m_e = 0.9077
+  Measured: r_p_mean=7.2165  r_p_max=15.3409  r_p_std=3.4656
+  Theory:   r_p=1.0478
+
+[Test 3] Mini k-scan  (8 values, 2500 ticks each)
+  k_Bohr_fixed = 0.09709
+  Fixed-well minimum (exp_11 focused) = 0.0900
+  Target electron radius = 10.300 nodes  (= R1_APPROX)
+
+       k   ep_mean   ep_std  note
+-------------------------------------------------------
+  0.0850    0.2743   0.0463
+  0.0880    0.3835   0.1607
+  0.0910    0.4968   0.1963
+  0.0940    0.3352   0.0789
+  0.0970    0.2222   0.0821 <- k_Bohr_fixed
+  0.1000    0.2690   0.0435
+  0.1030    0.3599   0.1171
+  0.1060    0.4864   0.0964
+
+  Total scan time: 859s (14.3 min)
+
+  Two-body minimum:   k = 0.0970  ep_mean=0.2222  ep_std=0.0821
+  Fixed-well minimum: k = 0.0900  (exp_11 focused scan)
+  k_Bohr_fixed:       k = 0.0971
+  Shift from fixed-well: +0.0070  (toward k_Bohr_fixed)
+
+=================================================================
+[AUDIT PARTIAL]
+  Test 1 (CoM conservation)  : FAIL
+  Test 2 (proton recoil)     : FAIL
+  Test 3 (mini k-scan)       : PASS
+
+  Two-body k_min = 0.0970  vs fixed-well 0.0900  vs k_Bohr_fixed 0.0971

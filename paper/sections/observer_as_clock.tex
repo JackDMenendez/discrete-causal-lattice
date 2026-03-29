@@ -1,28 +1,186 @@
-% ============================================================
-% observer_as_clock.tex
-% STATUS: STUB
-% Corresponds to: src/experiments/exp_05_observer_clock.py
-% ============================================================
+\section{The Observer as a Clock}
+\label{sec:observer}
 
-% Topics to cover:
-% - The measurement problem in standard QM: philosophically murky
-% - The A=1 formalization: observation = new clock added to scheduler
-%   - Measurement is the event where two tick sequences become entangled
-%   - Their counters must now be reconciled in the scheduler
-% - Why measurement is irreversible
-%   - You cannot un-add a clock to the shuffle
-%   - Entropy increase = monotonic growth of clock count
-% - Different observers see different quantum outcomes
-%   - Each observer has its own tick sequence
-%   - The combinatorial clock space changes with each new observer
-%   - Relative quantum outcomes = relative clock orderings
-% - Connection to many-worlds interpretation
-%   - Each clock ordering = a branch?
-%   - Or: clock ordering is deterministic given the shuffle rule
-% - The conscious observer is not special
-%   - Any physical interaction that adds a clock suffices
-%   - Explains why detectors (not minds) collapse wave functions
-% - Experimental signature
-%   - Two-observer interference: can we detect the clock-count change?
+In standard quantum mechanics the measurement problem is left
+philosophically unresolved.  Copenhagen says: before measurement, a
+particle is in a superposition; measurement collapses it to a definite
+state instantaneously, by an unspecified mechanism, at an unexplained
+boundary between quantum and classical~\cite{bohr1928}.  The mechanism
+of collapse is not derived from the formalism — it is postulated as an
+axiom of interpretation.
 
-\textbf{[STUB]}
+The $\unity$ framework replaces this postulate with a precise mechanical
+statement: \emph{an observation is the event in which a new clock
+session is registered in the \texttt{TickScheduler}}.  There is no
+collapse, no special role for consciousness, and no quantum/classical
+boundary.  The same tick rule that governs particle propagation governs
+the observer.  The asymmetric effect we call ``measurement'' follows
+from the asymmetry in coherence length between the two cones involved.
+
+% ── Subsection 1 ──────────────────────────────────────────────────────────
+\subsection{Observation as Clock Registration}
+\label{subsec:observation}
+
+Every physical system in the framework is a \texttt{CausalSession}: a
+normalised spinor $(\psi_R, \psi_L)$ evolving under the Dirac tick rule
+on the $\Tdiamond$ lattice, carrying an instruction frequency $\omega$
+and a tick counter maintained by the \texttt{TickScheduler}.  When two
+sessions are registered in the same scheduler, the scheduler applies
+pairwise phase interactions at shared nodes after each tick — the
+\emph{clock entanglement} that constitutes observation.
+
+The state space of the scheduler is the set of all orderings of its
+registered clocks.  For $n$ clocks this has size $n!$:
+
+\begin{equation}
+    |\Omega_n| = n!,
+    \label{eq:state_space}
+\end{equation}
+
+verified numerically in \texttt{exp\_05}: $1! = 1$, $2! = 2$, $3! = 6$,
+\ldots, $6! = 720$, each step monotonically larger than the last.  The
+key consequence of Eq.~\eqref{eq:state_space} is that the state space
+grows with every new registration and never shrinks: there is no
+\texttt{remove\_session} method on \texttt{TickScheduler} by design.
+Observation is architecturally irreversible.
+
+The probability constraint $\unity$ is preserved regardless of how the
+clocks are ordered.  All three shuffle schemes tested in
+\texttt{exp\_05} — sequential, random, and priority — maintain
+$|\sum_i \rho_i - n| < 10^{-15}$.  The physics does not depend on
+which observer goes first; only the correlations between their futures
+depend on the ordering.
+
+% ── Subsection 2 ──────────────────────────────────────────────────────────
+\subsection{Asymmetric Phase Exchange and Apparent Collapse}
+\label{subsec:apparent_collapse}
+
+When an observer session and a particle session co-exist in the same
+scheduler, their cones overlap at shared nodes.  The \texttt{TickScheduler}
+applies a phase rotation to both sessions at each overlap, mixing the
+phase structures of the two cones.  After the interaction each cone
+contains a modified amplitude and phase distribution — not randomly, but
+specifically, determined by the phase information that leaked from one
+cone into the other.
+
+This is not wavefunction collapse.  Nothing is destroyed.  Each cone
+still exists, still satisfies $\unity$, still encodes a full
+distribution over possible futures.  What changed is \emph{which futures
+are constructively amplified}.
+
+The asymmetry that produces the apparent collapse is a consequence of the
+relative coherence lengths of the two cones.  A freshly prepared particle
+carries a narrow, precisely structured interference pattern: most of its
+probability is concentrated on a small number of paths, and the phase
+relationships between those paths are what produces the interference
+fringes.  An observer — a macroscopic detector or any sufficiently large
+coupled system — carries a broad, incoherent cone: many degrees of
+freedom, already deeply mixed, with phases effectively random relative to
+each other.
+
+When they overlap, phase information flows in both directions.  But the
+effect is asymmetric.  The observer's cone is so large and already so
+incoherent that the small phase perturbation from the particle makes
+essentially no difference to its future: the observer's possible futures
+are barely changed.  The particle's cone is small and precisely coherent.
+The phase perturbation from the observer's broad incoherent field is
+large relative to the particle's existing phase structure.  The
+particle's interference pattern is scrambled significantly — its possible
+futures are substantially redistributed.
+
+\texttt{exp\_05} Test~3 demonstrates this directly.  A particle session
+($\sigma = 3$, $\omega = 0.2$) propagates freely for 10 ticks and
+accumulates a density $\rho_\mathrm{free}$.  The same particle evolving
+alongside an observer session ($\sigma = 1.5$, $\omega = 0.5$, broader
+frequency, narrower spatial extent) accumulates a density
+$\rho_\mathrm{obs}$.  Both satisfy $A = 1$ to machine precision
+($|\sum \rho - 1| < 10^{-8}$), but
+\[
+    \langle |\rho_\mathrm{free} - \rho_\mathrm{obs}| \rangle
+    = 1.60 \times 10^{-4},
+\]
+confirming that the observer altered the particle's future without
+violating probability conservation.
+
+\paragraph{The mechanism of apparent collapse.}
+Before the observer interaction, the particle's cone encodes a
+superposition of futures — say, ``goes left'' and ``goes right'' with
+equal amplitude and a specific phase relationship between them.  That
+phase relationship is what produces the interference pattern.  After
+the observer interaction, the phase relationship between ``goes left''
+and ``goes right'' has been scrambled.  The amplitudes are the same,
+but the phases are now random relative to each other.  Destructive
+interference no longer suppresses either path — the interference
+pattern disappears.
+
+From the outside this looks like collapse: the particle ``chose'' left
+or right.  What actually happened is that the phase information encoding
+the interference between left and right was transferred into the
+observer's cone, where it is diluted among the observer's vast number of
+degrees of freedom and effectively inaccessible.  The future that was
+being suppressed by destructive interference is now equally probable,
+not because it was created, but because the information suppressing it
+was removed.
+
+The interaction between an observer session and a particle session
+modifies the interference structure of the particle's causal cone —
+the amplitude distribution encoding the particle's possible futures.
+Because the observer's cone carries many more degrees of freedom than
+the particle's cone, the phase exchange is asymmetric: the observer's
+future is negligibly modified while the particle's future is
+substantially restructured.  What appears as wavefunction collapse in
+the Copenhagen interpretation is, in the $\unity$ framework, precisely
+this asymmetric phase exchange between cones of vastly different
+coherence length.  No information is destroyed; it is redistributed
+from the particle's coherent cone into the observer's incoherent one,
+where it becomes inaccessible rather than absent.
+
+% ── Subsection 3 ──────────────────────────────────────────────────────────
+\subsection{Irreversibility and Entropy}
+\label{subsec:irreversibility}
+
+The irreversibility of measurement is, in the $\unity$ framework, an
+architectural fact rather than a thermodynamic approximation.
+\texttt{TickScheduler} has no \texttt{remove\_session} method.  Once a
+clock is registered the state space grows from $(n-1)!$ to $n!$, and
+this cannot be undone.
+
+This gives a precise lattice definition of entropy increase: the
+entropy of the scheduler's state space is $\log |\Omega_n| = \log(n!)$.
+Each observation adds one clock and increases the entropy by
+$\log n$ — the number of ways the new clock can be interleaved with the
+existing $n-1$ clocks.  The second law of thermodynamics, in this
+picture, is the statement that observation is irreversible clock
+registration: you cannot un-observe a particle.
+
+\paragraph{No special role for consciousness.}
+Any physical system that registers as a \texttt{CausalSession} in the
+scheduler is an observer.  A photon detector, a dust grain, a passing
+cosmic ray — any interaction that entangles two tick counters constitutes
+a measurement.  Consciousness is not a prerequisite; it is merely one
+instance of a large-cone incoherent system interacting with a
+small-cone coherent one.  The difference between a measurement and a
+controlled coherent interaction is only one of the structure of the
+observer's cone: incoherent cones scramble interference patterns;
+carefully prepared coherent cones can impose them.
+
+% ── Subsection 4 ──────────────────────────────────────────────────────────
+\subsection{Entanglement as Correlated Cone Structure}
+\label{subsec:entanglement}
+
+When two cones overlap and exchange phase in the \texttt{TickScheduler},
+they become correlated: the phase structure of each cone now contains
+information about the other.  This is entanglement, described exactly
+and locally.
+
+Subsequent modification of one cone — by a further observation — propagates
+into the correlated phase structure.  The second cone still contains the
+phase information from the first exchange, so its future is correlated
+with the outcome of the second measurement on the first particle.  This
+correlation is not non-local in the sense of faster-than-light signalling.
+The correlation was established when the cones overlapped, in a local
+interaction bounded by $c$.  The subsequent measurement travels at $c$
+within each cone.  No information moves faster than the cone boundary,
+but the pre-established correlation means two widely-separated cones can
+have correlated futures even without recent interaction — the $\unity$
+account of Bell correlations~\cite{bell1964}.

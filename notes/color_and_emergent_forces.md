@@ -188,6 +188,110 @@ the color geometry of the bipartite lattice generates SU(3).
 
 ---
 
+---
+
+## NEXT PRIORITY: Asymptotic Freedom as a Falsifiable Test
+
+### The Question
+
+QCD has asymptotic freedom: the strong coupling constant α_s *decreases*
+as quarks get closer (high energy / short distance). At very short range
+quarks behave as if free; at long range the coupling becomes strong enough
+to confine. This is the defining property of QCD — it was the discovery
+that won the 2004 Nobel Prize.
+
+In the A=1 framework the strong force candidate is direct kinetic_hop
+mixing at adjacent nodes. The question is whether this mechanism
+reproduces asymptotic freedom or violates it. This is a hard test:
+if the lattice gets the running of the coupling wrong, the strong force
+identification fails.
+
+### Prediction from the Kinetic_Hop Mechanism
+
+When two colored cones share an adjacent node, the kinetic_hop weight
+is cos²(Δφ/2) where Δφ = phase difference at that node. For cones that
+are VERY close (overlapping) the phase difference is small → cos²(Δφ/2)
+approaches 1 → MAXIMUM coupling. For cones that are FARTHER apart, the
+phase relationship randomises → average cos²(Δφ/2) decreases.
+
+This predicts coupling that gets STRONGER at short distances — the
+OPPOSITE of asymptotic freedom. This is a serious tension.
+
+### Three Possible Resolutions
+
+1. **The gluon self-interaction saves it.**
+   In QCD, asymptotic freedom arises precisely because gluons carry
+   color charge and self-interact (unlike photons). The gluon
+   self-coupling provides an anti-screening contribution that overwhelms
+   the screening from quark loops. In the lattice, "gluons" are RGB
+   correlation patterns that also propagate through kinetic_hop. If
+   gluon-gluon interactions (two color-correlation patterns occupying
+   the same node) produce a *destructive* interference in the hop weight,
+   this could reduce the effective coupling at short distances.
+   The test: compute the two-gluon kinetic_hop weight and check its sign.
+
+2. **The effective coupling is measured in the relative coordinate.**
+   The inter-quark coupling as seen by the relative wavefunction (not
+   the individual quark cones) may run differently than the bare
+   kinetic_hop weight. This is analogous to how the hydrogen two-body
+   scan recovers the reduced-mass k_Bohr rather than the bare k_Bohr:
+   the effective coupling in the relative frame is renormalized by the
+   two-body dynamics. A three-body (baryon) relative-coordinate
+   calculation might show the right running.
+
+3. **Asymptotic freedom is absent and this is a prediction.**
+   The lattice may not reproduce asymptotic freedom, meaning the T³_diamond
+   strong force is NOT QCD but something close to it. This would be a
+   falsifiable prediction: lattice quarks are confining but NOT
+   asymptotically free. This is distinct from QCD and would rule out
+   the RGB = color charge identification, or require a modification to
+   the kinetic_hop rule.
+
+### The Experiment (exp_14 candidate)
+
+Build a "two-quark" (meson) system from two CompositeCausalSessions:
+
+- Red quark:  CausalSession predominantly hopping along V1
+- Cyan quark: CausalSession predominantly hopping along -V1
+- Place them at separation d and measure the inter-quark force F(d)
+
+The force measurement:
+
+- F(d) = rate of change of inter-quark momentum per tick
+- The effective coupling α_eff(d) = F(d)\*d² (in analogy with α_EM = e²/r²\*r² = e²)
+- If α_eff(d) decreases as d → 0: asymptotic freedom ✓
+- If α_eff(d) increases as d → 0: asymptotic slavery (anti-QCD) ✗
+- If α_eff(d) is constant with d: linear potential (string tension only)
+
+At large d (> 2-3 nodes): expect linear potential V(d) ~ σ*d (string
+tension from flux tube). The transition distance where the coupling
+changes character is the confinement scale — the lattice analogue of
+Λ_QCD.
+
+### Why This Matters for the Paper
+
+The hydrogen two-body experiment (exp_12) recovered k_Bohr_reduced
+to 4 decimal places — the lattice got a known QED result right. If
+exp_14 tests asymptotic freedom and the lattice ALSO gets that right,
+the RGB = color identification becomes a serious proposal. If it fails,
+the paper should report the failure explicitly: it is evidence that the
+T³_diamond framework needs a modification to its hop rule before the
+strong force emerges correctly.
+
+Either outcome is a publishable result. "Our lattice does NOT reproduce
+asymptotic freedom via kinetic_hop alone; gluon self-coupling is required"
+is as valuable as "it does reproduce it."
+
+### Prerequisites
+
+Before exp_14 can run:
+
+- exp_13 (composite cone / CompositeCausalSession) must be implemented
+- The color-charge isolation (RGB-dominant cone) must be achievable via initialization
+- The inter-particle force measurement must be validated on the known Coulomb case (should recover F ~ 1/r²)
+
+---
+
 ## Notes on Method
 
 The approach for each force:

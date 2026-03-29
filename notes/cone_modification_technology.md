@@ -86,6 +86,76 @@ conserved properties in the presence of environmental noise.
 This is the existence proof that engineered macroscopic cone structures are
 physically realizable.
 
+## Specific Device Mappings
+
+The abstract table above becomes concrete when mapped to the framework's
+primitives: `apply_phase_map`, `omega`, `f_zitt = omega/(2π)`, `psi_R/psi_L`.
+
+### NMR / MRI
+
+The Larmor frequency ω_L = γB is precisely the session's `omega` under an
+external field.  An RF pulse at ω_L is `apply_phase_map` applied at `f_zitt`.
+The T1/T2 relaxation times are the cone's decoherence timescales — the rate at
+which environmental pairwise interactions (TickScheduler `_apply_pairwise`)
+randomize the phase structure back toward incoherent equilibrium.  MRI is doing
+exp_harmonic_analysis in hardware: it finds `f_zitt`, excites it, and measures
+the decay.
+
+### Superconducting Transmon Qubit
+
+The Josephson junction sets an anharmonic potential that makes one transition
+frequency ω_01 accessible while suppressing ω_12.  In cone terms: the circuit
+engineers a specific `omega` for the qubit session, separated enough from higher
+modes that the system behaves as a two-level cone.  Gate pulses are timed RF
+envelopes — `apply_phase_map` sequences.  The T2 coherence time is exactly the
+harmonic coherence time measured in `qubit_mode_analysis`: the number of ticks
+before the Bloch-sphere Z-axis signal decays below the noise floor.
+
+### Josephson Junction
+
+The AC Josephson effect: V = (ℏ/2e) dφ/dt.  A DC voltage across the junction
+drives a phase that oscillates at ω_J = 2eV/ℏ — a direct measurement of the
+session's clock rate.  The junction IS a phase clock.  Voltage = phase velocity
+= `omega` in the framework's language.  This is the most direct laboratory
+realisation of the internal clock (PhaseRotor) — not an analogy but a
+structural identity.
+
+### Cavity QED
+
+An atom coupled to a microwave cavity is two interacting CausalSessions in a
+confined volume.  The vacuum Rabi splitting Ω_R arises because the two sessions
+exchange amplitude at rate Ω_R — the `pairwise_phase_exchange` rate in
+TickScheduler.  Strong coupling (Ω_R > κ, γ) is the regime where the
+exchange rate exceeds decoherence, analogous to a pairwise interaction strength
+that produces a stable shared harmonic before phase randomization destroys it.
+Dressed states (polariton modes) are the shared harmonics of the coupled pair.
+
+### Parametric Down-Conversion (PDC)
+
+A pump photon enters a nonlinear crystal and produces two photons at half
+frequency with locked phase difference.  In cone terms: one session (pump)
+produces two sessions (signal, idler) that share a phase constraint —
+the joint phase sums to the pump phase.  This is the closest physical analogue
+to exp_15's entanglement creation: two sessions separated after a period of
+phase-correlated interaction, with their f_zitt locked to a common parent.
+The phase difference between signal and idler IS the entanglement angle.
+PDC pairs are the laboratory implementation of the entanglement hypothesis
+in `entanglement_as_shared_cone_harmonic.md`.
+
+### Topological Surface States (Revisited)
+
+In topological insulators, surface electrons have spin-momentum locking:
+momentum along +x forces spin to point in one direction, momentum along -x
+forces the opposite.  In bipartite lattice terms: RGB sublattice carries
+right-handed amplitude (psi_R) and CMY carries left-handed (psi_L); a surface
+state that locks propagation direction to sublattice is doing exactly what the
+lattice's chirality structure imposes.  The topological protection of these
+surface states is the macroscopic stability of a cone structure enforced by
+bulk topology — the existence proof that engineered phase structures can be
+made robust to local perturbations.
+
+---
+
 ## For the Paper
 
 This belongs in the conclusion as a straightforward implication — not speculation

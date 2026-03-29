@@ -292,6 +292,8 @@ INPUT .\sections\observer_as_clock.tex
 INPUT .\sections\observer_as_clock.tex
 INPUT .\sections\observer_as_clock.tex
 INPUT sections\observer_as_clock.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmti12.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmitt10.tfm
 INPUT .\sections\predictions.tex
 INPUT .\sections\predictions.tex
 INPUT .\sections\predictions.tex
@@ -320,7 +322,6 @@ INPUT sections\conclusion.tex
 INPUT .\main.bbl
 INPUT .\main.bbl
 INPUT main.bbl
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmti12.tfm
 INPUT main.aux
 INPUT .\main.out
 INPUT .\main.out
@@ -332,6 +333,8 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx8.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx8.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmitt10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmitt10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb

@@ -12,7 +12,28 @@
       "Bash(echo \"exit=$?\")",
       "Bash(ls -la \"d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/src/experiments/\"*.npy)",
       "Bash(.venv/Scripts/python -c \":*)",
-      "Bash(.venv/Scripts/python -c \"import src.experiments.exp_11_quantization_scan; import src.experiments.plot_quantization_scan; print\\(''OK''\\)\")"
+      "Bash(.venv/Scripts/python -c \"import src.experiments.exp_11_quantization_scan; import src.experiments.plot_quantization_scan; print\\(''OK''\\)\")",
+      "Bash(python src/experiments/exp_05_observer_clock.py)",
+      "Bash(python src/experiments/exp_12_hydrogen_twobody.py)",
+      "Bash(python exp_12_hydrogen_twobody.py)",
+      "Bash(python exp_12_hydrogen_twobody.py --datadir ../../data)",
+      "Bash(python plot_twobody_scan.py --datadir ../../data --out ../../paper/figures/exp_12_twobody_scan.pdf)",
+      "Bash(python plot_twobody_scan.py --datadir ../../data --out ../../data/exp_12_twobody_scan.pdf)",
+      "Bash(cp ../../data/exp_12_twobody_scan.pdf ../../paper/figures/exp_12_twobody_scan.pdf)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''exp_13_threebody_helium.py''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(python exp_13_threebody_helium.py --datadir ../../data)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''exp_14_helium.py''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''exp_14_helium.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(python exp_14_helium.py --datadir ../../data)",
+      "Bash(python -c \":*)",
+      "Bash(python exp_harmonic_analysis.py --quiet)",
+      "Bash(python exp_harmonic_analysis.py --fig ../../figures/exp_harmonic_landscape.pdf --quiet)",
+      "Bash(PYTHONIOENCODING=utf-8 python src/experiments/exp_harmonic_analysis.py --quiet)",
+      "Bash(PYTHONIOENCODING=utf-8 python src/experiments/exp_harmonic_analysis.py --quiet --fig paper/figures/exp_harmonic_landscape.pdf)",
+      "Bash(PYTHONIOENCODING=utf-8 python src/experiments/exp_strength_sweep.py)",
+      "Bash(python -c \"import src.experiments.exp_strength_sweep\")",
+      "Bash(ls src/experiments/*.npy)",
+      "Bash(ls data/strength_sweep*)"
     ]
   }
 }
