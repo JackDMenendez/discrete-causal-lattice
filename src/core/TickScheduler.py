@@ -56,6 +56,8 @@ class TickScheduler:
         self.macro_tick = 0         # The global scheduler cycle count
         self.rng = np.random.default_rng(seed=42)  # Reproducible audits
         self._bindings  = {}        # (i,j) -> coupling strength  (see bind_sessions)
+        self._emission_pairs = []   # [(electron_idx, photon_idx, rate), ...]
+        self._emission_weights = {} # electron_idx -> current amplitude weight [0,1]
 
     def register_session(self, session) -> int:
         """
@@ -109,6 +111,10 @@ class TickScheduler:
         if len(self.sessions) > 1:
             self._apply_pairwise_interactions()
 
+        # Emission coupling: transfer amplitude from source to photon session
+        if self._emission_pairs:
+            self._apply_emission_pairs()
+
         self.macro_tick += 1
 
     def _apply_pairwise_interactions(self, threshold: float = 1e-4):
@@ -143,9 +149,16 @@ class TickScheduler:
         See notes/material_cone_and_composites.md.
         """
         from .UnityConstraint import enforce_unity_spinor
+        # Build set of pairs that are emission-coupled -- skip pairwise phase
+        # mixing for these, since emission is their explicit coupling mechanism.
+        emission_pairs_set = {(min(e, p), max(e, p))
+                              for (e, p, _) in self._emission_pairs}
+
         n = len(self.sessions)
         for i in range(n):
             for j in range(i+1, n):
+                if (min(i,j), max(i,j)) in emission_pairs_set:
+                    continue
                 si = self.sessions[i]
                 sj = self.sessions[j]
                 # Find nodes where both sessions have significant total amplitude
@@ -173,6 +186,96 @@ class TickScheduler:
                 sj.psi_L = sj.psi_L * phase_rot_j
                 enforce_unity_spinor(si.psi_R, si.psi_L)
                 enforce_unity_spinor(sj.psi_R, sj.psi_L)
+
+    def register_emission(self, electron_idx: int, photon_idx: int,
+                          rate: float = 0.003):
+        """
+        Register an electron-photon emission pair.
+
+        Each macro-tick, a fraction `rate` of the electron's amplitude is
+        transferred to the photon session.  The pair shares a joint A=1
+        constraint: their combined amplitude is renormalized to 1 after
+        each transfer.  This means amplitude genuinely moves from electron
+        to photon (energy is transferred, not just phase information).
+
+        The photon session should be initialized with a small seed amplitude
+        (e.g. 1e-3) at the electron's starting location so enforce_unity_spinor
+        does not divide by zero; the joint renormalization then sets the
+        initial split correctly.
+
+        Physical meaning: the electron decays by emitting a photon.  The
+        photon's massless tick rule propagates the emitted amplitude away
+        at c=1, removing it from the orbital region.  Over time the electron's
+        remaining amplitude concentrates where emission is slowest -- the
+        stable orbital radius.
+
+        Parameters
+        ----------
+        electron_idx : session index (from register_session)
+        photon_idx   : session index of the massless photon session
+        rate         : amplitude fraction transferred per macro-tick
+                       (~0.001 -- 0.01; larger = faster decay)
+        """
+        self._emission_pairs.append((electron_idx, photon_idx, float(rate)))
+        self._emission_weights[electron_idx] = 1.0  # starts at full amplitude
+
+    def emission_weight(self, electron_idx: int) -> float:
+        """
+        Current amplitude weight of an emission-coupled electron session.
+
+        The electron's psi field stays A=1 at all times (its internal
+        probability distribution is always normalized).  The weight tracks
+        what fraction of the original amplitude the electron retains.
+        It decays as (1 - rate)^tick, starting at 1.0.
+
+        Use this weight when accumulating the electron PDF in experiments:
+          weighted_density = electron.probability_density() * weight^2
+
+        The weight^2 factor converts amplitude weight to probability weight,
+        consistent with Born rule interpretation.
+        """
+        return self._emission_weights.get(electron_idx, 1.0)
+
+    def _apply_emission_pairs(self):
+        """
+        Dissipative emission: decay the electron's effective amplitude weight
+        by (1 - rate) each tick, and steer the photon session's phase toward
+        the electron's current phase (so the photon carries the emitted
+        phase information outward).
+
+        The electron psi field remains A=1 throughout -- it always represents
+        a valid probability distribution.  The weight tracks the fraction of
+        the original amplitude the electron retains.  The photon accumulates
+        the emitted phase field and propagates it outward at c=1.
+
+        Physical picture: the electron's orbital phase imprints onto the
+        photon field each tick.  The photon's massless bipartite tick then
+        carries that phase away from the orbital region.  The electron's
+        effective amplitude (weight) decays, modelling energy loss to radiation.
+        Stable orbits lose amplitude slowly (coherent phase → constructive
+        photon emission); unstable trajectories lose amplitude quickly.
+        """
+        for (e_idx, p_idx, rate) in self._emission_pairs:
+            se = self.sessions[e_idx]
+            sp = self.sessions[p_idx]
+
+            # Decay the electron's amplitude weight
+            self._emission_weights[e_idx] *= (1.0 - rate)
+
+            # Imprint electron phase onto photon at every node where the
+            # electron has significant amplitude.  The photon's own tick()
+            # then propagates this phase outward.
+            amp_e = np.sqrt(np.abs(se.psi_R)**2 + np.abs(se.psi_L)**2)
+            mask  = amp_e > 1e-9
+            if np.any(mask):
+                # Mix photon phase toward electron phase at emission sites,
+                # weighted by rate.  This is the phase imprint.
+                phase_e_R = np.where(mask, np.angle(se.psi_R), 0.0)
+                phase_p_R = np.where(mask, np.angle(sp.psi_R), 0.0)
+                delta_phase = rate * (phase_e_R - phase_p_R)
+                rot = np.where(mask, np.exp(1j * delta_phase), 1.0 + 0j)
+                sp.psi_R = sp.psi_R * rot
+                sp.psi_L = sp.psi_L * rot
 
     def bind_sessions(self, i: int, j: int, coupling: float = 0.9):
         """

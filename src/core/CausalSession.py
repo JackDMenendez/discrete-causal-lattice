@@ -78,7 +78,9 @@ def _precompute_shift_slices(shape, vectors):
         nb_dst  = (x_nb_dst, y_nb_dst, z_nb_dst)
         out_src = nb_dst   # emission pulled from interior (no wrap)
         out_dst = nb_src   # lands at displaced positions
-        slices.append((nb_src, nb_dst, out_src, out_dst))
+        # Store direction vector alongside slices so _kinetic_hop can apply
+        # the Peierls EM phase  A·v  without a separate vector lookup.
+        slices.append(((dx, dy, dz), nb_src, nb_dst, out_src, out_dst))
     return slices
 
 
@@ -208,16 +210,28 @@ class CausalSession:
         local_phase = np.angle(source)
         nb_buf = self._nb_buf          # reuse pre-allocated buffer
 
+        # Peierls EM phase: A·v added to delta_p for each hop direction.
+        # Only computed when the lattice has a non-zero vector potential.
+        A = self.lattice.vector_potential  # (3, X, Y, Z), always present
+        has_em = np.any(A != 0.0)
+
         # Per-direction phase advance and directed weight
         delta_p_list = []
         weights = np.zeros((n_vec,) + source.shape, dtype=float)
-        for i, (nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
+        for i, (vec, nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
+            dx, dy, dz = vec
             # Look up neighbor via slice: no np.roll, no temporary arrays
             nb_buf[:] = 0.0
             nb_buf[nb_dst] = source[nb_src]
             nb_abs = np.abs(nb_buf)
             nb_phase = np.where(nb_abs > 1e-9, np.angle(nb_buf), local_phase)
             delta_p = nb_phase - local_phase               # phase advance in dir v
+            # Peierls substitution: add A·v so the EM vector potential biases
+            # the hop direction.  Positive A·v reinforces hops in direction v;
+            # negative A·v suppresses them.  For a curl field this produces the
+            # Lorentz deflection (perpendicular to both velocity and B-field).
+            if has_em:
+                delta_p = delta_p + (A[0] * dx + A[1] * dy + A[2] * dz)
             delta_p_list.append(delta_p)
             # Weight = positive phase advance only; inertia damps response to gradient
             weights[i] = np.maximum(0.0, delta_p) / (1.0 + self.phase_rotor.omega)
@@ -231,7 +245,7 @@ class CausalSession:
         # Emit: per-direction complex weight = (real weight) * exp(i*delta_p)
         # This ensures amplitude arrives at destination with the correct phase.
         result = np.zeros_like(source)
-        for i, (nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
+        for i, (vec, nb_src, nb_dst, out_src, out_dst) in enumerate(precomputed_slices):
             w_i = np.where(zero_mom, uniform, weights[i] / total_w_safe)
             # Phase correction: exp(i*delta_p) so emitted amp matches dest wave.
             # For zero-momentum fallback: no correction (exp(i*0)=1).

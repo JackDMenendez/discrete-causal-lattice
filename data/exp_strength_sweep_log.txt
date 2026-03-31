@@ -1,0 +1,26 @@
+=================================================================
+STRENGTH SWEEP -- omega * R1 = pi/3 identity test
+=================================================================
+  omega=0.1019  softening=0.5
+  STRENGTHS: [20.0, 30.0, 45.0, 60.0]
+  Ticks/k: 1500  burn-in: 500  k-values/STRENGTH: 15
+
+  H0 prediction: omega*R1 = (pi/3)*(30/S)  [varies with S]
+  H1 prediction: omega*R1 = pi/3            [constant]
+
+S= 20.0  k_pred=0.0647  k_best=0.0639  R1=9.09  omega*R1=0.9266  pi/3=1.0472  H0=1.5708  dev_pi3=-11.5%  dev_H0=-41.0%  [1067s]
+S= 30.0  k_pred=0.0971  k_best=0.1248  R1=12.34  omega*R1=1.2575  pi/3=1.0472  H0=1.0472  dev_pi3=+20.1%  dev_H0=+20.1%  [595s]
+S= 45.0  k_pred=0.1456  k_best=0.1651  R1=9.19  omega*R1=0.9369  pi/3=1.0472  H0=0.6981  dev_pi3=-10.5%  dev_H0=+34.2%  [401s]
+S= 60.0  k_pred=0.1942  k_best=0.1554  R1=1.91  omega*R1=0.1941  pi/3=1.0472  H0=0.5236  dev_pi3=-81.5%  dev_H0=-62.9%  [330s]
+
+=================================================================
+RESULT
+=================================================================
+  Mean |dev from pi/3|: 30.90%  max: 81.46%
+  Mean |dev from H0|:   39.55%  max: 62.92%
+
+[RESULT: MIXED] Neither hypothesis fits cleanly.
+  The lattice introduces corrections to standard Bohr scaling.
+
+Saved: C:\Users\jackd\source\repos\physics\Papers\discrete-causal-lattice\src\experiments\..\..\data\strength_sweep.npy
+  columns: strength, k_best, R1_best, omega*R1, H0_pred, dev_pi3_%

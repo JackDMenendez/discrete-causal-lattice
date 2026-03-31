@@ -72,3 +72,42 @@
 % Reference: exp_09 Part D for temporal locking simulation.
 
 \textbf{[STUB -- see notes/lattice\_harmonics.md and exp\_09\_harmonics.py]}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../figures/exp_harmonic_landscape}
+    \caption{Raw spectral power of \texttt{rgb\_cmy\_imbalance}$(t)$ across
+      $\omega \in (0,\pi)$.  Coloured dots mark the five theoretical frequency
+      series ($f_\text{zitt}$, $f_\text{vacuum}$, $f_\text{beat}$,
+      $f_\text{2nd}$, $f_\text{3rd}$); stars mark confirmed 3:1 and 4:1
+      lock-in points.  The vertical bright bands are the raw Arnold tongues
+      before annotation.}
+    \label{fig:harmonic_landscape}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../figures/exp_harmonic_hires_drawio}
+    \caption{High-resolution scan (N=150) with Arnold tongue boundaries
+      (white lines L-1 through L-8) and resonance lock-in stars overlaid.
+      Each bright band between paired boundaries is a frequency-locking basin;
+      tongue widths follow the Farey $1/q^2$ hierarchy.
+      See full caption in Fig.~\ref{fig:harmonic_hires_full}.}
+    \label{fig:harmonic_hires}
+  \end{subfigure}
+  \caption{Harmonic fingerprint of the $T^3_\text{diamond}$ lattice.
+    \textbf{Left:} observed spectral power with theoretical frequency markers.
+    \textbf{Right:} Arnold tongue structure inferred from the same data.
+    Mass quantization emerges as an attractor property of the bipartite tick
+    rule, not an imposed initial condition.}
+  \label{fig:harmonic_pair}
+\end{figure}
+
+% Full annotated caption for the hires figure (standalone reference)
+\begin{figure}[htbp]
+  \centering
+  \input{../figures/exp_09_harmonics_hires}
+  \label{fig:harmonic_hires_full}
+\end{figure}

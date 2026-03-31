@@ -33,7 +33,8 @@
       "Bash(PYTHONIOENCODING=utf-8 python src/experiments/exp_strength_sweep.py)",
       "Bash(python -c \"import src.experiments.exp_strength_sweep\")",
       "Bash(ls src/experiments/*.npy)",
-      "Bash(ls data/strength_sweep*)"
+      "Bash(ls data/strength_sweep*)",
+      "Bash(python src/experiments/exp_08_vacuum_twist.py)"
     ]
   }
 }
