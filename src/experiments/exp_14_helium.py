@@ -56,6 +56,8 @@ import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
 # -- Physical parameters --------------------------------------------------------
 OMEGA_E       = 0.1019        # electron instruction frequency
 STRENGTH_BASE = 30.0          # single-charge Coulomb strength (from exp_10/11/12)
@@ -361,7 +363,7 @@ def run_helium_audit(datadir=None):
 if __name__ == '__main__':
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument('--datadir', default=None,
+    ap.add_argument('--datadir', default=_DATA_DIR,
                     help='Directory to save exp_14_helium.npy')
     args = ap.parse_args()
     passed = run_helium_audit(datadir=args.datadir)

@@ -39,6 +39,8 @@ Usage:
 import sys, os, argparse
 import numpy as np
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
 R1_APPROX    = 10.3
 K_STEP_N1    = 0.0002
 K_STEP_N2    = 0.001
@@ -335,8 +337,8 @@ def main():
                     help=f'P(r) overlay count for classic layout (default {N_PDF_CURVES})')
     ap.add_argument('--out',        default=None,
                     help='Output file (pdf/png). Default: interactive.')
-    ap.add_argument('--datadir',    default='.',
-                    help='Directory containing .npy files (default: cwd)')
+    ap.add_argument('--datadir',    default=_DATA_DIR,
+                    help='Directory containing .npy files (default: ../../data)')
     args = ap.parse_args()
 
     try:

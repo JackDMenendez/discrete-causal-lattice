@@ -56,7 +56,7 @@ WIDTH      = 1.5        # packet width (nodes)
 TICKS      = 8000       # ticks per k value
 BURN_IN    = 500        # discard first BURN_IN ticks; record last 7500
 N_BINS     = 100        # radial bins for electron P(r)
-N_K        = 12         # k values per scan
+N_K        = 30         # k values per scan (step ~0.002, resolves ~0.002-wide resonance)
 
 # Calibration reference (confirmed from exp_10, exp_12)
 STRENGTH_REF = 30.0
@@ -231,7 +231,7 @@ def run():
               f"  peak_r={peak_B:.2f}  omega*R1={oR1_B:.4f}"
               f"  dev_H0={dev_B:+.1f}%   inv_sh={inv_B:.4f}")
 
-        winner = 'A→H1' if inv_A < inv_B else 'B→H0'
+        winner = 'A->H1' if inv_A < inv_B else 'B->H0'
         print(f"    Winner (sharper peak): {winner}")
 
         summary.append((strength, k_A, peak_A, oR1_A, inv_A,

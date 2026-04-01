@@ -53,6 +53,8 @@ import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
 # ── Physical parameters ────────────────────────────────────────────────────────
 OMEGA_E   = 0.1019        # electron instruction frequency (same as exp_12)
 STRENGTH  = 30.0          # same as exp_10/11/12 -- calibrated, known k_min=0.097
@@ -365,7 +367,7 @@ def run_threebody_audit(datadir=None):
 if __name__ == '__main__':
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument('--datadir', default=None,
+    ap.add_argument('--datadir', default=_DATA_DIR,
                     help='Directory to save exp_13_threebody.npy')
     args = ap.parse_args()
     passed = run_threebody_audit(datadir=args.datadir)

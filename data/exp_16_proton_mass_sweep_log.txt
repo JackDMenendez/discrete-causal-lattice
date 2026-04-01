@@ -1,0 +1,13 @@
+======================================================================
+EXP 16: Proton mass sweep -- settling time vs. OMEGA_P
+======================================================================
+  Prediction: T_settle increases monotonically with OMEGA_P
+  Physical proton: OMEGA_P = pi/2 = 1.5708
+  OMEGA_E=0.1019  STRENGTH=30.0  GAMMA=0.002587
+  Grid=65^3  TICKS=16000  SETTLE_TOL=15%
+
+   OMEGA_P      M_P       R1   T_settle   r_final   settled
+  ------------------------------------------------------------
+    0.3000   0.1494   12.879      16000    35.750     False  [15651s]
+    0.5000   0.2474   11.584      16000    14.688     False  [13466s]
+    0.7000   0.3429   11.034        500    15.796      True  [13955s]

@@ -338,7 +338,7 @@ def run_all(fig_path=None):
 if __name__ == "__main__":
     import argparse, sys
     ap = argparse.ArgumentParser()
-    ap.add_argument('--fig', default=None,
+    ap.add_argument('--fig', default='../../figures/exp_00.lattice.pdf',
                     help='Save figure to this path (e.g. ../../figures/exp_00.pdf)')
     args = ap.parse_args()
     passed = run_all(fig_path=args.fig)

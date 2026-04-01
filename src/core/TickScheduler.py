@@ -56,8 +56,10 @@ class TickScheduler:
         self.macro_tick = 0         # The global scheduler cycle count
         self.rng = np.random.default_rng(seed=42)  # Reproducible audits
         self._bindings  = {}        # (i,j) -> coupling strength  (see bind_sessions)
-        self._emission_pairs = []   # [(electron_idx, photon_idx, rate), ...]
+        self._emission_pairs = []   # [(electron_idx, photon_idx, proton_idx, rate), ...]
         self._emission_weights = {} # electron_idx -> current amplitude weight [0,1]
+        self._emission_grid = {}    # electron_idx -> precomputed (xx, yy, zz) node coords
+        self.emission_diagnostics = {}  # electron_idx -> list of (tick, k_tang, ramp_std)
 
     def register_session(self, session) -> int:
         """
@@ -152,7 +154,7 @@ class TickScheduler:
         # Build set of pairs that are emission-coupled -- skip pairwise phase
         # mixing for these, since emission is their explicit coupling mechanism.
         emission_pairs_set = {(min(e, p), max(e, p))
-                              for (e, p, _) in self._emission_pairs}
+                              for (e, p, _pr, _r) in self._emission_pairs}
 
         n = len(self.sessions)
         for i in range(n):
@@ -188,94 +190,174 @@ class TickScheduler:
                 enforce_unity_spinor(sj.psi_R, sj.psi_L)
 
     def register_emission(self, electron_idx: int, photon_idx: int,
+                          proton_idx: int,
                           rate: float = 0.003):
         """
-        Register an electron-photon emission pair.
+        Register an electron-photon emission pair coupled to a live proton session.
 
-        Each macro-tick, a fraction `rate` of the electron's amplitude is
-        transferred to the photon session.  The pair shares a joint A=1
-        constraint: their combined amplitude is renormalized to 1 after
-        each transfer.  This means amplitude genuinely moves from electron
-        to photon (energy is transferred, not just phase information).
+        Each macro-tick the electron loses tangential phase gradient to the
+        photon session.  The drain targets only the tangential (orbital) component
+        of the electron's phase gradient -- the radial component is preserved so
+        the Coulomb attraction continues to act unimpeded.
 
-        The photon session should be initialized with a small seed amplitude
-        (e.g. 1e-3) at the electron's starting location so enforce_unity_spinor
-        does not divide by zero; the joint renormalization then sets the
-        initial split correctly.
+        The proton session (not a fixed well) is required: exp_12 showed that a
+        fixed Coulomb well shifts the N=1 orbital radius by 7.3%.  The proton's
+        centre-of-mass is recomputed from its current probability density each
+        tick, so the radial geometry tracks nuclear recoil correctly.
 
-        Physical meaning: the electron decays by emitting a photon.  The
-        photon's massless tick rule propagates the emitted amplitude away
-        at c=1, removing it from the orbital region.  Over time the electron's
-        remaining amplitude concentrates where emission is slowest -- the
-        stable orbital radius.
+        Physical mechanism (radiation reaction):
+          1. Compute the proton CoM from its current probability_density().
+          2. Compute ∇φ of the electron via phase_gradient_field().
+          3. Remove the radial projection (relative to live proton CoM) to
+             isolate the tangential gradient.
+          4. Compute the orbital plane normal L_hat = ∫(r × ∇φ)·dens dV
+             from the electron's current angular momentum -- fully dynamic,
+             no hard-coded orbital plane.
+          5. Project onto the azimuthal direction φ_hat at each node for a
+             signed scalar drain field.
+          6. Apply -rate·drain to the electron via apply_phase_map (unitary,
+             NOT undone by enforce_unity_spinor which only normalises |psi|²).
+          7. Apply +rate·drain to the photon -- massless tick propagates it
+             outward at c=1.
 
         Parameters
         ----------
         electron_idx : session index (from register_session)
         photon_idx   : session index of the massless photon session
-        rate         : amplitude fraction transferred per macro-tick
-                       (~0.001 -- 0.01; larger = faster decay)
+        proton_idx   : session index of the nucleus CausalSession
+        rate         : tangential phase drain per macro-tick (0.001 -- 0.01)
         """
-        self._emission_pairs.append((electron_idx, photon_idx, float(rate)))
-        self._emission_weights[electron_idx] = 1.0  # starts at full amplitude
+        self._emission_pairs.append(
+            (electron_idx, photon_idx, proton_idx, float(rate)))
+        self._emission_weights[electron_idx] = 1.0
+
+        # Precompute node coordinate grids (fixed for the lifetime of the session).
+        se = self.sessions[electron_idx]
+        n = se.lattice.size_x
+        x = np.arange(n)
+        xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
+        self._emission_grid[electron_idx] = (xx.astype(float),
+                                             yy.astype(float),
+                                             zz.astype(float))
 
     def emission_weight(self, electron_idx: int) -> float:
-        """
-        Current amplitude weight of an emission-coupled electron session.
-
-        The electron's psi field stays A=1 at all times (its internal
-        probability distribution is always normalized).  The weight tracks
-        what fraction of the original amplitude the electron retains.
-        It decays as (1 - rate)^tick, starting at 1.0.
-
-        Use this weight when accumulating the electron PDF in experiments:
-          weighted_density = electron.probability_density() * weight^2
-
-        The weight^2 factor converts amplitude weight to probability weight,
-        consistent with Born rule interpretation.
-        """
+        """Current bookkeeping weight for an emission-coupled electron (legacy)."""
         return self._emission_weights.get(electron_idx, 1.0)
 
     def _apply_emission_pairs(self):
         """
-        Dissipative emission: decay the electron's effective amplitude weight
-        by (1 - rate) each tick, and steer the photon session's phase toward
-        the electron's current phase (so the photon carries the emitted
-        phase information outward).
+        Directional tangential phase drain: radiation reaction.
 
-        The electron psi field remains A=1 throughout -- it always represents
-        a valid probability distribution.  The weight tracks the fraction of
-        the original amplitude the electron retains.  The photon accumulates
-        the emitted phase field and propagates it outward at c=1.
-
-        Physical picture: the electron's orbital phase imprints onto the
-        photon field each tick.  The photon's massless bipartite tick then
-        carries that phase away from the orbital region.  The electron's
-        effective amplitude (weight) decays, modelling energy loss to radiation.
-        Stable orbits lose amplitude slowly (coherent phase → constructive
-        photon emission); unstable trajectories lose amplitude quickly.
+        For each emission pair, drains the electron's orbital (tangential)
+        phase gradient and deposits it onto the photon.  The proton CoM is
+        recomputed each tick so nuclear recoil is tracked correctly.  The
+        orbital plane normal is computed dynamically from the electron's
+        angular momentum -- no hard-coded directions.
         """
-        for (e_idx, p_idx, rate) in self._emission_pairs:
-            se = self.sessions[e_idx]
-            sp = self.sessions[p_idx]
+        for (e_idx, p_idx, pr_idx, rate) in self._emission_pairs:
+            se  = self.sessions[e_idx]
+            sp  = self.sessions[p_idx]
+            spr = self.sessions[pr_idx]
 
-            # Decay the electron's amplitude weight
-            self._emission_weights[e_idx] *= (1.0 - rate)
+            grad = se.phase_gradient_field()   # (3, X, Y, Z)
+            dens = se.probability_density()    # (X, Y, Z)
 
-            # Imprint electron phase onto photon at every node where the
-            # electron has significant amplitude.  The photon's own tick()
-            # then propagates this phase outward.
-            amp_e = np.sqrt(np.abs(se.psi_R)**2 + np.abs(se.psi_L)**2)
-            mask  = amp_e > 1e-9
-            if np.any(mask):
-                # Mix photon phase toward electron phase at emission sites,
-                # weighted by rate.  This is the phase imprint.
-                phase_e_R = np.where(mask, np.angle(se.psi_R), 0.0)
-                phase_p_R = np.where(mask, np.angle(sp.psi_R), 0.0)
-                delta_phase = rate * (phase_e_R - phase_p_R)
-                rot = np.where(mask, np.exp(1j * delta_phase), 1.0 + 0j)
-                sp.psi_R = sp.psi_R * rot
-                sp.psi_L = sp.psi_L * rot
+            # Live proton CoM -- recomputed every tick to track recoil
+            pr_dens = spr.probability_density()
+            pr_total = float(pr_dens.sum())
+            xx, yy, zz = self._emission_grid[e_idx]
+            if pr_total > 1e-12:
+                cx = float(np.sum(xx * pr_dens) / pr_total)
+                cy = float(np.sum(yy * pr_dens) / pr_total)
+                cz = float(np.sum(zz * pr_dens) / pr_total)
+            else:
+                cx = float(xx.mean())
+                cy = float(yy.mean())
+                cz = float(zz.mean())
+
+            # Radial vectors relative to live proton CoM
+            rx = xx - cx;  ry = yy - cy;  rz = zz - cz
+            r_mag  = np.sqrt(rx**2 + ry**2 + rz**2)
+            r_safe = np.where(r_mag > 0.5, r_mag, 1.0)
+            r_hat  = np.stack([rx / r_safe, ry / r_safe, rz / r_safe])
+            r_vec  = np.stack([rx, ry, rz])
+
+            # Tangential gradient: remove radial projection
+            grad_rad  = np.sum(grad * r_hat, axis=0)
+            grad_tang = grad - grad_rad[np.newaxis] * r_hat
+
+            # Orbital plane normal from current angular momentum:
+            # L = integral of (r × ∇φ) * dens over the grid.
+            L_field = np.stack([
+                r_vec[1] * grad[2] - r_vec[2] * grad[1],
+                r_vec[2] * grad[0] - r_vec[0] * grad[2],
+                r_vec[0] * grad[1] - r_vec[1] * grad[0],
+            ])
+            L_vec = np.einsum('ixyz,xyz->i', L_field, dens)
+            L_mag = float(np.sqrt(np.sum(L_vec**2)))
+            if L_mag < 1e-10:
+                continue   # no angular momentum -- nothing to drain
+
+            L_hat = L_vec / L_mag
+
+            # Azimuthal unit vector at each node: φ_hat = L_hat × r_hat
+            phi_hat = np.stack([
+                L_hat[1] * r_hat[2] - L_hat[2] * r_hat[1],
+                L_hat[2] * r_hat[0] - L_hat[0] * r_hat[2],
+                L_hat[0] * r_hat[1] - L_hat[1] * r_hat[0],
+            ])
+            phi_mag  = np.sqrt(np.sum(phi_hat**2, axis=0))
+            phi_safe = np.where(phi_mag > 1e-9, phi_mag, 1.0)
+            phi_hat  = phi_hat / phi_safe[np.newaxis]
+
+            # Density-weighted mean tangential momentum k_tang.
+            tang_scalar = np.sum(grad_tang * phi_hat, axis=0)   # (X,Y,Z)
+            dens_total  = float(dens.sum())
+            if dens_total < 1e-12:
+                continue
+            k_tang = float(np.sum(tang_scalar * dens)) / dens_total
+
+            # Azimuthal arc-length coordinate in the orbital plane.
+            #
+            # phi_hat = L_hat × r_hat is perpendicular to r_hat by construction,
+            # so r_vec · phi_hat = 0 identically -- wrong for a phase ramp.
+            # We need the arc-length coordinate s = r_mag * theta, where theta
+            # is the azimuthal angle measured from a fixed in-plane reference.
+            #
+            # Build an orthonormal frame (e1, e2) in the orbital plane:
+            #   e1 = any in-plane direction not parallel to L_hat
+            #   e2 = L_hat × e1  (= phi direction at theta=0)
+            # Then theta = arctan2(r·e2, r·e1) and s = r_mag * theta.
+            # The gradient of s in the phi direction is 1 (correct units: 1/node).
+            e1 = np.array([1., 0., 0.])
+            if abs(float(np.dot(L_hat, e1))) > 0.9:
+                e1 = np.array([0., 1., 0.])
+            e1 = e1 - float(np.dot(L_hat, e1)) * L_hat
+            e1_norm = float(np.linalg.norm(e1))
+            if e1_norm < 1e-10:
+                continue
+            e1 = e1 / e1_norm
+            e2 = np.cross(L_hat, e1)           # second in-plane axis
+
+            x_orb = np.einsum('i,ixyz->xyz', e1, r_vec)   # (X,Y,Z)
+            y_orb = np.einsum('i,ixyz->xyz', e2, r_vec)   # (X,Y,Z)
+            theta  = np.arctan2(y_orb, x_orb)             # azimuthal angle
+            # Arc-length s = r_mag * theta; gradient ds/d(phi) = 1 node
+            arc_length = r_mag * theta                     # (X,Y,Z)
+
+            # Phase ramp: reduces tangential wavevector by rate * k_tang.
+            # d(phase_ramp)/ds = -rate * k_tang, so kinetic_hop sees
+            # delta_p reduced by rate * k_tang in the phi direction.
+            phase_ramp = -rate * k_tang * arc_length
+
+            se.apply_phase_map(phase_ramp)    # reduce tangential momentum
+            sp.apply_phase_map(-phase_ramp)   # photon carries it away
+
+            # Diagnostics: record k_tang and ramp variation each tick
+            if e_idx not in self.emission_diagnostics:
+                self.emission_diagnostics[e_idx] = []
+            self.emission_diagnostics[e_idx].append(
+                (self.macro_tick, float(k_tang), float(phase_ramp.std())))
 
     def bind_sessions(self, i: int, j: int, coupling: float = 0.9):
         """

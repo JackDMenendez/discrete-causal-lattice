@@ -46,6 +46,8 @@ import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession, enforce_unity_spinor)
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
 # ── Coulomb well (same as exp_10) ─────────────────────────────────────────────
 STRENGTH  = 30.0
 SOFTENING = 0.5
@@ -264,7 +266,7 @@ def run_scan(n, r_n, k_bohr, k_min, k_max, k_step, grid, wc, lattice,
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
-def run_quantization_scan(n_level=1, datadir='.', focused=False):
+def run_quantization_scan(n_level=1, datadir=_DATA_DIR, focused=False):
     print("=" * 65)
     print("EXPERIMENT 11: Spontaneous Quantization Scan  (PDF mode)")
     print("=" * 65)
@@ -413,8 +415,8 @@ if __name__ == '__main__':
                     help='Scan n=2 orbit (65^3 grid, ~20 hr run)')
     ap.add_argument('--focused', action='store_true',
                     help='Quick n=1 focused scan: k=[0.085,0.110] step=0.001 (~2 hrs)')
-    ap.add_argument('--datadir', default='.',
-                    help='Directory for .npy output files (default: cwd)')
+    ap.add_argument('--datadir', default=_DATA_DIR,
+                    help='Directory for .npy output files (default: ../../data)')
     args = ap.parse_args()
     passed = run_quantization_scan(n_level=2 if args.n2 else 1,
                                    datadir=args.datadir,

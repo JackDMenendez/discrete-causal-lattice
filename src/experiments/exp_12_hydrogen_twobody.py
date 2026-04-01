@@ -65,6 +65,8 @@ import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
 # ── Physical parameters ───────────────────────────────────────────────────────
 OMEGA_E   = 0.1019        # electron instruction frequency
 OMEGA_P   = np.pi / 2.0   # proton instruction frequency (max lattice mass)
@@ -424,7 +426,7 @@ def run_twobody_audit(datadir=None):
 if __name__ == '__main__':
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument('--datadir', default=None,
+    ap.add_argument('--datadir', default=_DATA_DIR,
                     help='Directory to save exp_12_twobody_scan.npy')
     ap.add_argument('--fig', default=None,
                     help='If given, generate comparison figure at this path '

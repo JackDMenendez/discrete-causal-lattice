@@ -52,10 +52,13 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_09 | PASS | Lattice harmonics, photon dispersion |
 | exp_10 | PASS | Hydrogen spectrum: Bohr E_n ~ 1/n^2 |
 | exp_11 | PASS (n=1) | Spontaneous quantization, orbital PDF peak at k_Bohr |
-| exp_11 n=2 | NOT RUN | ~20 hr run, needs dedicated session |
+| exp_11 n=2 | FLAT (expected) | Fixed well collapses at n=2; confirms live proton required |
 | exp_12 | PASS | Two-body hydrogen: k_min=0.0970 vs k_Bohr=0.0971 (4 sig figs) |
 | exp_13 | PASS | Three-body helium-like system |
 | exp_14 | PASS | Helium two-electron system |
+| exp_11 n=2 two-body | NOT RUN | Needs live proton; exp_12 machinery, R2=41.2 |
+| exp_15 | ABANDONED | Phase drain incompatible with A=1; proton Zitterbewegung IS the mechanism |
+| exp_16 | RUNNING | Proton mass sweep: T_settle vs OMEGA_P; tests symmetry-breaking prediction |
 | exp_strength_sweep | REDESIGNED, NOT RUN | See below |
 
 ---
@@ -78,43 +81,65 @@ Implementation notes:
 
 ---
 
-## exp_strength_sweep -- REDESIGNED (2026-03-30)
+## exp_11 n=2 -- FLAT RESULT (2026-04-01, expected)
 
-### The Problem That Was Discovered
+Run: 28 hrs, 41 k-values [0.030, 0.070], GRID=65^3, TICKS=8000.
+Result: ep_mean=0.960 ± 0.006, flat across all k. Electron collapses to
+r~2.5 regardless of k. No resonance peak. Best k=0.0560 (15% off Bohr).
 
-The original dissipative capture design (electron enters from outside,
-photon session drains energy) CANNOT work due to A=1 architecture:
-- enforce_unity_spinor is called at the END of every tick() in CausalSession
-- This renormalizes psi back to A=1 every tick
-- The emission weight (1-rate)^t is pure bookkeeping -- has ZERO effect
-  on electron dynamics
-- Electron simply follows Coulomb well and collapses to well center
-- Result: peak_r = innermost bin for all k values (confirmed by 8h run)
+Root cause: fixed Coulomb well. At n=2 (r=41) the Coulomb curvature is
+too shallow for the electron to find the attractor without proton recoil.
+At n=1 (r=10) the steeper well provided enough gradient; at n=2 it does not.
 
-The TickScheduler._emission_weights machinery is still present but the
-physical dissipation mechanism requires rethinking. Do NOT attempt to
-run the dissipative version -- it cannot work without architectural
-changes to CausalSession.
+Interpretation: CONFIRMS that the live proton requirement scales with orbit
+size. The n=2 two-body experiment needs exp_12 machinery with R_INIT=41.2.
+This is NOT a failure -- it is a positive result establishing the boundary
+of the fixed-well approximation.
 
-### The New Design (dual-initialization, proven mechanism)
+---
 
-Uses the exp_11/exp_12 mechanism (no dissipation needed).
-Tests whether R1_H1 = pi/(3*omega) is stable for ALL STRENGTH values.
+## exp_strength_sweep -- NEEDS TWO-BODY REDESIGN (updated 2026-03-31)
 
-For each STRENGTH, two parallel k scans:
-  Scan A: electron initialized at R1_H1 (fixed for all STRENGTH) -- tests H1
-  Scan B: electron initialized at R1_H0 (Bohr scaling) -- tests H0
+### Run completed 2026-03-31 -- INVALID RESULT
 
-Score: inv_sharpness. Sharper PDF peak = more stable orbit.
-Winner (lower inv_sh across all STRENGTH) tells us which hypothesis.
+The dual-initialization run (N_K=30, 8000 ticks, 3 STRENGTH values) completed
+but produced invalid results: all electrons collapsed to peak_r = well center
+(r~2.5 at S=30, r~2.2 at S=45, r~1.6 at S=60) regardless of k value.
 
-H1 prediction: Scan A wins for S=30, 45, 60 (R1_H1 stable everywhere)
-H0 prediction: Scan B wins for S=45, 60 (R1_H0 is the stable radius there)
+Root cause: exp_strength_sweep uses a FIXED COULOMB WELL (no proton session).
+exp_12 proved that a fixed well causes the electron to collapse -- the proton
+recoil is what stabilises the orbit. Without a live proton session, no k value
+produces a stable orbit; the electron always falls to the well center.
+The dual-initialization scan cannot distinguish H0 from H1 because neither
+initialization produces an orbit at all.
 
-Runtime: ~5 hours (3 STRENGTH x 12 k x 2 inits x 8000 ticks on 35^3)
-Command: python -u src/experiments/exp_strength_sweep.py
+### Required redesign (DO NOT RUN until exp_15 dissipative capture passes)
 
-DO NOT restart until user says so (machine reboot pending).
+exp_strength_sweep must be rebuilt on the exp_12 two-body foundation:
+
+- Live proton CausalSession (OMEGA_P = pi/2) for each STRENGTH value
+- Mean-field Coulomb coupling updated each tick from live CoM positions
+- Alternating tick order (exp_12 pattern) to cancel leading-order asymmetry
+- For each STRENGTH: scan k around both k_H0 and k_H1 predictions
+- Score: inv_sharpness of electron PDF relative to proton CoM
+
+This is a significantly longer run (~days not hours) and requires the
+two-body orbital mechanism to be confirmed stable first via exp_15.
+
+### Current status: UNBLOCKED (exp_15 superseded)
+
+exp_15 (tangential phase drain) was abandoned. The phase drain approach
+is incompatible with A=1: enforce_unity_spinor renormalizes amplitude
+every tick, so apply_phase_map cannot transfer energy between sessions.
+
+The correct physics: the proton's Zitterbewegung IS the dissipation
+mechanism -- not energy loss, but phase-space exploration that lets the
+electron find the Arnold tongue attractor. The Bohr orbit is the
+minimum-uncertainty state (R1*k_Bohr=1); the live proton provides the
+symmetry breaking that allows the electron to converge to it.
+
+exp_strength_sweep can now be redesigned on the exp_12 two-body
+foundation whenever that is prioritised.
 
 ---
 

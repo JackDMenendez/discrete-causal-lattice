@@ -1,0 +1,18 @@
+======================================================================
+EXP 15: Dissipative electron capture
+======================================================================
+  OMEGA_E=0.1019  OMEGA_P=1.5708  STRENGTH=30.0
+  R1=10.30  R_INIT=10.82  K_INIT=0.09709  K_BOHR=0.09709
+  GAMMA=0.002587  (lattice-derived: sin^2(w/2)*cos^2(w/2))
+  Grid=65^3  TICKS=16000  BURN_IN=2000
+
+  Sessions: electron=0  proton=1  photon=2
+  Electron start: (38, 38, 38)  r=10.39
+  Proton  start: (31, 31, 31)  r=1.73
+
+    tick      e_r      p_r     ph_r      k_tang    ramp_std
+  -----------------------------------------------------------------
+     500    8.265    6.049    5.766  k_tang=+0.16292  ramp_std=0.02541  [427s  eta 13224s]
+    1000   16.371    7.996    3.953  k_tang=+0.12787  ramp_std=0.02071  [850s  eta 12743s]
+    1500   19.733   18.003    4.910  k_tang=+0.79225  ramp_std=0.07099  [1268s  eta 12258s]
+    2000   28.563   32.904    4.365  k_tang=+0.66664  ramp_std=0.04214  [1694s  eta 11857s]
