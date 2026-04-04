@@ -237,3 +237,9 @@ notes/harmonics_music_and_existence.md   -- omega*R1=pi/3 as 3:1 resonance
 notes/harmonic_landscape_A_structure.md  -- A-structure, 2:1 fixed point
 notes/twobody_hydrogen_results.md        -- exp_12 result (4 sig figs)
 notes/strengthening_the_dirac_claim.md   -- gap analysis for central claim
+notes/conservation_of_probability.md     -- THE central claim: A=1 is the only conservation law; energy/momentum are consequences
+notes/two_session_bound_state.md         -- exp_12 > exp_10: static well has no restoring force; orbit is joint two-session Arnold tongue; emission is 3-session event
+notes/photon_emission_from_A1.md         -- photon emission as A=1 necessity; session creation at orbit lock-in
+notes/deriving_gravity_from_clock_density.md -- parallel 5-step gravity derivation; gap: ρ∝exp(-φ/c²) not yet derived from lattice
+notes/plasma_as_gravitational_ionization.md  -- gradient ionization: 3rd channel; plasma as clock fluid phase; atomic ISCO
+notes/follow_on_implications.md          -- 10 follow-on paper seeds with priority order

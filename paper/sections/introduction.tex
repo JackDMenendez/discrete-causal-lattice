@@ -1,26 +1,178 @@
 % ============================================================
 % introduction.tex
-% STATUS: STUB
 % ============================================================
 
-% Topics to cover:
-% - The unification problem: GR + QM incompatibility
-%   \cite{einstein1916} \cite{dirac1928}
-% - The information-processing perspective on time (Eagleman)
-%   \cite{eagleman2011} \cite{healy2013}
-%   - Biological clock rates as a motivating analogy
-%   - Perceived time as a function of local information density
-% - The A=1 principle: unity as the ur-constraint
-% - What is new in v2.0 vs v1.0
-%   \cite{menendez2026v1}
-%   - Bipartite T3d lattice with correct diagonal basis vectors
-%   - Zitterbewegung mass from phase mismatch \cite{schrodinger1930}
-%   - Per-particle tick counters
-%   - Clock density as gravity
-%   - Falsifiable numerical predictions
-% - Connection to existing discrete spacetime programs
-%   \cite{bombelli1987} \cite{wheeler1990} \cite{wolfram2002} \cite{thooft2016}
-%   \cite{zuse1969}
-% - Guide to the paper structure
+Quantum mechanics is the most precisely verified theory in the history
+of science.
+It answers, with extraordinary accuracy, every question about how particles
+behave: what energies they occupy, how they scatter, how they interfere,
+how they decay.
+But it is structurally silent on a different class of questions --- why
+its own axioms hold.
 
-\textbf{[STUB]}
+Why are atomic spectra discrete rather than continuous?
+The Schr\"odinger equation produces discrete eigenvalues given the right
+boundary conditions, but the boundary conditions are loaded into the
+formalism before the calculation begins.
+Why is the Born rule $|\psi|^2 = \text{probability}$ true?
+It is a postulate --- von Neumann's measurement axiom --- not a derivation.
+Why do the Dirac gamma matrices have the algebraic structure they do?
+Dirac constructed them to satisfy his requirements; they were
+not derived from anything geometrically prior.
+Why is the gauge group of the Standard Model $\mathrm{SU}(3)\times
+\mathrm{SU}(2)\times\mathrm{U}(1)$ and not some other group?
+The Standard Model takes its gauge content as given.
+
+These are not criticisms of quantum mechanics.
+They are a precise statement of what it is silent about, and that silence
+has been known since at least von Neumann~\cite{vonneumann1932} and is
+uncontroversial.
+A framework that answered these questions would not replace quantum mechanics;
+it would explain it.
+
+\medskip
+
+This paper proposes such a framework.
+We show that all four questions have geometric answers, and that all four
+answers follow from a single conservation law:
+
+\begin{center}
+\textbf{Conservation of probability --- the axiom $\mathcal{A}=1$.}
+\end{center}
+
+On a bipartite three-dimensional causal lattice $\mathcal{T}_\diamond^3$,
+each particle is a \emph{causal session}: an independent phase rotor
+carrying amplitude $(\psi_R, \psi_L)$ on the two chirally-opposite
+sublattices, subject to $|\psi_R|^2 + |\psi_L|^2 = 1$ at every tick.
+No Hamiltonian, no Hilbert space, and no measurement postulate are
+assumed.
+
+The four answers:
+\begin{enumerate}
+\item \textbf{Quantization is an attractor, not a boundary condition.}
+    The discrete mass spectrum arises from Arnold tongue frequency-locking
+    between the particle's internal Zitterbewegung frequency and the vacuum
+    carrier.
+    Any nearby frequency is dynamically pulled into the nearest rational
+    resonance basin.
+    Discreteness is self-organising, not postulated.
+
+\item \textbf{The Born rule follows from $\mathcal{A}=1$.}
+    Probability is amplitude squared because amplitude is the only
+    physical quantity on the lattice and $\mathcal{A}=1$ is the
+    conservation law that governs it.
+    The Born rule is not a measurement axiom; it is a conservation theorem.
+
+\item \textbf{The Dirac gamma matrices encode lattice geometry.}
+    The bipartite RGB/CMY sublattice structure \emph{is} the two-component
+    Dirac spinor.
+    In the continuum limit $a\to 0$, the tick rule converges to the
+    Dirac equation $(i\gamma^\mu\partial_\mu - m)\psi = 0$, with the
+    gamma matrices identified as the geometric encoding of three pairs
+    of antiparallel basis vectors.
+    The Clifford algebra $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$ holds
+    because the basis vectors form a tight frame --- a geometric theorem,
+    not an algebraic postulate.
+
+\item \textbf{Photon emission is a conservation-law necessity.}
+    The Coulomb interaction is a probability \emph{source} --- it injects
+    amplitude into the electron session from outside.
+    $\mathcal{A}=1$ cannot accommodate this within a single session;
+    it mandates creation of a new photon session at orbital lock-in.
+    Emission, recoil, and energy conservation all follow from
+    $\mathcal{A}=1$ alone.
+
+\item \textbf{Gravity is refraction, not curvature.}
+    Every causal session carries an independent tick counter.
+    The local density of these clocks --- the session density weighted by
+    probability --- is the gravitational field.
+    Causal paths refract toward regions of higher clock density by the
+    same mechanism as Fermat's principle in optics: amplitude hops
+    preferentially toward nodes where the phase cost is lower.
+    No curved geometry is required.
+    Gravitational time dilation is scheduler load: a clock near a mass
+    processes more causal events per external tick and therefore runs
+    slow.
+    The equivalence principle is structural: both gravitational and
+    inertial mass arise from the same phase-mismatch parameter $\omega$,
+    so their equality requires no explanation.
+    The event horizon is scheduler saturation --- a computational
+    deadlock at the Planck density ceiling $\rho_\text{max} =
+    \ell_P^{-3}$ --- with no singularity, and Hawking radiation as
+    stochastic queue-drop.
+    In the continuum limit the clock fluid equations reduce to the
+    Einstein field equations; at finite lattice spacing they carry
+    discrete corrections to the $1/r^2$ law that are computable and
+    falsifiable.
+\end{enumerate}
+
+\medskip
+
+A further result, which we consider the deepest, concerns the nature of
+bound states.
+The standard treatment of hydrogen places the proton as a fixed external
+potential $V(r) = -e^2/r$ and solves for the electron's eigenstates.
+This is not merely an approximation --- it is the wrong physical picture.
+
+A static Coulomb potential is insufficient to produce stable quantised
+orbits from the lattice dynamics alone.
+The proton must be represented as an active session --- a phase rotor
+participating in the joint $\mathcal{A}=1$ accounting every tick ---
+for the electron to explore the well and lock onto resonant orbits
+spontaneously.
+Hydrogen is not an electron in a field.
+It is \emph{two sessions finding a joint Arnold tongue attractor.}
+
+This distinction has directly observable consequences.
+In a static well the electron collapses to the potential minimum regardless
+of initial momentum; the basin of attraction around the Bohr orbit has
+zero width (\texttt{exp\_11} $n=2$: flat landscape across all
+$k$-values tested).
+With an active proton session, the proton's Zitterbewegung continuously
+breaks the spherical symmetry of the potential, providing the stochastic
+perturbation that drives the electron into the resonance basin;
+the Bohr orbital wavevector is recovered to four significant figures
+with no parameter tuning (\texttt{exp\_12}).
+The basin of attraction is finite and self-correcting --- the orbit is
+stable not because we initialised it exactly, but because the two-session
+dynamics continuously restores it.
+
+Photon emission then follows as a three-session event: the joint
+proton-electron resonance transitions to a lower Arnold tongue, the
+displaced amplitude is absorbed by a new photon session, and the proton
+adjusts to the new joint configuration.
+None of this requires a separately postulated transition rate.
+
+\medskip
+
+\paragraph{Relation to prior discrete spacetime programmes.}
+The $\Tdiamond$ framework belongs to a tradition of discrete spacetime
+proposals that includes causal set theory~\cite{bombelli1987},
+'T~Hooft's cellular automaton interpretation~\cite{thooft2016},
+Wolfram's computational universe~\cite{wolfram2002}, and Zuse's
+Rechnender Raum~\cite{zuse1969}.
+It differs from these in the precision of its structural claims and the
+number of falsifiable numerical predictions it makes without free
+parameters.
+The frame condition $\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T = 3\delta_{ij}$
+is not a tuning choice; it is a geometric identity of the RGB basis vectors
+that forces the Clifford algebra and the isotropic dispersion relation
+simultaneously.
+The lattice does not approximate known physics --- it derives it from
+a single conservation law and a single geometric substrate.
+
+\paragraph{Organisation of the paper.}
+Section~\ref{sec:substrate} defines the $\Tdiamond$ lattice, its
+bipartite structure, and the calibration of physical units.
+Section~\ref{sec:causal_sessions} introduces causal sessions and the
+phase rotor.
+Sections~\ref{sec:tick_scheduler}--\ref{sec:kinematics} derive
+momentum, force, and the Dirac equation from the tick rule.
+Sections~\ref{sec:gravity}--\ref{sec:vacuum_twist} treat gravity
+and electromagnetism as distinct phase geometries.
+Sections~\ref{sec:interference}--\ref{sec:observer} cover interference,
+decoherence, and the observer.
+Sections~\ref{sec:predictions}--\ref{sec:hydrogen} present the
+falsifiable predictions and the hydrogen results.
+Section~\ref{sec:conclusion} states what has been established and
+what remains open.

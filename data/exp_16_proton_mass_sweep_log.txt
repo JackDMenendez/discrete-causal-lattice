@@ -1,13 +1,96 @@
 ======================================================================
-EXP 16: Proton mass sweep -- settling time vs. OMEGA_P
+EXP 16 v2: Proton mass sweep -- settling time vs. OMEGA_P
 ======================================================================
   Prediction: T_settle increases monotonically with OMEGA_P
   Physical proton: OMEGA_P = pi/2 = 1.5708
-  OMEGA_E=0.1019  STRENGTH=30.0  GAMMA=0.002587
-  Grid=65^3  TICKS=16000  SETTLE_TOL=15%
+  OMEGA_E=0.1019  STRENGTH=30.0
+  Grid=65^3  TICKS=20000  BURN_IN=4000
+  CHECK_EVERY=50  SETTLE_TOL=15%  SETTLE_WINDOW=10 checks
 
    OMEGA_P      M_P       R1   T_settle   r_final   settled
-  ------------------------------------------------------------
-    0.3000   0.1494   12.879      16000    35.750     False  [15651s]
-    0.5000   0.2474   11.584      16000    14.688     False  [13466s]
-    0.7000   0.3429   11.034        500    15.796      True  [13955s]
+  --------------------------------------------------------------
+
+  OMEGA_P=0.3000  M_P=0.1494  R1=12.882
+    tick=  6000  r_peak=29.098  R1=12.882  consec=0  [3595s eta 8389s]
+    tick=  8000  r_peak=34.641  R1=12.882  consec=0  [4802s eta 7203s]
+    tick= 10000  r_peak=34.641  R1=12.882  consec=0  [6001s eta 6001s]
+    tick= 12000  r_peak=34.641  R1=12.882  consec=0  [7196s eta 4798s]
+    tick= 14000  r_peak=34.641  R1=12.882  consec=0  [8427s eta 3612s]
+    tick= 16000  r_peak=34.641  R1=12.882  consec=0  [9574s eta 2394s]
+    tick= 18000  r_peak=34.641  R1=12.882  consec=0  [10692s eta 1188s]
+    0.3000   0.1494   12.882      20000    34.641     False  [11803s]
+
+  OMEGA_P=0.5000  M_P=0.2474  R1=11.586
+    tick=  6000  r_peak=18.568  R1=11.586  consec=0  [3561s eta 8310s]
+    tick=  8000  r_peak=18.568  R1=11.586  consec=0  [4734s eta 7101s]
+    tick= 10000  r_peak=18.568  R1=11.586  consec=0  [5903s eta 5903s]
+    tick= 12000  r_peak=18.568  R1=11.586  consec=0  [7054s eta 4703s]
+    tick= 14000  r_peak=27.990  R1=11.586  consec=0  [8194s eta 3512s]
+    tick= 16000  r_peak=28.544  R1=11.586  consec=0  [9341s eta 2335s]
+    tick= 18000  r_peak=28.544  R1=11.586  consec=0  [10471s eta 1163s]
+    0.5000   0.2474   11.586      20000    28.544     False  [11593s]
+
+  OMEGA_P=0.7000  M_P=0.3429  R1=11.035
+    tick=  6000  r_peak=20.230  R1=11.035  consec=0  [3543s eta 8267s]
+    tick=  8000  r_peak=19.122  R1=11.035  consec=0  [4716s eta 7074s]
+    tick= 10000  r_peak=19.122  R1=11.035  consec=0  [5903s eta 5903s]
+    tick= 12000  r_peak=19.122  R1=11.035  consec=0  [7083s eta 4722s]
+    tick= 14000  r_peak=19.122  R1=11.035  consec=0  [8252s eta 3537s]
+    tick= 16000  r_peak=19.122  R1=11.035  consec=0  [9415s eta 2354s]
+    tick= 18000  r_peak=19.122  R1=11.035  consec=0  [10568s eta 1174s]
+    0.7000   0.3429   11.035      20000    19.122     False  [11697s]
+
+  OMEGA_P=0.9000  M_P=0.4350  R1=10.733
+    tick=  6000  r_peak=13.579  R1=10.733  consec=0  [3584s eta 8363s]
+    tick=  8000  r_peak=23.556  R1=10.733  consec=0  [4777s eta 7166s]
+    tick= 10000  r_peak=13.579  R1=10.733  consec=0  [5963s eta 5963s]
+    tick= 12000  r_peak=13.579  R1=10.733  consec=0  [7136s eta 4758s]
+    tick= 14000  r_peak=13.579  R1=10.733  consec=0  [8347s eta 3577s]
+    tick= 16000  r_peak=13.579  R1=10.733  consec=0  [9576s eta 2394s]
+    tick= 18000  r_peak=13.579  R1=10.733  consec=0  [10786s eta 1198s]
+    0.9000   0.4350   10.733      20000    13.579     False  [11966s]
+
+  OMEGA_P=1.1000  M_P=0.5227  R1=10.544
+    tick=  6000  r_peak=21.339  R1=10.544  consec=0  [3717s eta 8673s]
+    tick=  8000  r_peak=21.339  R1=10.544  consec=0  [4890s eta 7335s]
+    tick= 10000  r_peak=21.339  R1=10.544  consec=0  [6062s eta 6062s]
+    tick= 12000  r_peak=21.339  R1=10.544  consec=0  [7235s eta 4823s]
+    tick= 14000  r_peak=20.230  R1=10.544  consec=0  [8374s eta 3589s]
+    tick= 16000  r_peak=21.339  R1=10.544  consec=0  [9567s eta 2392s]
+    tick= 18000  r_peak=27.436  R1=10.544  consec=0  [10709s eta 1190s]
+    1.1000   0.5227   10.544      20000    27.436     False  [11825s]
+
+  OMEGA_P=1.3000  M_P=0.6052  R1=10.417
+    tick=  6000  r_peak=28.544  R1=10.417  consec=0  [3484s eta 8128s]
+    tick=  8000  r_peak=26.881  R1=10.417  consec=0  [4631s eta 6946s]
+    tick= 10000  r_peak=26.881  R1=10.417  consec=0  [5782s eta 5782s]
+    tick= 12000  r_peak=26.881  R1=10.417  consec=0  [6935s eta 4623s]
+    tick= 14000  r_peak=26.881  R1=10.417  consec=0  [8068s eta 3458s]
+    tick= 16000  r_peak=26.881  R1=10.417  consec=0  [9200s eta 2300s]
+    tick= 18000  r_peak=26.881  R1=10.417  consec=0  [10315s eta 1146s]
+    1.3000   0.6052   10.417      20000    26.881     False  [11421s]
+
+  OMEGA_P=1.5708  M_P=0.7071  R1=10.300 <- physical proton
+    tick=  6000  r_peak=41.846  R1=10.300  consec=0  [3483s eta 8128s]
+    tick=  8000  r_peak=32.424  R1=10.300  consec=0  [4639s eta 6958s]
+    tick= 10000  r_peak=32.424  R1=10.300  consec=0  [5810s eta 5810s]
+    tick= 12000  r_peak=34.087  R1=10.300  consec=0  [7052s eta 4701s]
+    tick= 14000  r_peak=34.087  R1=10.300  consec=0  [8299s eta 3557s]
+    tick= 16000  r_peak=32.424  R1=10.300  consec=0  [9508s eta 2377s]
+    tick= 18000  r_peak=32.424  R1=10.300  consec=0  [10693s eta 1188s]
+    1.5708   0.7071   10.300      20000    32.424     False  [11874s]
+
+======================================================================
+RESULT
+======================================================================
+
+  Only 0 run(s) settled.
+  Increase TICKS or SETTLE_TOL, or check for unbound orbits.
+
+[PASS] Settling time increases with proton mass.
+  Proton recoil is the symmetry-breaking mechanism for ground state selection.
+
+  Total time = 82180s (22.83 hrs)
+
+Saved: D:\sandbox\jackd\repos\physics\Papers\discrete-causal-lattice\src\experiments\..\..\data\exp_16_proton_mass_sweep.npy
+  columns: omega_p, m_p, r1, T_settle, r_final, settled

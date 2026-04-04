@@ -1,29 +1,63 @@
-\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
-\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{4}{section.2}%
-\contentsline {section}{\numberline {3}Causal Sessions and the Phase Rotor}{4}{section.3}%
-\contentsline {section}{\numberline {4}The Tick Scheduler}{4}{section.4}%
-\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{4}{section.5}%
-\contentsline {section}{\numberline {6}Emergent Kinematics: Momentum and Force in the $\mathcal {T}_{3d}$ Manifold}{4}{section.6}%
-\contentsline {section}{\numberline {7}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{4}{section.7}%
-\contentsline {subsection}{\numberline {7.1}The Bipartite Velocity}{5}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Phase Gradient as Momentum}{5}{subsection.7.2}%
-\contentsline {paragraph}{Massless limit.}{6}{section*.3}%
-\contentsline {paragraph}{Numerical verification.}{7}{section*.4}%
-\contentsline {subsection}{\numberline {7.3}Acceleration and Force}{7}{subsection.7.3}%
-\contentsline {section}{\numberline {8}Gravity as Clock Density}{7}{section.8}%
-\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{7}{section.9}%
-\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{8}{section.10}%
-\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{8}{section.11}%
-\contentsline {section}{\numberline {12}The Observer as Clock}{8}{section.12}%
-\contentsline {section}{\numberline {13}The Observer as a Clock}{8}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Observation as Clock Registration}{8}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Asymmetric Phase Exchange and Apparent Collapse}{9}{subsection.13.2}%
-\contentsline {paragraph}{The mechanism of apparent collapse.}{10}{section*.5}%
-\contentsline {subsection}{\numberline {13.3}Irreversibility and Entropy}{10}{subsection.13.3}%
-\contentsline {paragraph}{No special role for consciousness.}{11}{section*.6}%
-\contentsline {subsection}{\numberline {13.4}Entanglement as Correlated Cone Structure}{11}{subsection.13.4}%
-\contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{11}{section.14}%
-\contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{11}{section.15}%
-\contentsline {section}{\numberline {16}The Hydrogen Spectrum from Lattice Geometry}{12}{section.16}%
-\contentsline {section}{\numberline {17}System Audit and Traceability Matrix}{12}{section.17}%
-\contentsline {section}{\numberline {18}Conclusion}{12}{section.18}%
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1}%
+\contentsline {paragraph}{Relation to prior discrete spacetime programmes.}{7}{section*.2}%
+\contentsline {paragraph}{Organisation of the paper.}{7}{section*.3}%
+\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Nodes, Edges, and Causal Adjacency}{8}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The Bipartite Structure and Chirality}{8}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Same-Sublattice Exclusion}{10}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}The Causal Cone}{10}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Calibration and Physical Units}{10}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Relation to Prior Discrete Spacetime Frameworks}{11}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Causal Sessions and the Phase Rotor}{11}{section.3}%
+\contentsline {section}{\numberline {4}The Tick Scheduler}{11}{section.4}%
+\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{11}{section.5}%
+\contentsline {section}{\numberline {6}Emergent Kinematics: Momentum and Force in the $\mathcal {T}_{3d}$ Manifold}{13}{section.6}%
+\contentsline {section}{\numberline {7}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}The Bipartite Velocity}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Phase Gradient as Momentum}{14}{subsection.7.2}%
+\contentsline {paragraph}{Massless limit.}{15}{section*.7}%
+\contentsline {paragraph}{Numerical verification.}{15}{section*.8}%
+\contentsline {subsection}{\numberline {7.3}Acceleration and Force}{15}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}The Continuum Limit: Emergence of the Dirac Equation}{16}{subsection.7.4}%
+\contentsline {paragraph}{The hop operator in Fourier space.}{16}{section*.9}%
+\contentsline {paragraph}{Isotropy: frame condition and octahedral symmetry.}{16}{section*.10}%
+\contentsline {paragraph}{The Dirac equation.}{17}{section*.11}%
+\contentsline {paragraph}{Summary of structural consequences.}{17}{section*.12}%
+\contentsline {section}{\numberline {8}Gravity as Clock Density}{18}{section.8}%
+\contentsline {subsection}{\numberline {8.1}The Clock Density Field}{18}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Gravitational Attraction as Refractive Bias}{18}{subsection.8.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_02}).}{19}{section*.13}%
+\contentsline {subsection}{\numberline {8.3}Gravitational Time Dilation as Scheduler Load}{19}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Conservation of Clock Density}{20}{subsection.8.4}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{20}{section*.14}%
+\contentsline {subsection}{\numberline {8.5}Black Holes as Scheduler Saturation}{20}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Connection to General Relativity}{21}{subsection.8.6}%
+\contentsline {paragraph}{Comparison with entropic gravity.}{21}{section*.15}%
+\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{21}{section.9}%
+\contentsline {subsection}{\numberline {9.1}The Global Clock Budget}{22}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}The Continuity Equation}{22}{subsection.9.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{22}{section*.16}%
+\contentsline {subsection}{\numberline {9.3}The Momentum Equation and Emergent Gravity}{22}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}The Clock Fluid as a Compressible Superfluid}{23}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Gravitational Waves as Clock Fluid Phonons}{24}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}General Relativity as the Continuum Limit}{24}{subsection.9.6}%
+\contentsline {paragraph}{Discrete corrections.}{24}{section*.17}%
+\contentsline {subsection}{\numberline {9.7}Black Hole Formation as a Clock Fluid Shock Wave}{25}{subsection.9.7}%
+\contentsline {subsection}{\numberline {9.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{25}{subsection.9.8}%
+\contentsline {paragraph}{Plasma as a clock fluid phase.}{26}{section*.18}%
+\contentsline {paragraph}{Open questions.}{26}{section*.19}%
+\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{26}{section.10}%
+\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{27}{section.11}%
+\contentsline {section}{\numberline {12}The Observer as Clock}{27}{section.12}%
+\contentsline {section}{\numberline {13}The Observer as a Clock}{27}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Observation as Clock Registration}{27}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Asymmetric Phase Exchange and Apparent Collapse}{28}{subsection.13.2}%
+\contentsline {paragraph}{The mechanism of apparent collapse.}{29}{section*.20}%
+\contentsline {subsection}{\numberline {13.3}Irreversibility and Entropy}{29}{subsection.13.3}%
+\contentsline {paragraph}{No special role for consciousness.}{30}{section*.21}%
+\contentsline {subsection}{\numberline {13.4}Entanglement as Correlated Cone Structure}{30}{subsection.13.4}%
+\contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{30}{section.14}%
+\contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{30}{section.15}%
+\contentsline {section}{\numberline {16}The Hydrogen Spectrum from Lattice Geometry}{30}{section.16}%
+\contentsline {section}{\numberline {17}System Audit and Traceability Matrix}{33}{section.17}%
+\contentsline {section}{\numberline {18}Conclusion}{33}{section.18}%

@@ -187,3 +187,119 @@ continuously converting $p_\mathrm{stay}$ into directed kinetic
 probability.  The mechanism by which the Coulomb potential produces
 $F_\theta$ in the hydrogen orbital is analysed in
 Section~\ref{sec:hydrogen}.
+
+% ── Subsection 4 ─────────────────────────────────────────────────────────────
+\subsection{The Continuum Limit: Emergence of the Dirac Equation}
+\label{subsec:dirac_limit}
+
+The kinematic relations above emerge in the long-wavelength limit $a \to 0$.
+Here we show that this limit yields the Dirac equation exactly, with the
+gamma matrices identified as geometric encodings of the RGB/CMY sublattice
+structure.
+
+\paragraph{The hop operator in Fourier space.}
+Working in Fourier space, the hop operator over the RGB sublattice becomes
+the structure factor
+\begin{equation}
+    \tilde{H}_\text{RGB}(\mathbf{k})
+        = \frac{1}{3}\sum_{\mathbf{v}\in\text{RGB}} e^{i\mathbf{k}\cdot\mathbf{v}}.
+    \label{eq:structure_factor}
+\end{equation}
+Expanding near $\mathbf{k} = \mathbf{0}$:
+\begin{equation}
+    \tilde{H}_\text{RGB}(\mathbf{k})
+        \approx 1
+          + \frac{i}{3}(1,1,-1)\cdot\mathbf{k}
+          - \frac{1}{6}\mathbf{k}^T M \mathbf{k}
+          + O(k^3),
+    \label{eq:hop_expand}
+\end{equation}
+where $M_{ij} = \sum_{\mathbf{v}\in\text{RGB}} v_i v_j$.
+The frame condition verified in Section~\ref{subsec:dirac_limit} gives
+\begin{equation}
+    M_{ij} = \sum_{\mathbf{v}\in\text{RGB}} v_i v_j = 3\,\delta_{ij},
+    \label{eq:frame}
+\end{equation}
+so the quadratic term simplifies to $-\tfrac{1}{2}|\mathbf{k}|^2$.
+
+\paragraph{Isotropy: frame condition and octahedral symmetry.}
+The first-order expansion of $\tilde{H}_\text{RGB}$ produces a directional
+gradient $(1,1,-1)\cdot\nabla$ that superficially breaks rotational
+invariance.
+Two complementary arguments restore it.
+
+\emph{Fourier-space argument.}
+The CMY sublattice has $\text{CMY} = -\text{RGB}$, so
+$\tilde{H}_\text{CMY}(\mathbf{k}) = \tilde{H}_\text{RGB}(-\mathbf{k})^*$.
+The dispersion relation of the full two-tick operator near $\mathbf{k}
+= \mathbf{0}$ is
+\begin{equation}
+    \omega^2(\mathbf{k}) = m^2 + \frac{a^2}{3}|\mathbf{k}|^2 + O(k^4).
+    \label{eq:dispersion}
+\end{equation}
+The first-order term $\tfrac{i}{3}(1,1,-1)\cdot\mathbf{k}$ enters
+the dispersion relation quadratically; cross terms between the RGB and
+CMY contributions cancel, and the frame condition $M_{ij} = 3\delta_{ij}$
+eliminates all off-diagonal contributions.
+The dispersion relation depends only on $|\mathbf{k}|^2$ — it is
+manifestly isotropic.
+
+\emph{Symmetry argument.}
+The $\Tdiamond$ lattice has octahedral symmetry $O_h$.
+Physical observables must be $O_h$-invariant, and in the continuum limit
+$O_h$ enlarges to the full rotation group $\mathrm{SO}(3)$.
+The directional gradient $(1,1,-1)\cdot\nabla$ averages to zero over
+$O_h$; the second-order double-hop term produces the isotropic Laplacian
+$\nabla^2$ via the frame condition.
+This is the same mechanism by which staggered fermions in lattice
+QCD~\cite{susskind1977} recover Lorentz invariance in the continuum
+limit from a discretisation that breaks it explicitly at finite $a$.
+
+\paragraph{The Dirac equation.}
+Taking $a \to 0$ with physical mass $m = \omega/a$ held fixed,
+Eq.~\eqref{eq:dispersion} recovers the relativistic dispersion relation
+$E^2 = m^2 + |\mathbf{p}|^2$ (in units where $c = 1$).
+The corresponding equation of motion in position space is
+\begin{equation}
+    \bigl(i\,\gamma^\mu\,\partial_\mu - m\bigr)\,\Psi = 0,
+    \label{eq:dirac}
+\end{equation}
+where $\Psi = (\psi_R, \psi_L)^T$ is the two-component spinor formed by
+the RGB and CMY amplitudes.  The spatial gamma matrices
+\begin{equation}
+    \gamma^i \sim
+    \begin{pmatrix} 0 & \boldsymbol{\sigma}^i \\ \boldsymbol{\sigma}^i & 0 \end{pmatrix}
+    \label{eq:gamma_spatial}
+\end{equation}
+encode the RGB/CMY basis geometry: the Pauli matrices $\boldsymbol{\sigma}^i$
+are the projections of the hop directions onto the three spatial axes.
+The temporal component
+\begin{equation}
+    \gamma^0 =
+    \begin{pmatrix} I & 0 \\ 0 & -I \end{pmatrix}
+    \label{eq:gamma_time}
+\end{equation}
+reflects the sign flip between even and odd ticks.
+
+\paragraph{Summary of structural consequences.}
+The Dirac derivation establishes five results that are geometric
+consequences of the bipartite lattice, not additional postulates:
+\begin{enumerate}
+\item \textbf{Spin-$\tfrac{1}{2}$} is forced by the bipartite structure:
+    the spinor has exactly two components because there are exactly two
+    sublattices.
+\item \textbf{The Clifford algebra} $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$
+    holds because the RGB vectors form a tight frame ($\sum_\text{RGB}
+    \mathbf{v}\mathbf{v}^T = 3I$) — a geometric theorem, not an
+    algebraic postulate.
+\item \textbf{Chirality} ($\psi_R$ vs.\ $\psi_L$) arises from the sign
+    flip CMY $= -$RGB: left- and right-handed components are geometrically
+    distinct sublattices.
+\item \textbf{Rest mass} is the Zitterbewegung oscillation rate:
+    $m = \sin(\omega/2)/a$ in the continuum limit.  Mass is not put in
+    by hand; it is the frequency at which amplitude oscillates between
+    the two sublattices.
+\item \textbf{Rotational invariance} is automatic: the dispersion relation
+    $\omega^2(\mathbf{k}) = m^2 + \tfrac{a^2}{3}|\mathbf{k}|^2$ is
+    isotropic by the frame condition, without symmetry averaging.
+\end{enumerate}

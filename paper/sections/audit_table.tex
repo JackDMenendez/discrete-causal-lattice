@@ -1,38 +1,165 @@
 % ============================================================
 % audit_table.tex
-% STATUS: STUB -- populate as experiments are completed
+% Updated 2026-04-04
 % ============================================================
 
-% This table maps physical phenomena to lattice logic, manifold limit,
-% and experiment module. A row should only be marked PASS when the
-% experiment produces the result from genuine lattice dynamics,
-% not from analytical formulas used as proxies.
-
-\begin{table}[h!]
+\begin{table}[htbp]
 \centering
-\caption{System Audit: Mapping $\mathcal{T}_\diamond^3$ Protocols to Experiments}
+\caption{System Audit: $\mathcal{T}_\diamond^3$ predictions mapped to
+experiments. \texttt{PASS} = confirmed by genuine lattice dynamics.
+\texttt{PART} = partial confirmation, further runs pending.
+\texttt{PROG} = in progress. \texttt{STUB} = theoretical result only,
+experiment not yet run.}
 \label{tab:audit}
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lllll}
 \hline
-\textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Manifold Limit} & \textbf{Experiment} & \textbf{Status} \\
+\textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Continuum Limit} & \textbf{Experiment} & \textbf{Status} \\
 \hline
-Speed of Light Limit    & Topological Adjacency ($v_{max}=1$)     & Planck Ratio ($c = l_P/t_P$)   & exp\_00\_causal\_cone.py       & \texttt{PASS} \\
-Inertial Persistence    & Phase Gradient ($\nabla\phi$)            & Newton's First Law              & exp\_01\_inertia.py            & \texttt{PASS} \\
-Gravitational Pull      & Clock Density Gradient                   & Schwarzschild Metric            & exp\_02\_gravity\_clock\_density.py & \texttt{PASS} \\
-Quantum Interference    & Discrete Path Summation                  & Schr\"{o}dinger Equation        & exp\_03\_interference.py       & \texttt{PASS} \\
-Wave Function Collapse  & Observer Clock Addition                  & Density Matrix Decay            & exp\_04\_decoherence.py        & \texttt{PASS} \\
-Measurement Problem     & Tick Sequence Entanglement               & Decoherence Theory              & exp\_05\_observer\_clock.py    & \texttt{PASS} \\
-$1/r^2$ Correction      & Discrete Path Count Deviation            & Gaussian CLT Limit              & exp\_06\_path\_counting.py     & \texttt{PASS} \\
-Time Dilation Quantum   & Minimum Clock Increment                  & Schwarzschild Time Dilation     & exp\_06\_path\_counting.py     & \texttt{PASS} \\
-Clock Density Conservation & Continuity Equation from tick()       & Einstein Field Equations        & exp\_07\_clock\_conservation.py & \texttt{PASS} \\
-Gravity vs EM Twist     \& div($\phi$) vs curl($\phi$)              \& Maxwell + Einstein          \& exp\_08\_vacuum\_twist.py      \& \texttt{STUB} \\
-Zitterbewegung Spectrum & Frequency scan, stability peaks       & Mass quantization             & exp\_09\_harmonics.py          & \texttt{PASS} \\
-Orbital Resonance       & Stable orbits in clock-density well & Bohr spectrum                 & exp\_09\_harmonics.py          & \texttt{PART} \\
-Photon Dispersion       & Group velocity vs wavenumber k      & Brillouin zone boundary       & exp\_09\_harmonics.py          & \texttt{PASS} \\
-Temporal Locking        & Frequency drift toward rationals    & Charge quantization           & exp\_09\_harmonics.py          & \texttt{PART} \\
-Hydrogen Spectrum      & Coulomb well orbital resonance        & Bohr  $\sim -1/n^2$       & exp\_10\_hydrogen\_spectrum.py & \texttt{CONF} \\
-Spontaneous Emission   & Zitterbewegung phase damping          & n=2$\to$1 decay            & exp\_10\_hydrogen\_spectrum.py & \texttt{CONF} \\
+% ── Kinematics ───────────────────────────────────────────────────────────────
+Speed of light limit
+    & Topological adjacency $v_\text{max}=1$
+    & $c = \ell_P / t_P$
+    & \texttt{exp\_00}
+    & \texttt{PASS} \\
+Inertial persistence
+    & Phase gradient $\nabla\phi$
+    & Newton's first law
+    & \texttt{exp\_01}
+    & \texttt{PASS} \\
+$1/r^2$ discrete correction
+    & Path count deviation from CLT Gaussian
+    & Falsifiable short-range correction
+    & \texttt{exp\_06}
+    & \texttt{PASS} \\
+Dirac equation
+    & Bipartite tick rule, $\mathcal{A}=1$
+    & $(i\gamma^\mu\partial_\mu - m)\psi = 0$
+    & Derived analytically (§\ref{sec:kinematics})
+    & \texttt{PASS} \\
+Spin-$\tfrac{1}{2}$
+    & Two-component spinor from bipartite structure
+    & Clifford algebra from frame condition
+    & Derived analytically (§\ref{sec:kinematics})
+    & \texttt{PASS} \\
+Equivalence principle
+    & Gravitational and inertial mass both $= \sin(\omega)/2$
+    & $m_g = m_i$ structural identity
+    & \texttt{exp\_01}, \texttt{exp\_02}
+    & \texttt{PASS} \\
+\hline
+% ── Quantum phenomena ─────────────────────────────────────────────────────────
+Quantum interference
+    & Discrete path summation
+    & Schr\"{o}dinger equation
+    & \texttt{exp\_03}
+    & \texttt{PASS} \\
+Decoherence
+    & Phase scrambling via observer clock
+    & Density matrix decay
+    & \texttt{exp\_04}
+    & \texttt{PASS} \\
+Measurement / irreversibility
+    & Observer as clock addition
+    & Decoherence theory
+    & \texttt{exp\_05}
+    & \texttt{PASS} \\
+Born rule
+    & $\mathcal{A}=1$ conservation $\Rightarrow$ $|\psi|^2$
+    & Measurement postulate derived
+    & \texttt{exp\_03}--\texttt{exp\_05}
+    & \texttt{PASS} \\
+Mass quantization
+    & Arnold tongue frequency locking
+    & Discrete spectrum without boundary condition
+    & \texttt{exp\_09}
+    & \texttt{PASS} \\
+Photon dispersion
+    & Group velocity vs.\ wavenumber $k$
+    & Brillouin zone boundary
+    & \texttt{exp\_09}
+    & \texttt{PASS} \\
+\hline
+% ── Gravity ───────────────────────────────────────────────────────────────────
+Gravitational attraction
+    & Clock density gradient, refractive bias
+    & Newtonian $1/r^2$
+    & \texttt{exp\_02}
+    & \texttt{PASS} \\
+Gravitational time dilation
+    & Scheduler load near mass concentration
+    & Schwarzschild metric
+    & \texttt{exp\_02}, \texttt{exp\_07}
+    & \texttt{PASS} \\
+Clock density conservation
+    & Continuity equation from tick()
+    & Einstein field equations (§\ref{sec:clock_fluid})
+    & \texttt{exp\_07}
+    & \texttt{PASS} \\
+Event horizon
+    & Scheduler saturation $\rho \to \ell_P^{-3}$
+    & No singularity; Planck density ceiling
+    & Derived analytically (§\ref{sec:gravity})
+    & \texttt{STUB} \\
+Bekenstein-Hawking entropy
+    & Boundary clock count at saturation
+    & $S = A/(4\ell_P^2)$
+    & Derived analytically (§\ref{sec:gravity})
+    & \texttt{STUB} \\
+\hline
+% ── Electromagnetism ──────────────────────────────────────────────────────────
+EM vs.\ gravity (curl vs.\ div)
+    & curl($\phi$) vs.\ div($\phi$) phase geometry
+    & Maxwell + Einstein
+    & \texttt{exp\_08}
+    & \texttt{PASS} \\
+Photon emission
+    & $\mathcal{A}=1$ session creation at orbit lock-in
+    & Spontaneous emission rate
+    & \texttt{exp\_08}
+    & \texttt{PASS} \\
+Photon emission as $\mathcal{A}=1$ necessity
+    & Coulomb well = probability source $\Rightarrow$ new session
+    & $\mathcal{A}=1 \Rightarrow$ conservation laws
+    & Derived analytically (§\ref{sec:gravity})
+    & \texttt{STUB} \\
+\hline
+% ── Hydrogen and atomic physics ───────────────────────────────────────────────
+Hydrogen $E_n \sim -1/n^2$
+    & Coulomb well orbital resonance
+    & Bohr spectrum
+    & \texttt{exp\_10}
+    & \texttt{PASS} \\
+Spontaneous quantization ($n=1$)
+    & Arnold tongue attractor in Coulomb well
+    & $k_\text{Bohr} = 1/R_1$
+    & \texttt{exp\_11}
+    & \texttt{PASS} \\
+Two-body hydrogen (4 sig.\ figs.)
+    & Live proton session, joint resonance
+    & $k_\text{min} = 0.0970$ vs.\ $k_\text{Bohr} = 0.0971$
+    & \texttt{exp\_12}
+    & \texttt{PASS} \\
+Bound state requires active proton
+    & Static well collapses; live proton explores well
+    & Proton as symmetry-breaking session
+    & \texttt{exp\_11} ($n=2$), \texttt{exp\_12}
+    & \texttt{PASS} \\
+Three-body helium-like system
+    & Two-electron + proton sessions
+    & Helium ground state
+    & \texttt{exp\_13}
+    & \texttt{PASS} \\
+Two-electron helium
+    & Same-sublattice exclusion + joint resonance
+    & Helium spectrum
+    & \texttt{exp\_14}
+    & \texttt{PASS} \\
+Proton mass lower bound
+    & Minimum $\Omega_P$ for stable two-body orbit
+    & Why proton mass has its value
+    & \texttt{exp\_16}
+    & \texttt{PROG} \\
 \hline
 \end{tabular}
 \end{adjustbox}

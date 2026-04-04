@@ -1,9 +1,25 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{dirac1928}
-Paul A.~M. Dirac.
-\newblock The quantum theory of the electron.
-\newblock {\em Proceedings of the Royal Society A}, 117(778):610--624, 1928.
+\bibitem{bombelli1987}
+Luca Bombelli, Joohan Lee, David Meyer, and Rafael~D. Sorkin.
+\newblock Space-time as a causal set.
+\newblock {\em Physical Review Letters}, 59(5):521--524, 1987.
+
+\bibitem{thooft2016}
+Gerard 't~Hooft.
+\newblock {\em The Cellular Automaton Interpretation of Quantum Mechanics}.
+\newblock Springer International Publishing, 2016.
+
+\bibitem{wolfram2002}
+Stephen Wolfram.
+\newblock {\em A New Kind of Science}.
+\newblock Wolfram Media, Champaign, IL, 2002.
+
+\bibitem{zuse1969}
+Konrad Zuse.
+\newblock Rechnender raum.
+\newblock {\em Elektronische Datenverarbeitung}, 8:336--344, 1969.
+\newblock ``Calculating Space'' -- first proposal of digital physics.
 
 \bibitem{schrodinger1930}
 Erwin Schr{\"o}dinger.
@@ -11,6 +27,18 @@ Erwin Schr{\"o}dinger.
 \newblock {\em Sitzungsberichte der Preussischen Akademie der Wissenschaften},
   pages 418--428, 1930.
 \newblock Original derivation of Zitterbewegung.
+
+\bibitem{wheeler1990}
+John~A. Wheeler.
+\newblock Information, physics, quantum: The search for links.
+\newblock In Wojciech~H. Zurek, editor, {\em Complexity, Entropy, and the
+  Physics of Information}, Redwood City, CA, 1990. Addison-Wesley.
+\newblock The ``It from Bit'' hypothesis.
+
+\bibitem{dirac1928}
+Paul A.~M. Dirac.
+\newblock The quantum theory of the electron.
+\newblock {\em Proceedings of the Royal Society A}, 117(778):610--624, 1928.
 
 \bibitem{debroglie1924}
 Louis de~Broglie.
@@ -22,6 +50,34 @@ Louis de~Broglie.
 Isaac Newton.
 \newblock {\em Philosophi{\ae} Naturalis Principia Mathematica}.
 \newblock Royal Society, London, 1687.
+
+\bibitem{bekenstein1973}
+Jacob~D. Bekenstein.
+\newblock Black holes and entropy.
+\newblock {\em Physical Review D}, 7(8):2333--2346, 1973.
+
+\bibitem{hawking1975}
+Stephen~W. Hawking.
+\newblock Particle creation by black holes.
+\newblock {\em Communications in Mathematical Physics}, 43(3):199--220, 1975.
+
+\bibitem{verlinde2011}
+Erik Verlinde.
+\newblock On the origin of gravity and the laws of newton.
+\newblock {\em Journal of High Energy Physics}, 2011(4):29, 2011.
+\newblock Entropic gravity -- gravity as emergent from information.
+
+\bibitem{payne1971}
+Harold~J. Payne.
+\newblock Models of freeway traffic and control.
+\newblock {\em Mathematical Models of Public Systems}, 1:51--61, 1971.
+\newblock Payne-Whitham second-order traffic flow model.
+
+\bibitem{lighthill1955}
+Michael~J. Lighthill and Gerald~B. Whitham.
+\newblock On kinematic waves. {II}. a theory of traffic flow on long crowded
+  roads.
+\newblock {\em Proceedings of the Royal Society A}, 229(1178):317--345, 1955.
 
 \bibitem{bohr1928}
 Niels Bohr.

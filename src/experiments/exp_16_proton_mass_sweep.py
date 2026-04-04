@@ -1,5 +1,5 @@
 """
-exp_16_proton_mass_sweep.py
+exp_16_proton_mass_sweep.py  (redesign v3)
 Proton mass sweep: settling time vs. OMEGA_P.
 
 Tests the symmetry-breaking prediction from notes/proton_symmetry_breaking.md:
@@ -11,14 +11,33 @@ Tests the symmetry-breaking prediction from notes/proton_symmetry_breaking.md:
 
   Prediction: T_settle increases monotonically with OMEGA_P (proton mass).
 
+Design v3 changes (vs v2):
+  - k_init = 1.0 / r1 per trial: Bohr wavevector now scales with the
+    trial-specific Bohr radius r1(omega_p).  v2 used K_BOHR = 1/R1_REF
+    (fixed at physical proton value), causing all lighter-proton electrons
+    to be over-energised and escape the well.
+  - Fixed logic bug in `passed`: (n_settled >= 3 and n_settled < 2) was
+    always False, so passed reduced to np.all(diff(empty))=True, printing
+    PASS with 0 settled runs.
+
+Design v2 changes (vs v1):
+  - BURN_IN = 4000 ticks: electron must leave its initial position before
+    settling is checked.  v1 BURN_IN=500 was triggering on the initial packet.
+  - Sustained settling: PDF peak must stay within SETTLE_TOL of R1 for
+    SETTLE_WINDOW consecutive check-ticks before T_settle is recorded.
+  - No photon session: A=1 tells us photon emission is session creation at
+    orbit lock-in; an artificial photon session adds noise without contributing
+    to the settling measurement.
+  - CHECK_EVERY: settling is checked every CHECK_EVERY ticks to save cost.
+  - r_peak_history saved for post-hoc analysis.
+
 For each OMEGA_P the electron is initialized at R_INIT = R1(OMEGA_P) * 1.05
-with K_INIT = K_BOHR in the two-body CoM frame (same as exp_15/exp_12).
-T_settle is the first tick at which the time-averaged electron PDF peak
-falls within SETTLE_TOL of R1.
+with K_INIT = 1/R1(OMEGA_P) in the two-body CoM frame (same as exp_12).
+T_settle is the first tick at which the sustained settling criterion is met.
 
 The physical proton sits at OMEGA_P = pi/2 (maximum lattice mass).
 Lighter OMEGA_P values test whether a less-massive nucleus settles faster.
-Expected shape: T_settle ~ 1/recoil_amplitude ~ M_P ~ sin(OMEGA_P/2).
+Expected shape: T_settle ~ M_P ~ sin(OMEGA_P/2).
 
 At very low OMEGA_P the proton becomes too mobile -- the two-body system
 may become unbound.  The minimum OMEGA_P for stable orbital formation is
@@ -32,7 +51,6 @@ import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
-from src.core.TickScheduler import TickScheduler
 
 _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 
@@ -45,15 +63,15 @@ WIDTH_P   = 0.5
 R1_REF    = 10.3       # exp_12 two-body Bohr radius at OMEGA_P = pi/2
 K_BOHR    = 1.0 / R1_REF
 
-M_E = np.sin(OMEGA_E) / 2.0
+M_E = np.sin(OMEGA_E / 2.0)
 
-GAMMA     = float(np.sin(OMEGA_E / 2.0)**2 * np.cos(OMEGA_E / 2.0)**2)
-
-GRID      = 65
-TICKS     = 16000
-BURN_IN   = 500        # shorter burn-in: we want to detect early settling
-N_BINS    = 100
-SETTLE_TOL = 0.15      # PDF peak within 15% of R1 counts as settled
+GRID        = 65
+TICKS       = 20000    # longer run to catch slow settlers
+BURN_IN     = 4000     # must exceed electron transit time from R_INIT
+CHECK_EVERY = 50       # check settling criterion every N ticks
+N_BINS      = 100
+SETTLE_TOL  = 0.15     # PDF peak within 15% of R1
+SETTLE_WINDOW = 10     # must pass criterion for this many consecutive checks
 
 # OMEGA_P sweep: from light (fast recoil) to heavy (slow recoil).
 # pi/2 is the physical proton (maximum lattice mass).
@@ -68,9 +86,9 @@ def r1_for_omega_p(omega_p):
     R1 scales with reduced mass: R1 ~ 1/mu = (M_E + M_P) / (M_E * M_P).
     Normalised to R1_REF at OMEGA_P = pi/2.
     """
-    m_p     = np.sin(omega_p / 2.0)
-    mu      = M_E * m_p / (M_E + m_p)
-    mu_ref  = M_E * np.sin(np.pi / 4.0) / (M_E + np.sin(np.pi / 4.0))
+    m_p    = np.sin(omega_p / 2.0)
+    mu     = M_E * m_p / (M_E + m_p)
+    mu_ref = M_E * np.sin(np.pi / 4.0) / (M_E + np.sin(np.pi / 4.0))
     return R1_REF * mu_ref / mu
 
 
@@ -93,12 +111,13 @@ def density_com(density):
 
 
 def make_sessions(grid, wc, omega_p, r1):
-    """Two-body CoM frame initialization, same as exp_12/exp_15."""
-    m_p   = np.sin(omega_p / 2.0)
+    """Two-body CoM frame initialization, same as exp_12."""
+    m_p     = np.sin(omega_p / 2.0)
     r_p_com = r1 * M_E / m_p
-    dr_e  = r1 * 1.05 / np.sqrt(3.0)
-    dr_p  = r_p_com / np.sqrt(3.0)
-    k_p   = K_BOHR * M_E / m_p
+    dr_e    = r1 * 1.05 / np.sqrt(3.0)
+    dr_p    = r_p_com / np.sqrt(3.0)
+    k_init  = 1.0 / r1          # Bohr wavevector scaled to this trial's R1
+    k_p     = k_init * M_E / m_p
 
     sz = grid
     start_e = tuple(min(int(round(wc[i] + dr_e)), sz - 2) for i in range(3))
@@ -109,7 +128,7 @@ def make_sessions(grid, wc, omega_p, r1):
 
     sx, sy, sz_ = start_e
     env_e = (np.exp(-0.5 * ((xx-sx)**2 + (yy-sy)**2 + (zz-sz_)**2) / WIDTH_E**2)
-             * np.exp(1j * K_BOHR * (xx - yy - zz)))
+             * np.exp(1j * k_init * (xx - yy - zz)))
     amp_e = env_e.astype(complex) / np.sqrt(2.0)
     lat_e = OctahedralLattice(sz, sz, sz)
     electron = CausalSession(lat_e, start_e, instruction_frequency=OMEGA_E)
@@ -127,24 +146,23 @@ def make_sessions(grid, wc, omega_p, r1):
     proton.psi_L = amp_p.copy()
     enforce_unity_spinor(proton.psi_R, proton.psi_L)
 
-    lat_ph = OctahedralLattice(sz, sz, sz)
-    photon = CausalSession(lat_ph, start_e, instruction_frequency=0.0,
-                           is_massless=True)
-
-    return electron, proton, photon, start_e, start_p
+    return electron, proton, start_e, start_p
 
 
 def run_one(omega_p):
     """
-    Run one OMEGA_P trial.  Returns (T_settle, r_final, settled).
-    T_settle = first tick where PDF peak is within SETTLE_TOL of R1,
-               or TICKS if never settled.
+    Run one OMEGA_P trial.
+    Returns (T_settle, r_final, settled, r1, r_peak_history).
+
+    T_settle = first tick at which PDF peak has been within SETTLE_TOL of R1
+               for SETTLE_WINDOW consecutive checks, or TICKS if never settled.
+    r_peak_history = list of (tick, r_peak) sampled every CHECK_EVERY ticks
+                     after BURN_IN, for post-hoc analysis.
     """
     r1  = r1_for_omega_p(omega_p)
-    m_p = np.sin(omega_p / 2.0)
     wc  = (GRID // 2,) * 3
 
-    electron, proton, photon, start_e, start_p = make_sessions(GRID, wc, omega_p, r1)
+    electron, proton, start_e, start_p = make_sessions(GRID, wc, omega_p, r1)
 
     e_com0 = density_com(electron.probability_density())
     p_com0 = density_com(proton.probability_density())
@@ -153,12 +171,6 @@ def run_one(omega_p):
     proton.lattice.topological_potential = coulomb_potential_array(
         GRID, *e_com0, STRENGTH, SOFTENING)
 
-    scheduler = TickScheduler()
-    e_idx  = scheduler.register_session(electron)
-    pr_idx = scheduler.register_session(proton)
-    ph_idx = scheduler.register_session(photon)
-    scheduler.register_emission(e_idx, ph_idx, pr_idx, rate=GAMMA)
-
     x = np.arange(GRID)
     xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
     r_arr = np.sqrt((xx - wc[0])**2 + (yy - wc[1])**2 + (zz - wc[2])**2)
@@ -166,10 +178,14 @@ def run_one(omega_p):
     bin_edges = np.linspace(0, r_max, N_BINS + 1)
     r_centers = 0.5 * (bin_edges[:-1] + bin_edges[1:])
 
-    T_settle  = TICKS   # default: never settled
-    settled   = False
-    acc_dens  = None
-    r_final   = 0.0
+    T_settle       = TICKS
+    settled        = False
+    acc_dens       = None
+    r_final        = 0.0
+    r_peak_history = []
+    consec_ok      = 0   # consecutive checks within tolerance
+
+    t0 = time.time()
 
     for tick in range(TICKS):
         e_dens = electron.probability_density()
@@ -185,26 +201,37 @@ def run_one(omega_p):
         if tick % 2 == 0:
             proton.tick();   proton.advance_tick_counter()
             electron.tick(); electron.advance_tick_counter()
-            photon.tick();   photon.advance_tick_counter()
         else:
             electron.tick(); electron.advance_tick_counter()
             proton.tick();   proton.advance_tick_counter()
-            photon.tick();   photon.advance_tick_counter()
-
-        scheduler._apply_emission_pairs()
 
         if tick >= BURN_IN:
             acc_dens = e_dens if acc_dens is None else acc_dens + e_dens
 
-            # Check settling: PDF peak within SETTLE_TOL of r1
-            if not settled:
+            if tick % CHECK_EVERY == 0:
                 P, _ = np.histogram(r_arr.ravel(), bins=bin_edges,
                                     weights=acc_dens.ravel())
                 P /= (P.sum() + 1e-12)
-                r_peak = r_centers[int(np.argmax(P))]
-                if abs(r_peak - r1) / r1 < SETTLE_TOL:
-                    T_settle = tick
-                    settled  = True
+                r_peak = float(r_centers[int(np.argmax(P))])
+                r_peak_history.append((tick, r_peak))
+
+                if not settled:
+                    if abs(r_peak - r1) / r1 < SETTLE_TOL:
+                        consec_ok += 1
+                        if consec_ok >= SETTLE_WINDOW:
+                            T_settle = tick
+                            settled  = True
+                    else:
+                        consec_ok = 0  # reset streak
+
+        # Progress report every 2000 ticks after burn-in
+        if tick > BURN_IN and tick % 2000 == 0:
+            elapsed = time.time() - t0
+            eta     = elapsed / tick * (TICKS - tick)
+            r_now   = r_peak_history[-1][1] if r_peak_history else 0.0
+            print(f"    tick={tick:6d}  r_peak={r_now:6.3f}  R1={r1:.3f}"
+                  f"  consec={consec_ok}  [{elapsed:.0f}s eta {eta:.0f}s]",
+                  flush=True)
 
     if acc_dens is not None:
         P, _ = np.histogram(r_arr.ravel(), bins=bin_edges,
@@ -212,34 +239,39 @@ def run_one(omega_p):
         P /= (P.sum() + 1e-12)
         r_final = float(r_centers[int(np.argmax(P))])
 
-    return T_settle, r_final, settled, r1
+    return T_settle, r_final, settled, r1, r_peak_history
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def run():
     print("=" * 70)
-    print("EXP 16: Proton mass sweep -- settling time vs. OMEGA_P")
+    print("EXP 16 v3: Proton mass sweep -- settling time vs. OMEGA_P")
     print("=" * 70)
     print(f"  Prediction: T_settle increases monotonically with OMEGA_P")
     print(f"  Physical proton: OMEGA_P = pi/2 = {np.pi/2:.4f}")
-    print(f"  OMEGA_E={OMEGA_E}  STRENGTH={STRENGTH}  GAMMA={GAMMA:.6f}")
-    print(f"  Grid={GRID}^3  TICKS={TICKS}  SETTLE_TOL={SETTLE_TOL*100:.0f}%")
+    print(f"  OMEGA_E={OMEGA_E}  STRENGTH={STRENGTH}")
+    print(f"  Grid={GRID}^3  TICKS={TICKS}  BURN_IN={BURN_IN}")
+    print(f"  CHECK_EVERY={CHECK_EVERY}  SETTLE_TOL={SETTLE_TOL*100:.0f}%"
+          f"  SETTLE_WINDOW={SETTLE_WINDOW} checks")
     print(f"\n  {'OMEGA_P':>8}  {'M_P':>7}  {'R1':>7}  {'T_settle':>9}"
           f"  {'r_final':>8}  {'settled':>8}")
-    print(f"  {'-'*60}")
+    print(f"  {'-'*62}")
 
     results = []
     t0_total = time.time()
 
     for omega_p in OMEGA_P_VALUES:
         m_p = float(np.sin(omega_p / 2.0))
-        t0 = time.time()
-        T_settle, r_final, settled, r1 = run_one(omega_p)
-        elapsed = time.time() - t0
+        r1  = r1_for_omega_p(omega_p)
         marker = ' <- physical proton' if abs(omega_p - np.pi/2) < 0.01 else ''
+        print(f"\n  OMEGA_P={omega_p:.4f}  M_P={m_p:.4f}  R1={r1:.3f}{marker}",
+              flush=True)
+        t0 = time.time()
+        T_settle, r_final, settled, r1, history = run_one(omega_p)
+        elapsed = time.time() - t0
         print(f"  {omega_p:8.4f}  {m_p:7.4f}  {r1:7.3f}  {T_settle:9d}"
-              f"  {r_final:8.3f}  {str(settled):>8}  [{elapsed:.0f}s]{marker}")
+              f"  {r_final:8.3f}  {str(settled):>8}  [{elapsed:.0f}s]")
         results.append((omega_p, m_p, r1, T_settle, r_final, int(settled)))
 
     total_elapsed = time.time() - t0_total
@@ -250,33 +282,40 @@ def run():
 
     arr = np.array(results)
     omega_p_arr  = arr[:, 0]
-    m_p_arr      = arr[:, 1]
     t_settle_arr = arr[:, 3]
     settled_arr  = arr[:, 5]
 
-    # Check monotonicity
     settled_mask = settled_arr.astype(bool)
-    if settled_mask.sum() >= 2:
-        t_settled = t_settle_arr[settled_mask]
+    n_settled    = int(settled_mask.sum())
+
+    if n_settled >= 2:
+        t_settled  = t_settle_arr[settled_mask]
         op_settled = omega_p_arr[settled_mask]
-        monotone = bool(np.all(np.diff(t_settled) >= 0))
-        print(f"\n  Settled runs: {int(settled_mask.sum())}/{len(OMEGA_P_VALUES)}")
+        monotone   = bool(np.all(np.diff(t_settled) >= 0))
+        corr       = float(np.corrcoef(op_settled, t_settled)[0, 1])
+        print(f"\n  Settled runs: {n_settled}/{len(OMEGA_P_VALUES)}")
         print(f"  T_settle monotonically increasing with OMEGA_P: {monotone}")
-        corr = float(np.corrcoef(op_settled, t_settled)[0, 1])
         print(f"  Correlation(OMEGA_P, T_settle) = {corr:.4f}  (expect > 0)")
     else:
-        print(f"\n  Only {int(settled_mask.sum())} run(s) settled -- insufficient for trend.")
-        print(f"  Increase TICKS or SETTLE_TOL.")
+        print(f"\n  Only {n_settled} run(s) settled.")
+        print(f"  Increase TICKS or SETTLE_TOL, or check for unbound orbits.")
 
-    passed = (settled_mask.sum() >= 3 and
-              (not settled_mask.sum() >= 2 or
-               bool(np.all(np.diff(t_settle_arr[settled_mask]) >= 0))))
+    # Minimum stable proton mass
+    stable_omegas = omega_p_arr[settled_mask]
+    if len(stable_omegas) > 0:
+        omega_min = float(stable_omegas.min())
+        m_min     = float(np.sin(omega_min / 2.0))
+        print(f"\n  Minimum stable OMEGA_P: {omega_min:.4f}  (M_P = {m_min:.4f})")
+        print(f"  -- structural prediction: proton cannot be lighter than M_P={m_min:.4f}")
+
+    passed = (n_settled >= 3 and
+              bool(np.all(np.diff(t_settle_arr[settled_mask]) >= 0)))
 
     if passed:
         print(f"\n[PASS] Settling time increases with proton mass.")
         print(f"  Proton recoil is the symmetry-breaking mechanism for ground state selection.")
     else:
-        print(f"\n[PARTIAL] Trend not confirmed -- see per-OMEGA_P results above.")
+        print(f"\n[PARTIAL] Trend not fully confirmed -- see per-OMEGA_P results above.")
 
     print(f"\n  Total time = {total_elapsed:.0f}s ({total_elapsed/3600:.2f} hrs)")
 
