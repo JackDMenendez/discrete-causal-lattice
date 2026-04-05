@@ -58,7 +58,7 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_14 | PASS | Helium two-electron system |
 | exp_11 n=2 two-body | NOT RUN | Needs live proton; exp_12 machinery, R2=41.2 |
 | exp_15 | ABANDONED | Phase drain incompatible with A=1; proton Zitterbewegung IS the mechanism |
-| exp_16 | RUNNING | Proton mass sweep: T_settle vs OMEGA_P; tests symmetry-breaking prediction |
+| exp_16 | RUNNING (v3, ~18 hrs remaining) | Proton mass sweep: T_settle vs OMEGA_P; tests symmetry-breaking prediction |
 | exp_strength_sweep | REDESIGNED, NOT RUN | See below |
 
 ---
@@ -78,6 +78,64 @@ Implementation notes:
   - Peierls substitution: A·v added to delta_p in CausalSession._kinetic_hop
   - _precompute_shift_slices stores (dx,dy,dz) as first element of 5-tuple
   - vector_potential: (3,X,Y,Z) array on OctahedralLattice
+
+---
+
+## exp_16 v3 -- RUNNING (started 2026-04-04, ~18 hrs remaining at time of save)
+
+Proton mass sweep: T_settle vs OMEGA_P.
+Tests prediction: heavier proton → slower symmetry breaking → longer settling time.
+Also tests minimum proton mass for quantization vs binding (distinct conditions).
+
+Parameters: GRID=65^3, TICKS=20000, BURN_IN=4000, CHECK_EVERY=50
+            SETTLE_TOL=15%, SETTLE_WINDOW=10 consecutive checks
+            OMEGA_E=0.1019, STRENGTH=30.0
+            OMEGA_P sweep: [0.3, 0.5, 0.7, 0.9, 1.1, 1.3, pi/2]
+
+### Results so far (2026-04-04):
+
+OMEGA_P=0.3  M_P=0.149  R1=12.88  r_final=29.65  settled=True (TRANSIENT)
+  - settled=True is a false positive: transient lock at tick 4800, then escaped
+  - r_peak drifted to ~30, well outside R1=12.88
+  - consec=10 frozen (settled flag set early, check stopped)
+  - REGIME 2: bound but unquantized — wide oscillating orbit, not escaping
+  - Grid max radius ~55 nodes; r~30 is midway, NOT grid-edge artifact
+
+OMEGA_P=0.5  M_P=0.247  R1=11.59  r_final=34.09  settled=False
+  - consec=0 throughout entire 20000 ticks — never even briefly locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: worse than OMEGA_P=0.3, no transient lock at all
+  - Unexpected: lighter proton locked transiently; heavier didn't lock at all
+
+OMEGA_P=0.7  M_P=0.343  R1=11.04  IN PROGRESS (tick ~6000)
+  - r_peak=29.65, consec=0 so far
+
+### Three regimes framework:
+  Regime 1 — Quantized: r_peak ≈ R1 sustained → hydrogen atom
+  Regime 2 — Bound unquantized: r_peak >> R1, non-escaping → proton too mobile
+  Regime 3 — Unbound: r_peak → grid boundary (~55) → true escape
+
+### What to watch for in remaining trials:
+  - Does any OMEGA_P produce sustained consec ≥ 10 AND r_final ≈ R1?
+  - At what OMEGA_P does the transition from Regime 2 → Regime 1 occur?
+  - Does physical proton (OMEGA_P=pi/2=1.571) settle cleanly?
+  - Is the relationship non-monotonic at low OMEGA_P (0.3 better than 0.5)?
+
+### Key insight confirmed so far:
+  Binding and quantization are SEPARATE conditions. OMEGA_P=0.3 and 0.5
+  are both bound (sessions stay together) but neither is quantized (no
+  Arnold tongue lock). This distinction is not present in standard QM.
+
+### Output file location:
+  C:/Users/jackd/AppData/Local/Temp/claude/
+  d--sandbox-jackd-repos-physics-Papers-discrete-causal-lattice/
+  33b5109e-d80d-4134-864e-56e60e5de7a7/tasks/bdpv2xyuk.output
+
+### Next after exp_16 finishes:
+  - exp_17: pair annihilation efficiency at ω=π/2
+  - exp_18: tidal ionization / quantum Roche limit M_min(d) — needs
+    confirmed stable OMEGA_P from exp_16 as base state
+  - exp_19: photon pair entanglement CHSH (joint A=1 variant)
 
 ---
 
