@@ -159,3 +159,56 @@ of locality in the hop dynamics.
 
 This would be a foundational result: Bell nonlocality explained by a
 global conservation law rather than by faster-than-light influence.
+
+---
+
+## The Stronger Case: Photon Pair Creation
+
+Pair annihilation (electron + positron → two photons) is a cleaner
+entanglement argument than post-interaction separation, because the
+constraint is not just correlated — it is *structurally inseparable
+from birth*.
+
+Under A=1, the two photon sessions are created simultaneously from a
+single joint normalization event. The total amplitude budget is divided
+between them at the moment of session creation. The phase structure of
+the annihilating electron session determines both photon sessions
+simultaneously — not sequentially.
+
+**This is stronger than the usual "common source" argument.** In the
+A=1 framework it is structural: you cannot create two sessions from one
+joint normalization event and have them be independent. The accounting
+forbids it. The sessions were never separately normalized, so their
+amplitudes are fundamentally not independent.
+
+Specifically:
+
+- The electron's (psi_R, psi_L) spinor at annihilation is split across two outgoing photon sessions
+- The total amplitude of both photon sessions must equal the electron's amplitude at that tick
+- A=1 applied to the pair jointly: |psi_A|² + |psi_B|² = 1
+- Neither session has an independent A=1 constraint
+
+This is joint normalization from birth — the operational definition of
+entanglement in the A=1 language.
+
+**The honest boundary:**
+The argument above shows joint session creation forces correlations.
+It does not automatically show those correlations are non-classical
+(CHSH > 2). That requires:
+
+1. Implementing joint A=1 normalization for the photon pair (variant B in the exp_15 design above)
+2. Measuring CHSH from the two photon sessions after separation
+3. Showing the result exceeds 2.0
+
+The structural argument is compelling. Whether it crosses the classical
+bound is still an open experimental question in the framework.
+
+**Why photons are the cleanest test:**
+Unlike the two-session post-interaction case, photon pair creation has
+no ambiguity about when the joint constraint begins. It begins at the
+tick of session creation and never ends. There is no "interaction
+period" to characterise or "separation" to define. The joint A=1
+constraint is the session creation event itself.
+
+If any configuration in the framework produces CHSH > 2, it should be
+this one.

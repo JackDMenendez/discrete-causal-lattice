@@ -225,6 +225,12 @@ INPUT .\sections\introduction.tex
 INPUT sections\introduction.tex
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmti12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmtt12.tfm
+INPUT .\sections\audit_table.tex
+INPUT .\sections\audit_table.tex
+INPUT .\sections\audit_table.tex
+INPUT .\sections\audit_table.tex
+INPUT sections\audit_table.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\tcrm1200.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
@@ -237,7 +243,6 @@ INPUT .\sections\octahedral_substrate.tex
 INPUT .\sections\octahedral_substrate.tex
 INPUT sections\octahedral_substrate.tex
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\tcrm1200.tfm
 INPUT C:\Program Files\MiKTeX\fonts\enc\dvips\cm-super\cm-super-ts1.enc
 INPUT ..\figures\lattice_drawio.tex
 INPUT ..\figures\lattice_drawio.tex
@@ -353,11 +358,6 @@ INPUT .\sections\hydrogen_spectrum.tex
 INPUT .\sections\hydrogen_spectrum.tex
 INPUT .\sections\hydrogen_spectrum.tex
 INPUT sections\hydrogen_spectrum.tex
-INPUT .\sections\audit_table.tex
-INPUT .\sections\audit_table.tex
-INPUT .\sections\audit_table.tex
-INPUT .\sections\audit_table.tex
-INPUT sections\audit_table.tex
 INPUT .\sections\conclusion.tex
 INPUT .\sections\conclusion.tex
 INPUT .\sections\conclusion.tex

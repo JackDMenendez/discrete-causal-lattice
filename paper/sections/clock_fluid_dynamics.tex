@@ -288,6 +288,30 @@ momentum equation~\eqref{eq:clock_momentum}.
 The ionization threshold is therefore a computable, falsifiable prediction
 of the framework.
 
+\paragraph{Arnold tongue compression and quantum number dependence.}
+Arnold tongues compress at higher quantum numbers.
+In the standard circle map the tongue width at resonance $p/q$ scales
+as $\sim 1/q^2$, so the orbital series $n=1,2,3,\ldots$ occupies
+progressively narrower basins:
+$\Delta\omega_\text{tongue}(n)\sim 1/n^2$.
+Since the orbital radius grows as $R_n\sim n^2$, the ionization
+condition~\eqref{eq:gradient_ionization} becomes
+\begin{equation}
+    \frac{|\nabla\rho_\text{clock}|}{\rho_\text{clock}}
+        > \frac{1}{n^4},
+    \label{eq:tongue_compression}
+\end{equation}
+so both factors drive in the same direction: a gradient that cannot
+dislodge $n=1$ easily ejects $n=2$, and higher orbitals are doubly
+vulnerable.
+This gives a natural account of the Lyman ionization sequence in stellar
+atmospheres --- the progression in which higher lines appear in
+progressively lower-density environments --- without invoking temperature
+alone.
+The ground state sits in the widest available tongue (the 3:1 resonance
+$\omega R_1 = \pi/3$) and is therefore the most geometrically robust
+configuration.
+
 \paragraph{Plasma as a clock fluid phase.}
 Plasma is the phase of matter in which
 Eq.~\eqref{eq:gradient_ionization} is satisfied at all orbital radii:
@@ -298,6 +322,44 @@ not a thermal threshold.
 Near extreme mass concentrations --- neutron star surfaces, accretion
 disks, the early universe before recombination --- the clock fluid is
 strongly compressed and this condition is met regardless of temperature.
+
+\paragraph{The quantum Roche limit.}
+The gradient ionization condition has a tidal form that connects it
+directly to classical mechanics.
+The clock density gradient from an external mass $M$ at distance $d$
+varies as $|\nabla\rho_\text{clock}| \sim M/d^2$, but the relevant
+quantity is the \emph{differential} gradient across the atom of size
+$R_1$:
+\begin{equation}
+    \frac{\Delta\rho_\text{clock}}{\rho_\text{clock}}\bigg|_{R_1}
+        \sim \frac{M\,R_1}{d^3}.
+    \label{eq:tidal_gradient}
+\end{equation}
+Substituting into Eq.~\eqref{eq:gradient_ionization}, the ionization
+condition becomes
+\begin{equation}
+    M > \frac{\Delta\omega_\text{tongue}\,d^3}{R_1}.
+    \label{eq:quantum_roche}
+\end{equation}
+The $d^3$ scaling is not accidental --- it is the Roche limit.
+The classical Roche limit for tidal disruption of a self-gravitating
+body scales identically as $d^3$, with the body's self-gravity replaced
+here by the Arnold tongue width.
+Gravity and quantization meet at the same mathematical structure but
+from opposite directions: the classical Roche limit describes Newtonian
+tidal forces overcoming self-gravity; the quantum Roche limit describes
+a tidal clock density gradient overcoming the resonance basin width.
+In the $\Tdiamond$ framework they are the same condition seen at
+different scales.
+
+Equation~\eqref{eq:quantum_roche} gives a parameter-free ionization
+curve $M_\text{min}(d)$ computable from the Arnold tongue width
+(\texttt{exp\_09}) and the Bohr radius (\texttt{exp\_12}) alone.
+In physical units this predicts the minimum external gravitational mass
+required to ionize hydrogen at distance $d$ without thermal excitation
+--- a number directly comparable to the inner boundaries of neutral
+hydrogen shells around compact objects observed in 21\,cm HI surveys
+and Lyman-$\alpha$ absorption systems.
 
 There exists a \emph{minimum stable orbit radius} around any compact
 object, below which gradient ionization prevents neutral matter from

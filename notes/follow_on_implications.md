@@ -150,21 +150,212 @@ operations on the bipartite lattice.
 
 ---
 
-## 9. Minimum Stable Orbit Radius Near Compact Objects
+## 9. Tidal Ionization Mass: What Gravitational Mass Ionizes Gas?
 
-**The idea:** There exists an innermost stable atomic orbit (analogous
-to the geodesic ISCO at r = 6GM/c²) below which gradient ionization
-always applies regardless of temperature. The question is whether the
-atomic ISCO coincides with the photon sphere (r = 3GM/c²) or has a
-distinct value computable from the Arnold tongue width and clock fluid
-pressure gradient.
+**The idea:** Given a stable hydrogen atom (settled via exp_12 two-body
+dynamics), what external gravitational mass at what distance is required
+to disrupt the orbit via gradient ionization — independent of temperature?
+
+This is the lattice version of tidal ionization. The external mass
+imposes a clock density gradient across the orbital radius R₁. When
+that gradient exceeds the Arnold tongue width, the resonance basin
+ceases to exist and the electron is ejected.
+
+**The critical condition — the quantum Roche limit:**
+
+The clock density gradient from an external mass M at distance d varies
+as ~M/d². But the quantity that disrupts the orbit is the *differential*
+gradient across the atom of size R₁:
+
+    Δρ_clock / ρ_clock across R₁  ~  M · R₁ / d³
+
+The ionization condition therefore becomes:
+
+    M  >  Δω_tongue · d³ / R₁
+
+The d³ scaling is not accidental — **this is the Roche limit for quantum
+orbits.** The classical Roche limit for tidal disruption of a
+self-gravitating body also scales as d³. Here it emerges for Arnold
+tongue resonances, with the tongue width Δω_tongue replacing the
+classical body density.
+
+Gravity and quantization meet at the same mathematical structure, but
+derived from opposite directions:
+- Classical Roche limit: Newtonian tidal force overcomes self-gravity
+- Quantum Roche limit: tidal clock density gradient overcomes the
+  Arnold tongue basin width
+
+Same d³ scaling. Same physics, seen from two levels of description.
+In the lattice they are the same thing.
+
+**This gives a parameter-free ionization curve:** M_min(d) at threshold
+is computable from the Arnold tongue width (exp_09) and Bohr radius
+(exp_12) alone — no temperature, no thermal model.
+
+**Experiment design (exp_17 or reassigned slot):**
+
+1. Initialise stable hydrogen using exp_12 machinery (live proton, OMEGA_P=pi/2, settled to Bohr orbit)
+2. After orbital lock-in, add an external Coulomb well at distance d from the CoM with strength STRENGTH_ext
+3. Run for TICKS sufficient to detect orbit disruption
+4. Either: sweep STRENGTH_ext at fixed d to find threshold STRENGTH
+5. Or: sweep d at fixed STRENGTH_ext to find threshold distance
+6. Plot ionization curve STRENGTH_ext vs d; compare to STRENGTH_ext(d) = Δω_tongue · ρ_clock · d² / R₁
+
+**Astrophysical connection:**
+The threshold STRENGTH_ext as a function of d maps directly to: at
+what distance from a compact object (neutron star, black hole) does
+ambient neutral hydrogen ionize, independent of temperature?
+
+This is an observable: the inner edge of neutral hydrogen shells around
+compact objects (21cm HI surveys, Lyman-α absorption systems). The
+lattice prediction gives a specific, temperature-independent inner
+boundary. If it matches the observed HI edge positions in systems where
+thermal ionization alone would predict a different boundary, that is
+direct confirmation of the gradient ionization channel.
+
+**Why this is important:**
+
+- Not an implied result — a direct, testable prediction with a number
+- Connects lattice framework to radio astronomy (21cm HI) immediately
+- If the threshold mass agrees with observed ionization edges near compact objects, it changes how stellar plasma formation is modelled
+
+**Minimum stable orbit radius near compact objects:**
+There exists an innermost stable atomic orbit (analogous to the geodesic
+ISCO at r = 6GM/c²) below which gradient ionization always applies
+regardless of temperature. The question is whether the atomic ISCO
+coincides with the photon sphere (r = 3GM/c²) or has a distinct value
+computable from the Arnold tongue width and clock fluid pressure gradient.
 
 **Falsifiable:** Compare to observed inner edges of accretion disk
-emission lines (Fe Kα line profile).
+emission lines (Fe Kα line profile) and HI 21cm absorption edges near
+neutron stars.
 
 ---
 
-## 10. Quantum Computing as Cone Modification
+## 10. Relativistic Atoms: Lorentz Invariance of Quantization and the Relativistic Gradient Ionization Regime
+
+**Three cases, increasing complexity:**
+
+### Case 1 — Internal relative velocity (proton-electron within atom)
+
+Already handled by the framework. The bipartite Dirac tick rule encodes
+relativistic structure natively. Fine structure corrections emerge from
+the lattice without modification. The orbital velocity at the Bohr radius
+is v/c ≈ α ≈ 1/137, small but non-zero, and the Dirac derivation already
+captures this.
+
+### Case 2 — Whole atom moving at high external velocity
+
+The Arnold tongue resonance condition ω·R₁ = π/3 is a ratio of internal
+frequencies. Time dilation from external motion slows the internal clock —
+both ω and the orbital frequency scale together. The ratio is preserved.
+
+**The quantization condition is Lorentz invariant** because both sides
+of the resonance condition transform identically under time dilation.
+A fast-moving atom is still an atom. This is the relativistic invariance
+of bound states, emerging from the clock density picture without
+additional postulates.
+
+### Case 3 — Fast atom in a strong gravitational gradient (genuinely new)
+
+A relativistic atom near a compact object has two competing effects
+simultaneously:
+
+- **Time dilation** (stabilising): internal clock slows, both frequencies
+  scale together, resonance condition preserved
+- **Clock density gradient** (destabilising): gradient across R₁ detunes
+  the two sessions, gradient ionization channel
+
+These are not independent in GR — both are aspects of the metric. In the
+lattice, time dilation enters through the scheduler load (tick rate slows
+near mass) and gradient ionization enters through differential detuning
+across R₁. Whether they reinforce or oppose each other depends on whether
+the atom is falling radially (both effects aligned) or orbiting tangentially
+(effects partially decoupled).
+
+**The prediction:** for a radially infalling relativistic atom, time
+dilation and gradient ionization are correlated — the gradient grows as
+the atom approaches, but the internal clock also slows. There may be a
+partial cancellation that extends the survival of neutral hydrogen closer
+to the compact object than the static gradient ionization condition alone
+would predict.
+
+**For a tangentially moving atom** (e.g., in an accretion disk), the
+velocity provides time dilation but the gradient is still across R₁ in
+the radial direction. No cancellation — gradient ionization proceeds as
+in the static case.
+
+This predicts an **asymmetry in the neutral hydrogen boundary** around
+compact objects: the inner edge should be closer for radially infalling
+gas than for orbiting gas at the same radius. This is in principle
+observable in 21cm HI morphology around neutron stars.
+
+**Status:** Paper 2 territory, after gradient ionization established in
+exp_17. Requires combining the clock fluid gradient condition with the
+Lorentz factor of the infalling session — a calculation not yet done.
+
+---
+
+## 11. Vacuum Birefringence as Photon-Photon Session Interaction
+
+**The idea:** In strong electromagnetic fields, photon polarization states
+are rotated by the field — vacuum birefringence. In the A=1 framework,
+polarization is encoded in the RGB/CMY sublattice balance
+(rgb_cmy_imbalance). Two photon sessions propagating through a strong
+vector potential region should show measurable polarization rotation via
+pairwise phase exchange in the TickScheduler.
+
+**Physical grounding:**
+Light-by-light scattering was observed at the LHC in 2017 in heavy-ion
+collisions. Pulsar magnetic fields provide a natural astrophysical
+testbed. The Euler-Heisenberg effective Lagrangian gives the QED
+prediction for the rotation rate — this is the calibration target.
+
+**Experiment design (exp_20):**
+
+1. Two photon sessions with distinct polarization states (different rgb_cmy_imbalance initial values)
+2. Strong curl deformation imposed via set_em_twist on the traversal region
+3. Measure rgb_cmy_imbalance before and after traversal for each session
+4. Compare rotation rate against Euler-Heisenberg prediction
+5. Control: same geometry, no vector potential — rotation should be zero
+
+**The calibration requirement:**
+Whether the pairwise phase exchange in TickScheduler produces the
+correct QED rotation rate is not established. Matching the
+Euler-Heisenberg numbers is the validation requirement before this
+result means anything quantitative. Without that match, it is a
+demonstration that the machinery can produce some rotation — not a
+physics result.
+
+The Euler-Heisenberg Lagrangian gives:
+
+    Δn ∝ α² B² / (45π m_e⁴)   (in natural units)
+
+where Δn is the birefringence index difference. The lattice prediction
+must match this coefficient, not just the functional form.
+
+**Honest limitation:**
+This is a QED loop-level result (one-loop Euler-Heisenberg). Whether
+the lattice A=1 dynamics reproduce the correct coefficient without
+additional fitting is genuinely unknown. It could match (confirming
+the pairwise session interaction encodes QED), be off by a factor
+(requiring a correction to the interaction rule), or fail entirely
+(revealing a gap in the EM treatment). All three outcomes are
+informative.
+
+**Dependencies:**
+
+- exp_08 machinery (Peierls substitution, vector potential, curl field)
+- Entanglement / CHSH result (#6) for interpretation of pairwise correlations
+- Joint A=1 normalization for the photon pair (exp_19)
+
+**Priority:** Medium. High impact if the Euler-Heisenberg coefficient
+matches — would be the first quantitative QED prediction from the
+framework beyond hydrogen.
+
+---
+
+## 12. Quantum Computing as Cone Modification
 
 **The idea:** A qubit is a two-level quantum system. In the lattice, the
 natural two-level system is the RGB/CMY sublattice basis. A qubit
@@ -179,12 +370,14 @@ geometry.
 
 ## Priority Order for Follow-On Papers
 
-1. **Plasma / gradient ionization** — most directly testable with existing
-   machinery (exp_strength_sweep proxy); connects to observational
-   astrophysics immediately
-2. **Recombination as phase transition** — follows from (1); parameter-free
-   prediction of z_rec
-3. **Standard Model masses / Farey sequence** — high impact if it works;
+1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
+   exp_17 design ready; connects to 21cm HI observations immediately
+2. **Plasma / gradient ionization** (#1) — theoretical framework behind (1);
+   exp_strength_sweep proxy; connects to astrophysics broadly
+3. **Recombination as phase transition** (#2) — follows from (1) and (2);
+   parameter-free prediction of z_rec
+4. **Standard Model masses / Farey sequence** (#3) — high impact if it works;
    requires analytic work on the harmonic landscape
-4. **Asymptotic freedom** — requires CompositeCausalSession implementation
-5. **Entanglement / CHSH** — foundational but needs careful experiment design
+5. **Asymptotic freedom** (#4) — requires CompositeCausalSession implementation
+6. **Entanglement / CHSH** (#6) — foundational but needs careful experiment design
+7. **Vacuum birefringence** (#11) — medium priority; Euler-Heisenberg calibration is the gate; first quantitative QED test if it passes

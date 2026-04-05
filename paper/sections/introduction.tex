@@ -2,13 +2,14 @@
 % introduction.tex
 % ============================================================
 
-Quantum mechanics is the most precisely verified theory in the history
-of science.
-It answers, with extraordinary accuracy, every question about how particles
-behave: what energies they occupy, how they scatter, how they interfere,
-how they decay.
-But it is structurally silent on a different class of questions --- why
-its own axioms hold.
+Quantum mechanics and general relativity are the two most precisely
+verified theories in the history of science.
+Between them they answer, with extraordinary accuracy, every measurable
+question about how matter behaves and how spacetime curves: what energies
+particles occupy, how they scatter, how they interfere, how massive bodies
+attract.
+But both are structurally silent on a different class of questions ---
+why their own foundations hold.
 
 Why are atomic spectra discrete rather than continuous?
 The Schr\"odinger equation produces discrete eigenvalues given the right
@@ -22,18 +23,22 @@ not derived from anything geometrically prior.
 Why is the gauge group of the Standard Model $\mathrm{SU}(3)\times
 \mathrm{SU}(2)\times\mathrm{U}(1)$ and not some other group?
 The Standard Model takes its gauge content as given.
+And beyond quantum mechanics: why are gravitational and inertial mass
+exactly equal?
+General relativity declares their equality as the equivalence principle
+--- a postulate, not a derivation --- and provides no mechanism for it.
 
-These are not criticisms of quantum mechanics.
-They are a precise statement of what it is silent about, and that silence
-has been known since at least von Neumann~\cite{vonneumann1932} and is
-uncontroversial.
-A framework that answered these questions would not replace quantum mechanics;
-it would explain it.
+These are not criticisms of quantum mechanics or general relativity.
+They are a precise statement of what both theories are silent about,
+and that silence has been known since at least
+von Neumann~\cite{vonneumann1932} and is uncontroversial.
+A framework that answered these questions would not replace quantum
+mechanics or general relativity; it would explain them.
 
 \medskip
 
 This paper proposes such a framework.
-We show that all four questions have geometric answers, and that all four
+We show that all five questions have geometric answers, and that all five
 answers follow from a single conservation law:
 
 \begin{center}
@@ -47,7 +52,19 @@ sublattices, subject to $|\psi_R|^2 + |\psi_L|^2 = 1$ at every tick.
 No Hamiltonian, no Hilbert space, and no measurement postulate are
 assumed.
 
-The four answers:
+The framework's dynamics are scale-free: the tick rule and
+$\mathcal{A}=1$ constraint operate identically at any lattice spacing
+$a$, and all experiments produce dimensionless ratios
+(e.g.\ $R_1/a$, $k_\text{Bohr}\cdot a$) that are independent of $a$.
+Physical units enter only through a single calibration: identifying
+$a = \ell_P$ (one Planck length) and $\tau = t_P$ (one Planck time)
+fixes the speed limit $c = a/\tau = \ell_P/t_P$ and converts
+dimensionless lattice results into SI predictions.
+The numerical experiments in this paper run at arbitrary lattice
+spacing; the Planck identification is applied only when connecting
+results to physical observables (Section~\ref{sec:substrate}).
+
+The five answers:
 \begin{enumerate}
 \item \textbf{Quantization is an attractor, not a boundary condition.}
     The discrete mass spectrum arises from Arnold tongue frequency-locking
@@ -143,6 +160,23 @@ displaced amplitude is absorbed by a new photon session, and the proton
 adjusts to the new joint configuration.
 None of this requires a separately postulated transition rate.
 
+The framework also distinguishes two conditions that standard quantum
+mechanics treats as identical.
+\emph{Binding} requires only that the total session energy is negative
+--- the two sessions remain in each other's neighbourhood.
+\emph{Quantization} requires additionally that the joint phase dynamics
+lock onto an Arnold tongue attractor at a specific resonant radius.
+A proton too light to resist electron recoil can maintain binding ---
+the sessions stay together --- but its excessive recoil prevents the
+phase dynamics from settling into any resonant configuration.
+The system is gravitationally bound but orbitally unquantized.
+Standard quantum mechanics has no mechanism for this distinction: a
+system is either in an eigenstate or it is not.
+The $\Tdiamond$ framework has the mechanism explicitly, and
+\texttt{exp\_16} measures it: below a threshold proton mass, the
+two-session system occupies a wide, non-resonant orbit rather than
+collapsing or quantizing.
+
 \medskip
 
 \paragraph{Relation to prior discrete spacetime programmes.}
@@ -161,6 +195,32 @@ simultaneously.
 The lattice does not approximate known physics --- it derives it from
 a single conservation law and a single geometric substrate.
 
+\paragraph{Methodology and the role of $\mathcal{A}=1$.}
+The governing philosophy throughout is that $\mathcal{A}=1$ drives every
+result --- it is never fitted to a known answer.
+The procedure is always the same: write the discrete tick rule, impose
+$\mathcal{A}=1$, take the continuum limit, and read off what emerges.
+The Dirac equation was not the target of the bipartite tick rule; it is
+what fell out when the continuum limit was taken.
+The Newtonian $1/r^2$ force law was not inserted into the clock density
+field; it is the static limit of the Poisson equation that emerges from
+the Taylor expansion of clock density evolution.
+The hydrogen Bohr radius was not tuned; the lattice recovered it to four
+significant figures with no free parameters (\texttt{exp\_12}).
+In every case the test is: run the lattice, do not adjust it to match
+the known answer, and report what it produces.
+Where the lattice disagrees with known physics at short range --- the
+discrete corrections to the $1/r^2$ law, the nonlinear gravitational
+wave dispersion near $\rho_\text{max}$, the gradient ionization threshold
+--- those disagreements are predictions, not failures.
+
+All numerical experiments are verified against the same criterion:
+the result must emerge from genuine lattice dynamics with no post-hoc
+parameter adjustment.
+Table~\ref{tab:audit} maps every physical phenomenon discussed in the
+paper to the lattice mechanism that produces it, the experiment that
+confirms it, and its current verification status.
+
 \paragraph{Organisation of the paper.}
 Section~\ref{sec:substrate} defines the $\Tdiamond$ lattice, its
 bipartite structure, and the calibration of physical units.
@@ -176,3 +236,6 @@ Sections~\ref{sec:predictions}--\ref{sec:hydrogen} present the
 falsifiable predictions and the hydrogen results.
 Section~\ref{sec:conclusion} states what has been established and
 what remains open.
+
+\bigskip
+\input{sections/audit_table}

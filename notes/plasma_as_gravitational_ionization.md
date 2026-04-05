@@ -64,19 +64,52 @@ Plasma is the thermodynamic phase of matter in which the clock fluid gradient
 exceeds the Arnold tongue width at all orbital radii. The plasma-neutral
 boundary is a phase transition of the clock fluid.
 
+## Arnold Tongue Compression and Quantum Number Dependence
+
+Arnold tongues compress at higher quantum numbers. In the standard circle
+map, the width of the tongue at resonance p/q scales as ~1/q². The orbital
+series n=1,2,3... occupies progressively narrower basins:
+
+    Δω_tongue(n) ~ 1/n²
+
+Meanwhile the orbital radius grows as R_n ~ n², so the ionization
+condition becomes:
+
+    |∇ρ_clock| · R_n / ρ_clock  >  Δω_tongue(n)
+    |∇ρ_clock| · n² / ρ_clock   >  1/n²
+    |∇ρ_clock| / ρ_clock         >  1/n⁴
+
+Both factors drive the same direction: excited states are doubly
+vulnerable to gradient ionization. A gradient that cannot dislodge n=1
+can easily push n=2 out of its tongue entirely.
+
+This gives a natural account of the Lyman series ionization sequence in
+stellar atmospheres — the observed progression in which higher lines
+require progressively lower densities to be in absorption. In the lattice
+picture that is not purely a temperature effect; it is Arnold tongue
+compression. The ground state sits in the widest available tongue (the
+3:1 resonance at ω·R₁=π/3) and is therefore the most robust
+configuration in the universe.
+
 ## Falsifiable Predictions
 
-1. **Ionization threshold vs. gravity gradient**: The ionization temperature
+1. **Ionization threshold vs. quantum number**: The gradient required to
+   ionize orbital n scales as 1/n⁴. This predicts a specific departure
+   from the Saha equation at low temperatures near strong gravity gradients:
+   higher orbitals ionize first, at much lower gradients than thermal models
+   predict.
+
+2. **Ionization threshold vs. gravity gradient**: The ionization temperature
    should be *lower* near strong gravitational gradients than in flat space,
    by an amount computable from the Arnold tongue width and the local
    ρ_clock gradient.
 
-2. **exp_strength_sweep proxy test**: Increasing Coulomb STRENGTH sharpens the
+3. **exp_strength_sweep proxy test**: Increasing Coulomb STRENGTH sharpens the
    clock density gradient across R₁. If settling probability decreases with
    increasing STRENGTH (at fixed proton mass), that is evidence for
    gradient-driven detuning as a distinct ionization channel.
 
-3. **Minimum stable orbit radius near compact objects**: There exists an innermost
+4. **Minimum stable orbit radius near compact objects**: There exists an innermost
    stable atomic orbit (analogous to ISCO for test particles) below which the
    clock density gradient always exceeds the Arnold tongue width. Inside this
    radius, no neutral matter can exist — a structural prediction independent of

@@ -142,6 +142,67 @@ rather than a separately postulated transition rate.*
 
 ---
 
+## Three Regimes of Two-Session Dynamics (from exp_16, 2026-04-04)
+
+exp_16 is revealing that the two-session system has three distinct regimes,
+not two:
+
+**Regime 1 — Quantized (r_peak ≈ R1, sustained):**
+Proton mass heavy enough that recoil is small. The proton stays approximately
+centred; its Zitterbewegung provides symmetry-breaking without disruption.
+The joint Arnold tongue locks at the Bohr radius. This is the hydrogen atom.
+
+**Regime 2 — Bound but unquantized (r_peak >> R1, stable but non-resonant):**
+Proton mass below the quantization threshold. The proton recoils too
+strongly for the phase dynamics to lock. The electron briefly finds the
+resonance (transient consec=10 detection in exp_16) but the proton's
+recoil destroys the lock. The system settles into a wide, non-resonant
+orbit — bound but not quantized.
+OMEGA_P=0.3 (M_P=0.149) shows this behaviour: r_peak drifts to ~2×R1
+and oscillates there rather than escaping or settling.
+
+**Regime 3 — Unbound (r_peak → grid boundary):**
+Proton mass so low that the recoil exceeds the binding energy. True
+escape. Not seen yet in exp_16 — OMEGA_P=0.3 appears to be Regime 2,
+not Regime 3.
+
+**The key distinction:**
+Standard QM treats binding and quantization as the same condition — a
+system is either in an eigenstate or it isn't. The lattice distinguishes
+them at the dynamical level:
+
+- Binding: total session energy negative (sessions stay together)
+- Quantization: joint phase dynamics lock onto an Arnold tongue
+
+A system can be bound without being quantized. Regime 2 is the
+experimental proof of that distinction.
+
+**The threshold OMEGA_P between Regime 2 and Regime 1** is the minimum
+proton mass for quantization — distinct from the minimum proton mass for
+binding. exp_16 is measuring it.
+
+## exp_16 / exp_17 Consistency Check
+
+exp_16 and exp_17 are measuring the same boundary from opposite sides:
+
+- **exp_16 (inside):** vary proton mass at fixed Coulomb strength. The
+  Regime 1/2 boundary gives the minimum proton mass for quantization.
+  The external well is the hydrogen's own Coulomb field.
+
+- **exp_17 (outside):** fix proton mass at OMEGA_P=pi/2, vary external
+  gravitational mass STRENGTH_ext at distance d. The ionization threshold
+  gives the minimum external mass required to push the system from Regime 1
+  to Regime 2 (bound but unquantized) or Regime 3 (unbound).
+
+The quantum Roche limit M_min(d) = Δω_tongue · d³ / R1 connects both:
+
+- In exp_16, STRENGTH = 30 is the internal Coulomb strength. The Regime 1/2 threshold OMEGA_P gives Δω_tongue implicitly.
+- In exp_17, STRENGTH_ext(d) at the ionization threshold gives Δω_tongue directly.
+
+If the Δω_tongue inferred from exp_16 and the Δω_tongue measured in
+exp_17 agree, that is a strong consistency check on the whole framework.
+If they disagree, the quantum Roche limit formula needs refinement.
+
 ## Relation to Other Results
 
 - notes/proton_symmetry_breaking.md — proton recoil as symmetry-breaking mechanism
