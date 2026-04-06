@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1775431979.27326 "main.aux" "main.bbl" "main" 1775431985.4673 0
+["bibtex main"] 1775450941.50887 "main.aux" "main.bbl" "main" 1775450947.45458 0
   "./paper-bib/references.bib" 1774688628 10947 9916ca462b99fc23ad76c1de221e829e ""
   "C:/Program Files/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1775431983 33524 e770bc3dfc2f411283ba3f4f5d3f8c46 "pdflatex"
+  "main.aux" 1775450945 33594 320f28c23f99c48c56f214933787f44f "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1775431980.12244 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1775431985.46931 0
+["pdflatex"] 1775450942.31691 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1775450947.45664 0
   "../figures/Diamond_Grid_Units_drawio.png" 1775149749 128474 6d5141d1a9f9693cd9eb5b55a76281bb ""
   "../figures/Diamond_Grid_Units_drawio.tex" 1775073622 2275 0052975ff576eb6bb9629ecd12d40e91 ""
   "../figures/exp_09_harmonics_hires.tex" 1774886129 2240 7674131e771b16a77baa67baa896d818 ""
@@ -149,11 +149,11 @@
   "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" 1775336130 2766 4137e4069dca6d7b78389403e65e3394 ""
   "macros/commands.tex" 1774231911 576 e0c2368a599899984e8b72e87fec9a6d ""
   "macros/packages.tex" 1774887442 618 d7750824b2ffaa193c9f3d541c8c65b2 ""
-  "main.aux" 1775431983 33524 e770bc3dfc2f411283ba3f4f5d3f8c46 "pdflatex"
-  "main.bbl" 1775431979 3262 223b89b752f4f4429831951994fb7605 "bibtex main"
-  "main.out" 1775431983 12821 0df37c9d98583fda99069c9f616e3714 "pdflatex"
+  "main.aux" 1775450945 33594 320f28c23f99c48c56f214933787f44f "pdflatex"
+  "main.bbl" 1775450942 3262 223b89b752f4f4429831951994fb7605 "bibtex main"
+  "main.out" 1775450945 12821 0df37c9d98583fda99069c9f616e3714 "pdflatex"
   "main.tex" 1775336130 2766 4137e4069dca6d7b78389403e65e3394 ""
-  "main.toc" 1775431983 7231 7b43053aa57e7a8575ca13f33a48f142 "pdflatex"
+  "main.toc" 1775450945 7231 7b43053aa57e7a8575ca13f33a48f142 "pdflatex"
   "sections/abstract.tex" 1775329242 2665 72066712fb63770608f607817c87f6f7 ""
   "sections/audit_table.tex" 1775330202 6085 cad1ad031b9ecdda326dd4ecc36f6d90 ""
   "sections/causal_sessions.tex" 1774245800 1479 e9bd453dbc4509854cca81a8f6d1d8a0 ""
@@ -166,7 +166,7 @@
   "sections/introduction.tex" 1775342487 12281 ce8055ae8b263390f25a51c024123747 ""
   "sections/lattice_harmonics.tex" 1774886707 5581 9cfb8a3c5dcdad8fa8a529e1d980eb24 ""
   "sections/observer_as_clock.tex" 1774688620 10381 dae2db8801a2995be275e75554972644 ""
-  "sections/octahedral_substrate.tex" 1775151411 9476 9a117790458ac5d56ad23ccd9f21347f ""
+  "sections/octahedral_substrate.tex" 1775450934 10641 b9a54e41103d1e060811e35e0a836e0d ""
   "sections/phase_propagation.tex" 1774245800 1076 a91b418d248e8b51ab2413d593754954 ""
   "sections/predictions.tex" 1774245800 2845 7eff2169fa5004f22bda7358363e5247 ""
   "sections/tick_scheduler.tex" 1774245800 1232 e9ef31d1bb3537285ca7351643756090 ""

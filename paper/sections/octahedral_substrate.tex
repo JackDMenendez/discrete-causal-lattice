@@ -3,18 +3,39 @@
 % Section 2: The Octahedral Substrate
 % ============================================================
 
-The $\Tdiamond$ lattice is the substrate on which all physics in this
-framework takes place.
-It is not a discretisation of a pre-existing spacetime --- it is the
-spacetime, defined by its causal structure alone.
+The $\Tdiamond$ lattice is a discrete topology: a graph in which each node
+knows only which other nodes are adjacent to it.
+No coordinates, no metric, no distances between non-adjacent nodes, and no
+differential structure are assumed or built in.
+The smooth spacetime of general relativity and quantum field theory is not
+the stage on which the physics takes place --- it is a coarse-grained,
+statistical description that emerges when the central limit theorem is
+applied to many successive hops.
+A particle that takes $N \gg 1$ steps has a position distribution that
+converges to a Gaussian, and \emph{that} Gaussian lives on something that
+looks like $\mathbb{R}^3$.
+The manifold is the $N\to\infty$ limit of the graph, not the other way around.
+
+This ordering matters.
+Earlier discrete spacetime proposals~\cite{bombelli1987, thooft2016,
+wolfram2002} typically begin with a continuum manifold and discretise it,
+retaining coordinates and metric structure at the level of the fundamental
+object.
+Here there are no coordinates at the fundamental level.
+The lattice is a graph topology, and spacetime emerges from it statistically.
+The Dirac equation and the Einstein field equations are both large-$N$,
+many-hop results; they are theorems about the graph, not inputs to it.
 
 % ── 2.1 Nodes, edges, and causal adjacency ───────────────────────────────────
 \subsection{Nodes, Edges, and Causal Adjacency}
 \label{subsec:nodes}
 
-A \emph{node} is an event: a location in discrete space at a discrete tick.
-It carries no intrinsic geometry; all geometry emerges from the pattern of
-causal connections between nodes.
+A \emph{node} is a site: a location in the graph connected to neighbouring
+sites by directed edges.
+It carries no intrinsic geometry; all geometry is a consequence of the
+adjacency structure.
+A node has no knowledge of nodes two or more hops away --- locality is
+exact, not approximate.
 
 Two nodes are \emph{causally adjacent} if a signal propagating at the lattice
 speed limit $c = 1$ node/tick can reach one from the other in a single tick.
