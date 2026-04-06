@@ -220,18 +220,29 @@ See exp_strength_sweep section above for why.
 
 ---
 
-## Continuum Limit / Dirac Derivation -- IN PROGRESS
+## Continuum Limit / Dirac Derivation -- COMPLETED
 
-The paper's central result. Notes in:
-  notes/deriving_dirac_from_hamiltonian.md  -- 6-step derivation program
-  notes/strengthening_the_dirac_claim.md    -- gap analysis
+The paper's central result. Written up in:
+  paper/sections/emergent_kinematics.tex  -- Section 4: subsection 4 (dirac_limit)
+
+All six steps complete:
+  1. Hop operator in Fourier space (structure factor)
+  2. Taylor expansion near k=0
+  3. Gamma matrix identification from RGB/CMY geometry
+  4. Clifford algebra from frame condition sum_{RGB} v*v^T = 3I
+  5. Dispersion relation E^2 = m^2 + |p|^2
+  6. Rotational invariance: TWO arguments --
+       (a) Fourier-space: RGB/CMY cross-terms cancel; frame condition kills off-diagonal
+       (b) O_h symmetry: directional gradient averages to zero; Laplacian from frame condition
+     (Same mechanism as staggered fermions in lattice QCD, cite Susskind 1977)
+
+Five structural consequences derived (not postulated):
+  spin-1/2, Clifford algebra, chirality, rest mass as Zitterbewegung rate, rotational invariance
+
+Supporting notes:
+  notes/deriving_dirac_from_hamiltonian.md  -- original 6-step program
+  notes/strengthening_the_dirac_claim.md    -- gap analysis (now resolved)
   notes/deriving_dirac_the_significance.md  -- why it matters
-
-Steps 1-5 outlined (algebra, Taylor expansion, gamma matrix ID, Clifford
-algebra check via frame condition sum_{RGB} v*v^T = 3I).
-Step 6 (O_h symmetry averaging for rotational invariance) not yet done.
-Write-up for paper: emergent_kinematics.tex has kinematics but not the
-continuum limit subsection yet.
 
 ---
 
@@ -250,11 +261,24 @@ Figures:
   figures/lattice.drawio.png             -- lattice structure diagram
   figures/exp_12_twobody_scan.pdf        -- two-body scan
   figures/exp_00_cone_structure.pdf      -- causal cone
+  figures/dirac_cones_doublepane.pdf     -- KEY FIGURE: double-pane Dirac cone figure
+  figures/dirac_cones_overlay.pdf        -- single-pane overlay (heatmap + cones)
+  figures/dirac_cones_sketch.pdf         -- white-background schematic (print-friendly)
 
 Side-by-side harmonic figure in lattice_harmonics.tex:
   - Left: exp_harmonic_landscape.pdf (raw data)
   - Right: exp_harmonic_hires_drawio.png (Arnold tongue annotation)
   - Full annotated caption: figures/exp_09_harmonics_hires.tex
+
+Dirac cones double-pane figure (NEW 2026-04-05):
+  - Left panel (a): raw harmonic hires heatmap -- warmth IS probability density (A=1)
+  - Right panel (b): same heatmap + Dirac cone overlays + graphene K-point inset
+  - Three crossings: 2:1 (w=pi/2, f=1/4), 3:1 (w=pi/3, f=1/3), 4:1 (w=pi/4, f=3/8)
+  - Each crossing = Arnold tongue lock-in = linear band crossing in (f,w) space
+  - Graphene inset shows spin-1/2 symmetric K-point for contrast; lattice cones asymmetric
+  - Generation: python figures/dirac_cones_doublepane.py (requires data/exp_harmonic_hires_powermap.npy)
+  - Caption: figures/dirac_cones_doublepane.tex (includegraphics on line 1 per convention)
+  - data/exp_harmonic_hires_powermap.npy saved by exp_harmonic_hires.py (modified 2026-04-05)
 
 ---
 

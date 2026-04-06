@@ -258,10 +258,25 @@ def run():
           f"  {'r_final':>8}  {'settled':>8}")
     print(f"  {'-'*62}")
 
-    results = []
+    # Resume: load any previously completed results from disk
+    out = os.path.join(_DATA_DIR, 'exp_16_proton_mass_sweep.npy')
+    if os.path.exists(out):
+        existing = np.load(out)
+        results = [tuple(row) for row in existing]
+        done_omegas = set(float(row[0]) for row in existing)
+        print(f"  Resuming: loaded {len(results)} completed result(s) from disk.")
+    else:
+        results = []
+        done_omegas = set()
+
     t0_total = time.time()
 
     for omega_p in OMEGA_P_VALUES:
+        if any(abs(omega_p - d) < 0.001 for d in done_omegas):
+            m_p = float(np.sin(omega_p / 2.0))
+            r1  = r1_for_omega_p(omega_p)
+            print(f"\n  OMEGA_P={omega_p:.4f}  M_P={m_p:.4f}  R1={r1:.3f}  [skipped — already done]")
+            continue
         m_p = float(np.sin(omega_p / 2.0))
         r1  = r1_for_omega_p(omega_p)
         marker = ' <- physical proton' if abs(omega_p - np.pi/2) < 0.01 else ''

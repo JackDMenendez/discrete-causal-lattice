@@ -176,6 +176,11 @@ def run():
     print(f"\nSaved: {FIG_PATH}")
     print(f"Total time: {time.time()-t_start:.0f}s")
 
+    # Save raw data for overlay scripts
+    data_path = os.path.join(_HERE, '..', '..', 'data', 'exp_harmonic_hires_powermap.npy')
+    np.save(data_path, power_map)
+    print(f"Saved power_map: {data_path}")
+
 
 if __name__ == '__main__':
     run()

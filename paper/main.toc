@@ -62,4 +62,16 @@
 \contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{33}{section.14}%
 \contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{33}{section.15}%
 \contentsline {section}{\numberline {16}The Hydrogen Spectrum from Lattice Geometry}{36}{section.16}%
-\contentsline {section}{\numberline {17}Conclusion}{36}{section.17}%
+\contentsline {subsection}{\numberline {16.1}The Two-Session Requirement}{36}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}The Coulomb Clock-Density Well}{36}{subsection.16.2}%
+\contentsline {subsection}{\numberline {16.3}Bohr Spectrum from a Fixed Well}{37}{subsection.16.3}%
+\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{37}{section*.28}%
+\contentsline {subsection}{\numberline {16.4}Spontaneous Quantization and the Arnold Tongue}{37}{subsection.16.4}%
+\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{37}{section*.29}%
+\contentsline {subsection}{\numberline {16.5}Two-Body Hydrogen: Four Significant Figures}{38}{subsection.16.5}%
+\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{38}{section*.30}%
+\contentsline {subsection}{\numberline {16.6}Binding and Quantization are Separate Conditions}{38}{subsection.16.6}%
+\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{38}{section*.31}%
+\contentsline {subsection}{\numberline {16.7}Photon Emission as a Three-Session Event}{39}{subsection.16.7}%
+\contentsline {subsection}{\numberline {16.8}Connection to the Gravitational Programme}{39}{subsection.16.8}%
+\contentsline {section}{\numberline {17}Conclusion}{40}{section.17}%
