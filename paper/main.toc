@@ -33,45 +33,47 @@
 \contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{22}{section*.16}%
 \contentsline {subsection}{\numberline {8.5}Black Holes as Scheduler Saturation}{22}{subsection.8.5}%
 \contentsline {subsection}{\numberline {8.6}Connection to General Relativity}{23}{subsection.8.6}%
-\contentsline {paragraph}{Comparison with entropic gravity.}{23}{section*.17}%
-\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{23}{section.9}%
-\contentsline {subsection}{\numberline {9.1}The Global Clock Budget}{24}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}The Continuity Equation}{24}{subsection.9.2}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{24}{section*.18}%
-\contentsline {subsection}{\numberline {9.3}The Momentum Equation and Emergent Gravity}{24}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}The Clock Fluid as a Compressible Superfluid}{25}{subsection.9.4}%
-\contentsline {subsection}{\numberline {9.5}Gravitational Waves as Clock Fluid Phonons}{26}{subsection.9.5}%
-\contentsline {subsection}{\numberline {9.6}General Relativity as the Continuum Limit}{26}{subsection.9.6}%
-\contentsline {paragraph}{Discrete corrections.}{26}{section*.19}%
-\contentsline {subsection}{\numberline {9.7}Black Hole Formation as a Clock Fluid Shock Wave}{27}{subsection.9.7}%
-\contentsline {subsection}{\numberline {9.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{27}{subsection.9.8}%
-\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{28}{section*.20}%
-\contentsline {paragraph}{Plasma as a clock fluid phase.}{28}{section*.21}%
-\contentsline {paragraph}{The quantum Roche limit.}{28}{section*.22}%
-\contentsline {paragraph}{Open questions.}{29}{section*.23}%
-\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{30}{section.10}%
-\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{30}{section.11}%
-\contentsline {section}{\numberline {12}The Observer as Clock}{30}{section.12}%
-\contentsline {section}{\numberline {13}The Observer as a Clock}{30}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Observation as Clock Registration}{30}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Asymmetric Phase Exchange and Apparent Collapse}{31}{subsection.13.2}%
-\contentsline {paragraph}{The mechanism of apparent collapse.}{32}{section*.24}%
-\contentsline {subsection}{\numberline {13.3}Irreversibility and Entropy}{32}{subsection.13.3}%
-\contentsline {paragraph}{No special role for consciousness.}{33}{section*.25}%
-\contentsline {subsection}{\numberline {13.4}Entanglement as Correlated Cone Structure}{33}{subsection.13.4}%
-\contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{33}{section.14}%
-\contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{33}{section.15}%
-\contentsline {section}{\numberline {16}The Hydrogen Spectrum from Lattice Geometry}{36}{section.16}%
-\contentsline {subsection}{\numberline {16.1}The Two-Session Requirement}{36}{subsection.16.1}%
-\contentsline {subsection}{\numberline {16.2}The Coulomb Clock-Density Well}{36}{subsection.16.2}%
-\contentsline {subsection}{\numberline {16.3}Bohr Spectrum from a Fixed Well}{37}{subsection.16.3}%
-\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{37}{section*.28}%
-\contentsline {subsection}{\numberline {16.4}Spontaneous Quantization and the Arnold Tongue}{37}{subsection.16.4}%
-\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{37}{section*.29}%
-\contentsline {subsection}{\numberline {16.5}Two-Body Hydrogen: Four Significant Figures}{38}{subsection.16.5}%
-\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{38}{section*.30}%
-\contentsline {subsection}{\numberline {16.6}Binding and Quantization are Separate Conditions}{38}{subsection.16.6}%
-\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{38}{section*.31}%
-\contentsline {subsection}{\numberline {16.7}Photon Emission as a Three-Session Event}{39}{subsection.16.7}%
-\contentsline {subsection}{\numberline {16.8}Connection to the Gravitational Programme}{39}{subsection.16.8}%
-\contentsline {section}{\numberline {17}Conclusion}{40}{section.17}%
+\contentsline {subsection}{\numberline {8.7}The Quantum Roche Limit}{23}{subsection.8.7}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_18}).}{24}{section*.17}%
+\contentsline {paragraph}{Comparison with entropic gravity.}{24}{section*.19}%
+\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{25}{section.9}%
+\contentsline {subsection}{\numberline {9.1}The Global Clock Budget}{25}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}The Continuity Equation}{25}{subsection.9.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{25}{section*.20}%
+\contentsline {subsection}{\numberline {9.3}The Momentum Equation and Emergent Gravity}{26}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}The Clock Fluid as a Compressible Superfluid}{26}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Gravitational Waves as Clock Fluid Phonons}{27}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}General Relativity as the Continuum Limit}{27}{subsection.9.6}%
+\contentsline {paragraph}{Discrete corrections.}{28}{section*.21}%
+\contentsline {subsection}{\numberline {9.7}Black Hole Formation as a Clock Fluid Shock Wave}{28}{subsection.9.7}%
+\contentsline {subsection}{\numberline {9.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{29}{subsection.9.8}%
+\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{29}{section*.22}%
+\contentsline {paragraph}{Plasma as a clock fluid phase.}{30}{section*.23}%
+\contentsline {paragraph}{The quantum Roche limit.}{30}{section*.24}%
+\contentsline {paragraph}{Open questions.}{31}{section*.25}%
+\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{31}{section.10}%
+\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{31}{section.11}%
+\contentsline {section}{\numberline {12}The Observer as Clock}{31}{section.12}%
+\contentsline {section}{\numberline {13}The Observer as a Clock}{31}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Observation as Clock Registration}{32}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Asymmetric Phase Exchange and Apparent Collapse}{32}{subsection.13.2}%
+\contentsline {paragraph}{The mechanism of apparent collapse.}{33}{section*.26}%
+\contentsline {subsection}{\numberline {13.3}Irreversibility and Entropy}{34}{subsection.13.3}%
+\contentsline {paragraph}{No special role for consciousness.}{34}{section*.27}%
+\contentsline {subsection}{\numberline {13.4}Entanglement as Correlated Cone Structure}{34}{subsection.13.4}%
+\contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{35}{section.14}%
+\contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{35}{section.15}%
+\contentsline {section}{\numberline {16}The Hydrogen Spectrum from Lattice Geometry}{37}{section.16}%
+\contentsline {subsection}{\numberline {16.1}The Two-Session Requirement}{37}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}The Coulomb Clock-Density Well}{37}{subsection.16.2}%
+\contentsline {subsection}{\numberline {16.3}Bohr Spectrum from a Fixed Well}{38}{subsection.16.3}%
+\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{38}{section*.30}%
+\contentsline {subsection}{\numberline {16.4}Spontaneous Quantization and the Arnold Tongue}{38}{subsection.16.4}%
+\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{38}{section*.31}%
+\contentsline {subsection}{\numberline {16.5}Two-Body Hydrogen: Four Significant Figures}{39}{subsection.16.5}%
+\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{39}{section*.32}%
+\contentsline {subsection}{\numberline {16.6}Binding and Quantization are Separate Conditions}{39}{subsection.16.6}%
+\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{39}{section*.33}%
+\contentsline {subsection}{\numberline {16.7}Photon Emission as a Three-Session Event}{40}{subsection.16.7}%
+\contentsline {subsection}{\numberline {16.8}Connection to the Gravitational Programme}{40}{subsection.16.8}%
+\contentsline {section}{\numberline {17}Conclusion}{41}{section.17}%

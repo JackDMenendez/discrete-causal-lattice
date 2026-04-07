@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1775450941.50887 "main.aux" "main.bbl" "main" 1775450947.45458 0
+["bibtex main"] 1775539446.07037 "main.aux" "main.bbl" "main" 1775539454.63058 0
   "./paper-bib/references.bib" 1774688628 10947 9916ca462b99fc23ad76c1de221e829e ""
   "C:/Program Files/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1775450945 33594 320f28c23f99c48c56f214933787f44f "pdflatex"
+  "main.aux" 1775539451 34810 2e7226449ab321ec457a678ef0669ae3 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1775450942.31691 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1775450947.45664 0
+["pdflatex"] 1775539447.2858 "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" "main.pdf" "main" 1775539454.63324 0
   "../figures/Diamond_Grid_Units_drawio.png" 1775149749 128474 6d5141d1a9f9693cd9eb5b55a76281bb ""
   "../figures/Diamond_Grid_Units_drawio.tex" 1775073622 2275 0052975ff576eb6bb9629ecd12d40e91 ""
   "../figures/exp_09_harmonics_hires.tex" 1774886129 2240 7674131e771b16a77baa67baa896d818 ""
@@ -144,23 +144,23 @@
   "C:/Program Files/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Program Files/MiKTeX/tex/latex/varwidth/varwidth.sty" 1238469540 10894 d359a13923460b2a73d4312d613554c8 ""
   "C:/Program Files/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "C:/Users/jackd/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775329209 6662595 4eb62577e7046b583cf691f2d2ca4c90 ""
-  "C:/Users/jackd/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775329235 14076179 0c09047a05fb66a18d1e0e22e62512ff ""
+  "C:/Users/jackd/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775494118 6662595 4eb62577e7046b583cf691f2d2ca4c90 ""
+  "C:/Users/jackd/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775499319 14076179 91724ee89056384b84ed7b08cf23d79f ""
   "d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/paper/main.tex" 1775336130 2766 4137e4069dca6d7b78389403e65e3394 ""
   "macros/commands.tex" 1774231911 576 e0c2368a599899984e8b72e87fec9a6d ""
   "macros/packages.tex" 1774887442 618 d7750824b2ffaa193c9f3d541c8c65b2 ""
-  "main.aux" 1775450945 33594 320f28c23f99c48c56f214933787f44f "pdflatex"
-  "main.bbl" 1775450942 3262 223b89b752f4f4429831951994fb7605 "bibtex main"
-  "main.out" 1775450945 12821 0df37c9d98583fda99069c9f616e3714 "pdflatex"
+  "main.aux" 1775539451 34810 2e7226449ab321ec457a678ef0669ae3 "pdflatex"
+  "main.bbl" 1775539446 3262 223b89b752f4f4429831951994fb7605 "bibtex main"
+  "main.out" 1775539451 13003 1eef168052d7d3d23086a680747c3f12 "pdflatex"
   "main.tex" 1775336130 2766 4137e4069dca6d7b78389403e65e3394 ""
-  "main.toc" 1775450945 7231 7b43053aa57e7a8575ca13f33a48f142 "pdflatex"
+  "main.toc" 1775539451 7410 1ac362aba38619546c1f08560cb225c9 "pdflatex"
   "sections/abstract.tex" 1775329242 2665 72066712fb63770608f607817c87f6f7 ""
   "sections/audit_table.tex" 1775330202 6085 cad1ad031b9ecdda326dd4ecc36f6d90 ""
   "sections/causal_sessions.tex" 1774245800 1479 e9bd453dbc4509854cca81a8f6d1d8a0 ""
   "sections/clock_fluid_dynamics.tex" 1775338344 17933 fa22cf1c17353bd34c47f1e3a792f224 ""
   "sections/conclusion.tex" 1775431970 11769 905351c1e2e60e5c04f843f270cfff97 ""
   "sections/emergent_kinematics.tex" 1775329197 14308 7f75faa70ed7d45ce82cbc3e4733eba3 ""
-  "sections/gravity_as_clock_density.tex" 1775330809 11319 1cadce036dfcc8ca62c98368fde2c770 ""
+  "sections/gravity_as_clock_density.tex" 1775539435 15112 1937b69b1cf4d7e05ca9732fa3c4a37e ""
   "sections/hydrogen_spectrum.tex" 1775430234 12147 2847c13c7ebfd0d6a4981ad4a1a62cf4 ""
   "sections/interference.tex" 1774245800 1655 c2cbe70315bc4a4131c72e730b1d12eb ""
   "sections/introduction.tex" 1775342487 12281 ce8055ae8b263390f25a51c024123747 ""

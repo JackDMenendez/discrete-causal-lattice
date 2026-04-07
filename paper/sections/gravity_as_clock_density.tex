@@ -213,6 +213,81 @@ frequency-dependent gravitational wave speed in the vicinity of extreme
 mass concentrations.
 This is a testable departure from GR at Planck-adjacent densities.
 
+% ── 7.7 Quantum Roche limit ──────────────────────────────────────────────────
+\subsection{The Quantum Roche Limit}
+\label{subsec:quantum_roche}
+
+The hydrogen atom in the $\Tdiamond$ framework is a two-body Arnold tongue
+attractor (Section~\ref{sec:hydrogen}): the electron--proton system locks onto
+the $n=1$ resonance when their joint phase rates agree to within the tongue
+half-width $\Delta\omega_\text{tongue}$.
+A spatially varying clock density introduces a differential tick-rate shift
+across the orbital diameter,
+\begin{equation}
+    \Delta\omega_\text{tidal} = g \cdot R_1,
+    \label{eq:tidal_detuning}
+\end{equation}
+where $g$ is the clock-density gradient strength (phase units per node) and
+$R_1 = 10.3$ nodes is the Bohr radius.
+When $\Delta\omega_\text{tidal}$ exceeds the tongue width $\Delta\omega_\text{tongue}$,
+the resonance cannot form.
+The atom does not ionize by receiving escape energy --- it fails to quantize
+because the phase-lock mechanism is prevented from engaging.
+This is the \emph{quantum Roche limit}: a critical gradient below which
+quantization is impossible regardless of the orbital energy.
+
+\paragraph{Numerical verification (\texttt{exp\_18}).}
+A two-body electron--proton system is initialized in the $n=1$ CoM frame
+($k_e = K_\text{Bohr} = 0.097$ nodes$^{-1}$) with a clock-density gradient
+$g$ applied from the first tick alongside the Coulomb interaction.
+The seeded orbit is not immediately stable: without gradient it undergoes
+large-amplitude oscillations (Regime~2 of Section~\ref{sec:hydrogen}) before
+briefly approaching $R_1$ at $t \approx 500$--$650$ ticks and then widening again.
+The gradient shortens the time to first large excursion $T_\text{exc}$,
+measured as the first tick at which the 50-tick-windowed electron PDF peak
+exceeds $2R_1 = 20.6$ nodes from the proton CoM.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+\hline
+$g$ (phase/node) & $T_\text{exc}$ (ticks) & tidal signature \\
+\hline
+$0$ (control) & $1950$ & opposite \\
+$0.004$       & $450$  & opposite \\
+$0.008$       & $250$  & opposite \\
+$0.012$       & $200$  & opposite \\
+$\geq 0.016$  & $\leq 200$ & opposite \\
+\hline
+\end{tabular}
+\caption{Time to first large orbital excursion $T_\text{exc}$ as a function
+of clock-density gradient $g$.  ``Opposite'' tidal signature means the
+electron and proton CoM projections along the gradient axis have opposite
+signs at the excursion event --- consistent with resonance detuning rather
+than energy injection.}
+\label{tab:roche}
+\end{table}
+
+The excursion time decreases monotonically with $g$: a gradient of
+$g = 0.004$ phase units per node reduces it by a factor of $4.3$, and
+saturation at $T \approx 200$ ticks for $g \geq 0.012$ indicates that
+above a threshold gradient the detuning is immediate.
+The tidal displacement is \emph{opposite} for all trials including the
+control: the electron and proton separate along the gradient axis in
+opposite directions, consistent with their differential response to the
+clock-density field (opposite charge, different $\omega$).
+
+These results establish that even a modest clock-density gradient ($g \sim
+0.004$) strongly suppresses the near-Bohr transient coherence of the
+electron--proton system.
+The quantitative measurement of the quantum Roche limit --- the critical
+gradient below which a \emph{stable} Regime~1 orbit is disrupted ---
+requires a confirmed Arnold tongue lock-in as the base state
+(Section~\ref{sec:hydrogen}) and is left to future work.
+The atomic ISCO prediction --- a minimum orbital separation below which
+quantization is impossible regardless of orbital energy --- remains the
+key falsifiable consequence of the $\mathcal{A}=1$ framework.
+
 \paragraph{Comparison with entropic gravity.}
 Verlinde's entropic gravity programme~\cite{verlinde2011} derives Newton's
 law from thermodynamic entropy gradients on holographic screens.

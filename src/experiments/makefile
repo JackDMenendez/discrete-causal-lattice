@@ -45,6 +45,16 @@ EXP_14_SRC := $(EXP_14).py
 EXP_14_LOG := $(EXP_14)_log.txt
 EXP_14_NPY := $(data_dir)/exp_14_helium.npy
 
+EXP_17     := exp_17_pair_annihilation
+EXP_17_SRC := $(EXP_17).py
+EXP_17_LOG := $(EXP_17)_log.txt
+EXP_17_NPY := $(data_dir)/exp_17_pair_annihilation.npy
+
+EXP_18     := exp_18_tidal_ionization
+EXP_18_SRC := $(EXP_18).py
+EXP_18_LOG := $(EXP_18)_log.txt
+EXP_18_NPY := $(data_dir)/exp_18_tidal_ionization.npy
+
 # Strength sweep: manual-only (48h run, requires exp_08 dissipation first).
 # Run with: make exp_strength_sweep
 EXP_STRENGTH_SWEEP     := exp_strength_sweep
@@ -53,8 +63,9 @@ EXP_STRENGTH_SWEEP_LOG := exp_strength_sweep_log.txt
 EXP_STRENGTH_SWEEP_NPY := $(data_dir)/strength_sweep.npy
 
 # exp_08 is in audit (fast ~30s).  Strength sweep excluded until exp_08 passes.
+# exp_17 is fast (~5 min, 33^3 grid).
 EXPERIMENTS := quantization_scan $(EXP_00) $(EXP_01) $(EXP_08) \
-               $(EXP_12) $(EXP_HARMONIC) $(EXP_13) $(EXP_14)
+               $(EXP_12) $(EXP_HARMONIC) $(EXP_13) $(EXP_14) $(EXP_17)
 
 NPY_FILES := $(data_dir)/quantization_scan_n1.npy $(data_dir)/quantization_scan_n2.npy
 NPY_FOCUSED := $(data_dir)/quantization_scan_n1_focused.npy
@@ -172,6 +183,19 @@ quantization_scan_focused: $(NPY_FOCUSED)
 $(NPY_FOCUSED) : $(QUANTIZATION_SCAN_SRC) $(VENV)/touchfile
 	@echo "Quantization scan focused (n=1, ~2 hrs)"
 	$(PYTHON) $(QUANTIZATION_SCAN_SRC) --focused --datadir $(data_dir) > $(data_dir)/quantization_scan_n1_focused_log.txt
+
+$(EXP_17): $(data_dir) $(EXP_17_NPY)
+
+$(EXP_17_NPY): $(EXP_17_SRC) $(VENV)/touchfile
+	@echo "Running pair annihilation efficiency test (~5 min)"
+	$(PYTHON) $(EXP_17_SRC) > $(data_dir)/$(EXP_17_LOG)
+
+# exp_18 is a long run (~4-8 hrs for full g-scan).  Run manually.
+$(EXP_18): $(data_dir) $(EXP_18_NPY)
+
+$(EXP_18_NPY): $(EXP_18_SRC) $(VENV)/touchfile
+	@echo "Running tidal ionization g-scan (~4-8 hrs)"
+	$(PYTHON) $(EXP_18_SRC) > $(data_dir)/$(EXP_18_LOG)
 
 # clean does not remove data files (can take days to generate).
 clean:
