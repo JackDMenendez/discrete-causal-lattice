@@ -10,6 +10,13 @@ A high-frequency rotor (heavy particle) has high phase stability:
 it resists redirection (inertia). A low-frequency rotor (light particle)
 is easily scattered by minor potential gradients.
 
+DOCUMENTATION CONVENTION:
+  Every non-trivial line of physics code should say what it IS in the theory,
+  not just what it does in the program.  Name the mathematical object, cite
+  the paper equation where one exists, and state the correspondence explicitly:
+  "this IS X" when exact, "this approximates X" in the continuum limit.
+  The structure factor comment in CausalSession._kinetic_hop is the template.
+
 Paper reference: Section 3 (Phase Rotor, mass as instruction overhead)
 """
 
@@ -46,25 +53,46 @@ class PhaseRotor:
         """
         Advance the rotor by one tick.
         Phase increments by omega, wrapping at 2*pi.
+
+        This is left-multiplication by exp(i*omega) in U(1):
+          r_{n+1} = exp(i*omega) * r_n
+        The group element r_n tracks accumulated phase; omega is the
+        algebra generator that produces the advance.
+        Paper: eq. (rotor_advance)
         """
         self.phase = (self.phase + self.omega) % (2 * np.pi)
 
     def phase_cost(self, local_potential: float) -> float:
         """
-        The discrete Hamiltonian evaluated at a node:
-        H(x,y,z) = omega + V(x,y,z)
+        The discrete Hamiltonian H at a node:  H = omega + V(x,y,z)
 
-        This is the phase transition cost for hopping into a node
-        with topological potential V(x,y,z).
+        This is the Lie algebra element delta_phi in u(1) that governs
+        the evolution at this node.  It is the phase transition cost per tick:
+          - omega alone: free-particle rest energy (mass term)
+          - V(x,y,z):    local potential energy (Coulomb, gravity, EM)
+          - omega + V:   total local Hamiltonian
 
-        Paper reference: Section 5 (discrete Hamiltonian as phase routing matrix)
+        The Hamiltonian is an algebra element (a real number in u(1)).
+        The evolution operator exp(i*H) is the corresponding group element.
+        CausalSession.tick() computes cos(H/2) and sin(H/2), which are the
+        matrix elements of exp(i*H/2*sigma_x) -- the spinor evolution operator.
+
+        Paper: eq. (phase_mismatch)  delta_phi = omega + V
+               Section 3.1 (phase mismatch as local Hamiltonian)
         """
         return self.omega + local_potential
 
     def phase_shift(self, local_potential: float) -> complex:
         """
-        Returns the unitary phase factor for a hop into a node
-        with the given local potential.
-        exp(i * H(x,y,z))
+        The unitary evolution operator U = exp(i*H) as a U(1) element.
+
+        This is the Lie group element corresponding to the algebra element
+        H = phase_cost(local_potential).  Exponentiates the Hamiltonian
+        into a phase rotation.
+
+        Note: CausalSession.tick() uses cos(H/2) and sin(H/2) rather than
+        this scalar exp(iH), because the spinor evolution is a 2x2 SU(2)
+        rotation exp(i*H/2*sigma_x), not a scalar U(1) phase.  This method
+        is provided for scalar rotor calculations and diagnostic use.
         """
         return np.exp(1j * self.phase_cost(local_potential))

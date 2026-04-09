@@ -275,6 +275,18 @@ INPUT .\sections\causal_sessions.tex
 INPUT .\sections\causal_sessions.tex
 INPUT .\sections\causal_sessions.tex
 INPUT sections\causal_sessions.tex
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\ueuf.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\ueuf.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\ueuf.fd
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm7.tfm
+INPUT ..\figures\phase_rotor_diagram.pdf
+INPUT ..\figures\phase_rotor_diagram.pdf
+INPUT ..\figures\phase_rotor_diagram.pdf
+INPUT ..\figures\phase_rotor_diagram.pdf
+INPUT ..\figures\phase_rotor_diagram.pdf
+INPUT ..\figures\phase_rotor_diagram.pdf
 INPUT .\sections\tick_scheduler.tex
 INPUT .\sections\tick_scheduler.tex
 INPUT .\sections\tick_scheduler.tex
@@ -285,11 +297,15 @@ INPUT .\sections\phase_propagation.tex
 INPUT .\sections\phase_propagation.tex
 INPUT .\sections\phase_propagation.tex
 INPUT sections\phase_propagation.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
 INPUT .\sections\emergent_kinematics.tex
 INPUT .\sections\emergent_kinematics.tex
 INPUT .\sections\emergent_kinematics.tex
 INPUT .\sections\emergent_kinematics.tex
 INPUT sections\emergent_kinematics.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm7.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm5.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmti10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmib10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmmib8.tfm
@@ -339,6 +355,7 @@ INPUT ..\figures\exp_harmonic_landscape.pdf
 INPUT ..\figures\exp_harmonic_landscape.pdf
 INPUT ..\figures\exp_harmonic_landscape.pdf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmtt10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
 INPUT ..\figures\exp_harmonic_hires_drawio.png
 INPUT ..\figures\exp_harmonic_hires_drawio.png
 INPUT ..\figures\exp_harmonic_hires_drawio.png
@@ -383,6 +400,8 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmib10.pfb
@@ -413,6 +432,8 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt12.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\euler\eufm10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\euler\eufm10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\cm-super\sfrm1200.pfb

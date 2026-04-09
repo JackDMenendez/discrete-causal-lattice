@@ -215,12 +215,18 @@ Expanding near $\mathbf{k} = \mathbf{0}$:
     \label{eq:hop_expand}
 \end{equation}
 where $M_{ij} = \sum_{\mathbf{v}\in\text{RGB}} v_i v_j$.
-The frame condition verified in Section~\ref{subsec:dirac_limit} gives
+Numerically, $M$ has diagonal entries $3$ and off-diagonal entries $\pm 1$:
 \begin{equation}
-    M_{ij} = \sum_{\mathbf{v}\in\text{RGB}} v_i v_j = 3\,\delta_{ij},
-    \label{eq:frame}
+    M = \sum_{\mathbf{v}\in\text{RGB}} \mathbf{v}\mathbf{v}^T
+      = \begin{pmatrix} 3 & -1 & 1 \\ -1 & 3 & 1 \\ 1 & 1 & 3 \end{pmatrix}.
+    \label{eq:frame_matrix}
 \end{equation}
-so the quadratic term simplifies to $-\tfrac{1}{2}|\mathbf{k}|^2$.
+The off-diagonal terms of $M$ produce cross terms in $\mathbf{k}^T M \mathbf{k}$
+that appear to break rotational invariance.
+They are cancelled by the CMY sublattice contribution, as shown below.
+% NOTE: An earlier draft incorrectly stated M = 3*delta_ij. The correct
+% statement is that the full two-sublattice dispersion is isotropic, not
+% that M itself is diagonal. See isotropy paragraph below.
 
 \paragraph{Isotropy: frame condition and octahedral symmetry.}
 The first-order expansion of $\tilde{H}_\text{RGB}$ produces a directional

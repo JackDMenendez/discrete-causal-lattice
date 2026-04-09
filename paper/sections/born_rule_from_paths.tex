@@ -1,0 +1,121 @@
+% ============================================================
+% born_rule_from_paths.tex
+% Section: The Born Rule as a Path-Counting Identity
+% Corresponds to: src/experiments/exp_06_path_counting.py
+%                 notes/born_rule_from_path_counting.md
+% ============================================================
+
+\subsection{The Born Rule as a Path-Counting Identity}
+\label{subsec:born_rule_paths}
+
+The Born rule --- the statement that the probability of finding
+a session at node $\mathbf{x}$ is $|\psi(\mathbf{x})|^2$ --- is
+a postulate in standard quantum mechanics.
+In the $\unity$ framework it is a counting identity.
+
+\paragraph{Paths on the lattice.}
+After $N$ ticks, a massless session ($\omega = 0$, $p_\mathrm{hop} = 1$)
+on a flat lattice has taken one step along each of the six basis vectors
+$\{\mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3, -\mathbf{V}_1, -\mathbf{V}_2,
+-\mathbf{V}_3\}$ at each tick.
+The total number of $N$-step paths from the origin is $6^N$.
+
+A path reaches node $(a, b, c)$ if, for some non-negative integers
+$n_i$ (steps along $\mathbf{V}_i$) and $m_i$ (steps along $-\mathbf{V}_i$)
+with $\sum_i(n_i + m_i) = N$:
+\begin{equation}
+    \sum_{i=1}^{3} (n_i - m_i)\,\mathbf{V}_i = (a,b,c).
+    \label{eq:path_constraint}
+\end{equation}
+Setting $p_i = n_i - m_i$ and solving with $\mathbf{V}_1 = (1,1,1)$,
+$\mathbf{V}_2 = (1,-1,-1)$, $\mathbf{V}_3 = (-1,1,-1)$:
+\begin{equation}
+    p_1 = \tfrac{a+b}{2}, \quad
+    p_2 = \tfrac{a-c}{2}, \quad
+    p_3 = \tfrac{b-c}{2}.
+    \label{eq:net_steps}
+\end{equation}
+These are integers when $a, b, c$ all have the same parity --- the
+bipartite reachability condition.
+Given the net steps $p_i$, the number of distinct $N$-step paths to
+$(a,b,c)$ is
+\begin{equation}
+    \pathcount{N}{a}{b}{c}
+    = \sum_{\substack{s_1+s_2+s_3=N \\ s_i \geq |p_i|,\;
+           s_i \equiv p_i \!\pmod{2}}}
+      \frac{N!}{\,n_1!\,m_1!\,n_2!\,m_2!\,n_3!\,m_3!\,},
+    \label{eq:path_count}
+\end{equation}
+where $n_i = (s_i + p_i)/2$ and $m_i = (s_i - p_i)/2$.
+This is a pure combinatorial integer for every $(N, a, b, c)$.
+
+\paragraph{A=1 is the Born normalisation.}
+Summing the path count over all reachable nodes exhausts every $N$-step path:
+\begin{equation}
+    \sum_{(a,b,c) \in \causalcone{N}} \pathcount{N}{a}{b}{c} = 6^N.
+    \label{eq:path_partition}
+\end{equation}
+Dividing by $6^N$:
+\begin{equation}
+    \sum_{(a,b,c) \in \causalcone{N}} \frac{\pathcount{N}{a}{b}{c}}{6^N} = 1.
+    \label{eq:born_normalisation}
+\end{equation}
+This is the $\unity$ constraint expressed combinatorially.
+For a massless session on a flat lattice (no potential, $\omega = 0$), the
+amplitude at $(a,b,c)$ after $N$ ticks is real and positive, and
+\begin{equation}
+    |\psi(a,b,c,N)|^2 = \frac{\pathcount{N}{a}{b}{c}}{6^N}.
+    \label{eq:born_identity}
+\end{equation}
+The Born rule is not a measurement postulate applied to $\psi$.
+It is the fraction of all $N$-step paths that reach $(a,b,c)$, normalised
+by $6^N$, which itself is forced by $\mathcal{A} = 1$.
+
+\paragraph{Continuum limit: the Gaussian probability.}
+For large $N$ with $(a,b,c) = N(\alpha,\beta,\gamma)$ fixed, the sum in
+Eq.~\eqref{eq:path_count} concentrates around $s_i \approx N/3$ and
+the central limit theorem gives
+\begin{equation}
+    \frac{\pathcount{N}{N\alpha,N\beta,N\gamma}}{6^N}
+    \;\longrightarrow\;
+    (2\pi N)^{-3/2}\,|\det C|^{-1/2}\,
+    \exp\!\left(-\frac{N}{2}\,(\alpha,\beta,\gamma)\,C^{-1}
+    \begin{pmatrix}\alpha\\\beta\\\gamma\end{pmatrix}\right),
+    \label{eq:gaussian_born}
+\end{equation}
+where $C = \tfrac{1}{6}\sum_{\text{all }6} \mathbf{v}\mathbf{v}^T$ is the
+covariance of a single step.
+This is the spreading Gaussian wavefunction of a free massless particle ---
+the Born probability --- derived from path counting alone.
+
+\paragraph{Massive sessions.}
+For $\omega \neq 0$ each path acquires a phase $\prod_\text{steps}
+e^{i\delta\phi/2}$ that depends on the local potential encountered.
+The amplitude $\psi(a,b,c,N)$ is then a complex sum over phase-weighted
+paths: the lattice realisation of the Feynman path integral~\cite{feynman1948}.
+The Born rule $|\psi|^2$ receives both the path count (number of contributing
+histories) and the interference between them (phase correlations).
+In the long-wavelength limit $k \ll \pi/a$ the phases vary slowly and
+the path-count Gaussian~\eqref{eq:gaussian_born} dominates; the standard
+Born rule is recovered as a continuum approximation valid for $N \gg 1$.
+
+\paragraph{Discrete corrections.}
+For small $N$, the integer path count $\pathcount{N}{a}{b}{c}$ deviates from
+the Gaussian prediction~\eqref{eq:gaussian_born}.
+These are exact, computable corrections to the Born probability at short
+distances.
+Experiment~\texttt{exp\_06} confirms that such corrections exist and are
+numerically accessible: the discrete fringe structure at small $N$ is
+non-Gaussian and matches the path-count integer formula.
+If the lattice spacing equals the Planck length, the corrections become
+significant at $r \sim \ell_P$ and constitute a falsifiable departure from
+standard quantum mechanics in the deep ultraviolet.
+
+\paragraph{Summary.}
+The Born rule is not a postulate about measurement outcomes.
+It is the statement that probability IS the path fraction, and the path
+fraction sums to one because every path must end somewhere.
+$\mathcal{A} = 1$ is the combinatorial identity $\sum P(N,\mathbf{x}) = 6^N$,
+rewritten as a physical conservation law.
+The measurement axiom, usually the most conceptually unsatisfying postulate
+of quantum mechanics, is here a tautology.

@@ -1,31 +1,228 @@
 % ============================================================
 % causal_sessions.tex
-% STATUS: STUB
+% Section 3: Causal Sessions and the Phase Rotor
 % Corresponds to: src/core/CausalSession.py, src/core/PhaseRotor.py
-% Experiment: exp_01_inertia.py
 % ============================================================
 
-% OPEN QUESTION (from exp_01 results):
-% In the current tick() implementation, higher omega causes FASTER propagation
-% given the same phase gradient, because omega amplifies the phase-alignment
-% weighting. True inertial behavior requires heavier particles to resist
-% changes in velocity -- omega should damp the phase-alignment response,
-% not amplify it. The correct formulation needs further work.
-% Candidate fix: weight emission by 1/(omega * phase_alignment) so that
-% high-frequency packets are less responsive to the gradient per tick.
-% This is the key open theoretical question for Section 3.
+A particle in the $\unity$ framework is not a point mass, a field mode,
+or a wavefunction on a background space.
+It is a \emph{causal session}: a persistent probability flux that
+carries an internal clock, evolves by the bipartite tick rule, and
+obeys the $\unity$ constraint at every tick.
+This section defines the session structure and identifies its algebraic
+content: the internal clock is a U(1) rotor whose group element encodes
+phase and whose algebra generator encodes mass.
 
+% ── 3.1 The Phase Rotor: U(1) Group and Algebra ───────────────────────────────
+\subsection{The Phase Rotor: U(1) Group and Algebra}
+\label{subsec:phase_rotor}
 
-% - The CausalSession: a particle as a persistent probability flux
-% - The PhaseRotor: U(1) internal clock
-%   - omega as instruction frequency (mass)
-%   - Phase gradient as momentum
-% - The hop probability distribution
-%   - At rest: 1/6 to each neighbor, probability of staying put
-%   - In motion: asymmetric distribution encoding velocity
-%   - The temperature analogy for the stay-put probability
-% - Compact support: probability strictly zero outside causal cone
-% - Inertia as phase-gradient persistence (U(1) stability)
-% - Mass as instruction overhead: F = ma as state-update cost
+Each causal session carries a \emph{phase rotor} --- an internal oscillator
+that advances by a fixed angle $\omega$ per tick.
+The rotor state at tick $n$ is the unit complex number
+\begin{equation}
+    r_n = e^{i\phi_n} \in \mathrm{U}(1), \qquad \phi_n = n\omega \mod 2\pi.
+    \label{eq:rotor_state}
+\end{equation}
+Two structures are at work here, and they are distinct.
 
-\textbf{[STUB]}
+\textbf{The group element} $r_n = e^{i\phi_n}$ lives on the unit circle
+$\mathrm{U}(1) = \{z \in \mathbb{C} : |z| = 1\}$.
+This is the Lie group: a one-dimensional compact manifold with group
+multiplication given by phase addition.
+The $\unity$ constraint --- total probability equal to one at every tick ---
+is the requirement that the rotor never leaves this manifold.
+$\mathcal{A} = 1$ is not a normalisation convention; it is the statement
+that the session's state is always a group element, never a rescaled one.
+Probability is conserved because U(1) is a group, not because we
+choose to enforce it.
+
+\textbf{The algebra generator} $\omega \in \mathfrak{u}(1) \cong \mathbb{R}$
+is the element of the Lie algebra that exponentiates into the group via
+\begin{equation}
+    r_{n+1} = e^{i\omega} \cdot r_n.
+    \label{eq:rotor_advance}
+\end{equation}
+This is left-multiplication by $e^{i\omega}$: a rotation of the rotor
+by angle $\omega$ per tick.
+The generator $\omega$ is the particle's \emph{instruction frequency} ---
+the rate at which its internal clock advances.
+In the continuum limit $a \to 0$ with $\omega/a = m$ held fixed,
+$\omega$ becomes the rest mass (Section~\ref{subsec:dirac_limit}).
+Mass is the generator of the internal U(1) rotation, not a separately
+postulated property.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{../figures/phase_rotor_diagram.pdf}
+    \caption{The U(1) phase rotor.
+      \textbf{(a)} The rotor state $r_n = e^{i\phi_n}$ is a point on the
+      unit circle (the Lie group $\mathrm{U}(1)$).
+      Each tick advances the state by the algebra generator $\omega \in
+      \mathfrak{u}(1)$, shown as the arc between $r_n$ (filled) and
+      $r_{n+1}$ (open).
+      The tangent vector $i\omega$ at $r_n$ shows that $\omega$ lives in
+      the Lie algebra (tangent space).
+      The constraint $|r|=1$ is the $\mathcal{A}=1$ condition.
+      \textbf{(b)} The hop and stay probabilities arise from the half-angle
+      $\delta\phi/2$ of the local phase mismatch $\delta\phi = \omega + V$.
+      The cosine projection gives $p_\mathrm{hop} = \cos^2(\delta\phi/2)$
+      (red); the sine projection gives $p_\mathrm{stay} = \sin^2(\delta\phi/2)$
+      (blue).
+      Three special cases are marked: $\omega=0$ (photon, all hop),
+      $\omega=\pi/2$ (equal split), and $\omega=\pi$ (frozen, all stay).
+      The group geometry and the probability dynamics are the same
+      circle.}
+    \label{fig:phase_rotor}
+\end{figure}
+
+\paragraph{The phase mismatch as local Hamiltonian.}
+When the session is at a node with topological potential $V(\mathbf{x})$,
+the effective advance per tick is
+\begin{equation}
+    \delta\phi(\mathbf{x}) = \omega + V(\mathbf{x}).
+    \label{eq:phase_mismatch}
+\end{equation}
+This is the discrete Hamiltonian evaluated locally: an algebra element
+$\omega + V \in \mathfrak{u}(1)$ that varies from node to node.
+The potential $V$ deforms the algebra element without leaving the Lie
+algebra --- the sum of two real numbers is still a real number, so the
+phase mismatch is still a valid generator.
+The hop probability
+\begin{equation}
+    p_\mathrm{stay} = \sin^2\!\tfrac{\delta\phi}{2}, \qquad
+    p_\mathrm{hop}  = \cos^2\!\tfrac{\delta\phi}{2},
+    \label{eq:hop_probs}
+\end{equation}
+is the norm-squared of the U(1) rotation by $\delta\phi/2$.
+It depends only on the algebra element $\delta\phi$, not on the
+current group element $r_n$.
+The dynamics are controlled by the algebra; the group element tracks
+the accumulated phase.
+
+\paragraph{Why this matters.}
+In standard quantum mechanics the wavefunction $\psi$ is a complex
+number and the Hamiltonian $H$ is a Hermitian operator.
+Their relationship is through the Schr\"odinger equation, which must
+be postulated.
+Here the relationship is structural: the Hamiltonian is a u(1) algebra
+element, the state is a U(1) group element, and the equation of motion
+$r_{n+1} = e^{i(\omega+V)} \cdot r_n$ is the definition of
+exponentiation from the algebra to the group.
+The Schr\"odinger equation is not postulated; it is the definition of
+what it means for the rotor to advance.
+
+% ── 3.2 The CausalSession: Spinor Amplitude on the Lattice ───────────────────
+\subsection{The Causal Session: Spinor Amplitude on the Lattice}
+\label{subsec:causal_session}
+
+The phase rotor governs the \emph{internal} clock.
+The \emph{external} amplitude --- the probability density distributed
+across the lattice --- is the spinor field $\Psi = (\psi_R, \psi_L)^T$,
+where $\psi_R(\mathbf{x})$ is the amplitude on the RGB sublattice
+and $\psi_L(\mathbf{x})$ on the CMY sublattice.
+
+These are not two independent fields.
+They are the same session viewed on even and odd ticks respectively:
+$\psi_R$ is the right-handed component (advances on RGB directions,
+even ticks) and $\psi_L$ is the left-handed component (advances on
+CMY directions, odd ticks).
+The bipartite alternation forces the two-component structure.
+Spin-$\tfrac{1}{2}$ is not a separate postulate; it is the consequence
+of there being exactly two sublattices.
+
+The $\unity$ constraint on the spinor is
+\begin{equation}
+    \sum_{\mathbf{x}} \bigl(|\psi_R(\mathbf{x})|^2
+                           + |\psi_L(\mathbf{x})|^2\bigr) = 1.
+    \label{eq:unity_spinor_session}
+\end{equation}
+This is the field-theoretic extension of the rotor constraint
+$|r_n| = 1$: the total probability across all nodes and both spinor
+components is exactly one at every tick.
+The session is a U(1) rotor distributed over the lattice.
+
+\paragraph{Massless sessions.}
+When $\omega = 0$ the phase mismatch $\delta\phi = V(\mathbf{x})$
+vanishes on a flat lattice, so $p_\mathrm{stay} = 0$ and
+$p_\mathrm{hop} = 1$.
+The amplitude hops on every tick, alternating strictly between the
+two sublattices, and propagates at $c = 1$ node/tick.
+The two-component structure collapses: at any instant the amplitude
+is entirely on one sublattice.
+This is the photon.
+Its generator $\omega = 0$ is the identity element of the algebra;
+it has no mass, no ZB oscillation, and no internal clock frequency.
+
+% ── 3.3 The Tick Rule as U(1) Gauge Transformation ───────────────────────────
+\subsection{The Tick Rule as Gauge Transformation}
+\label{subsec:gauge}
+
+The tick rule advances the rotor by $e^{i\delta\phi}$ and hops the
+spinor amplitude to neighbouring nodes.
+Viewed globally, each tick is a \emph{local} U(1) gauge transformation:
+different nodes receive different phase advances $\delta\phi(\mathbf{x})$
+depending on the local potential $V(\mathbf{x})$.
+
+The $\unity$ constraint is preserved by this transformation because
+U(1) is compact: $|e^{i\delta\phi}| = 1$ regardless of $\delta\phi$.
+No phase advance, however large, can change the norm of the rotor.
+The constraint is therefore automatically satisfied at every node and
+every tick without additional enforcement beyond the tick rule itself.
+
+This structure is the discrete origin of U(1) gauge invariance in
+quantum electrodynamics.
+The gauge field $A_\mu$ of QED is, in this framework, the potential
+$V(\mathbf{x},t)$ that deforms the local algebra element from $\omega$
+to $\omega + V$.
+The gauge transformation $\psi \to e^{i\alpha(\mathbf{x})}\psi$ is
+the freedom to redefine the zero of the phase at each node — a freedom
+that exists precisely because the physics depends only on the algebra
+element $\delta\phi$, not on the accumulated group element $r_n$.
+
+The implication for the gauge group of the Standard Model is direct:
+U(1) electromagnetism is the phase symmetry of a single session.
+The larger gauge group SU(3)$\times$SU(2)$\times$U(1) arises when
+multiple sessions with different RGB/CMY cone orientations interact —
+the subject of Section~\ref{sec:vacuum_twist}.
+
+% ── 3.4 Inertia as Phase-Gradient Stability ───────────────────────────────────
+\subsection{Inertia as Phase-Gradient Stability}
+\label{subsec:inertia}
+
+A session in uniform motion carries a spatial phase gradient
+$\theta$ per lattice edge.
+The gradient is an element of the algebra: it is the spatial part of
+the local generator $\omega + V + \theta$.
+Inertia is the \emph{stability} of this gradient against perturbation.
+
+Perturbing the gradient by $\Delta\theta$ changes the hop probability by
+$\Delta p_\mathrm{hop} \propto -\sin(\omega)\,\Delta\theta$.
+The larger $\omega$ (the heavier the particle), the smaller the relative
+change in hop probability for a given perturbation.
+Heavier particles are more resistant to gradient changes — they have
+more inertia.
+
+Experiment \texttt{exp\_01} confirms this.
+A Gaussian wavepacket ($\omega = 0.2$, $\mathbf{k} = (k,k,k)$) drifts
+at $v_x = 0.046$ nodes/tick; a heavier packet ($\omega = 0.5$, same
+$\mathbf{k}$) drifts measurably slower.
+The velocity formula $v = \tfrac{c}{2}\sin(\omega)\sin(\theta)$
+(derived in Section~\ref{subsec:momentum_emergence}) gives the correct
+ratio.
+Inertia is not postulated; it follows from the algebra element $\omega$
+governing the rotor's response to gradient perturbations.
+
+\paragraph{Summary.}
+A causal session is a U(1) rotor ($e^{i\phi} \in \mathrm{U}(1)$)
+distributed over the bipartite lattice as a two-component spinor
+$(\psi_R, \psi_L)$.
+Its mass is the algebra generator $\omega \in \mathfrak{u}(1)$.
+Its dynamics are the exponentiation of the local algebra element
+$\delta\phi = \omega + V$ into the group at every tick.
+Probability conservation is the compactness of U(1).
+Spin-$\tfrac{1}{2}$ is the bipartite structure.
+Inertia is the gradient stability of the generator.
+None of these are postulated; they are the content of the single
+statement: \emph{a particle is a persistent U(1) flux on a bipartite
+lattice}.

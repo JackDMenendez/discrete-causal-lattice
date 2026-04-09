@@ -1,6 +1,6 @@
 """
 CausalSession.py
-The Quantum Lantern: a particle as a persistent probability flux.
+A particle as a persistent probability flux on T^3_diamond.
 
 The bipartite Dirac spinor model:
 
@@ -9,6 +9,7 @@ The bipartite Dirac spinor model:
     psi_L : amplitude on CMY sublattice (left-handed component)
 
     The bipartite lattice IS the Dirac structure.  RGB/CMY are psi_R/psi_L.
+    Spin-1/2 follows from the two-sublattice structure, not as a postulate.
 
   DIRAC TICK RULE:
     Even tick (RGB active):
@@ -22,6 +23,8 @@ The bipartite Dirac spinor model:
     - Kinetic term hops the OPPOSITE component across the active sublattice
     - Mass term rotates each component IN PLACE (no hop, just phase rotation)
     - A=1: sum(|psi_R|^2 + |psi_L|^2) = 1 enforced after each tick
+      (two uses: probability conservation every tick; wavefunction projection
+       after amplitude transfer -- see UnityConstraint.py for full taxonomy)
 
   SPECIAL CASES:
     Massless (delta_phi=0): cos=1, sin=0 -> full swap per tick (photon)
@@ -30,12 +33,42 @@ The bipartite Dirac spinor model:
   MOMENTUM:
     Phase-alignment weighting biases the kinetic hop toward aligned neighbors,
     giving net drift.  Inertia scales with omega (1/(1+omega) damping).
+    Inertia is the stability of the phase gradient against perturbation;
+    heavier particles (larger omega) resist gradient changes more.
 
   ZITTERBEWEGUNG:
-    Now appears as amplitude trading between psi_R and psi_L each tick,
-    rather than p_stay at a single site.  More physically accurate.
+    Amplitude trades between psi_R and psi_L each tick for massive particles.
+    At rest: symmetric trading with zero net CoM drift.
+    With momentum: asymmetric trading gives net drift at velocity
+      v = (c/2) sin(omega) sin(theta)
+    where theta is the phase gradient per lattice edge.
+    ZB rate = omega/pi ticks; ZB IS the rest mass oscillation (not a separate effect).
 
-Paper reference: Section 3 (Dirac Spinor, Bipartite Tick Rule)
+  BORN RULE CONNECTION:
+    probability_density() = |psi_R|^2 + |psi_L|^2 is the Born probability.
+    This is the path-counting identity: for a massless flat-lattice session,
+    probability at (x,y,z) after N ticks = P(N,x,y,z) / 6^N, where P is the
+    number of distinct N-step paths that reach (x,y,z).  A=1 is the
+    normalisation identity sum_x P(N,x) = 6^N.  The Born rule is a tautology,
+    not a postulate.  See paper/sections/born_rule_from_paths.tex.
+
+  EMISSION / ABSORPTION (exp_19, exp_20):
+    tick(normalize=False) skips per-session A=1 enforcement, allowing the
+    caller to manage amplitude across a session group.  See UnityConstraint.py
+    for the full taxonomy of A=1 uses (conservation vs projection).
+
+DOCUMENTATION CONVENTION:
+  Every non-trivial line of physics code should say what it IS in the theory,
+  not just what it does in the program.  Name the mathematical object, cite
+  the paper equation where one exists, and state the correspondence explicitly:
+  "this IS X" when exact, "this approximates X" in the continuum limit.
+  The structure factor comment in _kinetic_hop is the canonical template for
+  this convention -- see that method for a worked example.
+
+Paper references:
+  Section 3  -- causal_sessions.tex   (Dirac spinor, bipartite tick rule)
+  Section 4  -- emergent_kinematics.tex (continuum limit, Dirac derivation)
+  Section X  -- born_rule_from_paths.tex (Born rule as path-counting identity)
 """
 
 import numpy as np
@@ -123,8 +156,9 @@ class CausalSession:
         enforce_unity_spinor(self.psi_R, self.psi_L)
 
         # Pre-compute shift slices for all direction vectors to avoid np.roll
-        # in the hot _kinetic_hop path.  Each entry is a 4-tuple:
-        #   (nb_src, nb_dst, out_src, out_dst)
+        # in the hot _kinetic_hop path.  Each entry is a 5-tuple:
+        #   ((dx,dy,dz), nb_src, nb_dst, out_src, out_dst)
+        # (dx,dy,dz): direction vector -- used by _kinetic_hop for Peierls A·v
         # nb:  nb_arr[nb_dst] = source[nb_src]   -- look up neighbor in dir v
         # out: result[out_dst] += emission[out_src] -- shift emission to dest
         self._rgb_slices = _precompute_shift_slices(shape, RGB_VECTORS)
@@ -180,6 +214,33 @@ class CausalSession:
         """
         Directed kinetic hop: source amplitude propagates to neighbor sites.
 
+        CONTINUUM LIMIT CONNECTION -- THE STRUCTURE FACTOR:
+        In the Dirac derivation (paper Section 4, eq. structure_factor) the
+        hop operator over the RGB sublattice is written in Fourier space as:
+
+            H_RGB(k) = (1/3) * sum_{v in RGB} exp(i k.v)
+
+        For a plane wave psi(x) = exp(i k.x), the phase advance in direction v is:
+
+            delta_p(x) = phi(x+v) - phi(x)
+                       = angle(psi(x+v)) - angle(psi(x))
+                       = k.v                              (exact for a plane wave)
+
+        So  exp(i * delta_p)  evaluated at each node IS exp(i k.v) -- the
+        summand of the structure factor evaluated in position space.
+
+        Summing exp(i*delta_p) * source over all RGB directions and dividing by
+        n_vec=3 is the position-space implementation of H_RGB(k) applied to psi.
+
+        The Taylor expansion of H_RGB(k) near k=0:
+            H_RGB(k) ≈ 1 + (i/3)(1,1,-1).k - (1/6) k^T M k + O(k^3)
+        is what the continuum limit recovers.  In position space:
+            - the constant 1    -> the identity (no hop, amplitude stays)
+            - the (i/3)(1,1,-1).k term -> (i/3)(1,1,-1).grad  (directional derivative)
+            - the quadratic k^T M k -> -(1/6) Laplacian (after RGB+CMY cancellation)
+        Combined with the cos/sin(delta_phi/2) mass terms in tick(), the full
+        Dirac operator (i gamma^mu d_mu - m) emerges in the continuum limit.
+
         For each direction v, the phase advance is delta_p = phi(r+v) - phi(r).
         A positive delta_p means the neighbor is AHEAD in phase -- the momentum
         gradient points toward it.  We use delta_p as the directional weight
@@ -200,7 +261,7 @@ class CausalSession:
         Parameters
         ----------
         source             : complex (X,Y,Z) -- the component being hopped
-        precomputed_slices : list of (nb_src, nb_dst, out_src, out_dst)
+        precomputed_slices : list of ((dx,dy,dz), nb_src, nb_dst, out_src, out_dst)
 
         Returns
         -------
@@ -225,7 +286,7 @@ class CausalSession:
             nb_buf[nb_dst] = source[nb_src]
             nb_abs = np.abs(nb_buf)
             nb_phase = np.where(nb_abs > 1e-9, np.angle(nb_buf), local_phase)
-            delta_p = nb_phase - local_phase               # phase advance in dir v
+            delta_p = nb_phase - local_phase   # k.v in position space -- summand of structure factor H_RGB(k)
             # Peierls substitution: add A·v so the EM vector potential biases
             # the hop direction.  Positive A·v reinforces hops in direction v;
             # negative A·v suppresses them.  For a curl field this produces the
@@ -251,6 +312,11 @@ class CausalSession:
             # For zero-momentum fallback: no correction (exp(i*0)=1).
             phase_corr = np.where(zero_mom, 1.0+0j,
                                   np.exp(1j * delta_p_list[i]).astype(complex))
+            # exp(i*delta_p) = exp(i k.v): the summand of structure factor H_RGB(k)
+            # evaluated at each node in position space.
+            # Summing w_i * exp(i*delta_p) * source over all v in RGB gives the
+            # position-space action of H_RGB(k) on psi -- what the Taylor expansion
+            # approximates as  1 + (i/3)(1,1,-1).k - (1/6)k^T M k + O(k^3).
             emission = source * phase_corr * w_i
             # Shift emission to destination via slice: no np.roll, no mask array
             result[out_dst] += emission[out_src]
@@ -276,49 +342,101 @@ class CausalSession:
         A=1 enforced after each tick via joint normalization.
 
         normalize=True (default): enforce per-session A=1 after the tick.
-            Use for standalone sessions.
+            Standard use for all standalone sessions and exp_19 v4+.
         normalize=False: skip per-session normalization. The caller is
-            responsible for enforcing A=1, e.g. via joint_normalize() across
-            a bound session group. Required for multi-session amplitude
-            transfer (photon emission, pair annihilation).
+            responsible for enforcing A=1.  Use cases:
+              - joint_normalize() across a bound session group
+              - Manual amplitude transfer followed by enforce_unity_spinor
+                on each session individually (exp_19 v1/v2/v3 architecture)
+            See UnityConstraint.py for the full taxonomy of A=1 uses.
 
         Paper reference: Section 3 (Dirac tick rule, bipartite structure)
         """
         tick_parity = self.tick_counter % 2
 
+        # ── The discrete Hamiltonian: H = omega + V(x)  [Lie algebra element]
+        # omega is the rest-mass generator in u(1).
+        # V is the topological potential (Coulomb, gravitational, EM, etc.).
+        # Their sum is the local phase cost per tick -- the discrete H evaluated
+        # at every lattice node simultaneously.
+        # Paper: eq. (phase_mismatch)  delta_phi = omega + V
         delta_phi = (self.phase_rotor.omega
-                     + self.lattice.topological_potential)       # (X,Y,Z)
-        cos_half  = np.cos(delta_phi / 2.0)                      # (X,Y,Z)
-        sin_half  = np.sin(delta_phi / 2.0)                      # (X,Y,Z)
+                     + self.lattice.topological_potential)        # H(x) -- shape (X,Y,Z)
+
+        # ── The evolution operator: U = exp(i H)  [Lie group element]
+        # Exponentiation from the Lie algebra u(1) to the group U(1).
+        # cos(delta_phi/2) and sin(delta_phi/2) are the matrix elements of the
+        # SU(2) rotation exp(i delta_phi/2 * sigma_x) that mixes the two spinor
+        # components.  This is the discrete Schrodinger equation: psi -> U psi.
+        # In the continuum limit a->0: U = exp(-iHa) -> 1 - iHa, recovering
+        # i d/dt psi = H psi.  The Schrodinger equation is not postulated --
+        # it is the definition of exponentiation from the algebra to the group.
+        # Paper: eq. (rotor_advance)  r_{n+1} = exp(i omega) * r_n
+        cos_half  = np.cos(delta_phi / 2.0)   # kinetic coefficient  -- cos(H/2)
+        sin_half  = np.sin(delta_phi / 2.0)   # mass/potential coeff -- sin(H/2)
 
         if self.is_massless:
-            # Massless photon: strict bipartite alternation (chirality preserved).
+            # omega=0 -> delta_phi=V -> cos=1, sin=0 for flat lattice.
+            # Pure kinetic hop: the evolution operator has no diagonal (mass) term.
+            # Chirality is preserved: psi_R and psi_L never mix directly.
+            # This is the photon (massless session): propagates at c=1 node/tick.
             # Even tick: psi_L -> psi_R via RGB; psi_L unchanged.
             # Odd tick:  psi_R -> psi_L via CMY; psi_R unchanged.
             if tick_parity == 0:
-                new_psi_R = self._kinetic_hop(self.psi_L, self._rgb_slices)
+                new_psi_R = self._kinetic_hop(self.psi_L, self._rgb_slices)  # kinetic: momentum operator p
                 new_psi_L = self.psi_L
             else:
-                new_psi_L = self._kinetic_hop(self.psi_R, self._cmy_slices)
+                new_psi_L = self._kinetic_hop(self.psi_R, self._cmy_slices)  # kinetic: momentum operator p
                 new_psi_R = self.psi_R
         else:
-            # Massive particle: both components updated simultaneously.
-            # RGB hop: psi_L -> psi_R; CMY hop: psi_R -> psi_L.
-            # Simultaneous update averages RGB and CMY displacements,
-            # giving zero net CoM drift for zero-momentum states (symmetry
-            # of V1+V2+V3 + CMY1+CMY2+CMY3 = 0).
-            hop_R     = self._kinetic_hop(self.psi_L, self._rgb_slices)
-            hop_L     = self._kinetic_hop(self.psi_R, self._cmy_slices)
-            new_psi_R = cos_half * hop_R + 1j * sin_half * self.psi_R
-            new_psi_L = cos_half * hop_L + 1j * sin_half * self.psi_L
+            # Massive particle: both spinor components updated each tick.
+            #
+            # ── Kinetic term: cos(H/2) * hop(opposite component)
+            #    This is the discrete momentum operator p acting on psi.
+            #    hop() shifts amplitude to neighbouring nodes weighted by
+            #    the local phase gradient (momentum).  The cross-component
+            #    structure (psi_L feeds psi_R and vice versa) is the origin
+            #    of Zitterbewegung: the two sublattice components trade
+            #    amplitude every tick at the ZB frequency omega/pi.
+            #
+            # ── Mass term: i*sin(H/2) * (same component in place)
+            #    This is the discrete rest-energy + potential term m*psi + V*psi.
+            #    No spatial hop: amplitude rotates in phase at each node.
+            #    At omega=pi/2: sin=cos=1/sqrt(2), equal kinetic and mass terms.
+            #    At omega->pi:  sin->1, cos->0, particle freezes (infinite mass).
+            #
+            # Together: new_psi = U * psi = exp(i H/2 sigma_x) * psi
+            # = [cos(H/2) * kinetic + i*sin(H/2) * identity] applied to spinor.
+            # Simultaneous update of both components averages RGB and CMY,
+            # giving zero net CoM drift at zero momentum (V1+V2+V3+CMY = 0).
+            hop_R = self._kinetic_hop(self.psi_L, self._rgb_slices)  # kinetic: p acting on psi_L
+            hop_L = self._kinetic_hop(self.psi_R, self._cmy_slices)  # kinetic: p acting on psi_R
+            new_psi_R = cos_half * hop_R      + 1j * sin_half * self.psi_R  # U*psi_R: kinetic + mass
+            new_psi_L = cos_half * hop_L      + 1j * sin_half * self.psi_L  # U*psi_L: kinetic + mass
+            #           ^-- kinetic term (p)       ^-- mass/potential term (m+V)
+            #               cos(H/2) * hop             i*sin(H/2) * in-place
 
+        # ── A=1 constraint: |r| = 1  [U(1) group manifold condition]
+        # Enforces the session onto the unit circle after each evolution step.
+        # This is NOT a normalisation convention -- it is the statement that the
+        # session persists with unit probability (the particle exists after the tick).
+        # In Lie group language: the rotor stays on U(1), it never rescales.
         if normalize:
             enforce_unity_spinor(new_psi_R, new_psi_L)
         self.psi_R = new_psi_R
         self.psi_L = new_psi_L
 
     def probability_density(self) -> np.ndarray:
-        """Total probability density: |psi_R|^2 + |psi_L|^2."""
+        """
+        Total probability density: |psi_R|^2 + |psi_L|^2.
+
+        This is the Born probability at each lattice node.  For a massless
+        session on a flat lattice, it equals the path-count fraction
+        P(N, x, y, z) / 6^N: the fraction of all N-step paths from the
+        origin that reach node (x,y,z).  A=1 is the statement that this
+        fraction sums to one -- the Born rule as a counting identity.
+        See paper/sections/born_rule_from_paths.tex.
+        """
         return np.abs(self.psi_R) ** 2 + np.abs(self.psi_L) ** 2
 
     # ── Cone measurement ──────────────────────────────────────────────────────

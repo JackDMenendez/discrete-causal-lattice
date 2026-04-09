@@ -139,6 +139,65 @@ OMEGA_P=0.7  M_P=0.343  R1=11.04  IN PROGRESS (tick ~6000)
 
 ---
 
+## exp_19 -- READY TO RUN AFTER REBOOT (2026-04-09)
+
+### What it tests
+Positive control: does a photon session stabilize the two-body orbit?
+The conservative two-body system is demonstrably metastable (orbit stability
+probe, exp_12/exp_16). Hypothesis: momentum-selective amplitude drain from
+the outer orbit provides the dissipation needed to lock onto the Arnold tongue.
+
+### Design (v4 -- see src/experiments/exp_19_photon_emission.py)
+- Emission active from tick 0 (no Phase 1 settle period)
+- mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r)/v_r_max
+  where v_r = grad(phi_e) . r_hat (drain only outer-orbit + outward-moving)
+- EMISSION_RATES = [0.001, 0.005, 0.010, 0.020, 0.050]
+- 5 parallel workers, one per rate
+- TICKS_TOTAL=6000 (interim; raise to 18000 after JIT fix -- see below)
+
+### Command to run after reboot
+  cd d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice
+  python -u src/experiments/exp_19_photon_emission.py > data/exp_19_parallel_launch.log 2>&1 &
+
+### Progress monitoring
+  tail -f data/exp_19_rate_0_0010.log    # rate=0.001
+  tail -f data/exp_19_rate_0_0050.log    # rate=0.005
+  tail -f data/exp_19_rate_0_0100.log    # rate=0.010
+  tail -f data/exp_19_rate_0_0200.log    # rate=0.020
+  tail -f data/exp_19_rate_0_0500.log    # rate=0.050
+
+### Expected runtime
+  ~3.3s/tick * 6000 ticks = ~5.5 hours per worker.
+  5 workers run in parallel: ~5.5 hours total.
+
+### Performance bottleneck (known, fix pending)
+  tick() costs ~3.3s on GRID=65^3.  Profile:
+    electron.tick: 2321ms (dominant)
+    proton.tick:   1841ms
+    photon.tick:    669ms
+    coulomb+CoM:   ~400ms (not the bottleneck -- meshgrid already fixed)
+
+  Root cause: _kinetic_hop calls np.angle (arctan2) and np.exp(1j*delta_p)
+  on 274K-element arrays, 3 times per tick per session.
+
+  Correct fix: numba @njit on _kinetic_hop.
+    from numba import njit
+    @njit(cache=True)
+    def _kinetic_hop_inner(source_R, source_I, shifts, ...):
+        ...
+  Expected speedup: 20-50× on the inner loop.
+
+  Interim fix: TICKS_TOTAL=6000.  This is already set.
+  Do NOT run with TICKS_TOTAL=18000 until the JIT fix is in place.
+
+### What to look for in results
+  SUCCESS: any rate shows streak >= 33 (r_peak within 15% of R1 sustained)
+  PARTIAL: streak > 11 (better than best two-session result) -- informative
+  FAIL: all rates show r_peak drifting to grid boundary -- need larger dissipation
+  r_peak < 5: electron collapsed to well center -- re-check enforce_unity_spinor
+
+---
+
 ## exp_11 n=2 -- FLAT RESULT (2026-04-01, expected)
 
 Run: 28 hrs, 41 k-values [0.030, 0.070], GRID=65^3, TICKS=8000.
@@ -295,6 +354,26 @@ p_move    = cos^2(delta_phi/2) -- kinetic propagation probability
 Coulomb well: V(r) = -strength / (r + softening)
 Hydrogen: strength=30, softening=0.5, omega=0.1019, R1=10.3
 omega * R1 = pi/3 to 0.23% -- the key identity being tested
+
+---
+
+## Documentation Convention (all core Python modules)
+
+Every non-trivial line of physics code should say what it IS in the theory,
+not just what it does in the program.  Name the mathematical object, cite
+the paper equation where one exists, and state the correspondence explicitly:
+"this IS X" when exact, "this approximates X" in the continuum limit.
+
+The structure factor comment in CausalSession._kinetic_hop is the canonical
+template.  All five core modules (CausalSession, OctahedralLattice,
+TickScheduler, CompositeCausalSession, PhaseRotor) now meet this convention.
+
+When adding new physics code, follow the same pattern:
+
+- Name the mathematical object (e.g. "L = ∫(r × p)·ρ dV")
+- State what the variable IS, not what you are doing with it
+- Use "IS" for exact correspondences, "approximates" for continuum limits
+- Cross-reference the paper section or equation label where one exists
 
 ---
 

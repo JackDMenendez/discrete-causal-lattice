@@ -12,6 +12,13 @@ The shuffling of tick counters is the mechanism by which:
   - Particle decay becomes timing-dependent
   - Clock density encodes gravity
 
+DOCUMENTATION CONVENTION:
+  Every non-trivial line of physics code should say what it IS in the theory,
+  not just what it does in the program.  Name the mathematical object, cite
+  the paper equation where one exists, and state the correspondence explicitly:
+  "this IS X" when exact, "this approximates X" in the continuum limit.
+  The structure factor comment in CausalSession._kinetic_hop is the template.
+
 Paper reference: Section 4 (The Tick Scheduler)
 """
 
@@ -164,28 +171,37 @@ class TickScheduler:
                 si = self.sessions[i]
                 sj = self.sessions[j]
                 # Find nodes where both sessions have significant total amplitude
+                # sqrt(|psi_R|^2 + |psi_L|^2): amplitude at each node -- sqrt of Born probability.
                 amp_i = np.sqrt(np.abs(si.psi_R)**2 + np.abs(si.psi_L)**2)
                 amp_j = np.sqrt(np.abs(sj.psi_R)**2 + np.abs(sj.psi_L)**2)
+                # overlap_mask: nodes where both sessions have support -- the interaction region.
+                # This IS the spatial overlap integral that determines coupling strength in QFT.
                 overlap_mask = (amp_i > threshold) & (amp_j > threshold)
                 if not np.any(overlap_mask):
                     continue
-                # Phase exchange: mix phases at overlap nodes using psi_R as
-                # the phase reference (same rotation applied to both components)
+                # angle(psi_R): the U(1) phase of the session at each node.
+                # This IS the group element phi in U(1) -- the accumulated internal clock phase.
                 phase_i = np.angle(si.psi_R)
                 phase_j = np.angle(sj.psi_R)
                 key = (min(i, j), max(i, j))
                 coupling_strength = self._bindings.get(key, 0.1)
+                # Linear interpolation of phases: partial phase lock.
+                # coupling=0: no mixing (free sessions). coupling=1: full phase lock (bound state).
+                # This IS the discrete interaction Hamiltonian H_int ~ coupling * (phi_i - phi_j).
                 coupling = coupling_strength * np.where(overlap_mask, 1.0, 0.0)
                 new_phase_i = phase_i + coupling * (phase_j - phase_i)
                 new_phase_j = phase_j + coupling * (phase_i - phase_j)
+                # exp(i * delta_phase): U(1) group element -- phase rotation by the interaction.
+                # Applying this to psi IS the unitary evolution under H_int for one tick.
                 phase_rot_i = np.where(overlap_mask,
                                        np.exp(1j * (new_phase_i - phase_i)), 1.0+0j)
                 phase_rot_j = np.where(overlap_mask,
                                        np.exp(1j * (new_phase_j - phase_j)), 1.0+0j)
-                si.psi_R = si.psi_R * phase_rot_i
-                si.psi_L = si.psi_L * phase_rot_i
+                si.psi_R = si.psi_R * phase_rot_i   # U(1) rotation of spinor component
+                si.psi_L = si.psi_L * phase_rot_i   # same rotation on both (U(1) not SU(2))
                 sj.psi_R = sj.psi_R * phase_rot_j
                 sj.psi_L = sj.psi_L * phase_rot_j
+                # A=1: group manifold constraint -- each session stays on U(1) after interaction.
                 enforce_unity_spinor(si.psi_R, si.psi_L)
                 enforce_unity_spinor(sj.psi_R, sj.psi_L)
 
@@ -259,48 +275,60 @@ class TickScheduler:
             sp  = self.sessions[p_idx]
             spr = self.sessions[pr_idx]
 
+            # ∇φ(x): the momentum field of the electron -- phase gradient at each node.
+            # In the continuum limit ∇φ IS the canonical momentum p(x) of the spinor.
             grad = se.phase_gradient_field()   # (3, X, Y, Z)
+            # ρ(x) = |ψ_R|² + |ψ_L|²: the Born probability density -- A=1 weight field.
             dens = se.probability_density()    # (X, Y, Z)
 
-            # Live proton CoM -- recomputed every tick to track recoil
+            # Live proton CoM ⟨x⟩_proton = ∫ x·ρ_proton dV -- recomputed every tick to track recoil.
+            # This IS the expectation value of position for the proton session.
             pr_dens = spr.probability_density()
             pr_total = float(pr_dens.sum())
             xx, yy, zz = self._emission_grid[e_idx]
             if pr_total > 1e-12:
-                cx = float(np.sum(xx * pr_dens) / pr_total)
-                cy = float(np.sum(yy * pr_dens) / pr_total)
-                cz = float(np.sum(zz * pr_dens) / pr_total)
+                cx = float(np.sum(xx * pr_dens) / pr_total)   # ⟨x⟩_proton
+                cy = float(np.sum(yy * pr_dens) / pr_total)   # ⟨y⟩_proton
+                cz = float(np.sum(zz * pr_dens) / pr_total)   # ⟨z⟩_proton
             else:
                 cx = float(xx.mean())
                 cy = float(yy.mean())
                 cz = float(zz.mean())
 
-            # Radial vectors relative to live proton CoM
+            # r(x) = x - ⟨x⟩_proton: position vector relative to live proton CoM.
+            # This IS the relative coordinate r in the Kepler two-body problem.
             rx = xx - cx;  ry = yy - cy;  rz = zz - cz
             r_mag  = np.sqrt(rx**2 + ry**2 + rz**2)
             r_safe = np.where(r_mag > 0.5, r_mag, 1.0)
+            # r̂(x) = r/|r|: the unit radial vector at each node.
             r_hat  = np.stack([rx / r_safe, ry / r_safe, rz / r_safe])
             r_vec  = np.stack([rx, ry, rz])
 
-            # Tangential gradient: remove radial projection
+            # p_r(x) = (∇φ)·r̂: the radial momentum at each node.
             grad_rad  = np.sum(grad * r_hat, axis=0)
+            # p_tang(x) = ∇φ - p_r·r̂: the tangential (orbital) momentum -- removes radial projection.
+            # This IS the angular momentum density per unit mass at each node.
             grad_tang = grad - grad_rad[np.newaxis] * r_hat
 
-            # Orbital plane normal from current angular momentum:
-            # L = integral of (r × ∇φ) * dens over the grid.
+            # L(x) = r × ∇φ: the local angular momentum integrand at each node.
+            # L = ∫(r × p)·ρ dV IS the orbital angular momentum vector of the electron.
+            # Computed dynamically -- no hard-coded orbital plane.
             L_field = np.stack([
-                r_vec[1] * grad[2] - r_vec[2] * grad[1],
-                r_vec[2] * grad[0] - r_vec[0] * grad[2],
-                r_vec[0] * grad[1] - r_vec[1] * grad[0],
+                r_vec[1] * grad[2] - r_vec[2] * grad[1],   # (r × ∇φ)_x
+                r_vec[2] * grad[0] - r_vec[0] * grad[2],   # (r × ∇φ)_y
+                r_vec[0] * grad[1] - r_vec[1] * grad[0],   # (r × ∇φ)_z
             ])
+            # L = ∫(r × ∇φ)·ρ dV: density-weighted angular momentum vector.
             L_vec = np.einsum('ixyz,xyz->i', L_field, dens)
             L_mag = float(np.sqrt(np.sum(L_vec**2)))
             if L_mag < 1e-10:
                 continue   # no angular momentum -- nothing to drain
 
+            # L̂ = L/|L|: unit orbital angular momentum vector (normal to orbital plane).
             L_hat = L_vec / L_mag
 
-            # Azimuthal unit vector at each node: φ_hat = L_hat × r_hat
+            # φ̂(x) = L̂ × r̂: azimuthal unit vector at each node -- direction of orbital motion.
+            # This IS the tangential direction in the Frenet frame of the Kepler orbit.
             phi_hat = np.stack([
                 L_hat[1] * r_hat[2] - L_hat[2] * r_hat[1],
                 L_hat[2] * r_hat[0] - L_hat[0] * r_hat[2],
@@ -310,48 +338,53 @@ class TickScheduler:
             phi_safe = np.where(phi_mag > 1e-9, phi_mag, 1.0)
             phi_hat  = phi_hat / phi_safe[np.newaxis]
 
-            # Density-weighted mean tangential momentum k_tang.
+            # φ̂·∇φ(x): the tangential momentum scalar at each node.
             tang_scalar = np.sum(grad_tang * phi_hat, axis=0)   # (X,Y,Z)
             dens_total  = float(dens.sum())
             if dens_total < 1e-12:
                 continue
+            # k_tang = ⟨φ̂·∇φ⟩ = ⟨p_tang⟩: density-weighted mean tangential momentum.
+            # This IS the orbital wavevector -- the quantity that must equal k_Bohr = 1/R1 at lock-in.
             k_tang = float(np.sum(tang_scalar * dens)) / dens_total
 
-            # Azimuthal arc-length coordinate in the orbital plane.
-            #
-            # phi_hat = L_hat × r_hat is perpendicular to r_hat by construction,
-            # so r_vec · phi_hat = 0 identically -- wrong for a phase ramp.
-            # We need the arc-length coordinate s = r_mag * theta, where theta
-            # is the azimuthal angle measured from a fixed in-plane reference.
+            # Azimuthal arc-length coordinate s = r·θ in the orbital plane.
             #
             # Build an orthonormal frame (e1, e2) in the orbital plane:
-            #   e1 = any in-plane direction not parallel to L_hat
-            #   e2 = L_hat × e1  (= phi direction at theta=0)
-            # Then theta = arctan2(r·e2, r·e1) and s = r_mag * theta.
-            # The gradient of s in the phi direction is 1 (correct units: 1/node).
+            #   e1 = any in-plane direction not parallel to L̂
+            #   e2 = L̂ × e1  (= φ̂ direction at θ=0)
+            # Then θ = arctan2(r·e2, r·e1) and s = r_mag * θ.
+            # The gradient of s in the φ direction is 1 (correct units: rad·node = node).
             e1 = np.array([1., 0., 0.])
             if abs(float(np.dot(L_hat, e1))) > 0.9:
                 e1 = np.array([0., 1., 0.])
-            e1 = e1 - float(np.dot(L_hat, e1)) * L_hat
+            e1 = e1 - float(np.dot(L_hat, e1)) * L_hat   # Gram–Schmidt: project out L̂ component
             e1_norm = float(np.linalg.norm(e1))
             if e1_norm < 1e-10:
                 continue
             e1 = e1 / e1_norm
-            e2 = np.cross(L_hat, e1)           # second in-plane axis
+            e2 = np.cross(L_hat, e1)           # e2 = L̂ × e1: second in-plane axis (right-hand frame)
 
-            x_orb = np.einsum('i,ixyz->xyz', e1, r_vec)   # (X,Y,Z)
-            y_orb = np.einsum('i,ixyz->xyz', e2, r_vec)   # (X,Y,Z)
-            theta  = np.arctan2(y_orb, x_orb)             # azimuthal angle
-            # Arc-length s = r_mag * theta; gradient ds/d(phi) = 1 node
+            x_orb = np.einsum('i,ixyz->xyz', e1, r_vec)   # r·e1: first orbital coordinate
+            y_orb = np.einsum('i,ixyz->xyz', e2, r_vec)   # r·e2: second orbital coordinate
+            # θ(x) = arctan2(r·e2, r·e1): azimuthal angle at each node (IS the angle in Kepler orbit)
+            theta  = np.arctan2(y_orb, x_orb)
+            # s(x) = r·θ: arc-length coordinate along the orbit at each node.
+            # ∇s = φ̂ (in the orbital plane), so d(phase)/ds = k_tang is the orbital wavevector.
             arc_length = r_mag * theta                     # (X,Y,Z)
 
-            # Phase ramp: reduces tangential wavevector by rate * k_tang.
-            # d(phase_ramp)/ds = -rate * k_tang, so kinetic_hop sees
-            # delta_p reduced by rate * k_tang in the phi direction.
+            # Phase ramp: apply -rate * k_tang * s as a unitary phase rotation.
+            # This reduces the tangential wavevector by rate * k_tang per tick.
+            # d(phase_ramp)/ds = -rate * k_tang IS radiation reaction:
+            # each tick the electron loses a fraction (rate) of its orbital momentum.
+            # The photon receives +rate * k_tang: conservation of angular momentum.
             phase_ramp = -rate * k_tang * arc_length
 
-            se.apply_phase_map(phase_ramp)    # reduce tangential momentum
-            sp.apply_phase_map(-phase_ramp)   # photon carries it away
+            # apply_phase_map multiplies psi by exp(i * phase_ramp): unitary phase rotation.
+            # This IS a gauge transformation U = exp(i * phase_ramp) on the spinor.
+            # It changes the orbital wavevector but NOT the probability density -- dissipation
+            # appears only through subsequent enforce_unity_spinor renormalization.
+            se.apply_phase_map(phase_ramp)    # electron loses k_tang -> inward drift
+            sp.apply_phase_map(-phase_ramp)   # photon gains k_tang -> carries angular momentum away
 
             # Diagnostics: record k_tang and ramp variation each tick
             if e_idx not in self.emission_diagnostics:

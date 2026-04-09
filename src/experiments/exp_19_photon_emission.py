@@ -1,35 +1,45 @@
 """
-exp_19_photon_emission.py
+exp_19_photon_emission.py  (v4)
 Positive control: does a photon session stabilize the two-body orbit?
 
-Tests one specific claim: amplitude transfer from the electron session
-to a photon session via joint normalization provides the dissipation
-needed for the electron to settle onto the n=1 Arnold tongue attractor.
+Tests one specific claim: momentum-selective amplitude transfer from the
+electron's outer-orbit, outward-moving wavepacket to a photon session
+provides the dissipation needed for the electron to settle onto the n=1
+Arnold tongue attractor.
 
-The two-body system (exp_16, exp_18) is demonstrably metastable without
-dissipation -- three numerical hypotheses tested and eliminated. This
-experiment tests whether photon emission is the missing mechanism.
+The two-body system (exp_12, exp_16, orbit stability probe) is demonstrably
+metastable without dissipation -- conservative dynamics cannot lock onto
+the Arnold tongue.  This experiment tests whether photon emission is the
+missing mechanism.
 
-Design:
-  Phase 1 (TICKS_SETTLE): exp_12 initialization, no emission.
-    Confirm orbit is in the expected metastable state before adding
-    the photon session. Abort if system is already unstable.
+Design (v4 -- emission from tick 0):
+  No Phase 1 settle period.  Emission is active from the very first tick.
 
-  Phase 2 (TICKS_EMIT): switch on amplitude transfer to photon session
-    at rate EMISSION_RATE. Monitor whether r_peak converges to R1 and
-    stays there.
+  The electron starts in the exp_12 orbital configuration (r ~ R1,
+  k = 1/R1).  The outer-orbit mask is near-zero at initialisation because
+  r ~ R1; it only activates as the orbit begins to expand beyond R1.
+  This provides a restoring force BEFORE the orbit destabilises, not after.
+
+  v3 lesson: a 3000-tick Phase 1 settle period allows the unstable two-body
+  orbit to degrade fully before emission starts.  By tick 3000 the sessions
+  are in a chaotic wide orbit and the emission drain cannot recover them.
+  Removing Phase 1 addresses this directly.
+
+  Each tick:
+    1. electron and proton tick (per-session A=1).
+    2. photon ticks (per-session A=1, massless propagation).
+    3. Compute r_hat(x) from proton CoM.
+    4. v_r(x) = grad(phi_e) . r_hat  (radial velocity, >0 = outward).
+    5. mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r) / v_r_max
+    6. Transfer mask * electron.psi from electron to photon.
+    7. enforce_unity_spinor(electron), enforce_unity_spinor(photon).
 
   Sweep: repeat for each EMISSION_RATE in EMISSION_RATES.
-    If stabilization occurs across a range of rates rather than at one
-    specific tuned value, that is a stronger result.
 
 Honest limitations:
-  - EMISSION_RATE is a free parameter. The formal derivation from the
-    continuum limit Dirac matrix element is not yet complete.
-  - Success criterion is defined before running: streak >= 3x the best
-    two-session result (streak=11), sustained across multiple epochs.
-  - If stabilization only occurs at one specific emission rate, that
-    is a weaker result and will be reported as such.
+  - EMISSION_RATE is a free parameter (formal derivation pending).
+  - Success criterion: streak >= SUCCESS_STREAK.
+  - If only one rate stabilizes, that is a weaker result.
 
 Paper reference: Section on photon emission as A=1 necessity.
 """
@@ -54,69 +64,70 @@ R1        = 10.3
 GRID      = 65
 
 # ── Run parameters ────────────────────────────────────────────────────────────
-TICKS_SETTLE  = 3000    # Phase 1: confirm metastable state
-TICKS_EMIT    = 15000   # Phase 2: emission active
+# PERFORMANCE NOTE (2026-04-09):
+#   tick() costs ~3.3s on GRID=65^3.  Bottleneck is _kinetic_hop: two
+#   np.angle (arctan2) + np.exp(1j*delta_p) calls per direction per tick.
+#   Full fix: numba JIT on _kinetic_hop (see notes below).
+#   Interim: TICKS_TOTAL=6000 for a ~5.5-hour probe run.  Increase to
+#   18000 once the JIT fix is in place or use a nightly batch.
+TICKS_TOTAL   = 6000    # interim: ~5.5 hrs/worker @3.3s/tick; raise to 18000 after JIT fix
 CHECK_EVERY   = 50      # ticks between stability checks
 SETTLE_TOL    = 0.15    # r_peak within 15% of R1
 
 # Success criterion: streak >= 3x best two-session result (streak=11)
 SUCCESS_STREAK = 33
 
-# Emission rate sweep -- explicitly phenomenological
-EMISSION_RATES = [0.001, 0.003, 0.005, 0.007, 0.010]
+# Outer-orbit emission rate sweep
+# mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r)/v_r_max
+# Zero at r<=R1 and for inward-moving nodes; active only outside+outward.
+EMISSION_RATES = [0.001, 0.005, 0.010, 0.020, 0.050]
 
 M_E = np.sin(OMEGA_E / 2.0)
 M_P = np.sin(OMEGA_P / 2.0)
 
 
-# ── Joint normalization ───────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
-def joint_normalize(*sessions):
+def make_coords(grid):
     """
-    Normalize sessions jointly: sum(|psi_R|^2 + |psi_L|^2) = 1
-    across all sessions combined.
-    Modifies in place. Replaces per-session enforce_unity_spinor
-    for bound session groups.
+    Precompute integer coordinate grids once.
+    Returns (xx, yy, zz) each of shape (grid, grid, grid).
+    Pass these to coulomb_potential_fast and radial_field_fast to avoid
+    rebuilding meshgrid every tick.
     """
-    total_norm = np.sqrt(sum(
-        np.sum(np.abs(s.psi_R)**2 + np.abs(s.psi_L)**2)
-        for s in sessions
-    ))
-    if total_norm < 1e-12:
-        raise RuntimeError("Joint norm collapsed to zero.")
-    for s in sessions:
-        s.psi_R /= total_norm
-        s.psi_L /= total_norm
+    x = np.arange(grid, dtype=float)
+    return np.meshgrid(x, x, x, indexing='ij')
 
 
-def transfer_amplitude(source, target, fraction):
+def coulomb_potential_fast(xx, yy, zz, cx, cy, cz, strength, softening):
+    """Coulomb potential using precomputed coordinate grids (no meshgrid)."""
+    r = np.sqrt((xx-cx)**2 + (yy-cy)**2 + (zz-cz)**2)
+    return -strength / (r + softening)
+
+
+def radial_field_fast(xx, yy, zz, p_com):
     """
-    Transfer a fraction of source amplitude to target via phase-matched
-    addition. Uses the source's tangential phase gradient as the
-    transfer direction -- the orbital momentum the photon carries away.
-
-    fraction is the emission rate per tick (free parameter).
-    Does not normalize -- call joint_normalize after.
+    Radial distance and unit vector from proton CoM.
+    Returns (r_field, rx, ry, rz): all shape (GRID,GRID,GRID).
+    Uses precomputed coordinate grids (no meshgrid per tick).
     """
-    if fraction <= 0:
-        return
-    # Phase-matched transfer: photon gets the tangential gradient
-    # of the electron's phase field
-    grad = source.phase_gradient_field()   # (3, X, Y, Z)
-    tang_mag = np.sqrt(np.sum(grad**2, axis=0))
-    tang_phase = np.where(tang_mag > 1e-9,
-                          np.arctan2(grad[1], grad[0]),
-                          0.0)
-    phase_factor = np.exp(1j * tang_phase)
+    dx = xx - p_com[0]
+    dy = yy - p_com[1]
+    dz = zz - p_com[2]
+    r = np.sqrt(dx**2 + dy**2 + dz**2)
+    safe_r = np.where(r < 1e-9, 1.0, r)   # avoid divide-by-zero at CoM
+    return r, dx/safe_r, dy/safe_r, dz/safe_r
 
-    # Transfer amplitude
-    transfer_R = fraction * source.psi_R * phase_factor
-    transfer_L = fraction * source.psi_L * phase_factor
 
-    source.psi_R -= transfer_R
-    source.psi_L -= transfer_L
-    target.psi_R += transfer_R
-    target.psi_L += transfer_L
+def density_com(density, xx, yy, zz):
+    """Centre of mass using precomputed coordinate grids."""
+    total = float(density.sum())
+    if total < 1e-12:
+        return (0.0, 0.0, 0.0)
+    cx = float(np.sum(xx * density) / total)
+    cy = float(np.sum(yy * density) / total)
+    cz = float(np.sum(zz * density) / total)
+    return (cx, cy, cz)
 
 
 def session_amplitude(session):
@@ -126,30 +137,10 @@ def session_amplitude(session):
     ))
 
 
-# ── Helpers (from exp_12/exp_16) ──────────────────────────────────────────────
-
-def coulomb_potential(grid, cx, cy, cz, strength, softening):
-    x = np.arange(grid)
-    xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
-    r = np.sqrt((xx-cx)**2 + (yy-cy)**2 + (zz-cz)**2)
-    return -strength / (r + softening)
-
-
-def density_com(density):
-    total = float(density.sum())
-    if total < 1e-12:
-        return (0.0, 0.0, 0.0)
-    x = np.arange(density.shape[0])
-    cx = float(np.einsum('ijk,i->', density, x) / total)
-    cy = float(np.einsum('ijk,j->', density,
-                          np.arange(density.shape[1])) / total)
-    cz = float(np.einsum('ijk,k->', density,
-                          np.arange(density.shape[2])) / total)
-    return (cx, cy, cz)
-
-
-def make_sessions(grid, wc):
-    """exp_12 initialization: two-body CoM frame, k_init=1/R1."""
+def make_sessions(grid, wc, xx, yy, zz):
+    """exp_12 initialization: two-body CoM frame, k_init=1/R1.
+    xx, yy, zz: precomputed coordinate grids from make_coords().
+    """
     dr_e = R1 / np.sqrt(3.0)
     dr_p = R1 * M_E / (M_P * np.sqrt(3.0))
     k_e  = 1.0 / R1
@@ -158,9 +149,6 @@ def make_sessions(grid, wc):
 
     start_e = tuple(min(int(round(wc[i] + dr_e)), sz-2) for i in range(3))
     start_p = tuple(max(int(round(wc[i] - dr_p)), 1)    for i in range(3))
-
-    x = np.arange(sz)
-    xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
 
     sx, sy, sz_ = start_e
     env_e = (np.exp(-0.5*((xx-sx)**2+(yy-sy)**2+(zz-sz_)**2)/WIDTH_E**2)
@@ -184,27 +172,25 @@ def make_sessions(grid, wc):
     proton.psi_L = amp_p.copy()
     enforce_unity_spinor(proton.psi_R, proton.psi_L)
 
-    # Photon session: massless, initialized at near-zero amplitude
-    # Frequency set by expected transition energy: omega_E * (1 - 1/4)
-    omega_photon = OMEGA_E * 0.75   # n=2 -> n=1 transition proxy
+    # Photon session: massless, initialized at near-zero amplitude.
+    # Will be normalized per-session after each emission.
+    omega_photon = OMEGA_E * 0.75   # proxy for n=2->n=1 transition energy
     lat_g = OctahedralLattice(sz, sz, sz)
     photon = CausalSession(lat_g, wc,
                             instruction_frequency=omega_photon,
                             is_massless=True)
+    # Start photon near-zero; enforce_unity_spinor after first emission tick
     photon.psi_R *= 1e-6
     photon.psi_L *= 1e-6
 
     return electron, proton, photon, start_e, start_p
 
 
-def r_peak_relative(density, p_com, n_bins=80):
+def r_peak_relative(density, p_com, xx, yy, zz, n_bins=80):
     """
     PDF peak of electron density relative to live proton CoM.
-    Uses windowed (time-averaged) density -- matches stability probe convention.
+    Uses precomputed coordinate grids.
     """
-    g = density.shape[0]
-    x = np.arange(g, dtype=float)
-    xx, yy, zz = np.meshgrid(x, x, x, indexing='ij')
     radii = np.sqrt((xx - p_com[0])**2 + (yy - p_com[1])**2 + (zz - p_com[2])**2)
     bins = np.linspace(0.0, float(radii.max()), n_bins + 1)
     P, _ = np.histogram(radii.ravel(), bins=bins, weights=density.ravel())
@@ -225,86 +211,114 @@ def run_trial(emission_rate, log_fn=None):
     if log_fn is None:
         log_fn = lambda s: None  # noqa: E731
     wc = (GRID//2,) * 3
-    electron, proton, photon, start_e, start_p = make_sessions(GRID, wc)
+
+    # Precompute coordinate grids ONCE -- eliminates meshgrid from every tick.
+    # This is the main performance fix: coulomb_potential and radial_field
+    # previously each called np.meshgrid(65,65,65) every tick (~3s/tick).
+    xx, yy, zz = make_coords(GRID)
+
+    electron, proton, photon, start_e, start_p = make_sessions(GRID, wc, xx, yy, zz)
 
     # Initial potentials
-    e_com = density_com(electron.probability_density())
-    p_com = density_com(proton.probability_density())
-    electron.lattice.topological_potential = coulomb_potential(
-        GRID, *p_com, STRENGTH, SOFTENING)
-    proton.lattice.topological_potential = coulomb_potential(
-        GRID, *e_com, STRENGTH, SOFTENING)
+    e_com = density_com(electron.probability_density(), xx, yy, zz)
+    p_com = density_com(proton.probability_density(), xx, yy, zz)
+    electron.lattice.topological_potential = coulomb_potential_fast(
+        xx, yy, zz, *p_com, STRENGTH, SOFTENING)
+    proton.lattice.topological_potential = coulomb_potential_fast(
+        xx, yy, zz, *e_com, STRENGTH, SOFTENING)
 
     # Tracking
     consec_ok      = 0
     max_streak     = 0
     settled        = False
     T_settle       = None
-    r_peak_history = []
-    amp_e_history  = []
-    amp_g_history  = []
-    phase          = 1   # 1=settle, 2=emit
 
-    # Windowed density accumulation (matches stability probe convention)
-    win_dens   = None
-    win_p_com  = None   # proton CoM captured at mid-window
+    # Windowed density accumulation
+    win_dens  = None
+    win_p_com = None
 
     t0 = time.time()
-    r_peak = 0.0  # initialise for progress print before first check
+    r_peak = 0.0
+    photon_initialized = False  # first emission tick normalizes photon
 
-    for tick in range(TICKS_SETTLE + TICKS_EMIT):
+    for tick in range(TICKS_TOTAL):
 
-        # Update potentials from CoM
+        # ── Update Coulomb potentials from live CoM ────────────────────────
         e_dens = electron.probability_density()
         p_dens = proton.probability_density()
-        e_com  = density_com(e_dens)
-        p_com  = density_com(p_dens)
-        electron.lattice.topological_potential = coulomb_potential(
-            GRID, *p_com, STRENGTH, SOFTENING)
-        proton.lattice.topological_potential = coulomb_potential(
-            GRID, *e_com, STRENGTH, SOFTENING)
+        e_com  = density_com(e_dens, xx, yy, zz)
+        p_com  = density_com(p_dens, xx, yy, zz)
+        electron.lattice.topological_potential = coulomb_potential_fast(
+            xx, yy, zz, *p_com, STRENGTH, SOFTENING)
+        proton.lattice.topological_potential = coulomb_potential_fast(
+            xx, yy, zz, *e_com, STRENGTH, SOFTENING)
 
-        # Tick all sessions without internal normalization --
-        # normalization is handled below (joint or per-session).
+        # ── Tick all sessions per-session A=1 ─────────────────────────────
         if tick % 2 == 0:
-            proton.tick(normalize=False);   proton.advance_tick_counter()
-            electron.tick(normalize=False); electron.advance_tick_counter()
+            proton.tick();   proton.advance_tick_counter()
+            electron.tick(); electron.advance_tick_counter()
         else:
-            electron.tick(normalize=False); electron.advance_tick_counter()
-            proton.tick(normalize=False);   proton.advance_tick_counter()
-        photon.tick(normalize=False); photon.advance_tick_counter()
+            electron.tick(); electron.advance_tick_counter()
+            proton.tick();   proton.advance_tick_counter()
+        photon.tick(); photon.advance_tick_counter()
 
-        # Normalization: per-session in Phase 1, joint in Phase 2
-        if tick >= TICKS_SETTLE:
-            phase = 2
-            transfer_amplitude(electron, photon, emission_rate)
-            joint_normalize(electron, proton, photon)
+        # ── Momentum-selective outer-orbit drain (active every tick) ───────
+        # Radial geometry from live proton CoM
+        r_field, rx, ry, rz = radial_field_fast(xx, yy, zz, p_com)
+
+        # Radial velocity: phase gradient projected onto r_hat.
+        # v_r > 0 = outward-moving; v_r < 0 = inward-moving.
+        grad = electron.phase_gradient_field()   # (3, X, Y, Z)
+        v_r = grad[0]*rx + grad[1]*ry + grad[2]*rz  # (X,Y,Z)
+        outward = np.maximum(0.0, v_r)
+
+        # Normalise outward weight so peak = 1
+        v_r_max = outward.max()
+        if v_r_max < 1e-12:
+            outward_norm = outward          # all inward: no drain this tick
         else:
-            # Phase 1: per-session A=1 (no emission, photon stays near-zero)
-            enforce_unity_spinor(electron.psi_R, electron.psi_L)
-            enforce_unity_spinor(proton.psi_R,   proton.psi_L)
-            # Photon not normalized in Phase 1 -- keeps near-zero amplitude
+            outward_norm = outward / v_r_max
 
-        # Accumulate windowed electron density
+        # Combined mask: outer-orbit AND outward-moving
+        outer_frac = emission_rate * np.maximum(0.0, r_field - R1) / R1
+        mask = outer_frac * outward_norm    # zero at r<=R1, zero inward
+
+        # Transfer amplitude from electron to photon
+        drain_R = mask * electron.psi_R
+        drain_L = mask * electron.psi_L
+        electron.psi_R -= drain_R
+        electron.psi_L -= drain_L
+        photon.psi_R   += drain_R
+        photon.psi_L   += drain_L
+
+        # Renormalize electron (projection onto remaining sub-space)
+        enforce_unity_spinor(electron.psi_R, electron.psi_L)
+
+        # Renormalize photon
+        if not photon_initialized:
+            amp_g = session_amplitude(photon)
+            if amp_g > 1e-12:
+                enforce_unity_spinor(photon.psi_R, photon.psi_L)
+                photon_initialized = True
+        else:
+            enforce_unity_spinor(photon.psi_R, photon.psi_L)
+
+        # ── Windowed electron density ──────────────────────────────────────
         tick_in_win = tick % CHECK_EVERY
         if win_dens is None:
             win_dens = e_dens.astype(float)
         else:
             win_dens += e_dens
-        # Capture proton CoM at mid-window for stable reference
         if tick_in_win == CHECK_EVERY // 2:
-            win_p_com = density_com(p_dens)
+            win_p_com = density_com(p_dens, xx, yy, zz)
 
-        # Check stability at end of each window
+        # ── Stability check at end of each window ─────────────────────────
         if tick_in_win == CHECK_EVERY - 1:
             if win_p_com is None:
-                win_p_com = density_com(p_dens)
-            r_peak = r_peak_relative(win_dens, win_p_com)
-            r_peak_history.append((tick, r_peak, phase))
-            amp_e_history.append(session_amplitude(electron))
-            amp_g_history.append(session_amplitude(photon))
+                win_p_com = density_com(p_dens, xx, yy, zz)
+            r_peak = r_peak_relative(win_dens, win_p_com, xx, yy, zz)
 
-            if tick >= TICKS_SETTLE and not settled:
+            if not settled:
                 if abs(r_peak - R1) / R1 < SETTLE_TOL:
                     consec_ok += 1
                     max_streak = max(max_streak, consec_ok)
@@ -317,12 +331,14 @@ def run_trial(emission_rate, log_fn=None):
             # Progress log every ~2000 ticks
             if (tick // CHECK_EVERY) % (2000 // CHECK_EVERY) == 0 and tick > 0:
                 elapsed = time.time() - t0
-                remaining = TICKS_SETTLE + TICKS_EMIT - tick
+                remaining = TICKS_TOTAL - tick
                 eta = elapsed / tick * remaining if tick > 0 else 0
+                amp_e = session_amplitude(electron)
+                amp_g = session_amplitude(photon) if photon_initialized else 0.0
                 msg = (f"tick={tick:6d}  r_peak={r_peak:6.3f}"
-                       f"  streak={consec_ok:3d}  phase={phase}"
-                       f"  amp_e={amp_e_history[-1]:.4f}"
-                       f"  amp_g={amp_g_history[-1]:.6f}"
+                       f"  streak={consec_ok:3d}"
+                       f"  amp_e={amp_e:.4f}"
+                       f"  amp_g={amp_g:.6f}"
                        f"  [{elapsed:.0f}s eta {eta:.0f}s]")
                 log_fn(msg)
 
@@ -335,9 +351,6 @@ def run_trial(emission_rate, log_fn=None):
         'settled':       settled,
         'T_settle':      T_settle,
         'max_streak':    max_streak,
-        'r_peak_history': r_peak_history,
-        'amp_e_history':  amp_e_history,
-        'amp_g_history':  amp_g_history,
     }
 
 
@@ -361,8 +374,9 @@ def run_single(rate):
         out(f"exp_19  emission_rate={rate}")
         out(f"OMEGA_E={OMEGA_E}  OMEGA_P={OMEGA_P:.4f}  R1={R1}")
         out(f"STRENGTH={STRENGTH}  GRID={GRID}^3")
-        out(f"TICKS_SETTLE={TICKS_SETTLE}  TICKS_EMIT={TICKS_EMIT}")
+        out(f"TICKS_TOTAL={TICKS_TOTAL}")
         out(f"SUCCESS_STREAK={SUCCESS_STREAK}")
+        out(f"MODE: momentum-selective outer-orbit drain (v4, emission from tick 0)")
         out('-' * 60)
 
         result = run_trial(rate, log_fn=out)
@@ -376,7 +390,7 @@ def run_single(rate):
         result['emission_rate'],
         float(result['settled']),
         float(result['max_streak']),
-        float(result['T_settle']) if result['T_settle'] else float(TICKS_SETTLE + TICKS_EMIT),
+        float(result['T_settle']) if result['T_settle'] else float(TICKS_TOTAL),
     ])
     np.save(npy_path, summary)
     print(f"Saved: {npy_path}", flush=True)
@@ -392,11 +406,19 @@ def run_parallel():
     import subprocess, re
 
     print("=" * 70)
-    print("EXP 19: Photon emission as dissipation -- orbital stabilization")
+    print("EXP 19 v4: Photon emission -- momentum-selective drain from tick 0")
     print("=" * 70)
     print(f"""
-  Claim: a photon session provides the dissipation needed for the
-  two-body system to settle onto the n=1 Arnold tongue attractor.
+  Claim: momentum-selective drain (outer-orbit AND outward-moving) provides
+  genuine dissipation that drives the two-body orbit onto the n=1 Arnold
+  tongue attractor.
+
+  v4 change from v3: emission active from tick 0 (no Phase 1 settle period).
+  The electron starts at r~R1; mask is near-zero at init and only activates
+  as the orbit expands.  Provides restoring force before destabilisation.
+
+  mask = rate * max(0, r-R1)/R1 * max(0, v_r) / v_r_max
+  where v_r = grad(phi_e) . r_hat is the radial velocity.
 
   Honest framing:
     - emission_rate is a free parameter (formal derivation pending)
@@ -406,7 +428,7 @@ def run_parallel():
   Parameters:
     OMEGA_E={OMEGA_E}  OMEGA_P={OMEGA_P:.4f}  R1={R1}
     STRENGTH={STRENGTH}  GRID={GRID}^3
-    TICKS_SETTLE={TICKS_SETTLE}  TICKS_EMIT={TICKS_EMIT}
+    TICKS_TOTAL={TICKS_TOTAL}
     EMISSION_RATES={EMISSION_RATES}
 """)
 
@@ -422,7 +444,7 @@ def run_parallel():
     print()
     t0 = time.time()
     while any(p.poll() is None for _, p in procs):
-        done  = [r for r, p in procs if p.poll() is not None]
+        done    = [r for r, p in procs if p.poll() is not None]
         running = [r for r, p in procs if p.poll() is None]
         print(f"[{time.time()-t0:.0f}s] running={running}  done={done}",
               flush=True)
@@ -438,11 +460,9 @@ def run_parallel():
     print(f"  {'-'*50}")
 
     n_settled = 0
-    all_results = []
     for rate, _ in procs:
         label = f"{rate:.4f}".replace('.', '_')
         log_path = os.path.join(_DATA_DIR, f'exp_19_rate_{label}.log')
-        npy_path = os.path.join(_DATA_DIR, f'exp_19_rate_{label}.npy')
         try:
             txt = open(log_path).read()
             m_res    = re.search(r'result=(\S+)', txt)
@@ -462,47 +482,29 @@ def run_parallel():
     if passed:
         print(f"""
 [PASS] Photon session stabilizes orbit at {n_settled}/{len(EMISSION_RATES)} emission rates.
-  Dissipation mechanism confirmed. emission_rate phenomenological
-  pending formal derivation from continuum limit matrix element.
+  Dissipation mechanism confirmed via outer-orbit selective drain.
+  emission_rate is phenomenological pending Fermi Golden Rule derivation.
 """)
     elif n_settled == 1:
-        print(f"""
+        print("""
 [PARTIAL] Stabilization at exactly one emission rate.
   Weaker result -- possible parameter tuning rather than mechanism.
+  Run wider sweep before concluding.
 """)
     else:
-        print(f"""
-[NOT CONFIRMED] No stabilization at any tested emission rate.
-  Either the mechanism is insufficient alone, or rate range needs
-  adjustment. Report as negative result.
+        print("""
+[FAIL] No stabilization across all emission rates.
+  Outer-orbit selective drain is insufficient for orbital stabilization.
+  Next: investigate whether the drain rate magnitude or spatial profile
+  needs adjustment, or whether the photon session architecture is
+  fundamentally wrong.
 """)
 
-    # Aggregate npy
-    rows = []
-    for rate, _ in procs:
-        label = f"{rate:.4f}".replace('.', '_')
-        npy_path = os.path.join(_DATA_DIR, f'exp_19_rate_{label}.npy')
-        try:
-            rows.append(np.load(npy_path))
-        except Exception:
-            rows.append(np.array([rate, 0., 0., float(TICKS_SETTLE + TICKS_EMIT)]))
-    out = os.path.join(_DATA_DIR, 'exp_19_photon_emission.npy')
-    np.save(out, np.array(rows))
-    print(f"Saved aggregate: {out}")
-    print("columns: emission_rate, settled, max_streak, T_settle")
 
-    return passed
-
-
-# ── run_trial needs a log_fn parameter for worker mode ───────────────────────
+# ── Entry point ───────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        # Worker mode: single rate
-        rate = float(sys.argv[1])
-        run_single(rate)
-        sys.exit(0)
+        run_single(float(sys.argv[1]))
     else:
-        # Launcher mode: all rates in parallel
-        passed = run_parallel()
-        sys.exit(0 if passed else 1)
+        run_parallel()

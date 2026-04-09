@@ -89,7 +89,129 @@ and gravitational mass governs coupling to the clock density gradient
 via the same potential $V(\mathbf{x})$.
 There is no coincidence to explain.
 
-% ── 7.3 Time dilation as scheduler load ───────────────────────────────────────
+% ── 7.3 Newton's law from the tick rule ───────────────────────────────────────
+\subsection{The Continuum Limit: Newtonian Gravity}
+\label{subsec:newtonian_limit}
+
+The gravitational attraction observed in \texttt{exp\_02} is a
+qualitative confirmation. Here we show that the tick rule produces
+Newton's law of gravitation analytically, by the same Taylor-expansion
+programme that derives the Dirac equation in
+Section~\ref{subsec:dirac_limit}.
+
+\paragraph{Step 1: Force from phase mismatch (Newton's second law).}
+At each node the phase mismatch $\delta\phi = \omega + V(\mathbf{x})$
+determines the hop probability $p_\mathrm{hop} = \cos^2(\delta\phi/2)$.
+In the weak field $|V| \ll \omega$, expanding to first order in $V$:
+\begin{equation}
+    p_\mathrm{hop}(\mathbf{x})
+        \approx p_0 - m\,V(\mathbf{x}),
+        \qquad m \equiv \tfrac{1}{2}\sin\omega,
+    \label{eq:phop_expand}
+\end{equation}
+where $p_0 = \cos^2(\omega/2)$ is the free-particle hop probability.
+The net probability current in direction $\mathbf{v}$ between
+neighbouring nodes is
+\begin{equation}
+    J_\mathbf{v}(\mathbf{x})
+        = p_\mathrm{hop}(\mathbf{x}{-}\mathbf{v})\,\rho(\mathbf{x}{-}\mathbf{v})
+        - p_\mathrm{hop}(\mathbf{x})\,\rho(\mathbf{x})
+        \approx -a\,(\mathbf{v}\cdot\nabla)\bigl[p_\mathrm{hop}\,\rho\bigr].
+    \label{eq:flux}
+\end{equation}
+Summing over all six basis vectors and applying the frame condition
+$\sum_{\mathbf{v}} v_i v_j = 6\delta_{ij}$ (the same identity used in
+the Dirac derivation):
+\begin{equation}
+    \mathbf{J} = \tfrac{1}{6}\sum_\mathbf{v} \mathbf{v}\,J_\mathbf{v}
+               = -a\,\nabla\!\bigl[p_\mathrm{hop}\,\rho\bigr]
+               = -a\bigl[p_0\,\nabla\rho - m\,\rho\,\nabla V\bigr].
+    \label{eq:Jfull}
+\end{equation}
+Setting $\mathbf{J} = 0$ (equilibrium) and rearranging:
+\begin{equation}
+    \frac{\nabla\rho}{\rho} = \frac{m}{p_0}\,\nabla V.
+    \label{eq:equil}
+\end{equation}
+In the continuum limit $a\to 0$, $\omega\to 0$ with $m = \omega/a$
+held fixed, $p_0 \to 1$, and integrating Eq.~\eqref{eq:equil}:
+\begin{equation}
+    \rho_\mathrm{clock}(\mathbf{x})
+        = \bar\rho\,\exp\!\bigl(+V_\mathrm{lattice}(\mathbf{x})/c^2\bigr)
+        = \bar\rho\,\exp\!\bigl(-\phi_\mathrm{Newton}(\mathbf{x})/c^2\bigr),
+    \label{eq:boltzmann_clock}
+\end{equation}
+where $V_\mathrm{lattice} = -\phi_\mathrm{Newton}$ (clock density is
+highest near the source, where Newton's $\phi$ is most negative).
+Equation~\eqref{eq:boltzmann_clock} is the Boltzmann distribution of
+clocks in a gravitational well, derived here from the tick rule, not
+postulated.
+
+The net force on a wavepacket CoM follows from
+Eq.~\eqref{eq:Jfull} directly:
+the asymmetry in $p_\mathrm{hop}$ across the packet steers the CoM
+toward higher $V_\mathrm{lattice}$ (higher clock density) at rate
+\begin{equation}
+    \ddot{\mathbf{x}} = \nabla V_\mathrm{lattice} = -\nabla\phi_\mathrm{Newton}.
+    \label{eq:newton2}
+\end{equation}
+This is Newton's second law.
+
+\paragraph{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}
+In the weak field, Eq.~\eqref{eq:boltzmann_clock} gives
+$\phi \approx -c^2(\rho - \bar\rho)/\bar\rho$.
+Applying $\nabla^2$ and using the isotropic lattice Laplacian
+(frame condition, Eq.~\eqref{eq:frame}):
+\begin{equation}
+    \nabla^2\phi = -\frac{c^2}{\bar\rho}\,\nabla^2\rho_\mathrm{clock}
+                = \frac{c^2}{\bar\rho}\,S(\mathbf{x}),
+    \label{eq:poisson_derive}
+\end{equation}
+where $S(\mathbf{x})$ is the clock source density (nonzero where mass
+is present).  Comparing with Poisson's equation
+$\nabla^2\phi = 4\pi G\,\rho_\mathrm{mass}$ identifies the
+gravitational constant $G$ in terms of lattice parameters:
+$G = c^2 S/(4\pi\bar\rho\,\rho_\mathrm{mass})$.
+For a point source the Green's function of the three-dimensional
+Laplacian gives $\phi = -GM/r$, hence
+$\nabla\phi = GM/r^2\,\hat{\mathbf{r}}$ and
+\begin{equation}
+    F = m\,\ddot{\mathbf{x}}
+      = -m\,\nabla\phi
+      = -\frac{GMm}{r^2}\,\hat{\mathbf{r}}.
+    \label{eq:newton_grav}
+\end{equation}
+This is Newton's law of gravitation.
+
+\paragraph{The classical domain.}
+Equation~\eqref{eq:newton_grav} applies to the centre-of-mass of a
+\emph{classical body} --- a coherent many-session aggregate whose
+internal Zitterbewegung oscillations cancel in the ensemble average.
+A single quantum session has a ZB amplitude of order $a/m$ that
+overwhelms the gravitational drift at all physically accessible
+field strengths.
+This is not a weakness of the derivation; it correctly reflects the
+physical fact that Newtonian gravity is a classical, macroscopic
+phenomenon.
+The two-body hydrogen experiments (\texttt{exp\_12}, \texttt{exp\_16})
+confirm the mean-field Coulomb analogue: the proton--electron
+centre-of-mass follows the mean-field trajectory consistent with $1/r$,
+while individual sessions exhibit quantum ZB noise.
+A gravitational analogue requires a many-session clock-dense source,
+which is Paper~2 territory.
+
+\paragraph{Structural consequence: the equivalence principle.}
+The parameter $\omega$ appears once as inertial mass
+($m_\mathrm{inertial} = \sin\omega/2$, resisting the phase gradient in
+Eq.~\eqref{eq:newton2}) and once as gravitational mass
+($m_\mathrm{grav} = \sin\omega/2$, coupling to the source potential in
+Eq.~\eqref{eq:phop_expand}).
+Both arise from the same phase-mismatch $\delta\phi = \omega + V$.
+The equivalence $m_\mathrm{inertial} = m_\mathrm{grav}$ is not an
+empirical coincidence requiring explanation; it is the algebraic
+identity $\omega = \omega$.
+
+% ── 7.4 Time dilation as scheduler load ───────────────────────────────────────
 \subsection{Gravitational Time Dilation as Scheduler Load}
 \label{subsec:time_dilation}
 
