@@ -58,7 +58,9 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_14 | PASS | Helium two-electron system |
 | exp_11 n=2 two-body | NOT RUN | Needs live proton; exp_12 machinery, R2=41.2 |
 | exp_15 | ABANDONED | Phase drain incompatible with A=1; proton Zitterbewegung IS the mechanism |
-| exp_16 | RUNNING (v3, ~18 hrs remaining) | Proton mass sweep: T_settle vs OMEGA_P; tests symmetry-breaking prediction |
+| exp_16 | COMPLETE (see below) | Proton mass sweep: all OMEGA_P values Regime 2 (bound, unquantized) |
+| exp_19 v4 | FAIL | Amplitude drain cancelled by enforce_unity_spinor; amp_e=1.0000 throughout |
+| exp_19 v5 | READY TO RUN | Phase-rotation drain (A=1-compatible); see below |
 | exp_strength_sweep | REDESIGNED, NOT RUN | See below |
 
 ---
@@ -139,23 +141,35 @@ OMEGA_P=0.7  M_P=0.343  R1=11.04  IN PROGRESS (tick ~6000)
 
 ---
 
-## exp_19 -- READY TO RUN AFTER REBOOT (2026-04-09)
+## exp_19 -- v5 READY TO RUN (2026-04-09)
 
-### What it tests
-Positive control: does a photon session stabilize the two-body orbit?
-The conservative two-body system is demonstrably metastable (orbit stability
-probe, exp_12/exp_16). Hypothesis: momentum-selective amplitude drain from
-the outer orbit provides the dissipation needed to lock onto the Arnold tongue.
+### v4 failure (run completed 2026-04-09, FAIL)
+  EMISSION_RATES = [0.001, 0.003, 0.005, 0.007, 0.010, 0.020, 0.050]
+  All rates: NOT_SETTLED.  max_streak: 3, 2, 4, 3, 11 respectively.
+  Root cause: amplitude drain (psi -= mask*psi) is NOT A=1-compatible.
+  enforce_unity_spinor inside tick() renormalizes to unit amplitude every
+  tick, cancelling the drain.  Diagnostic: amp_e=1.0000 at every checkpoint.
+  The electron wavefunction shape was perturbed but no net dissipation occurred.
+  This is the same barrier that killed exp_15.
 
-### Design (v4 -- see src/experiments/exp_19_photon_emission.py)
-- Emission active from tick 0 (no Phase 1 settle period)
-- mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r)/v_r_max
-  where v_r = grad(phi_e) . r_hat (drain only outer-orbit + outward-moving)
-- EMISSION_RATES = [0.001, 0.005, 0.010, 0.020, 0.050]
-- 5 parallel workers, one per rate
-- TICKS_TOTAL=6000 (interim; raise to 18000 after JIT fix -- see below)
+### v5 fix -- phase-rotation drain (genuinely A=1-compatible)
+  Phase rotations exp(-i*mask) have |rot|=1 by construction.
+  enforce_unity_spinor has nothing to undo.  The outward phase coherence
+  is genuinely lost from the electron and transferred to the photon.
 
-### Command to run after reboot
+  Each tick:
+    mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r)/v_r_max  [rotation angle]
+    rot(x)  = exp(-i * mask(x))                              [U(1) field]
+    electron.psi_R *= rot     [lose outward phase coherence]
+    electron.psi_L *= rot
+    photon.psi_R   *= rot.conj()   [photon absorbs conjugate phase]
+    photon.psi_L   *= rot.conj()
+    # No enforce_unity_spinor needed -- |rot|=1 everywhere
+
+  EMISSION_RATES = [0.001, 0.005, 0.010, 0.020, 0.050]
+  5 parallel workers, one per rate.  TICKS_TOTAL=6000.
+
+### Command to run
   cd d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice
   python -u src/experiments/exp_19_photon_emission.py > data/exp_19_parallel_launch.log 2>&1 &
 
@@ -171,30 +185,18 @@ the outer orbit provides the dissipation needed to lock onto the Arnold tongue.
   5 workers run in parallel: ~5.5 hours total.
 
 ### Performance bottleneck (known, fix pending)
-  tick() costs ~3.3s on GRID=65^3.  Profile:
-    electron.tick: 2321ms (dominant)
-    proton.tick:   1841ms
-    photon.tick:    669ms
-    coulomb+CoM:   ~400ms (not the bottleneck -- meshgrid already fixed)
-
-  Root cause: _kinetic_hop calls np.angle (arctan2) and np.exp(1j*delta_p)
-  on 274K-element arrays, 3 times per tick per session.
-
-  Correct fix: numba @njit on _kinetic_hop.
-    from numba import njit
-    @njit(cache=True)
-    def _kinetic_hop_inner(source_R, source_I, shifts, ...):
-        ...
-  Expected speedup: 20-50× on the inner loop.
-
-  Interim fix: TICKS_TOTAL=6000.  This is already set.
+  tick() costs ~3.3s on GRID=65^3.  Root cause: _kinetic_hop calls
+  np.angle (arctan2) and np.exp(1j*delta_p) on 274K-element arrays,
+  3 times per tick per session.
+  Correct fix: numba @njit on _kinetic_hop (20-50x speedup expected).
   Do NOT run with TICKS_TOTAL=18000 until the JIT fix is in place.
 
 ### What to look for in results
   SUCCESS: any rate shows streak >= 33 (r_peak within 15% of R1 sustained)
   PARTIAL: streak > 11 (better than best two-session result) -- informative
-  FAIL: all rates show r_peak drifting to grid boundary -- need larger dissipation
-  r_peak < 5: electron collapsed to well center -- re-check enforce_unity_spinor
+  FAIL: all rates show r_peak drifting to grid boundary -- mechanism wrong
+  NOTE: amp_e=1.0000 is CORRECT in v5 (A=1 preserved); orbit response
+        is what matters, not amplitude.
 
 ---
 

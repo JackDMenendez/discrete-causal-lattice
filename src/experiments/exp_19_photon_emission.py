@@ -1,29 +1,31 @@
 """
-exp_19_photon_emission.py  (v4)
+exp_19_photon_emission.py  (v5)
 Positive control: does a photon session stabilize the two-body orbit?
 
-Tests one specific claim: momentum-selective amplitude transfer from the
-electron's outer-orbit, outward-moving wavepacket to a photon session
-provides the dissipation needed for the electron to settle onto the n=1
-Arnold tongue attractor.
+Tests one specific claim: momentum-selective PHASE ROTATION at the
+electron's outer-orbit, outward-moving wavepacket provides genuine
+A=1-compatible dissipation needed to lock onto the n=1 Arnold tongue.
 
-The two-body system (exp_12, exp_16, orbit stability probe) is demonstrably
-metastable without dissipation -- conservative dynamics cannot lock onto
-the Arnold tongue.  This experiment tests whether photon emission is the
-missing mechanism.
+v4 failure analysis:
+  v4 used amplitude transfer (electron.psi -= mask * psi; photon.psi += ...).
+  This is NOT A=1-compatible: enforce_unity_spinor (called inside tick())
+  renormalizes to unit amplitude every tick, cancelling the drain entirely.
+  Diagnostic: amp_e=1.0000 at every checkpoint -- drain had zero net effect.
+  The orbit was only perturbed in shape, not guided: high rates caused chaos
+  (r_peak swings 15→55→8) but never stabilization.
 
-Design (v4 -- emission from tick 0):
-  No Phase 1 settle period.  Emission is active from the very first tick.
+v5 fix -- phase-rotation drain (genuinely A=1-compatible):
+  Instead of removing amplitude, we ROTATE the phase of outer-orbit,
+  outward-moving components toward inward.  Phase rotations preserve
+  |psi|^2 exactly, so enforce_unity_spinor has nothing to undo.
 
-  The electron starts in the exp_12 orbital configuration (r ~ R1,
-  k = 1/R1).  The outer-orbit mask is near-zero at initialisation because
-  r ~ R1; it only activates as the orbit begins to expand beyond R1.
-  This provides a restoring force BEFORE the orbit destabilises, not after.
-
-  v3 lesson: a 3000-tick Phase 1 settle period allows the unstable two-body
-  orbit to degrade fully before emission starts.  By tick 3000 the sessions
-  are in a chaotic wide orbit and the emission drain cannot recover them.
-  Removing Phase 1 addresses this directly.
+  Physical interpretation:
+    The outer-orbit outward-moving wavepacket is the part that, if
+    unchecked, causes the orbit to expand.  Rotating its phase toward
+    the inward direction (by angle mask radians) reduces its net outward
+    momentum contribution without changing total probability.  The photon
+    absorbs the conjugate phase rotation, carrying away the excess outward
+    phase coherence.
 
   Each tick:
     1. electron and proton tick (per-session A=1).
@@ -31,8 +33,15 @@ Design (v4 -- emission from tick 0):
     3. Compute r_hat(x) from proton CoM.
     4. v_r(x) = grad(phi_e) . r_hat  (radial velocity, >0 = outward).
     5. mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r) / v_r_max
-    6. Transfer mask * electron.psi from electron to photon.
-    7. enforce_unity_spinor(electron), enforce_unity_spinor(photon).
+       [zero at r<=R1 and for inward-moving nodes]
+    6. rot(x) = exp(-i * mask(x))       [unit-amplitude by construction]
+    7. electron.psi_R *= rot             [rotate outward phase toward inward]
+       electron.psi_L *= rot
+       photon.psi_R   *= conj(rot)      [photon absorbs conjugate phase]
+       photon.psi_L   *= conj(rot)
+       [No enforce_unity_spinor needed -- phases don't change norms]
+
+  No Phase 1 settle period (v4 lesson: orbit degrades before emission starts).
 
   Sweep: repeat for each EMISSION_RATE in EMISSION_RATES.
 
@@ -239,7 +248,6 @@ def run_trial(emission_rate, log_fn=None):
 
     t0 = time.time()
     r_peak = 0.0
-    photon_initialized = False  # first emission tick normalizes photon
 
     for tick in range(TICKS_TOTAL):
 
@@ -262,46 +270,46 @@ def run_trial(emission_rate, log_fn=None):
             proton.tick();   proton.advance_tick_counter()
         photon.tick(); photon.advance_tick_counter()
 
-        # ── Momentum-selective outer-orbit drain (active every tick) ───────
+        # ── Momentum-selective outer-orbit phase drain (active every tick) ──
+        # v5: phase rotation, not amplitude transfer.
+        # exp(-i*mask) has unit modulus, so A=1 is exactly preserved.
+        # enforce_unity_spinor is NOT needed here -- phases don't change norms.
+
         # Radial geometry from live proton CoM
         r_field, rx, ry, rz = radial_field_fast(xx, yy, zz, p_com)
 
         # Radial velocity: phase gradient projected onto r_hat.
         # v_r > 0 = outward-moving; v_r < 0 = inward-moving.
+        # grad(phi_e) IS the local de Broglie momentum field of the electron.
         grad = electron.phase_gradient_field()   # (3, X, Y, Z)
-        v_r = grad[0]*rx + grad[1]*ry + grad[2]*rz  # (X,Y,Z)
+        v_r = grad[0]*rx + grad[1]*ry + grad[2]*rz  # (X, Y, Z)
         outward = np.maximum(0.0, v_r)
 
         # Normalise outward weight so peak = 1
         v_r_max = outward.max()
         if v_r_max < 1e-12:
-            outward_norm = outward          # all inward: no drain this tick
+            outward_norm = outward          # all inward: no rotation this tick
         else:
             outward_norm = outward / v_r_max
 
-        # Combined mask: outer-orbit AND outward-moving
+        # mask(x) IS the phase rotation angle field (radians).
+        # Zero at r<=R1; zero for inward-moving nodes.
         outer_frac = emission_rate * np.maximum(0.0, r_field - R1) / R1
-        mask = outer_frac * outward_norm    # zero at r<=R1, zero inward
+        mask = outer_frac * outward_norm
 
-        # Transfer amplitude from electron to photon
-        drain_R = mask * electron.psi_R
-        drain_L = mask * electron.psi_L
-        electron.psi_R -= drain_R
-        electron.psi_L -= drain_L
-        photon.psi_R   += drain_R
-        photon.psi_L   += drain_L
+        # Phase rotation: rotate outward phase toward inward by mask radians.
+        # rot IS a U(1) field on the lattice; |rot(x)|=1 everywhere.
+        rot = np.exp(-1j * mask)            # unit-amplitude by construction
 
-        # Renormalize electron (projection onto remaining sub-space)
-        enforce_unity_spinor(electron.psi_R, electron.psi_L)
+        # Electron loses outward phase coherence (restoring force).
+        electron.psi_R *= rot
+        electron.psi_L *= rot
 
-        # Renormalize photon
-        if not photon_initialized:
-            amp_g = session_amplitude(photon)
-            if amp_g > 1e-12:
-                enforce_unity_spinor(photon.psi_R, photon.psi_L)
-                photon_initialized = True
-        else:
-            enforce_unity_spinor(photon.psi_R, photon.psi_L)
+        # Photon absorbs conjugate phase (carries away outward phase gradient).
+        photon.psi_R *= rot.conj()
+        photon.psi_L *= rot.conj()
+
+        # No enforce_unity_spinor needed: |rot|=1 leaves norms unchanged.
 
         # ── Windowed electron density ──────────────────────────────────────
         tick_in_win = tick % CHECK_EVERY
@@ -334,7 +342,7 @@ def run_trial(emission_rate, log_fn=None):
                 remaining = TICKS_TOTAL - tick
                 eta = elapsed / tick * remaining if tick > 0 else 0
                 amp_e = session_amplitude(electron)
-                amp_g = session_amplitude(photon) if photon_initialized else 0.0
+                amp_g = session_amplitude(photon)
                 msg = (f"tick={tick:6d}  r_peak={r_peak:6.3f}"
                        f"  streak={consec_ok:3d}"
                        f"  amp_e={amp_e:.4f}"
@@ -376,7 +384,7 @@ def run_single(rate):
         out(f"STRENGTH={STRENGTH}  GRID={GRID}^3")
         out(f"TICKS_TOTAL={TICKS_TOTAL}")
         out(f"SUCCESS_STREAK={SUCCESS_STREAK}")
-        out(f"MODE: momentum-selective outer-orbit drain (v4, emission from tick 0)")
+        out(f"MODE: momentum-selective outer-orbit phase rotation (v5, A=1-compatible)")
         out('-' * 60)
 
         result = run_trial(rate, log_fn=out)
@@ -406,19 +414,21 @@ def run_parallel():
     import subprocess, re
 
     print("=" * 70)
-    print("EXP 19 v4: Photon emission -- momentum-selective drain from tick 0")
+    print("EXP 19 v5: Photon emission -- momentum-selective phase rotation (A=1-compatible)")
     print("=" * 70)
     print(f"""
-  Claim: momentum-selective drain (outer-orbit AND outward-moving) provides
-  genuine dissipation that drives the two-body orbit onto the n=1 Arnold
-  tongue attractor.
+  Claim: momentum-selective PHASE ROTATION at the outer-orbit, outward-moving
+  wavepacket provides genuine A=1-compatible dissipation that drives the
+  two-body orbit onto the n=1 Arnold tongue attractor.
 
-  v4 change from v3: emission active from tick 0 (no Phase 1 settle period).
-  The electron starts at r~R1; mask is near-zero at init and only activates
-  as the orbit expands.  Provides restoring force before destabilisation.
+  v5 fix from v4: phase rotation replaces amplitude transfer.
+  v4 used psi -= mask*psi; enforce_unity_spinor undid this every tick (amp_e=1
+  throughout).  Phase rotation exp(-i*mask) has |rot|=1 so A=1 is preserved
+  exactly without renormalization.  Photon absorbs conjugate phase.
 
-  mask = rate * max(0, r-R1)/R1 * max(0, v_r) / v_r_max
-  where v_r = grad(phi_e) . r_hat is the radial velocity.
+  mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r) / v_r_max  [rotation angle, rad]
+  rot(x)  = exp(-i * mask(x))  [U(1) field, unit amplitude]
+  where v_r = grad(phi_e) . r_hat is the radial momentum of the electron.
 
   Honest framing:
     - emission_rate is a free parameter (formal derivation pending)
