@@ -171,3 +171,25 @@ def unity_residual_spinor(psi_R: np.ndarray, psi_L: np.ndarray) -> float:
     |sum(|psi_R|^2 + |psi_L|^2) - 1|
     """
     return abs(np.sum(np.abs(psi_R) ** 2 + np.abs(psi_L) ** 2) - 1.0)
+
+
+def enforce_joint_unity(spinor_list: list):
+    """
+    Enforce A=1 jointly across multiple spinors.
+    
+    This evaluates the total probability across all sessions passed to it
+    (e.g., an electron and an emitted photon) and normalizes them together 
+    so sum(P_total) = 1.0. This implements A=1 for the joint state.
+    """
+    total_norm2 = 0.0
+    for psi_R, psi_L in spinor_list:
+        total_norm2 += np.sum(np.abs(psi_R)**2) + np.sum(np.abs(psi_L)**2)
+        
+    norm = np.sqrt(total_norm2)
+    if norm < 1e-12:
+        raise RuntimeError("Joint unity constraint violated: total amplitude zero.")
+        
+    for psi_R, psi_L in spinor_list:
+        psi_R /= norm
+        psi_L /= norm
+

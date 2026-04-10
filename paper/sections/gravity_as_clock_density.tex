@@ -102,14 +102,24 @@ Section~\ref{subsec:dirac_limit}.
 \paragraph{Step 1: Force from phase mismatch (Newton's second law).}
 At each node the phase mismatch $\delta\phi = \omega + V(\mathbf{x})$
 determines the hop probability $p_\mathrm{hop} = \cos^2(\delta\phi/2)$.
-In the weak field $|V| \ll \omega$, expanding to first order in $V$:
+Using the half-angle identity, this is:
+\begin{equation}
+    p_\mathrm{hop}(\mathbf{x}) = \frac{1}{2}\bigl[1 + \cos(\omega + V(\mathbf{x}))\bigr].
+\end{equation}
+In the weak field $|V| \ll \omega$, we expand to first order in $V$:
+\begin{equation}
+    p_\mathrm{hop}(\mathbf{x}) \approx \frac{1}{2}\bigl[1 + \cos\omega - V(\mathbf{x})\sin\omega\bigr]
+        = \cos^2\!\bigl(\tfrac{\omega}{2}\bigr) - \bigl(\tfrac{1}{2}\sin\omega\bigr)V(\mathbf{x}).
+\end{equation}
+Identifying the free-particle hop probability $p_0 = \cos^2(\omega/2)$ and the inertial mass
+$m_\text{inertial} = \tfrac{1}{2}\sin\omega$ derived in Section~\ref{subsec:momentum_emergence}, we find exactly:
 \begin{equation}
     p_\mathrm{hop}(\mathbf{x})
-        \approx p_0 - m\,V(\mathbf{x}),
-        \qquad m \equiv \tfrac{1}{2}\sin\omega,
+        \approx p_0 - m_\text{inertial}\,V(\mathbf{x}).
     \label{eq:phop_expand}
 \end{equation}
-where $p_0 = \cos^2(\omega/2)$ is the free-particle hop probability.
+This explicitly proves the structural equivalence principle in the lattice: the coefficient coupling the session
+to the topological clock gradient is mathematically identical to its inertial resistance to a spatial phase gradient. Let $m \equiv m_\text{inertial}$.
 The net probability current in direction $\mathbf{v}$ between
 neighbouring nodes is
 \begin{equation}
@@ -133,11 +143,18 @@ Setting $\mathbf{J} = 0$ (equilibrium) and rearranging:
     \frac{\nabla\rho}{\rho} = \frac{m}{p_0}\,\nabla V.
     \label{eq:equil}
 \end{equation}
-In the continuum limit $a\to 0$, $\omega\to 0$ with $m = \omega/a$
-held fixed, $p_0 \to 1$, and integrating Eq.~\eqref{eq:equil}:
+The integration prefactor is exactly:
+\begin{equation}
+    \frac{m}{p_0} = \frac{\frac{1}{2}\sin\omega}{\cos^2(\omega/2)} 
+                  = \frac{\sin(\omega/2)\cos(\omega/2)}{\cos^2(\omega/2)} 
+                  = \tan\bigl(\tfrac{\omega}{2}\bigr).
+\end{equation}
+In the continuum limit $a\to 0$, $\omega\to 0$ (the classical particle regime),
+$\tan(\omega/2) \approx \omega/2 \approx m$. Integrating Eq.~\eqref{eq:equil} thus yields
+$\ln\rho(\mathbf{x}) = m\,V(\mathbf{x}) + C$, or:
 \begin{equation}
     \rho_\mathrm{clock}(\mathbf{x})
-        = \bar\rho\,\exp\!\bigl(+V_\mathrm{lattice}(\mathbf{x})/c^2\bigr)
+        = \bar\rho\,\exp\!\bigl(m\,V_\mathrm{lattice}(\mathbf{x})\bigr)
         = \bar\rho\,\exp\!\bigl(-\phi_\mathrm{Newton}(\mathbf{x})/c^2\bigr),
     \label{eq:boltzmann_clock}
 \end{equation}
@@ -158,16 +175,22 @@ toward higher $V_\mathrm{lattice}$ (higher clock density) at rate
 This is Newton's second law.
 
 \paragraph{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}
-In the weak field, Eq.~\eqref{eq:boltzmann_clock} gives
-$\phi \approx -c^2(\rho - \bar\rho)/\bar\rho$.
-Applying $\nabla^2$ and using the isotropic lattice Laplacian
-(frame condition, Eq.~\eqref{eq:frame}):
+In the weak-field limit, the exponential distribution of Eq.~\eqref{eq:boltzmann_clock}
+linearizes to:
 \begin{equation}
-    \nabla^2\phi = -\frac{c^2}{\bar\rho}\,\nabla^2\rho_\mathrm{clock}
+    \rho_\mathrm{clock}(\mathbf{x}) \approx \bar\rho \bigl(1 - \phi_\mathrm{Newton}(\mathbf{x})/c^2\bigr)
+    \implies \phi_\mathrm{Newton}(\mathbf{x}) \approx -c^2 \frac{\rho_\mathrm{clock}(\mathbf{x}) - \bar\rho}{\bar\rho}.
+\end{equation}
+Applying the isotropic lattice Laplacian $\nabla^2$
+(frame condition, Eq.~\eqref{eq:frame}) relates the spatial curvature of the potential
+to the local variation in clock density:
+\begin{equation}
+    \nabla^2\phi_\mathrm{Newton} = -\frac{c^2}{\bar\rho}\,\nabla^2\rho_\mathrm{clock}
                 = \frac{c^2}{\bar\rho}\,S(\mathbf{x}),
     \label{eq:poisson_derive}
 \end{equation}
-where $S(\mathbf{x})$ is the clock source density (nonzero where mass
+where we identify the excess clock density curvature $-\nabla^2\rho_\mathrm{clock}$ with the localised
+source density $S(\mathbf{x})$ (nonzero where mass
 is present).  Comparing with Poisson's equation
 $\nabla^2\phi = 4\pi G\,\rho_\mathrm{mass}$ identifies the
 gravitational constant $G$ in terms of lattice parameters:

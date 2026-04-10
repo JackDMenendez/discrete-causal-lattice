@@ -58,6 +58,7 @@ import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession, enforce_unity_spinor)
+from src.core.UnityConstraint import enforce_joint_unity
 
 _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          '..', '..', 'data')
@@ -261,19 +262,18 @@ def run_trial(emission_rate, log_fn=None):
         proton.lattice.topological_potential = coulomb_potential_fast(
             xx, yy, zz, *e_com, STRENGTH, SOFTENING)
 
-        # ── Tick all sessions per-session A=1 ─────────────────────────────
+        # ── Tick all sessions with Manual A=1 ─────────────────────────────
+        # v6 FIX: Turn off normalize for electron & photon so we can jointly apply A=1 later.
         if tick % 2 == 0:
-            proton.tick();   proton.advance_tick_counter()
-            electron.tick(); electron.advance_tick_counter()
+            proton.tick(normalize=True);   proton.advance_tick_counter()
+            electron.tick(normalize=False); electron.advance_tick_counter()
         else:
-            electron.tick(); electron.advance_tick_counter()
-            proton.tick();   proton.advance_tick_counter()
-        photon.tick(); photon.advance_tick_counter()
+            electron.tick(normalize=False); electron.advance_tick_counter()
+            proton.tick(normalize=True);   proton.advance_tick_counter()
+        photon.tick(normalize=False); photon.advance_tick_counter()
 
         # ── Momentum-selective outer-orbit phase drain (active every tick) ──
-        # v5: phase rotation, not amplitude transfer.
-        # exp(-i*mask) has unit modulus, so A=1 is exactly preserved.
-        # enforce_unity_spinor is NOT needed here -- phases don't change norms.
+        # v6: Amplitude transfer + joint normalization.
 
         # Radial geometry from live proton CoM
         r_field, rx, ry, rz = radial_field_fast(xx, yy, zz, p_com)
@@ -288,28 +288,31 @@ def run_trial(emission_rate, log_fn=None):
         # Normalise outward weight so peak = 1
         v_r_max = outward.max()
         if v_r_max < 1e-12:
-            outward_norm = outward          # all inward: no rotation this tick
+            outward_norm = outward          # all inward: no drain this tick
         else:
             outward_norm = outward / v_r_max
 
-        # mask(x) IS the phase rotation angle field (radians).
+        # mask(x) IS the amplitude drain fraction.
         # Zero at r<=R1; zero for inward-moving nodes.
         outer_frac = emission_rate * np.maximum(0.0, r_field - R1) / R1
         mask = outer_frac * outward_norm
 
-        # Phase rotation: rotate outward phase toward inward by mask radians.
-        # rot IS a U(1) field on the lattice; |rot(x)|=1 everywhere.
-        rot = np.exp(-1j * mask)            # unit-amplitude by construction
+        # Steal amplitude:
+        amp_R_drain = electron.psi_R * mask
+        amp_L_drain = electron.psi_L * mask
+        
+        electron.psi_R -= amp_R_drain
+        electron.psi_L -= amp_L_drain
+        
+        # Photon absorbs the amplitude (it receives the phase implicitly via complex sum)
+        photon.psi_R += amp_R_drain
+        photon.psi_L += amp_L_drain
 
-        # Electron loses outward phase coherence (restoring force).
-        electron.psi_R *= rot
-        electron.psi_L *= rot
-
-        # Photon absorbs conjugate phase (carries away outward phase gradient).
-        photon.psi_R *= rot.conj()
-        photon.psi_L *= rot.conj()
-
-        # No enforce_unity_spinor needed: |rot|=1 leaves norms unchanged.
+        # Apply Joint A=1 onto the joint (electron + photon) state!
+        enforce_joint_unity([
+            (electron.psi_R, electron.psi_L),
+            (photon.psi_R, photon.psi_L)
+        ])
 
         # ── Windowed electron density ──────────────────────────────────────
         tick_in_win = tick % CHECK_EVERY

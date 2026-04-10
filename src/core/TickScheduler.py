@@ -110,6 +110,10 @@ class TickScheduler:
         sessions with overlapping amplitude exchange phase (entanglement).
         This is the formal mechanism by which observers affect particles.
         """
+        # ── Tick all sessions per-session A=1 ─────────────────────────────
+        # NOTE: If a session is an emission pair source/target, it will be jointly normalized later. 
+        # But `tick()` defaults to `normalize=True`, which is fine because the 
+        # joint amplitude transfer happens AFTER the topological tick.
         order = self._processing_order()
         for i in order:
             session = self.sessions[i]
