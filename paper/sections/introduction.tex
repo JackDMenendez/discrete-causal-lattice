@@ -221,6 +221,21 @@ Table~\ref{tab:audit} maps every physical phenomenon discussed in the
 paper to the lattice mechanism that produces it, the experiment that
 confirms it, and its current verification status.
 
+\paragraph{Computational resources.}
+All simulations reported here were performed on a single consumer-grade
+desktop workstation using standard Python (\texttt{NumPy} array operations)
+with no GPU acceleration, no distributed computing, and no supercomputer
+allocation.
+The largest grids ($65^3 \approx 274\,000$ nodes) complete in seconds to
+hours per run.
+This is not a limitation of the lattice; it is evidence that the framework
+is computationally accessible.
+The entire experimental program --- including the two-body hydrogen scan,
+the helium ground state, the double-slit interference figure, and the
+gravitational tidal ionization probe --- was reproduced without specialised
+hardware.
+Any result presented here can be independently verified on a modern laptop.
+
 \paragraph{Organisation of the paper.}
 Section~\ref{sec:substrate} defines the $\Tdiamond$ lattice, its
 bipartite structure, and the calibration of physical units.

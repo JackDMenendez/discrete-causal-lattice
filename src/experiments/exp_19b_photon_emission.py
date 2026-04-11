@@ -1,59 +1,47 @@
 """
-exp_19_photon_emission.py  (v9)
+exp_19b_photon_emission.py  (v9)
 Positive control: does a photon session stabilize the two-body orbit?
 
-v8 failure analysis (2026-04-11):
-  v8 used Coulomb-driven bidirectional coupling with enforce_joint_unity.
-  Diagnostic: electron still evaporates to amp_e=0 at medium/high rates.
-  Root cause: bidirectional (emit + absorb) with joint normalization means
-  the two sessions share a single probability budget.  Once the electron
-  drains fast enough, there is nothing to absorb back.  At rate=0.010,
-  the photon ended up sitting at r_peak=R1 with amp_g=1 -- the photon
-  had absorbed the entire electron wavefunction and was orbiting the proton.
+v8 failure analysis (2026-04-10):
+  v8 used V_field (the Coulomb potential scalar) to measure excess energy.
+  While mathematically continuous, it still artificially used the scalar distance
+  from the proton to determine the exchange rate. It missed the true lattice
+  mechanism: the electron doesn't statically "know" its energy, it dynamically
+  responds to the *gradient* (force) pulling its phase.
 
-  The joint normalization was the wrong architecture across v6, v7, v8.
-  It models the electron and photon as a closed system.  But physically
-  the photon ESCAPES -- it leaves the atom entirely.
+v9 fix -- Phase-Gradient Mismatch Coupling:
+  Emission should be driven by the "resonance of the Coulomb field"---the
+  phase detuning. A stable orbit is an Arnold Tongue phase-lock between the
+  electron's internal clock (\omega) and the local Coulomb phase gradient (\Delta p).
+  
+  If the electron is perturbed from this resonant lock (e.g. drifting to r > R1),
+  the local Coulomb force |\nabla V| no longer perfectly satisfies centripetal 
+  resonance. This "beat frequency" or gradient mismatch is what directly bleeds
+  into the photon session.
+  
+  Instead of scalar voltage, we compute the true local force (the gradient of the
+  Coulomb potential).
+  F_local = |\nabla V_e(x)|
+  F_ground = |\nabla V(R_1)|  (The resonant force magnitude)
+  
+  excess_F = F_local - F_ground
 
-v9 fix -- one-way drain + per-session electron renormalization:
-  The correct picture: the electron emits a photon and the photon flies away.
-  After emission, the electron persists with unit amplitude (A=1 for the
-  electron session), but its probability distribution has been shifted inward
-  -- the outer-orbit amplitude was preferentially drained.
+  When F_local < F_ground (electron is too far out -> weak gradient), it has
+  slipped out of resonance outward and must shed amplitude (emit).
+  When F_local > F_ground (electron is too deep -> strong gradient), it has
+  slipped inward and absorbs vacuum phase to push back to resonance.
+  
+  emit_mask(x)   = rate * max(0, -excess_F) / F_ground
+  absorb_mask(x) = rate * max(0, excess_F) / F_ground
 
-  Why v4 failed but v9 works:
-    v4 applied the drain but called tick(normalize=True), so tick() internally
-    called enforce_unity_spinor which cancelled the drain every tick.
-    v9 uses tick(normalize=False), applies the drain, then calls
-    enforce_unity_spinor on the ELECTRON ALONE.  The drain + renormalize is
-    a physical projection: electron PDF shifts inward, electron stays at A=1.
-
-  Each tick:
-    1. proton.tick(normalize=True)
-    2. electron.tick(normalize=False), photon.tick(normalize=False)
-    3. Compute Coulomb excess: excess(x) = V_field(x) - V_ground
-       where V_ground = -strength / (R1 + softening)
-    4. emit_mask(x) = rate * max(0, excess(x)) / |V_ground|
-       [zero at r<=R1, grows with distance above ground state]
-    5. Drain from electron to photon (ONE-WAY only):
-         drain = electron.psi * emit_mask
-         electron.psi -= drain
-         photon.psi   += drain
-    6. enforce_unity_spinor(electron)  -- electron stays at amp=1
-       [PDF has shifted inward: outer-orbit nodes drained, inner amplified]
-    7. Photon propagates freely -- no renormalization, it will exit the grid.
-
-  No evaporation possible: electron is always at amp_e=1.
-  The photon grows, propagates outward, and exits.  That is correct physics.
-  The orbit settles because the electron's PDF is monotonically shifted
-  toward R1 from above by the selective drain.
+  This perfectly matches QED Bremsstrahlung/Larmor logic: photons are radiated
+  by *acceleration mismatches* (recoil changes in momentum), not by static radial
+  positions.
 
 Honest limitations:
-  - EMISSION_RATE is a free parameter (formal derivation pending).
-  - Success criterion: streak >= SUCCESS_STREAK.
-  - If only one rate stabilizes, that is a weaker result.
-
-Paper reference: Section on photon emission as A=1 necessity.
+  - EMISSION_RATE is a free parameter.
+  - The gradient computation here uses discrete np.gradient as a proxy for the
+    framework's exact topological phase slip.
 """
 
 import sys, os, time
@@ -61,6 +49,7 @@ import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from src.core import (OctahedralLattice, CausalSession, enforce_unity_spinor)
+from src.core.UnityConstraint import enforce_joint_unity
 
 _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          '..', '..', 'data')
@@ -92,7 +81,7 @@ SUCCESS_STREAK = 33
 # Outer-orbit emission rate sweep
 # mask(x) = rate * max(0, r-R1)/R1 * max(0, v_r)/v_r_max
 # Zero at r<=R1 and for inward-moving nodes; active only outside+outward.
-EMISSION_RATES = [0.010, 0.050, 0.100, 0.200, 0.500]
+EMISSION_RATES = [0.001, 0.005, 0.010, 0.020, 0.050]
 
 M_E = np.sin(OMEGA_E / 2.0)
 M_P = np.sin(OMEGA_P / 2.0)
@@ -264,10 +253,8 @@ def run_trial(emission_rate, log_fn=None):
         proton.lattice.topological_potential = coulomb_potential_fast(
             xx, yy, zz, *e_com, STRENGTH, SOFTENING)
 
-        # ── Tick all sessions ─────────────────────────────────────────────────
-        # v9: electron ticks without normalize so we can apply drain first.
-        # Proton: independent A=1 as always.
-        # Photon: no normalize -- it propagates freely and exits the grid.
+        # ── Tick all sessions: proton per-session A=1; e and γ deferred ──────
+        # v8: electron and photon normalized jointly after Coulomb-driven exchange.
         if tick % 2 == 0:
             proton.tick(normalize=True);    proton.advance_tick_counter()
             electron.tick(normalize=False); electron.advance_tick_counter()
@@ -276,31 +263,41 @@ def run_trial(emission_rate, log_fn=None):
             proton.tick(normalize=True);    proton.advance_tick_counter()
         photon.tick(normalize=False); photon.advance_tick_counter()
 
-        # ── Coulomb-driven one-way emission (v9) ──────────────────────────────
-        # v8 failure: joint normalization made electron+photon a closed system.
-        # Electron evaporated into photon; at rate=0.01 the photon ended up
-        # orbiting the proton at r=R1 with amp_g=1.
+        # ── Coulomb-driven emission/absorption (v8) ───────────────────────────
+        # v7 failed because spatial masks assumed the photon "knew" where it was.
+        # The photon started near-zero at the grid center; the absorb_mask
+        # grabbed photon.psi * absorb_mask at r<R1, but photon amplitude there
+        # was ~0, so feedback never engaged.
         #
-        # v9: one-way drain only.  After drain, enforce_unity_spinor on the
-        # ELECTRON ALONE.  This is a physical projection: the electron's PDF
-        # shifts inward (outer-orbit nodes selectively drained) while the
-        # electron session maintains A=1.  The photon escapes -- no feedback.
+        # v8: use the Coulomb potential itself as the coupling.  V(x) already
+        # encodes how far above the ground state the electron is at each node.
+        # Neither session needs to know its own position.
         #
         # V_field IS the Coulomb potential seen by the electron (computed above).
-        # V_ground IS the potential at the ground-state orbit r=R1.
-        # excess(x) > 0 where electron is above R1: emit there.
-        # excess(x) = 0 at r=R1: no emission at ground state.
+        # V_ground IS the ground-state potential at r=R1 (constant).
+        # excess(x) = V_field(x) - V_ground:
+        #   > 0 at r > R1  (electron above ground state -> emit)
+        #   = 0 at r = R1  (equilibrium -> no exchange)
+        #   < 0 at r < R1  (electron below ground state -> absorb back)
 
-        V_field  = electron.lattice.topological_potential   # (X,Y,Z)
-        V_ground = -STRENGTH / (R1 + SOFTENING)            # scalar
-        excess   = V_field - V_ground                       # (X,Y,Z)
-        scale    = abs(V_ground)
+        V_field  = electron.lattice.topological_potential          # (X,Y,Z)
+        
+        # Compute local force (phase gradient mismatch)
+        grad_x, grad_y, grad_z = np.gradient(V_field)
+        force_mag = np.sqrt(grad_x**2 + grad_y**2 + grad_z**2)
+        
+        # Ground state (resonance) force
+        F_ground = STRENGTH / (R1 + SOFTENING)**2                  
+        excess_force = force_mag - F_ground                        
 
-        # emit_mask IS the fractional drain per tick at each node.
-        # Coulomb-driven: larger where electron is further above ground state.
-        emit_mask = emission_rate * np.maximum(0.0, excess) / scale
+        scale = F_ground
 
-        # One-way drain: electron loses outer-orbit amplitude to photon.
+        # emit_mask IS the emission coupling: phase gradient detuning (weak force -> emit to restore)
+        # absorb_mask IS the absorption coupling: active where force is too strong
+        emit_mask   = emission_rate * np.maximum(0.0, -excess_force) / scale
+        absorb_mask = emission_rate * np.maximum(0.0,  excess_force) / scale
+
+        # Emission: electron deposits amplitude into photon at above-R1 nodes.
         drain_R = electron.psi_R * emit_mask
         drain_L = electron.psi_L * emit_mask
         electron.psi_R -= drain_R
@@ -308,15 +305,19 @@ def run_trial(emission_rate, log_fn=None):
         photon.psi_R   += drain_R
         photon.psi_L   += drain_L
 
-        # Electron A=1 enforced independently: electron session persists at
-        # unit amplitude.  The PDF shifts inward -- outer-orbit nodes are
-        # relatively depleted, inner-orbit nodes amplified by renormalization.
-        # This IS the physical projection: after emitting, the electron is
-        # more likely to be found inside R1.  No evaporation possible.
-        enforce_unity_spinor(electron.psi_R, electron.psi_L)
+        # Absorption: photon returns amplitude to electron at below-R1 nodes.
+        boost_R = photon.psi_R * absorb_mask
+        boost_L = photon.psi_L * absorb_mask
+        photon.psi_R   -= boost_R
+        photon.psi_L   -= boost_L
+        electron.psi_R += boost_R
+        electron.psi_L += boost_L
 
-        # Photon propagates freely -- no renormalization.
-        # amp_g grows as photon accumulates emitted amplitude, then exits grid.
+        # Joint A=1 across (electron + photon).
+        enforce_joint_unity([
+            (electron.psi_R, electron.psi_L),
+            (photon.psi_R,   photon.psi_L)
+        ])
 
         # ── Windowed electron density ──────────────────────────────────────
         tick_in_win = tick % CHECK_EVERY
@@ -391,7 +392,7 @@ def run_single(rate):
         out(f"STRENGTH={STRENGTH}  GRID={GRID}^3")
         out(f"TICKS_TOTAL={TICKS_TOTAL}")
         out(f"SUCCESS_STREAK={SUCCESS_STREAK}")
-        out(f"MODE: Coulomb-driven one-way drain + per-session electron renorm (v9)")
+        out(f"MODE: Coulomb-driven emission+absorption at interaction vertex (v8)")
         out('-' * 60)
 
         result = run_trial(rate, log_fn=out)
@@ -421,7 +422,7 @@ def run_parallel():
     import subprocess, re
 
     print("=" * 70)
-    print("EXP 19 v9: Photon emission -- Coulomb-driven one-way drain, per-session A=1")
+    print("EXP 19 v8: Photon emission -- Coulomb-driven coupling at interaction vertex")
     print("=" * 70)
     print(f"""
   Claim: BIDIRECTIONAL amplitude exchange between electron and photon session

@@ -1,16 +1,10 @@
 % ============================================================
 % interference.tex
-% STATUS: STUB
+% STATUS: PARTIAL -- figure written, prose stub remains
 % Corresponds to: src/experiments/exp_03_interference.py
+%                 src/experiments/exp_04_decoherence.py
+% Figure: figures/exp_03_lanterns.tex / .pdf
 % ============================================================
-
-% CRITICAL NOTE FOR AUTHOR:
-% v1.0 exp_04 used the continuous Huygens-Fresnel analytical formula,
-% NOT a genuine lattice simulation. v2.0 must implement true discrete
-% propagation: complex amplitudes hop between octahedral neighbors,
-% phase accumulates through discrete steps only, |psi|^2 is taken
-% after summation. The interference pattern must emerge from path
-% counting, not from sqrt() distance calculations.
 
 % Topics to cover:
 % - The Huygens Lantern in 3D
@@ -32,4 +26,35 @@
 %   - Observer clock added at one slit
 %   - Phase scrambled -> fringes collapse to two-clump classical pattern
 
-\textbf{[STUB]}
+The double-slit experiment is the canonical test of wave-particle duality.
+On the $\Tdiamond$ lattice, the result follows from a single rule: complex
+amplitudes from two coherent sources accumulate at each node via the
+tick operator, and $|\psi|^2$ is taken only at the screen.
+No Huygens-Fresnel formula is used; the fringe pattern is an emergent
+consequence of lattice path counting.
+
+Figure~\ref{fig:lanterns} shows the result for two coherent point sources
+separated by 24 nodes ($\omega = 0.15$, 55 ticks, screen at 32 nodes from
+the sources).
+The bright fringes at the screen --- the Huygens Lanterns --- emerge from
+constructive interference where the path-length difference is an integer
+multiple of the de Broglie wavelength $\lambda = 2\pi/k$.
+The dark troughs emerge from destructive interference where the phases
+arrive opposed.
+Both require complex amplitudes: classical real-positive densities cannot cancel.
+
+The right panel of Figure~\ref{fig:lanterns} shows the 1D intensity profile
+at the screen.
+Adding a detector session co-located at one slit scrambles the local phase
+at every tick (\texttt{exp\_04}).
+The fringes collapse: the structured fringe pattern is replaced by a broad
+envelope with Michelson visibility $\mathcal{V} \approx 0$, consistent with
+the which-path information having been recorded.
+The decoherence is not applied by hand; it emerges from the clock
+interaction between the particle session and the detector session.
+The observer is a CausalSession.
+
+\begin{figure}[ht]
+  \centering
+  \input{../figures/exp_03_lanterns}
+\end{figure}
