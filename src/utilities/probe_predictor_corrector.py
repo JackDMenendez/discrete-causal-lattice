@@ -25,7 +25,7 @@ Output: data/probe_pc_scheme_{A,B,C}.log and .npy
 """
 import sys, os, numpy as np, time, subprocess
 
-sys.path.append('d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice')
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
 OMEGA_E=0.1019; OMEGA_P=np.pi/2; STRENGTH=30.0; SOFTENING=0.5
@@ -35,7 +35,7 @@ K_BOHR=1.0/R1; R_E_COM=R1; R_P_COM=R1*M_E/M_P
 GRID=65; wc=(GRID//2,GRID//2,GRID//2)
 TICKS=5000; CHECK_EVERY=50
 
-DATA_DIR = 'd:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/data'
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 
 def dc(d):
     t=float(d.sum()); x=np.arange(d.shape[0],dtype=float)

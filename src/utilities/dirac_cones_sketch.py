@@ -8,7 +8,7 @@ Three crossings where the n-th harmonic of f_zitt meets f_beat:
   4:1  f_3rd  ∩ f_beat  ->  omega=pi/4,  f=3/8
 
 Run from repo root:
-  python figures/dirac_cones_sketch.py
+  python src/utilities/dirac_cones_sketch.py
 Saves: figures/dirac_cones_sketch.pdf  +  .png
 """
 
@@ -20,7 +20,7 @@ import matplotlib.patches as mpatches
 from matplotlib.patches import FancyArrowPatch
 import os
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'figures')
 
 # ── Colour palette ─────────────────────────────────────────────────────────────
 C_ZITT  = '#0077bb'   # blue        — f_zitt

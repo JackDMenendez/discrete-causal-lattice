@@ -16,8 +16,8 @@ Also checks:
 If the orbit is genuinely stable, r_pdf should fluctuate near R1 indefinitely.
 If metastable, it will drift outward and eventually escape.
 """
-import sys, numpy as np, time
-sys.path.append('d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice')
+import sys, os, numpy as np, time
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
 OMEGA_E=0.1019; OMEGA_P=np.pi/2; STRENGTH=30.0; SOFTENING=0.5
@@ -104,5 +104,7 @@ print(f'First escape tick: {first_escape if first_escape>0 else f">{ TICKS}"}')
 stable_windows=sum(1 for r in r_pdf_series if abs(r-R1)/R1<0.20)
 print(f'Windows within 20% of R1: {stable_windows}/{len(r_pdf_series)}')
 print(f'r_pdf min={min(r_pdf_series):.2f}  max={max(r_pdf_series):.2f}  mean={np.mean(r_pdf_series):.2f}')
-np.save('data/probe_exp18_stability.npy', np.array(r_pdf_series))
-print(f'Saved: data/probe_exp18_stability.npy')
+_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+_NPY = os.path.join(_DATA_DIR, 'probe_exp18_stability.npy')
+np.save(_NPY, np.array(r_pdf_series))
+print(f'Saved: {_NPY}')

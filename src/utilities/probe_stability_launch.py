@@ -18,9 +18,10 @@ Total: 13 unique workers. Run with up to 13 parallel processes.
 """
 import subprocess, sys, os, time
 
-PYTHON = sys.executable
-WORKER = os.path.join(os.path.dirname(__file__), 'probe_stability_worker.py')
-K_BOHR = 1.0 / 10.3  # 0.09709
+PYTHON   = sys.executable
+WORKER   = os.path.join(os.path.dirname(__file__), 'probe_stability_worker.py')
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+K_BOHR   = 1.0 / 10.3  # 0.09709
 
 jobs = []
 
@@ -42,7 +43,7 @@ print()
 procs = []
 for k, lag, run_id in jobs:
     cmd = [PYTHON, '-u', WORKER, str(k), str(lag), run_id]
-    log_path = os.path.join(os.path.dirname(__file__), f'probe_stability_{run_id}.log')
+    log_path = os.path.join(DATA_DIR, f'probe_stability_{run_id}.log')
     print(f'  Spawning: k={k:.3f}  lag={lag}  -> {log_path}')
     p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     procs.append((run_id, p))
@@ -74,7 +75,7 @@ print()
 
 import glob, re
 for run_id, _ in jobs:
-    log_path = os.path.join(os.path.dirname(__file__), f'probe_stability_{run_id}.log')
+    log_path = os.path.join(DATA_DIR, f'probe_stability_{run_id}.log')
     if not os.path.exists(log_path):
         print(f'  {run_id}: log missing'); continue
     with open(log_path) as f:

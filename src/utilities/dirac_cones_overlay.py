@@ -14,7 +14,7 @@ Omega <-> row conversion:
     =>  omega(y)  = (y + 0.5) * pi / 151
 
 Run from repo root:
-    python figures/dirac_cones_overlay.py
+    python src/utilities/dirac_cones_overlay.py
 Saves: figures/dirac_cones_overlay.pdf  +  .png
 """
 
@@ -24,7 +24,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 
-_ROOT    = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+_ROOT    = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 DATA_NPY = os.path.join(_ROOT, 'data', 'exp_harmonic_hires_powermap.npy')
 OUT_DIR  = os.path.join(_ROOT, 'figures')
 
@@ -171,7 +171,7 @@ if os.path.exists(DATA_NPY):
     print("Loaded heatmap from .npy")
 else:
     ax.set_facecolor('#1a0a00')
-    ax.text(0.25, 75, 'Run exp_harmonic_hires.py\nto generate heatmap data',
+    ax.text(0.25, 75, 'Run exp_09c_harmonic_hires.py\nto generate heatmap data',
             color='#888888', ha='center', va='center', fontsize=12, style='italic')
     print("No heatmap data — showing lines only")
 

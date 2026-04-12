@@ -13,7 +13,7 @@ Output: data/probe_stability_<run_id>.log  (printed per-window)
         data/probe_stability_<run_id>.npy  (r_pdf_series array)
 """
 import sys, os, numpy as np, time
-sys.path.append('d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice')
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
 # ── CLI args ──────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ R_E_COM=R1; R_P_COM=R1*M_E/M_P
 GRID=65; wc=(GRID//2,GRID//2,GRID//2)
 TICKS=5000; CHECK_EVERY=50
 
-DATA_DIR = 'd:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice/data'
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 LOG_FILE = os.path.join(DATA_DIR, f'probe_stability_{RUN_ID}.log')
 NPY_FILE = os.path.join(DATA_DIR, f'probe_stability_{RUN_ID}.npy')
 

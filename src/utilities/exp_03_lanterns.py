@@ -14,7 +14,7 @@ Geometry tuned so that fringe spacing ~ 22 nodes, giving 2-3 visible fringes
 within the grid:  lambda*L/d = (2pi/0.40)*42/30 ~ 22 nodes.
 
 Run from repo root:
-    python figures/exp_03_lanterns.py
+    python src/utilities/exp_03_lanterns.py
 Saves:
     figures/exp_03_lanterns.pdf
     figures/exp_03_lanterns.png
@@ -28,10 +28,10 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import PowerNorm
 from scipy.ndimage import gaussian_filter
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
-_ROOT   = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+_ROOT   = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 OUT_DIR = os.path.join(_ROOT, 'figures')
 
 # ── Geometry ──────────────────────────────────────────────────────────────────

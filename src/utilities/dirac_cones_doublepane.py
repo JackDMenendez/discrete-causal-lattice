@@ -7,7 +7,7 @@ Double-pane figure:
 Requires: data/exp_harmonic_hires_powermap.npy
 
 Run from repo root:
-    python figures/dirac_cones_doublepane.py
+    python src/utilities/dirac_cones_doublepane.py
 Saves: figures/dirac_cones_doublepane.pdf  +  .png
 """
 
@@ -17,7 +17,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 
-_ROOT    = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+_ROOT    = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 DATA_NPY = os.path.join(_ROOT, 'data', 'exp_harmonic_hires_powermap.npy')
 OUT_DIR  = os.path.join(_ROOT, 'figures')
 
@@ -137,7 +137,7 @@ def style_ax(ax, title):
 
 # ── Build figure ───────────────────────────────────────────────────────────────
 if not os.path.exists(DATA_NPY):
-    raise FileNotFoundError(f'Missing {DATA_NPY} — run exp_harmonic_hires.py first')
+    raise FileNotFoundError(f'Missing {DATA_NPY} — run exp_09c_harmonic_hires.py first')
 
 from scipy.fft import rfftfreq
 power_map = np.load(DATA_NPY)

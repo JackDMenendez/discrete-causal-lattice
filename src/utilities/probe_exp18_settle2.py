@@ -2,8 +2,8 @@
 Probe: does time-averaged electron density (last 1000 ticks of 3000) peak near R1?
 Uses same parameters as exp_18 to validate the settle criterion.
 """
-import sys, numpy as np, time
-sys.path.append('d:/sandbox/jackd/repos/physics/Papers/discrete-causal-lattice')
+import sys, os, numpy as np, time
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.core import OctahedralLattice, CausalSession, enforce_unity_spinor
 
 OMEGA_E=0.1019; OMEGA_P=np.pi/2; STRENGTH=30.0; SOFTENING=0.5

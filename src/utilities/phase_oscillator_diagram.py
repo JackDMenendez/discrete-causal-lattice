@@ -1,13 +1,15 @@
 """
-phase_rotor_diagram.py
-Two-panel figure of the U(1) phase rotor.
+phase_oscillator_diagram.py
+Two-panel figure of the U(1) phase oscillator.
 
-Left:  The group/algebra geometry — the rotor as a clock hand on U(1),
+Left:  The group/algebra geometry — the oscillator as a clock hand on U(1),
        with the algebra generator omega as the arc between ticks.
 Right: The probability geometry — how the half-angle delta_phi/2
        projects onto p_hop and p_stay, with three special cases marked.
 
-Output: figures/phase_rotor_diagram.pdf
+Run from repo root:
+    python src/utilities/phase_oscillator_diagram.py
+Output: figures/phase_oscillator_diagram.pdf
 """
 
 import numpy as np
@@ -51,14 +53,14 @@ ax.plot(np.cos(theta_full), np.sin(theta_full), color=GREY, lw=1.4, zorder=1)
 ax.axhline(0, color=GREY, lw=0.6, ls='--', zorder=0)
 ax.axvline(0, color=GREY, lw=0.6, ls='--', zorder=0)
 
-# Current rotor state r_n
+# Current oscillator state r_n
 phi_n = np.radians(55)
 ax.plot([0, np.cos(phi_n)], [0, np.sin(phi_n)],
         color=BLUE, lw=2.2, zorder=3)
 ax.plot(np.cos(phi_n), np.sin(phi_n), 'o',
         color=BLUE, ms=9, zorder=4, label=r'$r_n = e^{i\phi_n}$')
 
-# Next rotor state r_{n+1}
+# Next oscillator state r_{n+1}
 omega = np.radians(38)
 phi_n1 = phi_n + omega
 ax.plot([0, np.cos(phi_n1)], [0, np.sin(phi_n1)],
@@ -117,7 +119,7 @@ ax.set_xlim(-1.45, 1.45)
 ax.set_ylim(-1.45, 1.45)
 ax.set_aspect('equal')
 ax.axis('off')
-ax.set_title('(a)  The U(1) rotor\n'
+ax.set_title('(a)  The U(1) oscillator\n'
              r'group element $e^{i\phi} \in \mathrm{U}(1)$,'
              r'  generator $\omega \in \mathfrak{u}(1)$',
              fontsize=11, pad=8)
@@ -218,7 +220,7 @@ ax.set_title('(b)  The probability geometry\n'
 # ── Save ──────────────────────────────────────────────────────────────────────
 import os
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   'phase_rotor_diagram.pdf')
+                   '..', '..', 'figures', 'phase_oscillator_diagram.pdf')
 fig.savefig(out, bbox_inches='tight', dpi=150)
 print(f'Saved: {out}')
 

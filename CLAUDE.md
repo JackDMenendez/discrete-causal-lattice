@@ -61,7 +61,7 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_16 | COMPLETE (see below) | Proton mass sweep: all OMEGA_P values Regime 2 (bound, unquantized) |
 | exp_19 v4 | FAIL | Amplitude drain cancelled by enforce_unity_spinor; amp_e=1.0000 throughout |
 | exp_19 v5 | READY TO RUN | Phase-rotation drain (A=1-compatible); see below |
-| exp_strength_sweep | REDESIGNED, NOT RUN | See below |
+| exp_20 | REDESIGNED, NOT RUN | See below |
 
 ---
 
@@ -217,7 +217,7 @@ of the fixed-well approximation.
 
 ---
 
-## exp_strength_sweep -- NEEDS TWO-BODY REDESIGN (updated 2026-03-31)
+## exp_20 (exp_20) -- NEEDS TWO-BODY REDESIGN (updated 2026-03-31)
 
 ### Run completed 2026-03-31 -- INVALID RESULT
 
@@ -225,7 +225,7 @@ The dual-initialization run (N_K=30, 8000 ticks, 3 STRENGTH values) completed
 but produced invalid results: all electrons collapsed to peak_r = well center
 (r~2.5 at S=30, r~2.2 at S=45, r~1.6 at S=60) regardless of k value.
 
-Root cause: exp_strength_sweep uses a FIXED COULOMB WELL (no proton session).
+Root cause: exp_20 uses a FIXED COULOMB WELL (no proton session).
 exp_12 proved that a fixed well causes the electron to collapse -- the proton
 recoil is what stabilises the orbit. Without a live proton session, no k value
 produces a stable orbit; the electron always falls to the well center.
@@ -234,7 +234,7 @@ initialization produces an orbit at all.
 
 ### Required redesign (DO NOT RUN until exp_15 dissipative capture passes)
 
-exp_strength_sweep must be rebuilt on the exp_12 two-body foundation:
+exp_20 must be rebuilt on the exp_12 two-body foundation:
 
 - Live proton CausalSession (OMEGA_P = pi/2) for each STRENGTH value
 - Mean-field Coulomb coupling updated each tick from live CoM positions
@@ -257,7 +257,7 @@ electron find the Arnold tongue attractor. The Bohr orbit is the
 minimum-uncertainty state (R1*k_Bohr=1); the live proton provides the
 symmetry breaking that allows the electron to converge to it.
 
-exp_strength_sweep can now be redesigned on the exp_12 two-body
+exp_20 can now be redesigned on the exp_12 two-body
 foundation whenever that is prioritised.
 
 ---
@@ -277,7 +277,7 @@ TickScheduler changes:
   - Pairwise interactions skip emission pairs (to avoid scrambling)
 
 CRITICAL: _emission_weights decay does NOT affect electron dynamics.
-See exp_strength_sweep section above for why.
+See exp_20 section above for why.
 
 ---
 
@@ -337,9 +337,9 @@ Dirac cones double-pane figure (NEW 2026-04-05):
   - Three crossings: 2:1 (w=pi/2, f=1/4), 3:1 (w=pi/3, f=1/3), 4:1 (w=pi/4, f=3/8)
   - Each crossing = Arnold tongue lock-in = linear band crossing in (f,w) space
   - Graphene inset shows spin-1/2 symmetric K-point for contrast; lattice cones asymmetric
-  - Generation: python figures/dirac_cones_doublepane.py (requires data/exp_harmonic_hires_powermap.npy)
+  - Generation: python src/utilities/dirac_cones_doublepane.py (requires data/exp_harmonic_hires_powermap.npy)
   - Caption: figures/dirac_cones_doublepane.tex (includegraphics on line 1 per convention)
-  - data/exp_harmonic_hires_powermap.npy saved by exp_harmonic_hires.py (modified 2026-04-05)
+  - data/exp_harmonic_hires_powermap.npy saved by exp_09c_harmonic_hires.py (modified 2026-04-05)
 
 ---
 
@@ -368,7 +368,7 @@ the paper equation where one exists, and state the correspondence explicitly:
 
 The structure factor comment in CausalSession._kinetic_hop is the canonical
 template.  All five core modules (CausalSession, OctahedralLattice,
-TickScheduler, CompositeCausalSession, PhaseRotor) now meet this convention.
+TickScheduler, CompositeCausalSession, PhaseOscillator) now meet this convention.
 
 When adding new physics code, follow the same pattern:
 
