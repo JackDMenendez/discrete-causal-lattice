@@ -117,7 +117,7 @@ The AC Josephson effect: V = (ℏ/2e) dφ/dt.  A DC voltage across the junction
 drives a phase that oscillates at ω_J = 2eV/ℏ — a direct measurement of the
 session's clock rate.  The junction IS a phase clock.  Voltage = phase velocity
 = `omega` in the framework's language.  This is the most direct laboratory
-realisation of the internal clock (PhaseRotor) — not an analogy but a
+realisation of the internal clock (PhaseOscillator) — not an analogy but a
 structural identity.
 
 ### Cavity QED

@@ -437,7 +437,7 @@ if __name__ == '__main__':
 
     if args.fig and args.datadir:
         import subprocess
-        script = os.path.join(os.path.dirname(__file__), 'plot_twobody_scan.py')
+        script = os.path.join(os.path.dirname(__file__), '..', 'utilities', 'plot_twobody_scan.py')
         subprocess.run([sys.executable, script,
                         '--datadir', args.datadir,
                         '--out', args.fig], check=True)

@@ -1,5 +1,5 @@
 """
-exp_harmonic_analysis.py
+exp_09b_harmonic_analysis.py
 Harmonic Spectrum Analysis of the A=1 CausalSession
 
 PURPOSE:

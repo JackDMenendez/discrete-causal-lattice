@@ -1,5 +1,5 @@
 """
-exp_harmonic_hires.py
+exp_09c_harmonic_hires.py
 High-resolution harmonic landscape scan -- Arnold tongue / Farey structure test
 
 Runs 150 evenly-spaced omega values between 0 and pi and plots the spectral

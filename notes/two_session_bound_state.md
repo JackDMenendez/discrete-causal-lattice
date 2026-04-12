@@ -11,7 +11,7 @@ a classical background field V(r) = -e²/r that the electron moves in.
 The Coulomb well is a static landscape.
 
 The lattice shows this is wrong at a fundamental level. The proton is a
-session. It has its own phase rotor, its own tick dynamics, its own amplitude
+session. It has its own phase oscillator, its own tick dynamics, its own amplitude
 structure. It is actively participating in the joint A=1 accounting every tick.
 
 The electron doesn't orbit a potential well. It co-evolves with another
@@ -26,7 +26,7 @@ potential. In principle you could find the exact minimum and stay there.
 No exploration needed, but also no restoring force. Initialize off k_Bohr
 and the electron drifts. The well provides no mechanism to find the resonance.
 
-A proton session is doing something every tick — its phase rotor is advancing,
+A proton session is doing something every tick — its phase oscillator is advancing,
 its amplitude is redistributing across its own cone, its psi_R and psi_L are
 oscillating at the proton's Zitterbewegung frequency. From the electron's
 perspective, the well isn't static. It's flickering at the proton's internal
@@ -45,8 +45,8 @@ proton's active participation.
 A bound state is not an electron captured by a potential.
 It is a stable joint resonance between two sessions under global A=1.
 
-The hydrogen atom exists because the electron's phase rotor frequency and
-the proton's phase rotor frequency find a joint Arnold tongue attractor.
+The hydrogen atom exists because the electron's phase oscillator frequency and
+the proton's phase oscillator frequency find a joint Arnold tongue attractor.
 The orbit is the geometric expression of that frequency lock. The Bohr radii
 are the radii at which the two-session system can maintain stable joint
 resonance.
@@ -131,7 +131,7 @@ approximation made us forget that. The lattice remembers it.
 
 *A static Coulomb potential is insufficient to produce stable quantized orbits
 from the lattice dynamics alone. The proton must be represented as an active
-session --- a phase rotor participating in the joint $\mathcal{A}=1$ accounting
+session --- a phase oscillator participating in the joint $\mathcal{A}=1$ accounting
 every tick --- for the electron to explore the well and lock onto resonant
 orbits spontaneously. Hydrogen is not an electron in a field. It is two sessions
 finding a joint Arnold tongue attractor. This distinction has observable

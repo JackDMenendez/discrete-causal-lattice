@@ -1,13 +1,13 @@
 """
-PhaseRotor.py
+PhaseOscillator.py
 The U(1) Internal Clock: the particle's phase state keeper.
 
-The PhaseRotor is the internal oscillator of a CausalSession.
+The PhaseOscillator is the internal oscillator of a CausalSession.
 Its frequency omega is the particle's instruction overhead -- rest mass.
 Its current phase encodes the particle's internal time coordinate.
 
-A high-frequency rotor (heavy particle) has high phase stability:
-it resists redirection (inertia). A low-frequency rotor (light particle)
+A high-frequency oscillator (heavy particle) has high phase stability:
+it resists redirection (inertia). A low-frequency oscillator (light particle)
 is easily scattered by minor potential gradients.
 
 DOCUMENTATION CONVENTION:
@@ -17,17 +17,17 @@ DOCUMENTATION CONVENTION:
   "this IS X" when exact, "this approximates X" in the continuum limit.
   The structure factor comment in CausalSession._kinetic_hop is the template.
 
-Paper reference: Section 3 (Phase Rotor, mass as instruction overhead)
+Paper reference: Section 3 (Phase Oscillator, mass as instruction overhead)
 """
 
 import numpy as np
 
 
-class PhaseRotor:
+class PhaseOscillator:
     """
     U(1) internal clock for a CausalSession.
 
-    The rotor lives on the complex unit circle: r = 1 always (A=1).
+    The oscillator lives on the complex unit circle: r = 1 always (A=1).
     Phase advances by omega at every tick.
     """
 
@@ -44,21 +44,21 @@ class PhaseRotor:
     @property
     def amplitude(self) -> complex:
         """
-        The rotor state as a unit complex number.
+        The oscillator state as a unit complex number.
         Always on the unit circle: |amplitude| = 1 (enforces A=1 locally).
         """
         return np.exp(1j * self.phase)
 
     def advance(self):
         """
-        Advance the rotor by one tick.
+        Advance the oscillator by one tick.
         Phase increments by omega, wrapping at 2*pi.
 
         This is left-multiplication by exp(i*omega) in U(1):
           r_{n+1} = exp(i*omega) * r_n
         The group element r_n tracks accumulated phase; omega is the
         algebra generator that produces the advance.
-        Paper: eq. (rotor_advance)
+        Paper: eq. (oscillator_advance)
         """
         self.phase = (self.phase + self.omega) % (2 * np.pi)
 
@@ -93,6 +93,6 @@ class PhaseRotor:
         Note: CausalSession.tick() uses cos(H/2) and sin(H/2) rather than
         this scalar exp(iH), because the spinor evolution is a 2x2 SU(2)
         rotation exp(i*H/2*sigma_x), not a scalar U(1) phase.  This method
-        is provided for scalar rotor calculations and diagnostic use.
+        is provided for scalar oscillator calculations and diagnostic use.
         """
         return np.exp(1j * self.phase_cost(local_potential))

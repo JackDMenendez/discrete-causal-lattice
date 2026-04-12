@@ -76,7 +76,7 @@ from typing import Tuple
 from .OctahedralLattice import (OctahedralLattice, COORDINATION_NUMBER,
                                  SUBLATTICE_SIZE, active_vectors,
                                  ALL_VECTORS, RGB_VECTORS, CMY_VECTORS)
-from .PhaseRotor import PhaseRotor
+from .PhaseOscillator import PhaseOscillator
 from .UnityConstraint import enforce_unity, enforce_unity_spinor
 
 
@@ -135,7 +135,7 @@ class CausalSession:
                  momentum: Tuple[float, float, float] = (0.0, 0.0, 0.0),
                  is_massless: bool = False):
         self.lattice          = lattice
-        self.phase_rotor      = PhaseRotor(frequency=instruction_frequency)
+        self.phase_oscillator      = PhaseOscillator(frequency=instruction_frequency)
         self.tick_counter     = 0
         self.is_massless      = is_massless
 
@@ -295,7 +295,7 @@ class CausalSession:
                 delta_p = delta_p + (A[0] * dx + A[1] * dy + A[2] * dz)
             delta_p_list.append(delta_p)
             # Weight = positive phase advance only; inertia damps response to gradient
-            weights[i] = np.maximum(0.0, delta_p) / (1.0 + self.phase_rotor.omega)
+            weights[i] = np.maximum(0.0, delta_p) / (1.0 + self.phase_oscillator.omega)
 
         # Normalize (fallback: uniform real weights when momentum ≈ zero)
         total_w  = weights.sum(axis=0)
@@ -360,7 +360,7 @@ class CausalSession:
         # Their sum is the local phase cost per tick -- the discrete H evaluated
         # at every lattice node simultaneously.
         # Paper: eq. (phase_mismatch)  delta_phi = omega + V
-        delta_phi = (self.phase_rotor.omega
+        delta_phi = (self.phase_oscillator.omega
                      + self.lattice.topological_potential)        # H(x) -- shape (X,Y,Z)
 
         # ── The evolution operator: U = exp(i H)  [Lie group element]
@@ -371,7 +371,7 @@ class CausalSession:
         # In the continuum limit a->0: U = exp(-iHa) -> 1 - iHa, recovering
         # i d/dt psi = H psi.  The Schrodinger equation is not postulated --
         # it is the definition of exponentiation from the algebra to the group.
-        # Paper: eq. (rotor_advance)  r_{n+1} = exp(i omega) * r_n
+        # Paper: eq. (oscillator_advance)  r_{n+1} = exp(i omega) * r_n
         cos_half  = np.cos(delta_phi / 2.0)   # kinetic coefficient  -- cos(H/2)
         sin_half  = np.sin(delta_phi / 2.0)   # mass/potential coeff -- sin(H/2)
 
@@ -420,7 +420,7 @@ class CausalSession:
         # Enforces the session onto the unit circle after each evolution step.
         # This is NOT a normalisation convention -- it is the statement that the
         # session persists with unit probability (the particle exists after the tick).
-        # In Lie group language: the rotor stays on U(1), it never rescales.
+        # In Lie group language: the oscillator stays on U(1), it never rescales.
         if normalize:
             enforce_unity_spinor(new_psi_R, new_psi_L)
         self.psi_R = new_psi_R
@@ -574,7 +574,7 @@ class CausalSession:
         giving an effective cone much narrower than any individual constituent.
         See notes/material_cone_and_composites.md.
         """
-        return float(np.arcsin(np.cos(self.phase_rotor.omega / 2.0)))
+        return float(np.arcsin(np.cos(self.phase_oscillator.omega / 2.0)))
 
     @property
     def rgb_cmy_imbalance(self) -> float:
@@ -601,4 +601,4 @@ class CausalSession:
 
     def advance_tick_counter(self):
         self.tick_counter += 1
-        self.phase_rotor.advance()
+        self.phase_oscillator.advance()

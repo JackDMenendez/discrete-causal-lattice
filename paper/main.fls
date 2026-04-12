@@ -153,14 +153,8 @@ INPUT C:\Program Files\MiKTeX\tex\latex\epstopdf-pkg\epstopdf-base.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Program Files\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Program Files\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
-INPUT .\main.out
-INPUT .\main.out
-INPUT main.out
-INPUT main.out
-OUTPUT main.pdf
-INPUT .\main.out
-INPUT .\main.out
 OUTPUT main.out
+OUTPUT main.pdf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr17.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
@@ -208,21 +202,18 @@ INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx6.tfm
 INPUT C:\Users\jackd\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr17.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
-INPUT .\main.toc
-INPUT .\main.toc
-INPUT main.toc
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 OUTPUT main.toc
 INPUT .\sections\introduction.tex
 INPUT .\sections\introduction.tex
 INPUT .\sections\introduction.tex
 INPUT .\sections\introduction.tex
 INPUT sections\introduction.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmti12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmtt12.tfm
 INPUT .\sections\audit_table.tex
@@ -242,8 +233,8 @@ INPUT .\sections\octahedral_substrate.tex
 INPUT .\sections\octahedral_substrate.tex
 INPUT .\sections\octahedral_substrate.tex
 INPUT sections\octahedral_substrate.tex
-INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Program Files\MiKTeX\fonts\enc\dvips\cm-super\cm-super-ts1.enc
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT ..\figures\lattice_drawio.tex
 INPUT ..\figures\lattice_drawio.tex
 INPUT ..\figures\lattice_drawio.tex
@@ -281,12 +272,6 @@ INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\ueuf.fd
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\euler\eufm7.tfm
-INPUT ..\figures\phase_rotor_diagram.pdf
-INPUT ..\figures\phase_rotor_diagram.pdf
-INPUT ..\figures\phase_rotor_diagram.pdf
-INPUT ..\figures\phase_rotor_diagram.pdf
-INPUT ..\figures\phase_rotor_diagram.pdf
-INPUT ..\figures\phase_rotor_diagram.pdf
 INPUT .\sections\tick_scheduler.tex
 INPUT .\sections\tick_scheduler.tex
 INPUT .\sections\tick_scheduler.tex

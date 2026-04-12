@@ -1,5 +1,5 @@
 """
-exp_strength_sweep.py
+exp_20_strength_sweep.py
 STRENGTH sweep -- test whether omega * R1 = pi/3 is a lattice identity or calibration.
 
 The hydrogen ground state satisfies omega * R1 = pi/3 to within 0.23% at STRENGTH=30.

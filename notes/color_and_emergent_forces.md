@@ -85,7 +85,7 @@ This would require:
 ### 2. U(1) Electromagnetism and Phase Rotation
 
 Electromagnetism is a U(1) gauge theory -- phase rotations.
-We already have U(1) in the framework: the PhaseRotor.
+We already have U(1) in the framework: the PhaseOscillator.
 
 The EM force emerges as curl(phi) != 0 (vacuum twist).
 The curl winds around a source with two possible chiralities

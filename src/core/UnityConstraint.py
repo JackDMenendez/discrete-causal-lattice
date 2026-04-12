@@ -16,7 +16,7 @@ DOCUMENTATION CONVENTION:
   "this IS X" when exact, "this approximates X" in the continuum limit.
   The structure factor comment in CausalSession._kinetic_hop is the template.
 
-Paper reference: Section 3 (Causal Sessions and the Phase Rotor)
+Paper reference: Section 3 (Causal Sessions and the Phase Oscillator)
 
 --- NOTE ON USE IN EXPERIMENTS ---
 

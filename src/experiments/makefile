@@ -4,7 +4,7 @@ RELATIVE_PATH:= ../../
 include $(RELATIVE_PATH)common.mak
 
 QUANTIZATION_SCAN_SRC := exp_11_quantization_scan.py
-PLOT_SCAN_SRC         := plot_quantization_scan.py
+PLOT_SCAN_SRC         := ../utilities/plot_quantization_scan.py
 
 EXP_00 := exp_00_causal_cone
 EXP_00_SRC := exp_00_causal_cone.py
@@ -23,7 +23,7 @@ EXP_08_NPY_EMIT := $(data_dir)/exp_08_emission.npy
 EXP_08_GIF_DEFL := $(figures_dir)/exp_08_deflection.gif
 EXP_08_GIF_EMIT := $(figures_dir)/exp_08_emission.gif
 
-EXP_HARMONIC     := exp_harmonic_analysis
+EXP_HARMONIC     := exp_09b_harmonic_analysis
 EXP_HARMONIC_SRC := $(EXP_HARMONIC).py
 EXP_HARMONIC_LOG := $(EXP_HARMONIC)_log.txt
 EXP_HARMONIC_FIG := exp_harmonic_landscape.pdf
@@ -33,7 +33,7 @@ EXP_12_SRC := $(EXP_12).py
 EXP_12_LOG := $(EXP_12)_log.txt
 EXP_12_FIG := exp_12_twobody_scan.pdf
 EXP_12_NPY := $(data_dir)/exp_12_twobody_scan.npy
-PLOT_TWOBODY_SRC := plot_twobody_scan.py
+PLOT_TWOBODY_SRC := ../utilities/plot_twobody_scan.py
 
 EXP_13 := exp_13_threebody_helium
 EXP_13_SRC := $(EXP_13).py
@@ -57,8 +57,8 @@ EXP_18_NPY := $(data_dir)/exp_18_tidal_ionization.npy
 
 # Strength sweep: manual-only (48h run, requires exp_08 dissipation first).
 # Run with: make exp_strength_sweep
-EXP_STRENGTH_SWEEP     := exp_strength_sweep
-EXP_STRENGTH_SWEEP_SRC := exp_strength_sweep.py
+EXP_STRENGTH_SWEEP     := exp_20_strength_sweep
+EXP_STRENGTH_SWEEP_SRC := exp_20_strength_sweep.py
 EXP_STRENGTH_SWEEP_LOG := exp_strength_sweep_log.txt
 EXP_STRENGTH_SWEEP_NPY := $(data_dir)/strength_sweep.npy
 

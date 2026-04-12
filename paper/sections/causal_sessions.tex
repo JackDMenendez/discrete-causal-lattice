@@ -1,7 +1,7 @@
 % ============================================================
 % causal_sessions.tex
-% Section 3: Causal Sessions and the Phase Rotor
-% Corresponds to: src/core/CausalSession.py, src/core/PhaseRotor.py
+% Section 3: Causal Sessions and the Phase Oscillator
+% Corresponds to: src/core/CausalSession.py, src/core/PhaseOscillator.py
 % ============================================================
 
 A particle in the $\unity$ framework is not a point mass, a field mode,
@@ -10,19 +10,19 @@ It is a \emph{causal session}: a persistent probability flux that
 carries an internal clock, evolves by the bipartite tick rule, and
 obeys the $\unity$ constraint at every tick.
 This section defines the session structure and identifies its algebraic
-content: the internal clock is a U(1) rotor whose group element encodes
+content: the internal clock is a U(1) oscillator whose group element encodes
 phase and whose algebra generator encodes mass.
 
-% ── 3.1 The Phase Rotor: U(1) Group and Algebra ───────────────────────────────
-\subsection{The Phase Rotor: U(1) Group and Algebra}
-\label{subsec:phase_rotor}
+% ── 3.1 The Phase Oscillator: U(1) Group and Algebra ───────────────────────────────
+\subsection{The Phase Oscillator: U(1) Group and Algebra}
+\label{subsec:phase_oscillator}
 
-Each causal session carries a \emph{phase rotor} --- an internal oscillator
+Each causal session carries a \emph{phase oscillator} --- an internal oscillator
 that advances by a fixed angle $\omega$ per tick.
-The rotor state at tick $n$ is the unit complex number
+The oscillator state at tick $n$ is the unit complex number
 \begin{equation}
     r_n = e^{i\phi_n} \in \mathrm{U}(1), \qquad \phi_n = n\omega \mod 2\pi.
-    \label{eq:rotor_state}
+    \label{eq:oscillator_state}
 \end{equation}
 Two structures are at work here, and they are distinct.
 
@@ -31,7 +31,7 @@ $\mathrm{U}(1) = \{z \in \mathbb{C} : |z| = 1\}$.
 This is the Lie group: a one-dimensional compact manifold with group
 multiplication given by phase addition.
 The $\unity$ constraint --- total probability equal to one at every tick ---
-is the requirement that the rotor never leaves this manifold.
+is the requirement that the oscillator never leaves this manifold.
 $\mathcal{A} = 1$ is not a normalisation convention; it is the statement
 that the session's state is always a group element, never a rescaled one.
 Probability is conserved because U(1) is a group, not because we
@@ -41,9 +41,9 @@ choose to enforce it.
 is the element of the Lie algebra that exponentiates into the group via
 \begin{equation}
     r_{n+1} = e^{i\omega} \cdot r_n.
-    \label{eq:rotor_advance}
+    \label{eq:oscillator_advance}
 \end{equation}
-This is left-multiplication by $e^{i\omega}$: a rotation of the rotor
+This is left-multiplication by $e^{i\omega}$: a rotation of the oscillator
 by angle $\omega$ per tick.
 The generator $\omega$ is the particle's \emph{instruction frequency} ---
 the rate at which its internal clock advances.
@@ -54,9 +54,9 @@ postulated property.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{../figures/phase_rotor_diagram.pdf}
-    \caption{The U(1) phase rotor.
-      \textbf{(a)} The rotor state $r_n = e^{i\phi_n}$ is a point on the
+    \includegraphics[width=\textwidth]{../figures/phase_oscillator_diagram.pdf}
+    \caption{The U(1) phase oscillator.
+      \textbf{(a)} The oscillator state $r_n = e^{i\phi_n}$ is a point on the
       unit circle (the Lie group $\mathrm{U}(1)$).
       Each tick advances the state by the algebra generator $\omega \in
       \mathfrak{u}(1)$, shown as the arc between $r_n$ (filled) and
@@ -73,7 +73,7 @@ postulated property.
       $\omega=\pi/2$ (equal split), and $\omega=\pi$ (frozen, all stay).
       The group geometry and the probability dynamics are the same
       circle.}
-    \label{fig:phase_rotor}
+    \label{fig:phase_oscillator}
 \end{figure}
 
 \paragraph{The phase mismatch as local Hamiltonian.}
@@ -110,13 +110,13 @@ element, the state is a U(1) group element, and the equation of motion
 $r_{n+1} = e^{i(\omega+V)} \cdot r_n$ is the definition of
 exponentiation from the algebra to the group.
 The Schr\"odinger equation is not postulated; it is the definition of
-what it means for the rotor to advance.
+what it means for the oscillator to advance.
 
 % ── 3.2 The CausalSession: Spinor Amplitude on the Lattice ───────────────────
 \subsection{The Causal Session: Spinor Amplitude on the Lattice}
 \label{subsec:causal_session}
 
-The phase rotor governs the \emph{internal} clock.
+The phase oscillator governs the \emph{internal} clock.
 The \emph{external} amplitude --- the probability density distributed
 across the lattice --- is the spinor field $\Psi = (\psi_R, \psi_L)^T$,
 where $\psi_R(\mathbf{x})$ is the amplitude on the RGB sublattice
@@ -137,10 +137,10 @@ The $\unity$ constraint on the spinor is
                            + |\psi_L(\mathbf{x})|^2\bigr) = 1.
     \label{eq:unity_spinor_session}
 \end{equation}
-This is the field-theoretic extension of the rotor constraint
+This is the field-theoretic extension of the oscillator constraint
 $|r_n| = 1$: the total probability across all nodes and both spinor
 components is exactly one at every tick.
-The session is a U(1) rotor distributed over the lattice.
+The session is a U(1) oscillator distributed over the lattice.
 
 \paragraph{Massless sessions.}
 When $\omega = 0$ the phase mismatch $\delta\phi = V(\mathbf{x})$
@@ -158,7 +158,7 @@ it has no mass, no ZB oscillation, and no internal clock frequency.
 \subsection{The Tick Rule as Gauge Transformation}
 \label{subsec:gauge}
 
-The tick rule advances the rotor by $e^{i\delta\phi}$ and hops the
+The tick rule advances the oscillator by $e^{i\delta\phi}$ and hops the
 spinor amplitude to neighbouring nodes.
 Viewed globally, each tick is a \emph{local} U(1) gauge transformation:
 different nodes receive different phase advances $\delta\phi(\mathbf{x})$
@@ -166,7 +166,7 @@ depending on the local potential $V(\mathbf{x})$.
 
 The $\unity$ constraint is preserved by this transformation because
 U(1) is compact: $|e^{i\delta\phi}| = 1$ regardless of $\delta\phi$.
-No phase advance, however large, can change the norm of the rotor.
+No phase advance, however large, can change the norm of the oscillator.
 The constraint is therefore automatically satisfied at every node and
 every tick without additional enforcement beyond the tick rule itself.
 
@@ -211,10 +211,10 @@ The velocity formula $v = \tfrac{c}{2}\sin(\omega)\sin(\theta)$
 (derived in Section~\ref{subsec:momentum_emergence}) gives the correct
 ratio.
 Inertia is not postulated; it follows from the algebra element $\omega$
-governing the rotor's response to gradient perturbations.
+governing the oscillator's response to gradient perturbations.
 
 \paragraph{Summary.}
-A causal session is a U(1) rotor ($e^{i\phi} \in \mathrm{U}(1)$)
+A causal session is a U(1) oscillator ($e^{i\phi} \in \mathrm{U}(1)$)
 distributed over the bipartite lattice as a two-component spinor
 $(\psi_R, \psi_L)$.
 Its mass is the algebra generator $\omega \in \mathfrak{u}(1)$.

@@ -15,7 +15,7 @@ you cannot un-add a clock.
 
 ```
 paper/          LaTeX source (main.tex + sections/)
-src/core/       OctahedralLattice, CausalSession, PhaseRotor,
+src/core/       OctahedralLattice, CausalSession, PhaseOscillator,
                 TickScheduler, UnityConstraint
 src/experiments/ exp_00 through exp_06
 src/utilities/  path_counter, lattice_calibrator, visualizer
