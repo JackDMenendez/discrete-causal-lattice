@@ -1,4 +1,3 @@
-
 RELATIVE_PATH:= ../../
 
 include $(RELATIVE_PATH)common.mak

@@ -1,3 +1,9 @@
+# Get the absolute path of the current Makefile
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+
+# Extract the directory of the Makefile
+CURRENT_DIR := $(dir $(MKFILE_PATH))
+#------------------------------------------------------------------------------
 VENV := $(RELATIVE_PATH).venv
 # Allow passing arguments to the script
 ARGS ?= -u

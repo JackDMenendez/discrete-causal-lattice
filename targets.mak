@@ -8,3 +8,18 @@
 # and directories to ensure a clean build environment.
 $(stage_dir) $(data_dir) $(build_dir):
 	-mkdir -p $@
+
+clean_env:
+	@echo "Cleaning virtual environment"
+	-$(RM) -rfv $(VENV)
+	-$(RM) -rfv *.pyc __pycache__
+
+INFO_SUBPROJECTS = $(SUBPROJECTS:%=info-%)
+
+info: $(INFO_SUBPROJECTS)
+	@echo "Relative path: '$(RELATIVE_PATH)' of current directory: '$(CURRENT_DIR)'"
+
+$(INFO_SUBPROJECTS):
+	@echo "============ Assembling $(@:assemble-%=%) ============"
+	$(MAKE) -C $(@:info-%=%) info
+	

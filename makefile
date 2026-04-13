@@ -1,36 +1,122 @@
-# Makefile for building the paper and src subprojects, ensuring the stage, 
-# data, and build directories exist, and promoting the final PDF to the stage 
-# directory after building the subprojects. Data generated through the 
-# subprojects is stored in the data directory, and intermediate build files are stored
-# in the build directory. The clean target removes all generated files and
-# directories to ensure a clean build environment.
-#
+# Route Project Makefile for building the paper and src subprojects, ensuring
+# the stage, data, and build directories exist, and promoting the final PDF to
+# the stage directory after building the subprojects. Data generated through 
+# the subprojects is stored in the data directory, and intermediate build files 
+# are stored in the build directory. The clean target removes all generated 
+# files and directories to ensure a clean build environment.
+#------------------------------------------------------------------------------
+# flags passed to the make command:
+#   -j: Run multiple jobs in parallel to speed up the build process. The number
+#	    of jobs can be specified after the -j flag (e.g., -j4 to run 4 jobs in
+#	    parallel). If no number is specified, make will run as many jobs as there
+#	    are available on the system. Running in parallel can significantly reduce 
+#	    the time it takes to run experiments.
+#   experiment="<exp_name1 exp_name2 ...>": Run a specific experiment defined 
+#       or a list of experiment in the experiments subproject.
+#		This can be used to run a single experiment without running 
+#		the entire audit target, which can save time when iterating on a 
+#		experiment. The experiment name should match the name of the target 
+#		defined in the src/experiments/makefile. Please see the file 
+#		src/experiments/makefile for the list of experiments and their 
+#		corresponding targets. Some experiments may take a day or more to run
+#       on a lapetop, so it is recommended to run long experiments on a server 
+#		for cluster with more resources, and to use the experiment=<exp_name> 
+#		flag to run specific experiments as needed.
+#   experiment=all: Run all experiments defined in the src subproject. This can 
+#		be used to run all experiments without specifying each one individually.
+#       It is recommended to run this with -j or it could take a week to get
+# 	    through all experiments on a laptop, and to run on a server or cluster.
+#------------------------------------------------------------------------------
 # targets:
-#   all: Cleans, assembles, and promotes the final PDF to the stage directory
-#   assemble: Builds each subproject in order, ensuring the stage, data, and build directories 
-#             exist before building each subproject.
-#   promote: Promotes the final PDF and other figures and documentsto the stage directory 
-#            after building the subprojects.
+#   all: The default target, which builds the setup, env, tests, clean, paper, 
+#        andexperiments, audit, and promote targets.
+#   info: prints information about the project at each subproject level.
+#   env: Sets up the virtual environment for the project, ensuring the virtual
+#        environment is created and dependencies are installed before running
+#        tests. The requirements.txt file is kept up to date with the python
+#        dependencies for the project, and is used to install dependencies in 
+#        the virtual environment.
+#   audit: checks and prints the results of the tests and experiments to make 
+#        sure they have run and "PASSED" before allowing the build to complete.
+#        Running the audit will tell you which tests or experiments nee to run.
+#   tests: Runs tests defined in the tests subproject, ensuring the virtual 
+#		 environment is set up before running
+#        Requires: setup env
+#   experiments: Runs experiments defined by the exeperiment macro on the
+#        command line. This target can run for a week or more on a laptop
+#        if exp_all is specified.
+#   setup: Sets up the environment for the project, ensuring the stage, data, 
+#        and build directories exist before building. 
+#		 Requires: env
+#   clean_env: Cleans the virtual environment by removing the virtual environment
+#        directory and any .pyc files or __pycache__ directories. This target is		useful for ensuring a clean environment when building the project, especially 
+#        if there are issues with the virtual environment or dependencies. It is 
+#        recommended to run this target before building the project if there are 
+#        issues with the virtual environment or dependencies.
+#   clean: removes the build and stage directories which effect only the files 
+#        created by Lattex commands and will cause the paper to rebuild. 
+#        Experiments are not cleaned by this target since they can take a long 
+#        time to run, and it is not necessary to clean them when rebuilding the 
+#        paper although they do produce data files used to make figures. The 
+#        paper target will be rebuilt if they were deleted, but this should not 
+#        happen if the makefile is used correctly because those files are 
+#        tracked by version control and created by the experiments and utilities. 
+#        All of the files can be created by the build process but not cleaned.
+#   promote: Promotes the final PDF and other figures and documentsto the stage 
+#        directory after building the subprojects.
 #   clean: Cleans all generated files and directories to ensure a clean build environment
-#   run: Runs experiments or scripts defined in the src subproject, ensuring the data 
-#        directory exists before running and creating any data files of use to creating
-#        figures or tables in the paper.
-#   audit: Runs all experiments or scripts defined in the src subproject and generates a report
+#------------------------------------------------------------------------------
 # subprojects:
-#   paper: Builds the paper PDF using pdflatex, ensuring the build directory exists before building
-#   src: Builds any source code or data files needed for the paper, ensuring the data and 
-#        build directories exist before building
+#   paper: Builds the paper PDF using pdflatex, ensuring the build directory 
+#        exists before building
+#   src: Builds data files needed for the paper, ensuring 
+#        the data and build directories exist before building build directories 
+#        exist before building
+#   tests: Builds any tests for the project, ensuring the virtual environment 
+#        is set up before building
+#------------------------------------------------------------------------------
 # directories:
-#   stage: Directory for staging the final PDF before creating a release in GitHub
-#          PDF files are excluded from version control and are generated through the build process
-#   data: Directory for storing any data files generated through by the subprojects, used to create 
-#         figures or tables in the paper. Data files are excluded from version control and are 
-#         generated through the build process. These data directory is source controlled since
-#    	  it may contain manually curated data files that are used in the paper, and of use
-#         for future research by others.
-#   build: Directory for storing any intermediate build files generated through by the subprojects,
-#          such as .aux, .log, .out, .toc, .lof, and .lot files generated by pdflatex. These build
-#          files are excluded from version control and are generated through the build process.
+#   figures: Directory for storing any figures generated through the build 
+#       process, used in the paper. Figure files are excluded from version 
+#		control and are generated through the build process. This directory is 
+#		source controlled since it may contain manually curated figure files 
+#       that are used in the paper, and of use for future research by others.
+#   paper: Directory for storing the .tex files for the paper. The paper PDF
+#       will be found in the build directory and moved to the stage directory
+#       if the audit passes and the build is successful.
+#   src Directory for storing source code for the project, such as scripts for
+#       generating data, figures, and tables for the paper. Source files are 
+#       source controlled and may be generated through the build process.
+#   stage: Directory for staging the final PDF before creating a release in 
+#		GitHub PDF files are excluded from version control and are generated 
+#       through the build process
+#   tests: Directory for storing any test files for the project, such as unit 
+#       and integration tests. Test files are source controlled and may be 
+#       generated through the build process.
+#   data: Directory for storing any data files generated through by the 
+#       subprojects, used to create figures or tables in the paper. Data files 
+#       are excluded from version control and are generated through the build 
+#		process. These data directory is source controlled since it may contain 
+#       manually curated data files that are used in the paper, and of use
+#       for future research by others.
+#   build: Directory for storing any intermediate build files generated through 
+#       the subprojects, such as .aux, .log, .out, .toc, .lof, and .lot files 
+#       generated by pdflatex. These build files are excluded from version 
+#       control and are generated through the build process. Test results are 
+#       also stored in the build directory, and are excluded from version 
+#		control and generated through the build process.
+#------------------------------------------------------------------------------
+# Files related to builds in the project root:
+#   makefile: This file.
+#   targets.mak: Makefile for inclusions by all makefiles in the project
+#   common.mak: Makefile for defining common variables and targets for all
+#               makefiles in the project.
+#   subproject.mak: Makefile for defining common variables and targets for all
+#               subprojects in the project. Includes the common makefile.
+#   setup.cmd: Windows batch file for setting up the environment for the project
+#   setup.sh: Unix shell script for setting up the environment for the project
+
+#------------------------------------------------------------------------------
 # Note: The final PDF is promoted to the stage directory after building the subprojects, to the stage
 #       directory to ensure it is not accidentally committed to version control and to facilitate
 #       creating a release in GitHub. The stage directory is excluded from version control and is
@@ -38,41 +124,44 @@
 #       may be promoted to the state directory for use by others, and in presentations so that they
 #       are included in the release of the paper on GitHub, but these are not all generated through 
 #       the build process and are source controlled.
-
+#------------------------------------------------------------------------------
 # Setup the virtual environment for the project
-RELATIVE_PATH :=
+# Each makefile has a relative path to the project root, so we can define the 
+# location of the virtual environment and other directories relative to the 
+# project root.
 include $(RELATIVE_PATH)common.mak
 
-SUBPROJECTS := paper src
+SUBPROJECTS := paper src tests 
 
-# Definephony targets for cleaning, assembling, and promoting each subdir
+# Definephony targets for testingcleaning, assembling, and promoting 
+# each subdir
 CLEAN_SUBPROJECTS = $(SUBPROJECTS:%=clean-%)
-ASSEMBLE_SUBPROJECTS = $(SUBPROJECTS:%=assemble-%)
+PAPER_SUBPROJECTS = $(SUBPROJECTS:%=paper-%)
 PROMOTE_SUBPROJECTS = $(SUBPROJECTS:%=promote-%)
-AUDIT_SUBPROJECTS = $(SUBPROJECTS:%=audit-%)
+EXPERIMENTS_SUBPROJECTS = $(SUBPROJECTS:%=experiments-%)
+TEST_SUBPROJECTS = $(SUBPROJECTS:%=test-%)
 
+# The name of the file for input to pip install for setting up the virtual 
+# environment.
 local_requirements := requirements.txt
 source_requirements := $(subst \,/,$(USERPROFILE))/requirements.txt
-requirements_different := $(shell cmp -s $(local_requirements) $(source_requirements) || echo "yes")
-ifeq ($(requirements_different), "yes")
-		$(shell cp -vf $(source_requirements) $(local_requirements))
-endif
 
 # Define the .PHONY target to include all, clean, subprojects, and directories
-.PHONY: all start setup clean \
-        promote assemble audit $(CLEAN_SUBPROJECTS) $(ASSEMBLE_SUBPROJECTS) \
-		$(PROMOTE_SUBPROJECTS) $(AUDIT_SUBPROJECTS)
+.PHONY: all setup clean tests info \
+        promote paper experiments clean_env audit $(CLEAN_SUBPROJECTS) \
+		$(EXPERIMENTS_SUBPROJECTS) \
+		$(PROMOTE_SUBPROJECTS) $(PAPER_SUBPROJECTS) $(TEST_SUBPROJECTS)
 
 # Define the all target to depend on cleaning, assembling, and promoting
-all: start setup audit assemble promote
+all: setup clean tests audit assemble promote
 	@echo "================ Build Complete ================"
 
-start: requirements.txt
+start: setup
 	@echo "================ Starting Build ================"
 
-requirements.txt: 
-	@echo "================ Checking requirements ================"
-	@echo "No additional requirements needed for this project" > requirements.txt
+requirements.txt: $(source_requirements)
+	@echo "============ Copying requirements.txt ============"
+	cp -vf $< $@
 
 # Create the virtual environment and install dependencies
 # The 'touch' command ensures Make knows when the environment was last updated
@@ -86,14 +175,18 @@ $(VENV)/touchfile: $(VENV) requirements.txt
 	$(PIP) install -r requirements.txt
 	touch $(VENV)/touchfile
 
+tests: $(VENV)/touchfile
+	@echo "================ Running Tests ================"
+	$(MAKE) -C tests test
+
 # The assemble target depends on building each subproject in order, 
 # ensuring the stage, data, and build directories exist before building 
 # each subproject
-assemble: $(ASSEMBLE_SUBPROJECTS)
-	@echo "================ Assemble Complete ================"
+paper: $(PAPER_SUBPROJECTS)
+	@echo "================ Paper Complete ================"
 
 # Build each subproject in order
-$(ASSEMBLE_SUBPROJECTS):
+$(PAPER_SUBPROJECTS):
 	@echo "============ Assembling $(@:assemble-%=%) ============"
 	$(MAKE) -C $(@:assemble-%=%) assemble	
 
@@ -109,19 +202,11 @@ $(PROMOTE_SUBPROJECTS):
 	$(MAKE) -C $(@:promote-%=%) promote
 
 # Alias for setting up the environment
-setup: $(VENV)/touchfile $(stage_dir) $(data_dir) $(build_dir)
+setup: env $(stage_dir) $(data_dir) $(build_dir)
 	@echo "================ Setup Complete ================"
 
-# Example of a test target using pytest
-test:
-#	$(VENV)/bin/pytest tests/
-
-clean_env: 
-	@echo "============ Cleaning virtual environment ============"
-	-rm -rfv $(VENV)
-	-find . -type f -name '*.pyc' -delete
-	-find . -type d -name '__pycache__' -exec rm -rf {} +
-	@echo "================ Clean_env Complete ================"
+env: $(VENV)/touchfile requirements.txt
+	@echo "================ env Complete ================"
 
 # Local clean target that depends on cleaning each subdir
 clean: $(CLEAN_SUBPROJECTS)
