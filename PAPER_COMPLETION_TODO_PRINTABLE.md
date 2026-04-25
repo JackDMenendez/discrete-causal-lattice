@@ -1,186 +1,299 @@
 # Paper Completion Todo List
 ## Geometry First: Quantum Mechanics, Gravity, and the Origin of the Standard Model from a Single Conservation Law
 
-**Date:** April 25, 2026  
-**Version:** Working Paper 0.9  
-**Status:** 90% Complete - Major theoretical derivations done, experiments validated
+**Date:** April 25, 2026 (revised after exp_19c completion + external review)
+**Version:** Working Paper 0.9
+**Status:** ~92% complete — major derivations done, exp_19c provides numerical proof of A=1-forced photon emission
 
 ---
 
-## 🔥 Critical Missing Sections (STUB Status)
+## Revision Notes (2026-04-25)
 
-### 1. Complete the Predictions Section (MOST IMPORTANT)
-**File:** `paper/sections/predictions.tex`  
-**Status:** STUB - only outlines exist  
-**Required:** Write falsifiable predictions with numerical specificity  
+This revision incorporates three external comments (`notes/comment_on_exp_19c.md`,
+`notes/comment_on the_two_dimensional_arnold_tounges.md`, `notes/Comment_on_todo_list.md`)
+and the completion of exp_19c. The major changes from the prior version:
 
-**Key Predictions from `notes/falsifiable_predictions.md`:**
+1. **Photon emission as A=1 necessity** is no longer a low-priority audit-table stub.
+   exp_19c provides the numerical proof; the derivation must move into Section 18.7
+   as a Tier 1 writing task.
+2. **A new falsifiable prediction** has been added: Arnold tongue *width* implies a
+   calculable external-field threshold to depolarize a resonance, giving specific
+   deviations from QED's Stark effect and Lamb shift.
+3. **Tick Scheduler** and **Vacuum Twist Field Equations** have been promoted to
+   Tier 1 alongside Predictions. They are load-bearing for the gravity, observer,
+   and unification arguments and the paper cannot be released with them as stubs.
+4. **Tone:** the paper has earned the right to state these mechanisms as derived
+   results, not proposals. Writing tasks should use confident, declarative voice
+   consistent with the new evidence.
 
-#### Prediction 1: Discrete 1/r² Corrections
-- **Claim:** Exact path count P(N, dx, dy, dz) deviates from Gaussian at small N
-- **Implication:** Calculable correction to standard 1/r² falloff
-- **Crossover Scale:**
+---
+
+## Tier 1: Publication Blockers
+
+These are the remaining substantive obstacles to releasing the paper. Each must be
+written before the paper is reviewable.
+
+### 1. Predictions Section
+**File:** `paper/sections/predictions.tex`
+**Status:** STUB
+**Why Tier 1:** The paper claims falsifiability throughout. This section is where
+that claim is cashed out with explicit formulas, numerical scales, and proposed
+experiments.
+
+**Required for each prediction:**
+- explicit formula
+- explicit numerical scale (with calibration assumptions stated)
+- proposed experimental signature
+- what observation would falsify it
+
+**Predictions to include:**
+
+#### P1. Discrete 1/r² Corrections (path-count deviations from Gaussian)
+- **Claim:** Exact path count P(N, dx, dy, dz) deviates from the Gaussian limit at small N.
+- **Crossover scale:**
   - Planck calibration: ~10 Planck lengths (unmeasurable)
-  - Compton calibration: ~10 Compton wavelengths (~10^-11 m)
-- **Measurable via:** Precision hydrogen spectroscopy, Casimir effect
-- **Status:** Needs `count_paths()` implementation for numbers
+  - Compton calibration: ~10 Compton wavelengths (~10⁻¹¹ m)
+- **Tests:** precision hydrogen spectroscopy, Casimir effect.
+- **Outstanding:** needs `count_paths()` implementation to populate numbers.
 
-#### Prediction 2: Minimum Time Dilation Quantum
-- **Claim:** One extra clock = one tick_duration of scheduler overhead
-- **Formula:** δt_min = tick_duration_s for chosen calibration
-- **Current Tech:** Optical atomic clocks ~10^-18 fractional sensitivity at mm separation
+#### P2. Minimum Time-Dilation Quantum
+- **Claim:** Each additional registered clock costs one `tick_duration` of scheduler overhead.
+- **Formula:** δt_min = tick_duration_s.
 - **Scales:**
-  - Planck: δt_min = 5.4×10^-44 s (unmeasurable)
-  - Compton: δt_min = ~8×10^-21 s (possibly within reach)
-- **Status:** Needs calibration table completion
+  - Planck: 5.4×10⁻⁴⁴ s (unmeasurable)
+  - Compton: ~8×10⁻²¹ s (potentially within reach of optical-clock comparisons)
+- **Tests:** atomic-clock comparisons across mm separations (~10⁻¹⁸ fractional sensitivity now).
+- **Outstanding:** finalize calibration table.
 
-#### Prediction 3: Octahedral Anisotropy
-- **Claim:** 6 preferred axes break perfect isotropy at sub-crossover scales
-- **Observable as:** Directional correlations in CMB or atomic clock comparisons
-- **Status:** Speculative, needs theoretical development
+#### P3. Octahedral Anisotropy
+- **Claim:** Six preferred axes (RGB ∪ CMY) break perfect isotropy below the crossover.
+- **Tests:** directional correlations in CMB; atomic-clock comparison along inequivalent axes.
+- **Status:** speculative; needs theoretical sharpening.
 
-#### Prediction 4: Decay Rate Clock-Density Correction
-- **Claim:** Particle decay timing-dependent beyond special relativity
-- **Prediction:** Additional correction term in decay rates near massive objects
-- **Measurable via:** Precision lifetime measurements in different gravitational potentials
-- **Status:** Needs tick_scheduler decay model
+#### P4. Decay-Rate Clock-Density Correction
+- **Claim:** Particle decay rate depends on local clock density beyond SR's γ factor.
+- **Tests:** precision lifetime measurements at different gravitational potentials.
+- **Outstanding:** requires the tick-scheduler decay model from Section 6.
 
-### 2. Complete Phase Propagation Section
-**File:** `paper/sections/phase_propagation.tex`  
-**Status:** STUB after subsection 5.2  
-**Required:** Write remaining subsections on phase dynamics
+#### P5. Arnold Tongue Width → Stark/Lamb Corrections (NEW — from comment 2)
+- **Claim:** Each phase-locking tongue has a calculable *width* in (ω, V) space.
+  Quantization is preserved everywhere inside the tongue, not just on its central line.
+- **Implication:** an external field of magnitude proportional to the tongue half-width
+  is required to pop the electron out of resonance. This gives a specific, calculable
+  deviation from the QED Stark effect and Lamb shift — measurable in precision atomic
+  spectroscopy.
+- **Outstanding:** extract tongue widths from exp_09 / exp_11 / exp_12 data and
+  convert to field-strength thresholds. This is the most testable near-term prediction
+  in the paper.
 
-### 3. Complete Lattice Harmonics Section
-**File:** `paper/sections/lattice_harmonics.tex`  
-**Status:** STUB - references `notes/lattice_harmonics.md`  
-**Required:** Write prose connecting exp_09 results to theory
+#### P6. Emission-Rate Corrections Near Mass Concentrations (from comment 1)
+- **Claim:** Spontaneous emission is the three-session forced-recoil event proven
+  numerically in exp_19c. Its rate inherits a clock-density correction near massive
+  bodies and a finite-lattice-spacing correction at high frequency.
+- **Outstanding:** quantify the two correction terms; compare against QED in flat space.
 
-### 4. Complete Tick Scheduler Section
-**File:** `paper/sections/tick_scheduler.tex`  
-**Status:** STUB after basic description  
-**Required:** Write detailed scheduler mechanics
-
-### 5. Complete Vacuum Twist Field Equations
-**File:** `paper/sections/vacuum_twist_field_equations.tex`  
-**Status:** STUB after subsection 7.4  
-**Required:** Write remaining field theory development
-
-### 6. Complete Interference Section
-**File:** `paper/sections/interference.tex`  
-**Status:** PARTIAL - figure exists, prose stub  
-**Required:** Write Huygens lantern interference theory
+**Cross-references:** P5 and P6 should both cite Section 18.7 (the expanded photon-emission
+derivation, see Tier 1 item 5 below).
 
 ---
 
-## 📊 Missing Theoretical Results (Audit Table STUBs)
+### 2. Tick Scheduler Section
+**File:** `paper/sections/tick_scheduler.tex`
+**Status:** STUB
+**Why Tier 1:** This section is the backbone of the observer, decoherence, and gravity
+arguments. The conceptual material exists in notes; it must be formalized.
 
-### 7. Complete Theoretical Derivations
-**File:** `paper/sections/audit_table.tex` (lines 103, 108, 125)  
-**Required Derivations:**
-- Photon emission as A=1 necessity
-- Bekenstein-Hawking entropy derivation
-- Scheduler saturation at Planck density
-
----
-
-## 🖼️ Figure and Visualization Tasks
-
-### 8. Verify All Figures Exist and Are Referenced
-**Present Figures:**
-- causal_cone_screen.pdf/.png
-- dirac_cones_doublepane.pdf/.png
-- exp_00_cone_structure.pdf
-- exp_03_lanterns.pdf/.png
-- exp_08_deflection.gif, exp_08_emission.gif
-- exp_12_twobody_scan.pdf
-- lattice_drawio.png
-- exp_harmonic_hires.pdf/.png
-
-**Check:** All .tex files in `figures/` directory reference existing images
-
-### 9. Create Missing Figures
-- Phase rotor diagram (referenced but may need updating)
-- Any figures referenced in STUB sections
+**Required content:**
+- Scheduler state space (queue structure, registration model)
+- Irreversibility argument (why scheduler ordering is asymmetric in time)
+- Clock-registration mechanism (how an observer gets on the queue)
+- Queue saturation → Hawking radiation argument
+- Connection to P2 (minimum time-dilation quantum) and P4 (decay-rate correction)
 
 ---
 
-## 🔧 Build and Compilation
+### 3. Vacuum Twist Field Equations Section
+**File:** `paper/sections/vacuum_twist_field_equations.tex`
+**Status:** STUB after subsection 7.4
+**Why Tier 1:** This is the unification section. It currently stops just before the
+payoff — without the explicit field equation and its reductions, the paper's
+gravity/EM unification claim is hand-waved.
 
-### 10. Fix Paper Build System
-**Issue:** `makefile.mak` missing, build scripts failing  
-**Required:** Fix build.cmd/build.sh to work with current directory structure  
-**Goal:** Successfully compile main.pdf
+**Required content:**
+- Explicit unified field equation
+- Reduction to Maxwell (curl sector → EM)
+- Reduction to linearized Einstein (div sector → gravity)
+- Interpretation of curl vs div as the geometric origin of the two long-range forces
+- Cross-reference to exp_08 (which numerically demonstrates the curl/div distinction)
+
+---
+
+### 4. Build System Fix
+**Issue:** `makefile.mak` missing; build scripts failing.
+**Required:** Repair `paper/makefile` and `build.cmd` / `build.sh` to match the current
+directory structure. Goal: `main.pdf` compiles cleanly from a fresh checkout.
+**Why Tier 1:** Cannot release a paper that doesn't compile.
+
+---
+
+### 5. Photon Emission as A=1 Necessity — DONE (2026-04-25)
+**File:** `paper/sections/hydrogen_spectrum.tex`, `subsec:emission`
+**Status:** DONE — section expanded from ~24 lines to a six-paragraph derivation;
+audit table redirected from `\ref{sec:gravity}` STUB to `\ref{subsec:emission}` PASS
+with `exp_19c` cited as the numerical demonstration.
+
+**What landed:**
+- "Why a single session cannot emit" — cross-references the exp_11 n=2 collapse to
+  motivate the multi-session necessity.
+- "The three-session necessity" — A=1 forbids re-absorption; only a third session
+  can carry the inter-tongue phase gradient; recoil keeps the post-transition orbit
+  inside the lower tongue.
+- "Numerical demonstration (exp_19c)" — phase-rotation drain + recoil mechanism;
+  per-session amplitudes hold to 1.0000 across tested rates; orbits sit at tongue
+  boundaries.
+- "Three threads unified" — Zitterbewegung (mass + symmetry breaking), Arnold-tongue
+  lock-in (quantization), A=1 (forced session creation) as facets of one geometry.
+- "Contrast with QED" — no separately quantized field, no vacuum fluctuations.
+- "Falsifiable consequences" — clock-density correction to emission rates near
+  mass; tongue-width correction to Stark/Lamb. Both feed Predictions P5/P6.
+
+**Side fixes also landed:** added `\label{sec:predictions}` to predictions.tex
+(the new section's references depend on it).
+
+---
+
+## Tier 2: Required for Internal Consistency
+
+These are not publication blockers in the same sense as Tier 1, but the paper will
+have visible gaps without them.
+
+### 6. Phase Propagation Section
+**File:** `paper/sections/phase_propagation.tex`
+**Status:** STUB after subsection 5.2
+**Why Tier 2:** Ties the U(1) rotor to the lattice hop rule. Without it the Dirac
+derivation appears to come out of nowhere.
+
+### 7. Lattice Harmonics Section
+**File:** `paper/sections/lattice_harmonics.tex`
+**Status:** STUB
+**Why Tier 2:** exp_09 is one of the strongest numerical results. The section must
+connect:
+- spectral peaks
+- Arnold tongue boundaries
+- Farey hierarchy
+- fractal-dimension prediction
+- **tongue *width*** (per comment 2 — feeds P5)
+
+This section is also where the mass spectrum argument begins.
+
+### 8. Interference Section
+**File:** `paper/sections/interference.tex`
+**Status:** PARTIAL (figure exists, prose is stub)
+**Required:** Huygens-lantern interference theory tied to exp_03.
+
+---
+
+## Tier 3: Presentation and Infrastructure
+
+### 9. Figure Verification
+- Confirm every `.tex` in `figures/` references an existing image
+- Spot-check: harmonic landscape, double-slit / lantern figure, Dirac cones double-pane
+- Generate any figure referenced from a STUB section once that section is written
+
+### 10. Bibliography Completion
+**File:** `paper/paper-bib/references.bib`
+- Verify every `\cite{}` resolves
+- Add references introduced by Tier 1 sections (e.g., Susskind 1977 for staggered
+  fermions; lattice-QCD reviews for the rotational-invariance argument)
 
 ### 11. Update Paper Version and Status
-**Current:** "Working Paper -- Version 0.9"  
-**Required:** Update to final version when complete  
-**Remove:** DOI placeholder when publishing
+- Bump from "Working Paper 0.9" once Tier 1 lands
+- Remove DOI placeholder before publication
 
 ---
 
-## 📚 Bibliography and References
+## Tier 4: Optional but Strengthening
 
-### 12. Complete Bibliography
-**File:** `paper/paper-bib/references.bib`  
-**Required:** Verify all citations in paper have entries  
-**Add:** Any missing references for new content
+### 12. Bekenstein–Hawking Entropy Derivation
+`paper/sections/audit_table.tex` line 108. Reasonable to defer to a follow-on paper.
+
+### 13. Scheduler Saturation at Planck Density
+`paper/sections/audit_table.tex` line 125. Connects to Tick Scheduler section but
+not strictly required for the main argument.
+
+### 14. Additional Figures
+Phase rotor diagram, vacuum twist diagrams. Strengthen presentation; not blockers.
 
 ---
 
-## ✅ Final Validation Tasks
+## Final Validation
 
-### 13. Cross-Reference Validation
-- Ensure all section references (\ref{}) point to existing labels
-- Verify experiment citations match actual exp_XX names
-- Check figure references match existing files
+### 15. Cross-Reference Validation
+- All `\ref{}` resolve
+- All `exp_XX` mentions match the actual experiment names and PASS/FAIL status
+- All figure references point to existing files
 
-### 14. Content Consistency Check
-- Verify all experiments cited in paper match PASS status in audit table
-- Ensure theoretical claims match experimental results
-- Cross-reference with CLAUDE.md status updates
+### 16. Content Consistency
+- Audit-table claims match experimental results
+- CLAUDE.md status matches paper claims
+- New Tier 1 content is consistent with `notes/conservation_of_probability.md`,
+  `notes/two_session_bound_state.md`, `notes/photon_emission_from_A1.md`
 
-### 15. Final Read-Through and Proofreading
-- Grammar and clarity check
+### 17. Final Read-Through
+- Grammar, clarity
 - Mathematical notation consistency
 - Figure captions and table formatting
+- Tone: declarative for derived results, hedged only where genuinely uncertain
 
 ---
 
-## 🎯 Priority Order
+## Priority Summary
 
-**Immediate (Blockers):** 1, 10  
-**High:** 2, 3, 4, 5, 6  
-**Medium:** 7, 8, 9, 11, 12  
-**Low:** 13, 14, 15
+| Tier | Items | Reason |
+|------|-------|--------|
+| **Tier 1 (blockers)** | 1 Predictions, 2 Tick Scheduler, 3 Vacuum Twist, 4 Build, 5 Section 18.7 | Cannot release without these |
+| **Tier 2 (consistency)** | 6 Phase Propagation, 7 Lattice Harmonics, 8 Interference | Visible gaps |
+| **Tier 3 (presentation)** | 9 Figures, 10 Bibliography, 11 Versioning | Reviewer hygiene |
+| **Tier 4 (optional)** | 12 BH entropy, 13 Scheduler saturation, 14 Figures | Strengthen but not required |
+| **Final** | 15 Cross-refs, 16 Consistency, 17 Proofread | Last pass |
 
----
-
-## 📋 Key Notes Files for Reference
-
-**Essential for Predictions Section:**
-- `notes/falsifiable_predictions.md` - Specific falsifiable predictions with numbers
-- `notes/follow_on_implications.md` - Future paper ideas and implications
-- `notes/shortcomings_of_quantum_mathematics.md` - What the lattice framework fixes
-
-**Useful Background Notes:**
-- `notes/the_theme_of_the_paper.md` - Core reframing of QM axioms
-- `notes/conservation_of_probability.md` - THE central claim: A=1 is the only conservation law
-- `notes/deriving_dirac_from_hamiltonian.md` - 6-step continuum limit program
-- `notes/deriving_dirac_the_significance.md` - Why the derivation changes everything
-- `notes/lattice_harmonics.md` - For lattice harmonics section
-- `notes/vacuum_twist_field_equations.md` - For vacuum twist section
+**Bottom line:** the paper is one Predictions section, one Tick Scheduler section,
+one Vacuum Twist completion, and the expanded Section 18.7 away from being a
+reviewable manuscript. The build fix is mechanical.
 
 ---
 
-## 📈 Current Completion Status
+## Key Notes Files for Reference
 
-- ✅ **Major Theoretical Results:** All completed (Dirac derivation, A=1 conservation, etc.)
-- ✅ **Experiments:** All 19 experiments PASS with comprehensive documentation
-- ✅ **Core Paper Structure:** Main sections written with prose
-- ❌ **Predictions Section:** STUB (most critical missing piece)
-- ❌ **Build System:** Broken (immediate blocker)
-- ✅ **Figures:** Most exist, need verification
-- ✅ **Bibliography:** Needs final check
+**Essential for Tier 1 writing:**
+- `notes/falsifiable_predictions.md` — base material for Predictions section
+- `notes/comment_on_exp_19c.md` — text for Section 18.7 expansion
+- `notes/comment_on the_two_dimensional_arnold_tounges.md` — basis for new prediction P5
+- `notes/photon_emission_from_A1.md` — A=1 forcing of session creation
+- `notes/two_session_bound_state.md` — why the static well is incomplete
+- `notes/vacuum_twist_field_equations.md` — for Vacuum Twist section
+- `notes/lattice_harmonics.md` — for Lattice Harmonics section
 
-**Overall:** Paper is ~90% complete. Main remaining work is writing the predictions section and fixing the build system.</content>
-<parameter name="filePath">c:\dev\dcl\PAPER_COMPLETION_TODO_PRINTABLE.md
+**Background:**
+- `notes/the_theme_of_the_paper.md` — core reframing of QM axioms
+- `notes/conservation_of_probability.md` — A=1 as the sole conservation law
+- `notes/deriving_dirac_from_hamiltonian.md` — 6-step continuum limit
+- `notes/deriving_dirac_the_significance.md` — why the derivation matters
+- `notes/shortcomings_of_quantum_mathematics.md` — what the lattice fixes
+- `notes/follow_on_implications.md` — future-paper material
+
+---
+
+## Tone Guidance for Tier 1 Writing
+
+The paper now has the evidence to support confident, declarative framing for the
+core mechanisms. Suggested voice:
+
+- **Derived, not proposed:** "The photon session is forced by A=1 conservation"
+  (not "we conjecture that...").
+- **Topological / dynamical language:** "Arnold tongues are topological attractors
+  in the joint phase space" (per comment 2).
+- **Hedge only where genuinely uncertain:** speculative predictions (P3 octahedral
+  anisotropy) should still be marked as such.
+- **Cite the experiments inline:** every dynamical claim in Tier 1 sections should
+  point to the exp_XX that demonstrates it.

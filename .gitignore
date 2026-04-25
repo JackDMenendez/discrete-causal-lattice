@@ -8,7 +8,18 @@ __pycache__/
 .scratchpad
 # C extensions
 *.so
-
+# Block all Windows reserved device names
+nul
+aux
+con
+prn
+com1
+com2
+com3
+com4
+lpt1
+lpt2
+lpt3
 # Distribution / packaging
 .Python
 build/

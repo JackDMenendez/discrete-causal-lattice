@@ -133,7 +133,8 @@
 # Each makefile has a relative path to the project root, so we can define the 
 # location of the virtual environment and other directories relative to the 
 # project root.
-include $(RELATIVE_PATH)common.mak
+RELATIVE_PATH :=
+include common.mak
 
 SUBPROJECTS := paper src tests data figures
 
@@ -196,8 +197,8 @@ paper: $(PAPER_SUBPROJECTS)
 
 # Build each subproject in order
 $(PAPER_SUBPROJECTS):
-	@echo "============ Assembling $(@:assemble-%=%) ============"
-	$(MAKE) -C $(@:assemble-%=%) assemble	
+	@echo "============ Assembling $(@:paper-%=%) ============"
+	$(MAKE) -C $(@:paper-%=%) assemble	
 
 # The promote target depends on the final PDF being built in the paper subdir 
 # and then copies it to the stage directory

@@ -213,25 +213,108 @@ Experiment~16 is measuring both thresholds simultaneously.
 
 The two-session picture completes the photon emission mechanism.
 In the standard treatment, spontaneous emission is a separately
-postulated transition rate.
-In the $\Tdiamond$ framework it is a necessity of $\mathcal{A}=1$.
+postulated transition rate, and the radiated photon is a quantum of
+an independently quantized electromagnetic field driven by vacuum
+fluctuations.
+In the $\Tdiamond$ framework neither postulate is required.
+Emission is forced by $\mathcal{A}=1$ acting on the same two-body
+dynamics that produce the bound state in the first place.
 
-When the joint proton-electron resonance transitions from a higher
-Arnold tongue to a lower one (from $n{=}2$ to $n{=}1$, for instance),
-the amplitude displaced by the resonance jump cannot be absorbed by
-either existing session without violating $\mathcal{A}=1$.
-A third session is created --- the photon --- carrying the phase
-gradient change.
-The proton session adjusts its centre-of-mass to the new joint
-configuration; this adjustment is the recoil.
+\paragraph{Why a single session cannot emit.}
+A lone electron in a static Coulomb well has no mechanism to leave a
+bound resonance.
+Section~\ref{subsec:exp11} established this directly: at $n{=}2$ the
+fixed well is too shallow to hold the orbit, and the electron simply
+collapses without ever radiating.
+The proton's Zitterbewegung is what supplies the persistent
+symmetry-breaking phase exploration that lets the joint system find
+\emph{and leave} an Arnold tongue.
+Without an active second session there is no resonance to lock onto and
+no mechanism by which a locked state could destabilise into a lower one.
+Emission is therefore intrinsically a multi-session phenomenon ---
+single-particle quantum mechanics cannot describe it from within its own
+formalism.
 
-Emission is therefore a \emph{three-session event} from first principles:
-proton and electron transition jointly; photon is created to close the
-$\mathcal{A}=1$ accounting; proton absorbs recoil.
-No separate transition rate is postulated.
-The rate is determined by how quickly the joint resonance destabilises,
-which is in turn determined by the width of the Arnold tongue --- itself
-a function of the lattice geometry and the Coulomb strength alone.
+\paragraph{The three-session necessity.}
+When the joint proton--electron system transitions from a higher Arnold
+tongue to a lower one --- from $n{=}2$ to $n{=}1$, for instance --- the
+amplitude displaced by the resonance jump must go somewhere.
+$\mathcal{A}=1$ forbids it from being absorbed by either existing
+session: each session is independently norm-preserving at every tick,
+and the displaced amplitude carries the phase gradient of the inter-tongue
+difference, which is incompatible with the local phase structure of
+either bound session.
+The only $\mathcal{A}=1$-compatible resolution is the creation of a
+third session --- the photon --- whose initial phase gradient is exactly
+the inter-tongue difference and whose subsequent propagation is governed
+by the same tick rule that governs the other two.
+The proton centre-of-mass shifts to the new joint configuration; this
+shift is the recoil, and it is what keeps the post-transition orbit
+inside the lower tongue.
+
+\paragraph{Numerical demonstration (\texttt{exp\_19c}).}
+\texttt{exp\_19c} implements $\mathcal{A}=1$-preserving emission as a
+phase-rotation drain coupled to a recoil mechanism that transfers
+momentum between sessions when amplitude concentrates near the proton.
+Across all tested emission rates the per-session amplitudes remain at
+unity to machine precision (\texttt{amp\_e}=$1.0000$, \texttt{amp\_p}=$1.0000$,
+\texttt{amp\_$\gamma$}=$1.0000$), confirming that the dissipative
+process can proceed without violating the conservation law it derives
+from.
+The orbital response sits at the Arnold tongue boundary
+($r_\text{peak} \approx R_1$ to within $0.2\%$), consistent with the
+prediction that stable orbits occupy tongue \emph{boundaries} rather
+than mathematical resonance centres.
+This is the explicit numerical demonstration that emission and
+$\mathcal{A}=1$ are compatible only when the third (photon) session
+is present and the recoil channel is open.
+
+\paragraph{Three threads unified.}
+The three-session emission event ties together three results that
+appear separately elsewhere in this paper.
+First, Zitterbewegung is the source of rest mass
+(Section~\ref{sec:kinematics}) \emph{and} the source of the
+symmetry-breaking phase exploration that drives both initial locking
+(Section~\ref{subsec:exp12}) and eventual unlocking
+(this subsection).
+Second, Arnold tongue lock-in is what defines a quantized state
+(Section~\ref{subsec:exp11}); the tongue's finite width
+$\Delta\omega_\text{tongue}$ defines the boundary at which the lock
+breaks.
+Third, $\mathcal{A}=1$ is what forces the third session into existence
+the moment the lock breaks: the displaced amplitude has nowhere else
+to go.
+These are not three independent postulates.
+They are three facets of the same lattice geometry, and emission is
+where all three become visible in a single tick-by-tick process.
+
+\paragraph{Contrast with QED.}
+Quantum electrodynamics quantizes the electromagnetic field
+independently and invokes the vacuum mode structure to provide the
+density of final states that drives spontaneous emission.
+The $\Tdiamond$ framework does neither.
+There is one lattice, one conservation law, one tick rule.
+The photon is not a quantum of a pre-existing field --- it is a session
+that did not exist before the transition and exists afterwards because
+$\mathcal{A}=1$ required it.
+The agreement with QED at low energies is not assumed; it is a
+prediction to be checked against the corrections derived below.
+
+\paragraph{Falsifiable consequences.}
+Two corrections to the standard emission picture follow from the
+mechanism above.
+The first is a clock-density correction: a region of higher
+$\rho_\text{clock}$ slows the local tick rate
+(Section~\ref{subsec:time_dilation}), and the joint two-body resonance
+detunes accordingly, shifting the rate at which a tongue-jump can occur.
+This predicts a measurable change in spontaneous emission rates near
+mass concentrations beyond the gravitational redshift of the emitted
+photon's frequency.
+The second is a tongue-width correction: an external field of magnitude
+proportional to $\Delta\omega_\text{tongue}/2$ should be sufficient to
+pop an electron out of a resonance, giving a calculable departure from
+the QED Stark and Lamb predictions.
+Both predictions are developed in Section~\ref{sec:predictions}.
 
 \subsection{Connection to the Gravitational Programme}
 \label{subsec:hydrogen_gravity_link}

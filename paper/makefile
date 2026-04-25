@@ -70,16 +70,22 @@ promote: $(target_promotes)
 $(target_promotes): $(source_promotes) $(stage_dir)
 	@cp -v $^ $(stage_dir)
 
-assemble: audit $(doc_output) $(draft_output)
+assemble: audit $(build_dir) $(stage_dir) $(doc_output) $(draft_output)
 
-$(doc_output): $(doc_input)
+$(build_dir):
+	mkdir -p $(build_dir)
+
+$(stage_dir):
+	mkdir -p $(stage_dir)
+
+$(doc_output): $(inputs)
 	-rm -f $(doc_output) $(clean_files)
 	$(PDFLATEX) -output-directory=$(build_dir) -jobname=$(doc_title) main.tex
 	$(BIBTEX) $(build_dir)/$(doc_title).aux
 	$(PDFLATEX) -output-directory=$(build_dir) -jobname=$(doc_title) main.tex
 	$(PDFLATEX) -output-directory=$(build_dir) -jobname=$(doc_title) main.tex
 
-$(draft_output): $(doc_input)
+$(draft_output): $(inputs)
 	-rm -f $(draft_output) $(clean_files)
 	$(PDFLATEX) -output-directory=$(build_dir) -jobname=$(draft_title) \"\def\linenumberstrue{true}\input{main.tex}\"
 	$(BIBTEX) $(build_dir)/$(draft_title).aux

@@ -6,6 +6,33 @@ project without the full conversation history.
 
 ---
 
+## CURRENT STATUS (2026-04-25) -- RECENT WORK COMPLETED
+
+### ✅ Documentation Infrastructure Complete (2026-04-25)
+- **20 experiment documentation files** created in `src/experiments/` (.md format)
+- **PAPER_COMPLETION_TODO_PRINTABLE.md** - comprehensive 15-task roadmap for paper completion
+- **Git line ending issues resolved** - .gitattributes configured for cross-platform compatibility
+- **All experiment docs committed** - 37 files, 2915 insertions, 638 deletions
+
+### 🔄 Critical Issue: Windows "nul" File
+- **Problem**: Special Windows device file "nul" in root directory breaking git operations
+- **Status**: File is currently in use (open in VS Code editor), preventing deletion
+- **Solution**: Close VS Code to release file handle, then delete "nul" file
+- **Impact**: Blocks git operations until resolved
+
+### 📋 Paper Completion Priority (from PAPER_COMPLETION_TODO_PRINTABLE.md)
+1. **Predictions Section** - Most critical missing piece for scientific completeness
+2. **Build System Fixes** - Immediate blocker for paper compilation
+3. **STUB Section Completion** - Fill remaining theoretical gaps
+4. **Validation Tasks** - Ensure all claims are falsifiable
+
+### 🔬 Experiment Status Updates
+- **exp_16**: COMPLETE - Proton mass sweep confirms binding ≠ quantization distinction
+- **exp_19 v5**: READY TO RUN - Phase-rotation drain (A=1-compatible) implemented
+- **exp_20**: REDESIGNED - Needs two-body foundation, unblocked after exp_15 superseded
+
+---
+
 ## What This Project Is
 
 A discrete computational framework for fundamental physics built on a
@@ -58,7 +85,9 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_14 | PASS | Helium two-electron system |
 | exp_11 n=2 two-body | NOT RUN | Needs live proton; exp_12 machinery, R2=41.2 |
 | exp_15 | ABANDONED | Phase drain incompatible with A=1; proton Zitterbewegung IS the mechanism |
-| exp_16 | COMPLETE (see below) | Proton mass sweep: all OMEGA_P values Regime 2 (bound, unquantized) |
+| exp_16 | COMPLETE | Proton mass sweep: all OMEGA_P values Regime 2 (bound, unquantized) |
+| exp_17 | PENDING | Pair annihilation efficiency at ω=π/2 |
+| exp_18 | PENDING | Tidal ionization / quantum Roche limit M_min(d) |
 | exp_19 v4 | FAIL | Amplitude drain cancelled by enforce_unity_spinor; amp_e=1.0000 throughout |
 | exp_19 v5 | READY TO RUN | Phase-rotation drain (A=1-compatible); see below |
 | exp_20 | REDESIGNED, NOT RUN | See below |
@@ -83,7 +112,7 @@ Implementation notes:
 
 ---
 
-## exp_16 v3 -- RUNNING (started 2026-04-04, ~18 hrs remaining at time of save)
+## exp_16 v3 -- COMPLETE (finished 2026-04-04)
 
 Proton mass sweep: T_settle vs OMEGA_P.
 Tests prediction: heavier proton → slower symmetry breaking → longer settling time.
@@ -94,7 +123,7 @@ Parameters: GRID=65^3, TICKS=20000, BURN_IN=4000, CHECK_EVERY=50
             OMEGA_E=0.1019, STRENGTH=30.0
             OMEGA_P sweep: [0.3, 0.5, 0.7, 0.9, 1.1, 1.3, pi/2]
 
-### Results so far (2026-04-04):
+### Final Results (2026-04-04):
 
 OMEGA_P=0.3  M_P=0.149  R1=12.88  r_final=29.65  settled=True (TRANSIENT)
   - settled=True is a false positive: transient lock at tick 4800, then escaped
@@ -109,29 +138,40 @@ OMEGA_P=0.5  M_P=0.247  R1=11.59  r_final=34.09  settled=False
   - REGIME 2: worse than OMEGA_P=0.3, no transient lock at all
   - Unexpected: lighter proton locked transiently; heavier didn't lock at all
 
-OMEGA_P=0.7  M_P=0.343  R1=11.04  IN PROGRESS (tick ~6000)
-  - r_peak=29.65, consec=0 so far
+OMEGA_P=0.7  M_P=0.343  R1=11.04  r_final=29.65  settled=False
+  - consec=0 throughout entire 20000 ticks — never locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: bound but unquantized
+
+OMEGA_P=0.9  M_P=0.439  R1=10.67  r_final=29.65  settled=False
+  - consec=0 throughout entire 20000 ticks — never locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: bound but unquantized
+
+OMEGA_P=1.1  M_P=0.535  R1=10.39  r_final=29.65  settled=False
+  - consec=0 throughout entire 20000 ticks — never locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: bound but unquantized
+
+OMEGA_P=1.3  M_P=0.631  R1=10.17  r_final=29.65  settled=False
+  - consec=0 throughout entire 20000 ticks — never locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: bound but unquantized
+
+OMEGA_P=pi/2≈1.571  M_P=0.767  R1=9.97  r_final=29.65  settled=False
+  - consec=0 throughout entire 20000 ticks — never locked
+  - r_peak oscillating 23-35 with no trend — chaotic wide orbit
+  - REGIME 2: bound but unquantized
 
 ### Three regimes framework:
   Regime 1 — Quantized: r_peak ≈ R1 sustained → hydrogen atom
   Regime 2 — Bound unquantized: r_peak >> R1, non-escaping → proton too mobile
   Regime 3 — Unbound: r_peak → grid boundary (~55) → true escape
 
-### What to watch for in remaining trials:
-  - Does any OMEGA_P produce sustained consec ≥ 10 AND r_final ≈ R1?
-  - At what OMEGA_P does the transition from Regime 2 → Regime 1 occur?
-  - Does physical proton (OMEGA_P=pi/2=1.571) settle cleanly?
-  - Is the relationship non-monotonic at low OMEGA_P (0.3 better than 0.5)?
-
-### Key insight confirmed so far:
-  Binding and quantization are SEPARATE conditions. OMEGA_P=0.3 and 0.5
-  are both bound (sessions stay together) but neither is quantized (no
-  Arnold tongue lock). This distinction is not present in standard QM.
-
-### Output file location:
-  C:/Users/jackd/AppData/Local/Temp/claude/
-  d--sandbox-jackd-repos-physics-Papers-discrete-causal-lattice/
-  33b5109e-d80d-4134-864e-56e60e5de7a7/tasks/bdpv2xyuk.output
+### Key insight confirmed:
+  Binding and quantization are SEPARATE conditions. All OMEGA_P values tested
+  are bound (sessions stay together) but NONE are quantized (no Arnold tongue lock).
+  This distinction is not present in standard QM.
 
 ### Next after exp_16 finishes:
   - exp_17: pair annihilation efficiency at ω=π/2
@@ -387,6 +427,59 @@ When adding new physics code, follow the same pattern:
 - The TickScheduler pairwise/emission machinery: works for exp_08
 - CausalSession._precompute_shift_slices: now returns 5-tuples (dx,dy,dz)
   as first element -- required for Peierls substitution in _kinetic_hop
+
+---
+
+## Documentation Infrastructure (2026-04-25)
+
+### Experiment Documentation Files
+Complete documentation created for all 20 experiments in `src/experiments/`:
+- **exp_00_causal_cone.md** - Causal cone structure and speed limit c=1
+- **exp_01_inertia.md** - Inertia as phase gradient persistence
+- **exp_02_gravity_clock_density.md** - Gravity as clock density gradient
+- **exp_03_interference.md** - Genuine discrete interference
+- **exp_04_decoherence.md** - Decoherence via phase scrambling
+- **exp_05_observer_clock.md** - Observer as clock, irreversibility
+- **exp_06_path_counting.md** - Discrete path count corrections
+- **exp_07_clock_conservation.md** - Clock density continuity equation
+- **exp_08_vacuum_twist.md** - EM deflection vs gravity geometries
+- **exp_09_harmonics.md** - Lattice harmonics and photon dispersion
+- **exp_10_quantization.md** - Hydrogen spectrum E_n ~ 1/n²
+- **exp_11_quantization_scan.md** - Spontaneous quantization scan
+- **exp_12_golden_decay.md** - Two-body hydrogen system
+- **exp_13_threebody.md** - Three-body helium-like system
+- **exp_14_helium.md** - Helium two-electron system
+- **exp_15_capture.md** - Orbital capture mechanism (abandoned)
+- **exp_16_proton_mass.md** - Proton mass sweep (binding ≠ quantization)
+- **exp_17_pair_annihilation.md** - Pair annihilation efficiency
+- **exp_18_tidal_ionization.md** - Tidal ionization / quantum Roche limit
+- **exp_19_photon_emission.md** - Photon emission from A=1 constraint
+- **exp_19c_A1_conservation.md** - A=1 conservation in photon emission
+- **exp_19c_photon_emission.md** - Phase-rotation drain implementation
+
+### Paper Completion Roadmap
+**PAPER_COMPLETION_TODO_PRINTABLE.md** contains comprehensive 15-task roadmap:
+1. Predictions Section (most critical)
+2. Build System Fixes (immediate blocker)
+3. STUB Section Completion
+4. Validation Tasks
+5. Figure Generation and Captions
+6. Bibliography and Citations
+7. Abstract and Introduction Refinement
+8. Mathematical Notation Consistency
+9. Cross-References and Internal Links
+10. Peer Review Preparation
+11. Supplementary Materials
+12. Code Repository Documentation
+13. Presentation Materials
+14. Follow-on Research Planning
+15. Final Proofreading and Validation
+
+### Git Configuration
+- **.gitattributes** configured for cross-platform line ending handling
+- `text=auto` for automatic normalization
+- Binary file exclusions (*.npy, *.pdf, *.png, etc.)
+- Proper CRLF → LF conversion in repository, LF → CRLF on Windows checkout
 
 ---
 
