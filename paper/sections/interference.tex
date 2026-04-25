@@ -1,60 +1,257 @@
 % ============================================================
 % interference.tex
-% STATUS: PARTIAL -- figure written, prose stub remains
+% Section 10: Interference and the Huygens Lantern
 % Corresponds to: src/experiments/exp_03_interference.py
 %                 src/experiments/exp_04_decoherence.py
 % Figure: figures/exp_03_lanterns.tex / .pdf
 % ============================================================
 
-% Topics to cover:
-% - The Huygens Lantern in 3D
-%   - Each active node emits phase to all 6 neighbors per tick
-%   - Amplitude at target node = sum of all arriving complex amplitudes
-%   - Constructive: phases arrive aligned -> bright node
-%   - Destructive: phases arrive opposed -> dark node
-% - The double slit in the octahedral lattice
-%   - Barrier as a plane of nodes with zero hop probability
-%   - Two slit openings as the only active boundary nodes
-%   - Fringe pattern emerges from discrete path count differences
-% - Why complex amplitudes (not densities) are essential
-%   - Real positive densities cannot cancel
-%   - The phase must carry through to the summation
-% - Comparison: discrete fringe pattern vs continuous Fresnel prediction
-%   - Agreement at large distance (CLT regime)
-%   - Discrete corrections at small distance (falsifiable)
-% - The decoherence transition
-%   - Observer clock added at one slit
-%   - Phase scrambled -> fringes collapse to two-clump classical pattern
+\label{sec:interference}
 
-The double-slit experiment is the canonical test of wave-particle duality.
-On the $\Tdiamond$ lattice, the result follows from a single rule: complex
-amplitudes from two coherent sources accumulate at each node via the
-tick operator, and $|\psi|^2$ is taken only at the screen.
-No Huygens-Fresnel formula is used; the fringe pattern is an emergent
-consequence of lattice path counting.
+The double-slit experiment is the canonical test of wave--particle
+duality. Standard quantum mechanics treats the result as proof that
+matter is described by complex amplitudes; the lattice does not need
+to assume the result, because complex amplitudes are forced by the
+$\unity$ constraint and the bipartite tick rule
+(Section~\ref{sec:phase}). On the $\Tdiamond$ lattice the fringe
+pattern emerges from a single rule: complex amplitudes from coherent
+sources accumulate at each node via the tick operator, and
+$|\psi|^2$ is taken only at the screen. No Huygens--Fresnel formula
+is used; the result is a direct consequence of lattice path
+counting.
 
-Figure~\ref{fig:lanterns} shows the result for two coherent point sources
-separated by 24 nodes ($\omega = 0.15$, 55 ticks, screen at 32 nodes from
-the sources).
-The bright fringes at the screen --- the Huygens Lanterns --- emerge from
-constructive interference where the path-length difference is an integer
-multiple of the de Broglie wavelength $\lambda = 2\pi/k$.
-The dark troughs emerge from destructive interference where the phases
-arrive opposed.
-Both require complex amplitudes: classical real-positive densities cannot cancel.
+% ── 10.1 Why Complex Amplitudes Are Essential ────────────────────────────────
+\subsection{Why Complex Amplitudes Are Essential}
+\label{subsec:why_complex}
 
-The right panel of Figure~\ref{fig:lanterns} shows the 1D intensity profile
-at the screen.
-Adding a detector session co-located at one slit scrambles the local phase
-at every tick (\texttt{exp\_04}).
-The fringes collapse: the structured fringe pattern is replaced by a broad
-envelope with Michelson visibility $\mathcal{V} \approx 0$, consistent with
-the which-path information having been recorded.
-The decoherence is not applied by hand; it emerges from the clock
-interaction between the particle session and the detector session.
-The observer is a CausalSession.
+The lattice carries a complex spinor $(\psi_R, \psi_L)$ at every
+node, not a real probability density. The distinction is not
+cosmetic. Real positive densities cannot cancel: two amplitudes
+arriving at a node from different paths can only add constructively
+if they are real and positive. Destructive interference --- the
+dark fringes that distinguish quantum mechanics from any classical
+diffusion process --- requires that the contributions from different
+paths can have \emph{opposite signs}, and signed cancellation in the
+plane is the algebra of complex numbers.
+
+The bipartite tick rule produces complex amplitudes by construction.
+Each session's phase advances by $e^{-i\omega}$ per tick
+(Section~\ref{subsec:phase_oscillator}); a hop carries that phase
+along with the amplitude; arriving amplitudes at a shared node sum
+as complex numbers, and only after summation does the
+$\unity$-preserving step $\rho = |\psi_R|^2 + |\psi_L|^2$ project
+onto a probability. Two paths of equal length but different phase can
+arrive at the same node 180 degrees out of register and cancel
+exactly, producing a node where the probability is zero despite
+having received contributions from both sources.
+
+This is the structural reason quantum mechanics needs complex
+amplitudes: $\unity$ is the conservation of total probability, but
+the conservation is global. Locally the amplitudes can interfere,
+including destructively, and they do.
+
+% ── 10.2 The Huygens Lantern: Each Node a Secondary Source ───────────────────
+\subsection{The Huygens Lantern: Each Node a Secondary Source}
+\label{subsec:huygens_lantern}
+
+The lattice tick rule produces a discrete analogue of the
+Huygens--Fresnel principle without postulating it. At each macro-tick
+the amplitude at every active node propagates to all six basis
+neighbours --- three RGB-direction hops on even ticks and three
+CMY-direction hops on odd ticks (Section~\ref{sec:phase}). The
+amplitude at a destination node is the complex sum of the
+contributions arriving from its six neighbours, weighted by the hop
+probabilities of each.
+
+In the continuum limit this reproduces the Huygens construction: each
+illuminated point of space acts as a secondary source of spherical
+wavelets, and the field at any subsequent point is the integral of
+contributions from all such secondary sources. The lattice version
+is the same statement at finite spacing $a$, with the integral
+replaced by a sum over six neighbours per tick. The amplitude at the
+screen after $N$ ticks is the complex sum of all paths of length
+$N$ from source to destination, weighted by their cumulative tick
+phases.
+
+We refer to this construction as the \emph{Huygens lantern}: each
+active node of the lattice is a small lantern that radiates phase
+into its causal cone, and the bright spots at the screen are the
+locations where the lanterns' contributions arrive in phase.
+
+% ── 10.3 The Double-Slit Setup on the Lattice ────────────────────────────────
+\subsection{The Double-Slit Setup}
+\label{subsec:double_slit_setup}
+
+The double-slit geometry is implemented on a thin
+$30 \times 60 \times 5$ lattice, with the thin $z$-direction making
+the configuration effectively two-dimensional. A coherent point
+source at the left edge produces a wavefront that propagates
+diagonally along the RGB/CMY basis directions. A barrier in the
+middle of the lattice is implemented as a plane of nodes whose hop
+probability is set to zero: amplitude arriving at a barrier node is
+absorbed by the $\unity$-renormalisation step rather than transmitted
+through. Two slit openings, separated by 24 nodes, are gaps in the
+barrier where the hop rule is unmodified.
+
+The screen is a downstream plane at $x = 40$. The probability
+density at each transverse node of the screen is computed at the end
+of the run as $|\psi_R|^2 + |\psi_L|^2$, and the resulting profile is
+the interference pattern.
+
+Nothing in this setup invokes the Huygens--Fresnel formula. The
+barrier is a topological constraint on the hop rule; the slits are
+the absence of that constraint at two locations; the propagation is
+the standard tick rule (Section~\ref{sec:phase}); the screen is a
+read-out of the existing $\rho$ field. The fringe pattern is what the
+tick rule does, not what we ask it to compute.
+
+% ── 10.4 Fringe Formation and the Path-Length Condition ──────────────────────
+\subsection{Fringe Formation and the Path-Length Condition}
+\label{subsec:fringes}
+
+\paragraph{Numerical result (\texttt{exp\_03}).}
+Figure~\ref{fig:lanterns} shows the result for two coherent point
+sources separated by 24 nodes ($\omega = 0.15$, 55 ticks, screen at
+32 nodes from the sources). The bright fringes at the screen --- the
+Huygens lanterns --- emerge from constructive interference where the
+path-length difference between the two slits is an integer multiple
+of the de Broglie wavelength $\lambda = 2\pi/k$. The dark troughs
+emerge from destructive interference where the phases arrive
+opposed.
+
+The Michelson visibility of the fringe pattern,
+\begin{equation}
+    \mathcal{V} = \frac{I_\text{max} - I_\text{min}}{I_\text{max} + I_\text{min}},
+    \label{eq:visibility}
+\end{equation}
+exceeds $0.3$ in the coherent case --- well above the
+$\mathcal{V} = 0$ baseline that a classical intensity-sum would
+produce, and consistent with the genuine complex-amplitude
+interference that lattice path counting predicts.
+
+\paragraph{The path-length condition.}
+The bright-fringe positions on the screen are the lattice transverse
+nodes where the difference in path length from the two slits is an
+integer multiple of $\lambda = 2\pi/k$:
+\begin{equation}
+    \Delta L_n(y) = n\,\lambda, \qquad n = 0, \pm 1, \pm 2, \ldots,
+    \label{eq:fringe_condition}
+\end{equation}
+with $\Delta L_n(y)$ the path-length difference at transverse position
+$y$ on the screen. In the small-angle limit
+$\Delta L \approx d\,\sin\theta \approx d\,y/L$ for slit separation
+$d$, screen distance $L$, and transverse position $y$, so the fringe
+spacing is $\Delta y_\text{fringe} = \lambda L / d$. The lattice
+result reproduces this spacing in the long-wavelength continuum limit
+without invoking the formula --- the spacing is what the tick rule
+produces.
+
+% ── 10.5 Decoherence: Which-Path Information Collapses the Fringes ───────────
+\subsection{Decoherence: Which-Path Information Collapses the Fringes}
+\label{subsec:decoherence}
+
+\paragraph{Numerical result (\texttt{exp\_04}).}
+The right panel of Figure~\ref{fig:lanterns} shows the screen
+profiles in two configurations. The warm (orange) curve is the
+coherent case described in Section~\ref{subsec:fringes}. The cool
+(blue dashed) curve is the same setup with a detector session
+co-located at slit A. The detector is itself a $\unity$-conserving
+\texttt{CausalSession}; its only role is to register a clock at one
+of the two slits.
+
+Adding the detector session causes the scheduler to apply a phase
+exchange between the particle and the detector at every tick where
+both have amplitude at slit A
+(Section~\ref{subsec:binding}). The phase information that was
+encoded in the relative phase of the particle's two slit-paths is
+transferred into the detector's cone, where it is diluted among the
+detector's many degrees of freedom. The structured fringe pattern at
+the screen is replaced by a broad envelope: the Michelson visibility
+collapses to $\mathcal{V} \approx 0$.
+
+This is the standard which-path/decoherence result, but the lattice
+does not apply it as an additional postulate. The decoherence is the
+\emph{same} pairwise phase-exchange step that produces the apparent
+wavefunction collapse of Section~\ref{sec:observer}. The observer is
+a \texttt{CausalSession}; the measurement is a tick exchange at a
+shared node. No additional measurement axiom is required, and the
+particle's $\unity$ is preserved at every tick --- the lost
+information moves into the detector, it is not destroyed.
 
 \begin{figure}[ht]
   \centering
   \input{../figures/exp_03_lanterns}
 \end{figure}
+
+% ── 10.6 Discrete vs Continuous: Falsifiable Small-N Corrections ─────────────
+\subsection{Discrete versus Continuous: Falsifiable Corrections}
+\label{subsec:discrete_corrections}
+
+The fringe pattern computed from the lattice tick rule agrees with
+the continuum Huygens--Fresnel prediction in the long-wavelength
+limit ($N \gg 1$, $\lambda \gg a$). At small propagation distances
+$N$ --- specifically when the number of ticks separating source from
+screen is comparable to the lattice cutoff --- the discrete path
+counting differs from the Gaussian central-limit-theorem
+approximation underlying Fresnel diffraction.
+
+The exact lattice path count $P(N, \Delta x, \Delta y, \Delta z)$
+counts the number of distinct $N$-tick trajectories on the bipartite
+lattice that connect a source to a destination displaced by
+$(\Delta x, \Delta y, \Delta z)$. For large $N$, $P$ converges to the
+Gaussian envelope of standard diffraction theory; for small $N$, the
+discrete combinatorics deviate from the Gaussian by computable
+amounts, with the deviations concentrated at the highest spatial
+frequencies near the lattice cutoff.
+
+The size of these discrete corrections is set by the lattice spacing
+$a$ relative to the de Broglie wavelength. Standard
+single-photon-interferometry experiments operate at $\lambda \sim
+500\,\text{nm}$ and propagation distances $L \sim 1\,\text{m}$,
+giving $N \sim L/a$ that depends on the lattice calibration:
+
+\begin{itemize}
+    \item \textbf{Planck calibration} ($a \sim \ell_P$): $N \sim 10^{34}$,
+    putting any discrete correction far below experimental sensitivity.
+    \item \textbf{Compton calibration} ($a \sim \lambda_C$): $N \sim 10^{15}$,
+    still well above the small-$N$ regime where corrections are
+    measurable.
+\end{itemize}
+
+The first regime in which the discrete correction becomes potentially
+observable is at the highest-energy interferometry --- gamma-ray
+interference, X-ray diffraction at the Bragg edge, or atom
+interferometers operating on Compton-wavelength matter waves. The
+predictions section (Section~\ref{sec:predictions}) develops this in
+quantitative detail; here we note only that the discrete correction
+is computable from the path-counting machinery of \texttt{exp\_06}
+and constitutes a falsifiable departure from continuum
+Huygens--Fresnel diffraction at small $N$.
+
+% ── 10.7 The Born Rule from Path Counting ────────────────────────────────────
+\subsection{The Born Rule from Path Counting}
+\label{subsec:born_from_paths}
+
+The interference experiment also exhibits the Born rule directly. The
+probability $\rho(\mathbf{x})$ at a screen node is
+\begin{equation}
+    \rho(\mathbf{x}) = |\psi_R(\mathbf{x})|^2 + |\psi_L(\mathbf{x})|^2,
+    \label{eq:born_local}
+\end{equation}
+the standard $|\psi|^2$ rule. In the lattice this is not a postulate.
+It follows from $\unity$: the conserved quantity at every tick is
+$\sum_\mathbf{x} \rho(\mathbf{x}) = 1$, and on a bipartite spinor
+the only quadratic form in $(\psi_R, \psi_L)$ that is invariant under
+the tick-rule unitary evolution and that integrates to a constant is
+Eq.~\eqref{eq:born_local}.
+
+In other words, what is conserved is $|\psi|^2$, not $|\psi|$ or
+$\mathrm{Re}\,\psi$ or any other functional of the amplitude. The
+Born rule is the quadratic invariant of the tick rule under
+$\unity$, derived rather than postulated.
+
+The interference experiment makes this concrete: the amplitudes
+$\psi_R$ and $\psi_L$ at the screen are complex and can have any
+sign; the probability $\rho$ is real, non-negative, and integrates to
+unity. The relationship between them is forced by the conservation
+law, not chosen.

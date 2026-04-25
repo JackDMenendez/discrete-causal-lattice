@@ -1,209 +1,441 @@
 % ============================================================
 % vacuum_twist_field_equations.tex
-% Section 9: The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field
+% Section 9: The Vacuum Twist: Gravity, Electromagnetism, and the
+%            Unified Phase Field
 % ============================================================
 
-\section{The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}
 \label{sec:vacuum_twist}
 
-The $\unity$ framework unifies gravity and electromagnetism as two types of
-vacuum deformation: scalar divergences (gravity) and vector curls
-(electromagnetism).  Both emerge from the same phase field equation, with
-different source terms.  This section derives the unified field equations
-and shows that Maxwell's equations and the linearized Einstein equations
-are special cases.
+Standard physics treats gravity and electromagnetism as independent
+forces. They have different field contents (a metric tensor vs.\ a
+vector potential), different gauge structures (diffeomorphisms vs.\
+$U(1)$), and different reasons to exist (general covariance vs.\
+phase invariance of charged matter). That they are both consistent at
+the same point in spacetime is a coincidence the standard model leaves
+unaddressed.
 
-% ── 9.1 The Three Regimes of delta_phi ────────────────────────────────────────
-\subsection{The Three Regimes of $\delta\phi$}
-\label{subsec:three_regimes}
+The $\unity$ framework dissolves the coincidence.
+On the lattice, the two long-range forces are not independent --- they
+are the two channels of a Helmholtz decomposition of the phase
+gradient field, and both are populated by the same bipartite tick
+rule. The divergence channel produces gravity
+(derived end-to-end in Section~\ref{sec:gravity}); the curl channel
+produces electromagnetism (derived in this section, with the
+matter-side coupling forced by the tick rule and the field-side
+dynamics following from the standard lattice-gauge action of Wilson).
 
-The phase mismatch $\delta\phi$ governs particle dynamics through the
-probability partition $p_\mathrm{stay} = \sin^2(\delta\phi/2)$ and
-$p_\mathrm{move} = \cos^2(\delta\phi/2)$.  Three regimes correspond to
-Newton's three laws:
+The unification is not at the level of a single field equation. It is
+at the level of \emph{substrate and coupling}: both forces live on the
+same lattice, both couple to matter through the same Zitterbewegung
+parameter $\omega$, and both reduce to known physics in their
+continuum limits. What differs is which channel of the Helmholtz
+decomposition each populates.
 
-\begin{enumerate}
-\item \textbf{Rest mass ($\delta\phi$ uniform):} Symmetric Zitterbewegung
-    between sublattices.  $p_\mathrm{stay} = p_\mathrm{move} = 1/2$ for
-    $\delta\phi = \pi/2$.  The particle oscillates without net displacement
-    --- the lattice encoding of rest mass.
+% ── 9.1 The Two Channels: Helmholtz Decomposition ────────────────────────────
+\subsection{The Two Channels of Vacuum Deformation}
+\label{subsec:two_channels}
 
-\item \textbf{Momentum ($\delta\phi$ constant gradient):} Asymmetric bias
-    toward the direction of decreasing $\delta\phi$.  The particle drifts
-    with velocity $v \propto \sin(\omega)\,\sin(\theta)$, where $\theta$
-    is the gradient magnitude.  Straight-line motion emerges from U(1)
-    phase coherence --- Newton's First Law.
-
-\item \textbf{Acceleration ($\delta\phi$ changing gradient):} The gradient
-    curvature produces differential residence times across the wavefront.
-    Left and right sides of the packet experience different $p_\mathrm{stay}$,
-    steering the packet.  $F = \nabla(\delta\phi)$, $m = \sin(\omega)$,
-    $a = F/m$ --- Newton's Second Law.
-\end{enumerate}
-
-These are not postulates; they are geometric consequences of the bipartite
-tick rule.
-
-% ── 9.2 Gravity as Divergence of the Phase Field ─────────────────────────────
-\subsection{Gravity as Divergence of the Phase Field}
-\label{subsec:gravity_divergence}
-
-Clock density wells create $\nabla\cdot\phi \neq 0$.  Phase flows toward
-the source (always attractive).  Differential Zitterbewegung across
-wavefronts steers packets toward mass concentrations.
-
-The gravitational source term is the Laplacian of the clock density:
+A theorem of Helmholtz states that every sufficiently smooth vector
+field $\mathbf{v}(\mathbf{x})$ on $\mathbb{R}^3$ decomposes uniquely
+into a gradient part and a curl part:
 \begin{equation}
-    J_\mathrm{grav} = \kappa \nabla^2 \rho_\mathrm{clock},
-    \label{eq:grav_source}
+    \mathbf{v} = -\nabla\Phi + \nabla\times\mathbf{A}.
+    \label{eq:helmholtz}
 \end{equation}
-where $\kappa$ is a coupling constant determined by the lattice geometry.
-In the continuum limit, this produces the Poisson equation
-$\nabla^2 \phi = 4\pi G \rho$, with $\phi$ the Newtonian potential.
+The gradient part has $\nabla\times\mathbf{v} = 0$; the curl part has
+$\nabla\cdot\mathbf{v} = 0$. These are \emph{the} two long-range
+degrees of freedom of any smooth field on flat space, because the
+Laplacian factors as
+$\nabla^2 = \nabla(\nabla\cdot\,) - \nabla\times(\nabla\times\,)$.
+There is no third channel.
 
-\paragraph{Numerical verification (\texttt{exp\_08}).}
-A clock density well with $\rho_\mathrm{clock} = 10^3$ nodes$^{-3}$ produces
-deflection angles consistent with general relativity to $O(10^{-3})$ rad
-for light rays grazing the well edge.
+Applied to the phase gradient field on the lattice, the two channels
+have distinct physical character.
+The divergence channel
+$\nabla\cdot(\nabla\phi) = \nabla^2\phi$ measures sources and sinks of
+phase; it is a scalar and (near a localised source) always carries one
+sign. The curl channel records circulation of phase around closed
+loops; it is a tensor and admits two chiralities, corresponding to
+the two sublattices of the bipartite $\Tdiamond$ structure.
 
-% ── 9.3 Electromagnetism as Curl of the Phase Field ──────────────────────────
-\subsection{Electromagnetism as Curl of the Phase Field}
-\label{subsec:em_curl}
+The lattice populates both channels through the same tick rule. The
+divergence channel is populated by clock-density gradients --- a
+region with more registered sessions has more bookkeeping per
+macro-tick, and the resulting bias in the hop probability produces a
+scalar potential whose Laplacian is the source. The curl channel is
+populated by phase circulation around plaquettes --- a region where
+the relative phase between sublattices winds non-trivially around a
+closed lattice loop carries a tensor field strength whose source is
+the chiral matter current.
 
-Vacuum twists create $\nabla\times\phi \neq 0$.  Phase winds around the
-source (can attract or repel).  Two chiralities correspond to positive
-and negative charges.
+The two channels do not interfere with each other. Gravity acts on
+all matter (every session has a clock that contributes to
+$\rho_\text{clock}$); electromagnetism acts only on chiral matter
+(only sessions with a non-zero RGB/CMY imbalance couple to $A_\mu$).
+This selectivity is geometric, not phenomenological.
 
-The electromagnetic source term is the curl of the vector potential:
+% ── 9.2 The Divergence Channel: Gravity ──────────────────────────────────────
+\subsection{The Divergence Channel: Gravity (Recap)}
+\label{subsec:gravity_recap}
+
+The divergence-channel derivation is given end-to-end in
+Section~\ref{sec:gravity}. We summarise it here only for parallelism.
+
+The hop probability $p_\text{hop} = \cos^2(\delta\phi/2)$ with
+$\delta\phi = \omega + V$ expands in the weak-field limit as
+$p_\text{hop} \approx p_0 - m\,V$, where $V \propto -\rho_\text{clock}$
+is the topological potential induced by the clock-density gradient.
+Equilibrium of the resulting probability flux gives the Boltzmann
+distribution
 \begin{equation}
-    J_\mathrm{em} = \epsilon^{\mu\nu\rho\sigma} \partial_\nu F_{\rho\sigma},
-    \label{eq:em_source}
+    \rho_\text{clock}(\mathbf{x}) = \bar\rho\,
+    \exp\!\bigl(-\phi_\text{Newton}(\mathbf{x})/c^2\bigr),
+    \label{eq:boltzmann_clock_recap}
 \end{equation}
-where $F_{\rho\sigma} = \partial_\rho A_\sigma - \partial_\sigma A_\rho$ is
-the field tensor.  In the Lorenz gauge $\partial^\mu A_\mu = 0$, this
-reduces to the wave equation $\Box A^\mu = J^\mu$.
+which linearises to Poisson's equation
+$\nabla^2\phi_\text{Newton} = 4\pi G\,\rho_\text{mass}$ in the weak
+field. Newton's law of gravitation
+$\mathbf{F} = -GMm\,\hat{\mathbf{r}}/r^2$ follows from the Green's
+function of the Laplacian.
 
-Photons are excitations of the curl field: massless particles with
-spin-1, two polarization states (the two chiralities), and gauge invariance
-(the curl condition).
+Every step uses only the existing tick rule. No additional field is
+introduced. Gravity is, in this framework, the effective dynamics of
+clock density on the multi-session scheduler.
 
-\paragraph{Numerical verification (\texttt{exp\_19}).}
-Photon emission from orbital lock-in produces electromagnetic radiation
-with the correct $1/r$ falloff and polarization patterns.
+% ── 9.3 The Curl Channel: Matter-Side Derivation ─────────────────────────────
+\subsection{The Curl Channel: Matter-Side Derivation}
+\label{subsec:em_matter_side}
 
-% ── 9.4 The Unified Phase Field Equation ─────────────────────────────────────
-\subsection{The Unified Phase Field Equation}
-\label{subsec:unified_equation}
+The curl channel requires more architecture than the divergence
+channel, because the natural field carrying the curl is a vector
+$A_\mu$ rather than a scalar.
+This subsection derives the matter-side structure: the existence of
+the gauge field, its transformation law, the field strength $F_{\mu\nu}$,
+and the matter current $J^\mu$. Each is forced by the existing tick
+rule with no additional postulates.
 
-The vacuum phase field $\phi(x,y,z,t)$ satisfies the nonlinear wave equation
+\paragraph{The link variable is forced.}
+Each causal session carries a $U(1)$ phase
+(Section~\ref{subsec:phase_oscillator}). When a session hops from
+$\mathbf{x}$ to $\mathbf{x} + a\hat{\mu}$, its phase acquires a factor
+$\exp(i\,a\,A_\mu(\mathbf{x}))$ in addition to the Zitterbewegung
+phase $\delta\phi$. This is the Peierls substitution, already present
+in the lattice tick rule (\texttt{CausalSession.\_kinetic\_hop}).
+The natural object encoding this phase is the link variable
 \begin{equation}
-    \Box \phi - \sin^2(\phi/2)\,\phi = J_\mathrm{em} + J_\mathrm{grav},
-    \label{eq:unified_phi}
+    U_\mu(\mathbf{x}) = e^{i\,a\,A_\mu(\mathbf{x})} \in U(1),
+    \label{eq:link_variable}
 \end{equation}
-where $\Box = \partial_t^2 - c^2 \nabla^2$ is the d'Alembertian and the
-sources are
+living on the link from $\mathbf{x}$ to $\mathbf{x} + a\hat{\mu}$.
+$U_\mu$ is the most general $U(1)$-valued local object that can act
+on a hop without breaking locality. Its existence and its $U(1)$
+group structure are forced by the matter content (every session has a
+$U(1)$ phase, so the relative phase between sessions on adjacent
+nodes is a $U(1)$ element); they are not additional postulates.
+
+\paragraph{Gauge covariance of the tick rule.}
+Under a local $U(1)$ gauge transformation
+$\Lambda(\mathbf{x})$, the session phase, the gauge field, and the
+link variable transform as
 \begin{align}
-    J_\mathrm{em}  &= \epsilon^{\mu\nu\rho\sigma} \partial_\nu F_{\rho\sigma},
-    \label{eq:J_em} \\
-    J_\mathrm{grav} &= \kappa \nabla^2 \rho_\mathrm{clock}.
-    \label{eq:J_grav}
+    \psi(\mathbf{x}) &\to e^{i\Lambda(\mathbf{x})}\,\psi(\mathbf{x}),
+        \label{eq:psi_gauge} \\
+    A_\mu(\mathbf{x}) &\to A_\mu(\mathbf{x}) + \partial_\mu\Lambda(\mathbf{x}),
+        \label{eq:A_gauge} \\
+    U_\mu(\mathbf{x}) &\to e^{i\Lambda(\mathbf{x}+a\hat{\mu})}\,U_\mu(\mathbf{x})\,e^{-i\Lambda(\mathbf{x})}.
+        \label{eq:U_gauge}
 \end{align}
+The transformation of $U_\mu$ follows from
+$U_\mu = e^{i\,a\,A_\mu}$ and
+$a\,\partial_\mu\Lambda \approx \Lambda(\mathbf{x}+a\hat{\mu}) - \Lambda(\mathbf{x})$
+in the small-$a$ limit. Applying the transformation to the
+Peierls-coupled tick rule
+$\psi(\mathbf{x}+a\hat{\mu}) = U_\mu(\mathbf{x})\cdot(\text{tick}\,\psi)(\mathbf{x})$
+shows that the rule is gauge covariant: the new $\psi$ at
+$\mathbf{x}+a\hat{\mu}$ acquires the local phase
+$e^{i\Lambda(\mathbf{x}+a\hat{\mu})}$ exactly. Physical observables
+($|\psi|^2$, phase differences, $\unity$) are gauge invariant by
+construction.
 
-Special cases recover known physics:
+\paragraph{The plaquette is the field strength.}
+The smallest non-trivial closed loop on the lattice is a plaquette in
+the $(\mu, \nu)$ plane, traversed
+$\mathbf{x} \to \mathbf{x}+a\hat{\mu} \to \mathbf{x}+a\hat{\mu}+a\hat{\nu} \to \mathbf{x}+a\hat{\nu} \to \mathbf{x}$.
+The $U(1)$ holonomy around this loop is the Wilson loop
+\begin{equation}
+    W_{\mu\nu}(\mathbf{x}) =
+        U_\mu(\mathbf{x})\,U_\nu(\mathbf{x}+a\hat{\mu})\,
+        U_\mu^*(\mathbf{x}+a\hat{\nu})\,U_\nu^*(\mathbf{x}).
+    \label{eq:wilson_loop}
+\end{equation}
+Expanding $A_\mu(\mathbf{x}+a\hat{\nu}) \approx A_\mu(\mathbf{x}) + a\,\partial_\nu A_\mu$ for small $a$:
+\begin{equation}
+    W_{\mu\nu}(\mathbf{x})
+        \xrightarrow{a\to 0}
+        \exp\!\bigl(i\,a^2\,F_{\mu\nu}(\mathbf{x})\bigr),
+    \label{eq:wilson_to_F}
+\end{equation}
+with
+$F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$ the standard
+field strength tensor.
+$W_{\mu\nu}$ is gauge invariant: the corner gauge transformations of
+Eq.~\eqref{eq:U_gauge} cancel pairwise around the loop. So
+$F_{\mu\nu}$ emerges in the continuum limit as the smallest
+non-trivial gauge-invariant local operator built from link variables
+--- without postulating it.
+
+\paragraph{The Dirac current.}
+The bipartite tick rule with Peierls links is equivalent in the
+continuum limit to the lattice Dirac operator
+\begin{equation}
+    D_\text{lat}\,\psi(\mathbf{x}) = \frac{1}{2a}\sum_\mu \gamma^\mu
+    \bigl[
+        U_\mu(\mathbf{x})\,\psi(\mathbf{x}+a\hat{\mu})
+        - U_\mu^*(\mathbf{x}-a\hat{\mu})\,\psi(\mathbf{x}-a\hat{\mu})
+    \bigr],
+    \label{eq:lattice_dirac}
+\end{equation}
+where the $\gamma^\mu$ matrices are the ones derived in
+Section~\ref{subsec:dirac_limit} from the bipartite RGB/CMY
+structure (the equivalence between the alternating tick rule and the
+compact Dirac operator is the standard staggered-fermion result of
+Kogut and Susskind~\cite{kogutsusskind1975}).
+The matter action $S_\text{matter} = \sum_\mathbf{x} a^4\,\bar\psi(\mathbf{x})\,D_\text{lat}\,\psi(\mathbf{x})$
+varied with respect to $A_\mu$, using $\delta U_\mu = i\,a\,U_\mu\,\delta A_\mu$, gives
+\begin{equation}
+    \frac{\delta S_\text{matter}}{\delta A_\mu(\mathbf{x})}
+        = a^4\,\bar\psi(\mathbf{x})\,\gamma^\mu\,\psi(\mathbf{x}) + O(a),
+\end{equation}
+which in the continuum limit is the Dirac current
+\begin{equation}
+    \boxed{\;J^\mu(\mathbf{x}) = \bar\psi(\mathbf{x})\,\gamma^\mu\,\psi(\mathbf{x}).\;}
+    \label{eq:dirac_current}
+\end{equation}
+The matter current is forced by the bipartite structure; it is not
+postulated.
+
+% ── 9.4 Maxwell's Equations from the Wilson Action ───────────────────────────
+\subsection{Maxwell's Equations from the Wilson Action}
+\label{subsec:maxwell_from_wilson}
+
+The matter-side derivation of Section~\ref{subsec:em_matter_side}
+gives us the link variable, the field strength, and the matter
+current. To obtain a closed dynamical system we need an equation of
+motion for $A_\mu$ itself, which requires an action for the gauge
+field.
+
+The framework as currently formulated does not derive this action
+from the tick rule directly. Section~\ref{subsec:open_program} below
+sets out a programme by which the gauge action could be \emph{induced}
+from matter histories rather than postulated; that programme is
+left to a follow-on paper. For the present section we adopt the
+standard result of lattice gauge theory: locality, gauge invariance,
+minimality, and reflection positivity uniquely fix the gauge action
+to the Wilson form~\cite{wilson1974}
+\begin{equation}
+    S_\text{gauge}[U] = \frac{1}{g^2}
+        \sum_\text{plaquettes}\bigl(1 - \mathrm{Re}\,W_{\mu\nu}(\mathbf{x})\bigr).
+    \label{eq:wilson_action}
+\end{equation}
+Using the small-$a$ expansion
+$1 - \mathrm{Re}\,W_{\mu\nu} \approx 1 - \cos(a^2 F_{\mu\nu})
+\approx \tfrac{1}{2}a^4\,F_{\mu\nu}F^{\mu\nu}$, the continuum limit
+of Eq.~\eqref{eq:wilson_action} is
+\begin{equation}
+    S_\text{gauge} \;\xrightarrow{a\to 0}\;
+        \frac{1}{2g^2}\int d^4x\,F_{\mu\nu}\,F^{\mu\nu},
+    \label{eq:maxwell_action}
+\end{equation}
+the standard Maxwell action (with $g^2 = 2$ in our normalisation).
+Varying $S_\text{gauge} + S_\text{matter}$ with respect to $A_\mu$
+gives
+\begin{equation}
+    \boxed{\;\partial_\nu F^{\nu\mu} = J^\mu,\;}
+    \label{eq:maxwell_inhomogeneous}
+\end{equation}
+the inhomogeneous Maxwell equation. The homogeneous equation
+$\partial_{[\rho}F_{\mu\nu]} = 0$ is automatic from
+$F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$.
+
+% ── 9.5 Reductions and Numerical Confirmation ────────────────────────────────
+\subsection{Reductions and Numerical Confirmation}
+\label{subsec:em_reductions}
+
+Maxwell's equations as derived above reduce to the standard textbook
+results in their respective limits.
+
+\paragraph{Massless photon (vacuum).}
+With $J^\mu = 0$, Eq.~\eqref{eq:maxwell_inhomogeneous} becomes
+$\Box A^\mu - \partial^\mu(\partial\cdot A) = 0$.
+In Lorenz gauge $\partial\cdot A = 0$ this is the photon wave
+equation $\Box A^\mu = 0$. The photon is transverse with two
+polarisation states, corresponding to the two RGB/CMY chiralities of
+the lattice. Spin-$1$, masslessness, and gauge invariance are
+structural consequences of the derivation; none is postulated
+separately.
+
+\paragraph{Static charge (Coulomb's law).}
+With $\partial_t = 0$ and $\mathbf{J} = 0$, the spatial part of
+Eq.~\eqref{eq:maxwell_inhomogeneous} reduces to
+$\nabla\cdot\mathbf{E} = \rho$. The Green's function of the Laplacian
+gives
+$\mathbf{E} = q\,\hat{\mathbf{r}}/(4\pi r^2)$ for a point charge,
+which is Coulomb's law.
+
+\paragraph{Static current (Biot--Savart).}
+With $\partial_t = 0$ and $\rho = 0$, the spatial part is
+$\nabla\times\mathbf{B} = \mathbf{J}$. The Green's function gives the
+Biot--Savart law for the magnetic field of a current distribution.
+
+\paragraph{Numerical confirmation (\texttt{exp\_08}, \texttt{exp\_09},
+\texttt{exp\_19c}).}
+The qualitative structure of the curl channel is confirmed by
+\texttt{exp\_08}: a charged session in a dipole-aligned background
+deflects \emph{tangentially} (curl-like) at $33^\circ$ from the
+applied field and $30^\circ$ alignment with $\mathbf{V}\times\hat{z}$,
+while a session in a clock-density gradient deflects \emph{radially}
+(divergence-like, $-3.55$ nodes inward).
+The two channels are visibly distinct and behave as the geometry
+predicts.
+The photon dispersion relation derived from the Wilson action matches
+the lattice harmonic spectrum measured in \texttt{exp\_09}: linear
+band crossing at $k\to 0$ with the lattice cutoff modifying the
+high-frequency tail. Photon emission in the bipartite system,
+demonstrated in \texttt{exp\_19c} and discussed in
+Section~\ref{subsec:emission}, is the dynamical creation of a third
+session that closes the $\unity$ accounting when the
+electron--proton joint resonance jumps Arnold tongues. All three
+experiments confirm the curl-channel geometry.
+
+% ── 9.6 Honest Scope and the Path Forward ────────────────────────────────────
+\subsection{Honest Scope: What is Derived and What is Postulated}
+\label{subsec:honest_scope}
+
+The derivation of this section is asymmetric with the gravity
+derivation of Section~\ref{sec:gravity}, and it is worth being
+explicit about the asymmetry.
+
+The gravity derivation introduces no new field beyond what the tick
+rule already provides. Clock density $\rho_\text{clock}$ is a
+property of the multi-session scheduler; the divergence-channel
+dynamics is derived end-to-end from the existing tick rule.
+
+The electromagnetism derivation introduces the link variable
+$A_\mu$ as a $U(1)$-valued field on lattice links. Its existence and
+$U(1)$ group structure are forced by the matter content; its
+coupling to matter through Peierls substitution is forced by the
+existing tick rule; the field strength $F_{\mu\nu}$ and the Dirac
+current $J^\mu$ are forced by gauge invariance and the bipartite
+structure respectively. So far, nothing is postulated beyond the
+existing tick rule.
+
+What \emph{is} postulated is the Wilson action of
+Eq.~\eqref{eq:wilson_action}, the standard lattice-gauge prescription
+that closes the dynamical system. The Wilson action is uniquely fixed
+by locality, gauge invariance, minimality, and reflection positivity,
+but those criteria are themselves additional postulates external to
+the tick rule.
+
+In summary:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lll}
+\hline
+\textbf{Channel} & \textbf{Substrate} & \textbf{Field equation} \\
+\hline
+Divergence (gravity) & clock-density gradient & derived from tick rule \\
+Curl (electromagnetism) & $U(1)$ link variable & Wilson action postulate \\
+\hline
+\end{tabular}
+\end{center}
+
+The unification claim of this section survives the asymmetry, because
+the unification is at the level of substrate and coupling rather than
+at the level of a single field equation:
+
 \begin{itemize}
-\item \textbf{Massless limit ($\phi \to 0$):} $\Box \phi = J_\mathrm{em} +
-    J_\mathrm{grav}$.  The photon wave equation (EM) and linearized gravity.
-\item \textbf{No sources:} $\Box \phi - \sin^2(\phi/2)\,\phi = 0$.
-    The Klein-Gordon equation for massive scalar fields.
-\item \textbf{EM sources only:} Maxwell's equations in Lorenz gauge.
-\item \textbf{Gravitational sources only:} Linearized Einstein equations
-    in the weak-field limit.
+    \item Both forces share the same matter substrate (the bipartite
+    Zitterbewegung structure with $\unity$).
+    \item Both forces couple to matter through the same mechanism
+    (the topological-potential modification of the hop probability,
+    which manifests as a clock-density gradient for gravity and as a
+    Peierls phase for electromagnetism).
+    \item Both forces reduce to known physics in their continuum
+    limits (Newton from divergence, Maxwell from curl).
 \end{itemize}
 
-The nonlinearity $\sin^2(\phi/2)\,\phi$ encodes the Zitterbewegung mass
-term: for small $\phi$, $\sin(\phi/2) \approx \phi/2$, so
-$-(\phi/2)^2 \phi = -(\phi^3)/4$.  This is a $\phi^3$ self-interaction
-that stabilizes the vacuum and prevents runaway solutions.
+This is more than standard physics offers --- there, gravity and EM
+are independent theories with no shared substrate.
 
-% ── 9.5 Acceleration as Differential Zitterbewegung ─────────────────────────
-\subsection{Acceleration as Differential Zitterbewegung}
-\label{subsec:acceleration_zitter}
+% ── 9.7 Open: induced gauge action ───────────────────────────────────────────
+\subsection{Open Program: The Induced Gauge Action}
+\label{subsec:open_program}
 
-If $\delta\phi$ varies across the wavefront, left and right sides experience
-different residence probabilities:
-\begin{align}
-    p_\mathrm{stay}^\mathrm{left}  &= \sin^2(\delta\phi_\mathrm{left}/2),
-    \label{eq:p_stay_left} \\
-    p_\mathrm{stay}^\mathrm{right} &= \sin^2(\delta\phi_\mathrm{right}/2).
-    \label{eq:p_stay_right}
-\end{align}
-Differential residence times accumulate over ticks, steering the packet
-toward regions of lower $\delta\phi$ (higher kinetic probability).
+The natural route to closing the asymmetry of
+Section~\ref{subsec:honest_scope} is the Sakharov--Zeldovich induced
+action programme~\cite{sakharov1967}: the gauge action of
+Eq.~\eqref{eq:wilson_action} should not be postulated but should be
+\emph{induced} by integrating out matter sessions in a path-integral
+formulation of the tick rule.
 
-For small gradients, $p_\mathrm{stay} \approx 1/2 - (\delta\phi/2)\cos(\omega t)$,
-producing acceleration $a \propto \nabla(\delta\phi)$.  The equivalence
-principle follows: gravitational and inertial mass are identical because
-both arise from the same Zitterbewegung parameter $\omega$.
+Schematically, with $Z[U]$ the matter partition function in
+background $A_\mu$ and $S_\text{eff}[U] = -\log Z[U]$ the induced
+effective action,
+\begin{equation}
+    Z[U] = \det\bigl(D_\text{lat}[U]\bigr),
+    \qquad
+    S_\text{eff}[U] = -\mathrm{Tr}\,\ln D_\text{lat}[U].
+    \label{eq:induced_action}
+\end{equation}
+The standard expansion of $\mathrm{Tr}\,\ln D_\text{lat}[U]$ as a sum
+over closed lattice loops, combined with the locality + gauge
+invariance + minimality arguments, dominates the effective action at
+leading order with the Wilson plaquette form. This is a calculation
+that has been carried out in standard lattice gauge
+theory~\cite{kogutsusskind1975}; in the present framework it has
+not yet been done.
 
-\paragraph{Numerical verification (\texttt{exp\_08}).}
-Light deflection by clock density wells matches general relativity
-predictions to $10^{-3}$ rad precision.
-% Rest mass:      delta_phi uniform -> symmetric Zitterbewegung
-% Momentum:       constant phase gradient -> asymmetric bias -> drift
-% Acceleration:   changing phase gradient -> changing bias -> steering
-% These are Newton's three laws, derived from phase geometry.
+If the induced-action calculation succeeds, it converts the Wilson
+action from a postulate into a derived consequence of the bipartite
+tick rule under matter integration. The unification claim of this
+section then becomes single-equation: gravity from the divergence
+channel of the same tick rule that, through matter integration,
+generates the curl-channel dynamics.
 
-% 8.2 Gravity as Divergence of the Phase Field
-% ---------------------------------------------------------
-% Clock density well creates div(phi) != 0.
-% Phase flows toward the source (always attractive).
-% Differential Zitterbewegung across wavefront steers packet.
-% Schwarzschild metric emerges in continuum limit (Section 7).
+If the calculation produces a coupling of unexpected sign or magnitude
+--- or higher-loop terms that do not match standard QED at the
+expected order --- that is a falsifiable result. The induced
+$\beta$-function should match the QED $\beta$-function in the
+appropriate limit; deviations would constitute a prediction.
 
-% 8.3 Electromagnetism as Curl of the Phase Field
-% ---------------------------------------------------------
-% Vacuum twist creates curl(phi) != 0.
-% Phase winds around the source (can attract or repel).
-% Two winding directions = two charge signs.
-% Maxwell's equations emerge in continuum limit.
-% Connection to photon chirality: photons ARE the curl excitation.
+Three concrete tasks remain to close the gap:
 
-% 8.4 The Unified Phase Field Equation
-% ---------------------------------------------------------
-% Box(phi) = -sin^2(phi/2)*phi + J_em + J_grav
-% where:
-%   Box = d^2/dt^2 - c^2 * Laplacian  (d'Alembertian)
-%   J_em  = epsilon_munu * d^nu F^mu  (EM source)
-%   J_grav = kappa * Laplacian(rho_clock)  (gravitational source)
-%
-% Special cases:
-%   phi -> 0 (massless): wave equation -- photon
-%   No sources:          Klein-Gordon equation
-%   EM source only:      Maxwell's equations in Lorenz gauge
-%   Grav source only:    linearized Einstein (weak field)
+\begin{enumerate}
+    \item Construct a path-integral measure from the stochastic tick
+    rule. The framework already evolves complex spinors unitarily, so
+    the path integral exists implicitly --- this is a writing-down
+    exercise rather than a research-level question.
+    \item Compute the matter determinant
+    $\mathrm{Tr}\,\ln D_\text{lat}[U]$ explicitly, with the
+    bipartite RGB/CMY structure giving the specific $\gamma^\mu$
+    realisation. Standard lattice gauge theory machinery applies.
+    \item Extract the classical limit via stationary phase in the
+    small-$a$ expansion. Standard WKB in the lattice spacing.
+\end{enumerate}
 
-% 8.5 Acceleration as Differential Zitterbewegung
-% ---------------------------------------------------------
-% grad(delta_phi) across wavefront -> differential p_stay
-% -> differential residence time -> packet steers
-% No force vector required.
-% Equivalence principle: gravitational and inertial mass
-%   are the same p_stay = sin^2(delta_phi/2).
+These three tasks are well-defined, tractable, and free of
+conceptual mystery. They are deferred to a follow-on paper because
+their scope is substantial: the induced-action calculation is itself
+a paper-length project, with its own verification programme against
+QED precision tests ($g{-}2$, the Lamb shift, the $\beta$-function
+running). Folding it into the present paper would delay the
+manuscript indefinitely while the calculation is checked.
 
-% 8.6 The Fine Structure Constant (Revised)
-% ---------------------------------------------------------
-% alpha ~ ratio of EM twist amplitude to lattice spacing
-% The curl must be weak enough not to break bipartite vacuum structure.
-% Stability threshold gives alpha ~ 1/137 geometrically.
-% Cleaner derivation than v1.0 Gambler's Ruin -- to be completed
-% in exp_08_vacuum_twist.py.
-
-% 8.7 Solitons and Stable Particles
-% ---------------------------------------------------------
-% The nonlinear equation Box(phi) = -sin^2(phi/2)*phi
-% may have stable soliton solutions.
-% These solitons would be stable massive particles.
-% The particle spectrum could emerge from soliton topology.
-% Connection to topological quantum field theory.
-
-\textbf{[STUB -- see notes/vacuum\_twist\_field\_equations.md]}
+The current paper therefore claims the matter-side derivation
+honestly (Sections~\ref{subsec:em_matter_side}--\ref{subsec:em_reductions})
+and treats the Wilson action as the standard lattice-gauge postulate
+(Section~\ref{subsec:maxwell_from_wilson}), with the induced-action
+programme flagged as the path to fully closing the parallel with the
+gravity derivation. The gap is no longer a conceptual mystery; it is
+a calculation that has not yet been performed.

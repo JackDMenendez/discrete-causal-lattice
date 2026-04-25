@@ -133,19 +133,42 @@ but the explicit $T_H = \hbar c/(8\pi G M k_B)$ recovery is a follow-on.
 
 ---
 
-### 3. Vacuum Twist Field Equations Section
+### 3. Vacuum Twist Field Equations Section — DONE (2026-04-25)
 **File:** `paper/sections/vacuum_twist_field_equations.tex`
-**Status:** STUB after subsection 7.4
-**Why Tier 1:** This is the unification section. It currently stops just before the
-payoff — without the explicit field equation and its reductions, the paper's
-gravity/EM unification claim is hand-waved.
+**Status:** DONE — section rewritten as the scoped honest unification.
 
-**Required content:**
-- Explicit unified field equation
-- Reduction to Maxwell (curl sector → EM)
-- Reduction to linearized Einstein (div sector → gravity)
-- Interpretation of curl vs div as the geometric origin of the two long-range forces
-- Cross-reference to exp_08 (which numerically demonstrates the curl/div distinction)
+**What landed (seven subsections):**
+- 9.1 The Two Channels of Vacuum Deformation — Helmholtz decomposition
+  forces exactly two long-range channels; bipartite tick rule populates both.
+- 9.2 The Divergence Channel: Gravity (recap of Section 7).
+- 9.3 The Curl Channel: Matter-Side Derivation — U(1) link variable forced
+  by matter; Peierls-substituted tick rule is gauge covariant; plaquette
+  is F_μν in the continuum limit; Dirac current J^μ from variation.
+- 9.4 Maxwell's Equations from the Wilson Action — standard lattice-gauge
+  postulate; continuum reduction to Maxwell action; ∂_ν F^νμ = J^μ.
+- 9.5 Reductions and Numerical Confirmation — massless photon, Coulomb,
+  Biot-Savart; exp_08 (curl vs div), exp_09 (dispersion), exp_19c (emission).
+- 9.6 Honest Scope: What is Derived and What is Postulated — explicit
+  asymmetry table; unification at substrate + coupling, not single equation.
+- 9.7 Open Program: The Induced Gauge Action — Sakharov-Zeldovich route to
+  promote Wilson action from postulate to derived consequence; three
+  concrete tasks (path integral construction, matter determinant
+  computation, classical reduction); deferred to Paper 2.
+
+**Side fixes:** added bib entries for `wilson1974`, `kogutsusskind1975`,
+`sakharov1967` to references.bib.
+
+**Notes on the scope decision:** the original "single scalar phi field
+sourced by both J_grav and J_em" framing was found to be structurally
+unsound (Bianchi identity makes the EM source identically zero;
+scalar can't carry curl content). The rewrite replaces it with the
+two-channels-of-Helmholtz framing that is structurally correct.
+The induced-action programme is well-defined and tractable; no
+conceptual barrier remains, only a calculation deferred to Paper 2.
+
+**Reference notes for the section:** `notes/comment_on_vacuum_twist_field_equations.md`,
+`notes/em_derivation_attempt.md`, `notes/em_derivation_solution.md`,
+`notes/comment_on_em_derivation_attempt_printable.md`.
 
 ---
 
@@ -207,10 +230,29 @@ connect:
 
 This section is also where the mass spectrum argument begins.
 
-### 8. Interference Section
+### 8. Interference Section — DONE (2026-04-25)
 **File:** `paper/sections/interference.tex`
-**Status:** PARTIAL (figure exists, prose is stub)
-**Required:** Huygens-lantern interference theory tied to exp_03.
+**Status:** DONE — section expanded from 4 paragraphs + figure to seven
+subsections.
+
+**What landed:**
+- 10.1 Why Complex Amplitudes Are Essential — destructive interference
+  needs signed cancellation; A=1 forces the complex spinor.
+- 10.2 The Huygens Lantern: Each Node a Secondary Source — discrete
+  Huygens-Fresnel principle from the bipartite tick rule.
+- 10.3 The Double-Slit Setup — barrier as zero-hop plane, slits as
+  unmodified gaps, lattice geometry of the experiment.
+- 10.4 Fringe Formation and the Path-Length Condition — exp_03 result;
+  Michelson visibility V > 0.3; standard fringe spacing
+  Δy = λL/d in the long-wavelength limit.
+- 10.5 Decoherence: Which-Path Information Collapses the Fringes —
+  exp_04; the same pairwise phase-exchange step that produces apparent
+  collapse in Section 11; A=1 preserved throughout.
+- 10.6 Discrete versus Continuous: Falsifiable Corrections — exact
+  lattice path count vs Gaussian Fresnel envelope; small-N corrections
+  observable at high-energy interferometry; cross-ref to Section 12 P1.
+- 10.7 The Born Rule from Path Counting — ρ = |ψ_R|² + |ψ_L|² as the
+  quadratic invariant of the tick rule under A=1, derived not postulated.
 
 ---
 
