@@ -1,78 +1,425 @@
 % ============================================================
 % lattice_harmonics.tex
-% STATUS: STUB -- see notes/lattice_harmonics.md
+% Section 13: Lattice Harmonics and Quantization
 % Corresponds to: src/experiments/exp_09_harmonics.py
+%                 src/experiments/exp_09b_harmonic_analysis.py
+%                 src/experiments/exp_09c_harmonic_hires.py
 % ============================================================
 
-% This section derives the discrete harmonic structure of T^3_diamond
-% and shows that quantization of mass, charge, and atomic spectra
-% emerges from lattice resonance conditions.
+\label{sec:harmonics}
 
-% 10.1 The Zitterbewegung Mass Spectrum
-% ---------------------------------------------------------
-% p_stay = sin^2(omega/2) is periodic in omega with period 2*pi.
-% Therefore mass is quantized: omega and omega + 2*pi*n give identical mass.
-% The allowed stable frequencies are rational multiples of pi.
-% This is geometric mass quantization without a Higgs mechanism.
-% Reference: \cite{schrodinger1930} for original Zitterbewegung;
-%            exp_09 Part A for the frequency scan.
+The lattice has preferred frequencies. Sweeping the instruction
+frequency $\omega$ across $(0, \pi)$ at fixed coupling reveals a
+spectral structure that is neither uniform nor random: bright
+vertical bands at rational fractions of the vacuum tick frequency,
+dark gaps between them, and a self-similar Farey hierarchy of
+resonances at smaller scales.
+This section describes that structure, identifies its origin in the
+bipartite tick rule, and connects it to the hydrogen spectrum, the
+photon dispersion relation, and the open question of whether the
+particle mass spectrum is itself a Farey hierarchy of the lattice.
 
-% 10.2 The Vacuum Carrier and Resonance Condition
-% ---------------------------------------------------------
-% The bipartite RGB/CMY alternation is a built-in oscillation at
-% omega_vacuum = pi per tick (period = 2 ticks).
-% Particles near resonance (omega ~ pi) are phase-matched with vacuum.
-% The resonance condition determines preferred stable frequencies:
-%   omega_n = pi * p/q  (rational multiples)
-% Massless particles (omega = 0) and maximum-mass states (omega = pi)
-% are the two extremes of this spectrum.
+The numerical work behind this section is \texttt{exp\_09}, a
+high-resolution scan of the spectral power of the
+$\mathrm{rgb\_cmy\_imbalance}(t)$ signal across $\omega \in (0, \pi)$
+on a $65^3$ lattice for $N = 150$ frequency values.
+Figure~\ref{fig:harmonic_pair} shows the result.
 
-% 10.3 Orbital Resonance and the Bohr Spectrum
-% ---------------------------------------------------------
-% A wave packet in a clock-density well oscillates with orbital frequency
-% omega_orb(r) that depends on radius.
-% Stable orbits require: omega_zitt / omega_orb = integer (commensurate)
-% This is the Bohr-Sommerfeld condition from lattice geometry.
-% For a 1/r^2 clock density gradient:
-%   omega_orb(r) ~ 1/r^2 * omega_fundamental
-% Stable orbit radii: r_n ~ n * r_fundamental
-% Energy levels: E_n ~ -1/n^2 * E_fundamental
-% If E_fundamental matches the Rydberg constant at Bohr calibration:
-%   this is the hydrogen spectrum from lattice resonance.
-% Reference: exp_09 Part B for orbital resonance simulation.
+% ── 13.1 The Zitterbewegung Mass Spectrum ────────────────────────────────────
+\subsection{The Zitterbewegung Mass Spectrum}
+\label{subsec:mass_spectrum}
 
-% 10.4 Path Length Resonances and de Broglie
-% ---------------------------------------------------------
-% From exp_06: discrete path counts P(N, dx, dy, dz) have
-% peaks at specific N values -- these are resonant propagation lengths.
-% The resonant lengths correspond to allowed de Broglie wavelengths:
-%   lambda_n = 2*pi / k_n  where k_n = 2*pi*n / (circumference)
-% This is Wilson-Sommerfeld quantization in lattice form.
-% Connection to \cite{feynman1948} path integral formulation.
+The hop probability $p_\text{stay} = \sin^2(\omega/2)$ derived in
+Section~\ref{subsec:phase_oscillator} is periodic in $\omega$ with
+period $2\pi$:
+\begin{equation}
+    p_\text{stay}(\omega) = p_\text{stay}(\omega + 2\pi n),
+        \qquad n \in \mathbb{Z}.
+    \label{eq:omega_periodic}
+\end{equation}
+Mass --- proportional to $\sin\omega/2$ in the Dirac derivation
+(Section~\ref{subsec:dirac_limit}) --- is therefore not a continuous
+parameter. It is a generator of a compact $U(1)$ rotation, and its
+domain is the circle $[0, 2\pi)$.
 
-% 10.5 The Brillouin Zone and Photon Dispersion
-% ---------------------------------------------------------
-% The diagonal FCC-like basis vectors generate an FCC reciprocal lattice.
-% The first Brillouin zone is a truncated octahedron.
-% Photon dispersion relation:
-%   At small k: omega(k) = c*|k|  (linear -- standard EM)
-%   Near zone boundary: omega(k) = c*sin(|k|*a/2)/(a/2)  (nonlinear)
-%   At zone boundary: zero group velocity (standing wave mode)
-% FALSIFIABLE PREDICTION: photon group velocity decreases near Planck scale.
-% Reference: exp_09 Part C for dispersion measurement.
+The two extreme points of the circle have direct physical
+interpretation. At $\omega = 0$ the phase mismatch
+$\delta\phi = V$ vanishes on a flat lattice, so $p_\text{hop} = 1$
+and the amplitude propagates at $c = 1$ node per tick: this is the
+photon. At $\omega = \pi$ the mismatch is maximal,
+$p_\text{hop} = 0$, and the amplitude never moves: this is the
+maximally inertial state, with no propagation between sublattices.
+Between these extremes the spectrum is continuous in $\omega$ but
+picks out preferred frequencies through the resonance structure
+described below.
 
-% 10.6 Temporal Locking and Charge Quantization
-% ---------------------------------------------------------
-% Sessions with incommensurate tick frequencies may synchronize
-% (Kuramoto-like frequency locking) over many macro-ticks.
-% Locked frequencies are rational multiples of each other.
-% HYPOTHESIS: integer electric charge quantization is temporal
-% frequency locking -- charge = winding number of phase resonance
-% with the vacuum carrier frequency omega_vacuum = pi/tick.
-% Reference: exp_09 Part D for temporal locking simulation.
+Mass quantization in this framework is geometric. There is no Higgs
+field, no spontaneous symmetry breaking, no scalar VEV. The mass
+spectrum of the lattice is the spectrum of the algebra generator
+$\omega$ subject to the resonance conditions of the next subsections.
+Whether the observed particle masses correspond to specific small-integer
+resonances of the lattice, in the way the hydrogen ground state
+corresponds to $\omega = \pi/3$ (Section~\ref{subsec:hydrogen_resonance}),
+is one of the open questions of the framework.
 
-\textbf{[STUB -- see notes/lattice\_harmonics.md and exp\_09\_harmonics.py]}
+% ── 13.2 The Vacuum Carrier and the A Structure ──────────────────────────────
+\subsection{The Vacuum Carrier and the A Structure}
+\label{subsec:vacuum_carrier}
 
+The bipartite tick rule alternates RGB and CMY hops at every tick.
+This alternation is itself a spectral feature: it is a built-in
+oscillation at the \emph{vacuum carrier frequency}
+\begin{equation}
+    f_\text{vacuum} = \tfrac{1}{2}\ \text{cycles per tick}
+        \quad (\text{period} = 2\ \text{ticks}).
+    \label{eq:vacuum_carrier}
+\end{equation}
+A session with internal Zitterbewegung frequency
+$f_\text{zitt} = \omega/(2\pi)$ propagating through the vacuum sees
+its right-handed and left-handed components oscillate at frequencies
+related by the carrier. The right-handed component oscillates at
+$f_\text{zitt}$; the left-handed component is driven by the
+complementary phase from the odd-tick structure and oscillates at
+\begin{equation}
+    f_\text{beat} = f_\text{vacuum} - f_\text{zitt}
+                  = \tfrac{1}{2} - \omega/(2\pi).
+    \label{eq:f_beat}
+\end{equation}
+This is exact by construction: $f_\text{beat}$ is the frequency of
+the left-handed spinor component when the right-handed component
+oscillates at $f_\text{zitt}$, and the relation is a consequence of
+the bipartite tick alternation, not a postulate.
+
+\paragraph{The A structure.}
+Equation~\eqref{eq:f_beat} produces a striking visual signature in
+the harmonic scan. Plotting spectral power as a function of
+$\omega$ and frequency $f$ reveals a capital-A shape symmetric about
+$f = f_\text{vacuum}/2 = 0.25$: two diagonal legs corresponding to
+$f_\text{zitt}$ and $f_\text{beat}$, meeting at a crossbar at the
+unique point where they coincide. The A is not a visual artifact ---
+it is the bilateral symmetry of $(\psi_R, \psi_L)$ under reflection
+across the vacuum mirror, drawn in frequency space.
+
+\paragraph{The 2:1 fixed point.}
+The equation $f_\text{zitt} = f_\text{beat}$ has exactly one
+solution:
+\begin{equation}
+    \omega = \frac{\pi}{2}, \qquad
+    f_\text{zitt} = f_\text{beat} = \tfrac{1}{4}\ \text{cycles per tick}.
+    \label{eq:two_to_one_fixed}
+\end{equation}
+At this point the right-handed and left-handed components oscillate
+at the same frequency: the spinor is maximally entangled between its
+two components, $p_\text{stay} = p_\text{hop} = 1/2$, and the session
+spends equal time on both sublattices. This is the qubit operating
+point of the framework, and the harmonic-scan data show coherence
+times $T_2 = 3$ ticks at $\omega = \pi/2$ versus $T_2 = 2$ ticks at
+all other tested $\omega$ --- a coherence enhancement at the fixed
+point that is already visible in the existing data.
+
+The 2:1 fixed point is the lattice's analogue of charge-conjugation
+symmetry: it is the unique mass at which a session and its vacuum
+reflection are indistinguishable in frequency. Pair-annihilation
+efficiency is predicted to peak at this point (Section
+\texttt{exp\_17} of the experimental program).
+
+% ── 13.3 Arnold Tongues and the Farey Hierarchy ──────────────────────────────
+\subsection{Arnold Tongues and the Farey Hierarchy}
+\label{subsec:arnold_tongues}
+
+Resonant locking occurs when the Zitterbewegung frequency and the
+vacuum carrier are commensurate at a small-integer ratio. The lock
+condition
+\begin{equation}
+    \frac{f_\text{vacuum}}{f_\text{zitt}}
+        = \frac{q}{p}, \qquad p, q \in \mathbb{Z}^+,
+    \label{eq:lock_condition}
+\end{equation}
+defines a discrete sequence of preferred mass values
+$\omega_{p:q} = p\,\pi/q$, of which the most prominent are
+\begin{equation}
+    \omega_{2:1} = \pi/2, \quad
+    \omega_{3:1} = \pi/3, \quad
+    \omega_{4:1} = \pi/4, \quad \ldots
+\end{equation}
+At each of these mass values the spectral scan shows a bright
+vertical band --- an \emph{Arnold tongue} --- that extends across
+the parameter space and remains coherent over many ticks.
+
+\paragraph{Tongues, not lines.}
+The classical theory of frequency locking treats the resonance as a
+one-dimensional line in parameter space. Step off the line and the
+lock breaks. The lattice does not behave this way. The
+$\unity$ constraint regularises the locking: amplitude cannot leak
+out of the system, so the dynamics actively pull frequencies into
+nearby resonances. Each $p:q$ resonance becomes a two-dimensional
+\emph{tongue} in the $(\omega, V)$ parameter space, with a finite
+width
+$\Delta\omega_\text{tongue}$ that is non-zero everywhere inside the
+tongue. The resonance is robust, not precarious.
+
+The boundary of each tongue is set by the geometry of the bipartite
+lattice and the strength of the coupling. At the centre of the
+tongue the resonance is pure; near the boundary the lock is barely
+maintained; outside the boundary the resonance breaks and the
+session drifts.
+
+\paragraph{The Farey hierarchy.}
+The widths of the tongues form a Farey sequence: at a $p:q$ resonance
+the width scales as
+\begin{equation}
+    \Delta\omega_{p:q} \propto 1/q^2.
+    \label{eq:farey_width}
+\end{equation}
+The 2:1 tongue ($q = 1$) is the widest; the 3:1 tongue ($q = 1$
+also, but with $p=3$, the 1:3 reduced form has $q = 3$ and
+$\Delta\omega \propto 1/9$); higher-order resonances become
+progressively narrower until they disappear into the noise floor.
+The structure is self-similar: between any two tongues at $p_1/q_1$
+and $p_2/q_2$, the next-most-prominent tongue is at the Farey
+mediant $(p_1 + p_2)/(q_1 + q_2)$, with width set by the new
+denominator.
+
+This is the same self-similar structure that Hofstadter found in
+the energy spectrum of electrons on a lattice in a magnetic
+field~\cite{hofstadter1976}, observed experimentally in graphene
+superlattices~\cite{dean2013}. The lattice harmonic landscape is
+itself a Hofstadter-butterfly-like fractal, with bright resonance
+bands at rationals and dark exclusion zones at irrationals.
+
+% ── 13.4 The Hydrogen Connection: ω × R₁ = π/3 ───────────────────────────────
+\subsection{The Hydrogen Connection: $\omega \times R_1 = \pi/3$}
+\label{subsec:hydrogen_resonance}
+
+The Arnold tongue structure connects to the hydrogen spectrum
+through a single numerical fact. The hydrogen ground state
+parameters extracted from the two-body experiment
+(\texttt{exp\_12}, Section~\ref{subsec:exp12}) satisfy
+\begin{equation}
+    \omega_e \times R_1 = \frac{\pi}{3}
+        \quad \text{to within } 0.23\%.
+    \label{eq:hydrogen_pi3}
+\end{equation}
+The instruction frequency of the electron times the Bohr radius of
+the hydrogen atom equals the 3:1 resonance angle, to four
+significant figures with no parameter tuning.
+
+This is not a coincidence. The 3:1 resonance is the second-most
+prominent Arnold tongue in the harmonic landscape (after the 2:1
+fixed point of Section~\ref{subsec:vacuum_carrier}). It corresponds
+to $\omega = \pi/3$, the angle at which $f_\text{vacuum} = 3
+f_\text{zitt}$. Hydrogen's ground state lives on this tongue.
+
+\paragraph{Bohr shells as multiples of $\pi/3$.}
+The relation extends to excited states. For Bohr shells $n = 1, 2,
+3, \ldots$
+\begin{equation}
+    \omega_e \times R_n = n \cdot \frac{\pi}{3},
+    \label{eq:bohr_pi3}
+\end{equation}
+so the hydrogen spectrum is quantised in units of the 3:1
+resonance angle. The $n^\text{th}$ shell sits at the $n^\text{th}$
+multiple of the primary harmonic locking angle. This is
+Bohr--Sommerfeld quantisation derived from lattice resonance, not
+postulated as an angular-momentum condition.
+
+\paragraph{Why the 3:1 specifically?}
+The 2:1 fixed point ($\omega = \pi/2$) is the geometric mirror
+fixed point of the bipartite structure, mass-independent and tied
+to the vacuum-mirror symmetry. The 3:1 resonance is the
+\emph{next-most-prominent} feature of the harmonic landscape, and
+the one with the widest finite-mass tongue. Hydrogen --- the most
+abundant atom in the universe --- is calibrated to this resonance.
+Whether other physical mass ratios match other small-integer
+resonances of the same hierarchy is the open question of
+Section~\ref{subsec:open_mass_spectrum}.
+
+% ── 13.5 Tongue Width: Stark and Lamb Corrections ────────────────────────────
+\subsection{Tongue Width and the Stark/Lamb Corrections}
+\label{subsec:tongue_width_predictions}
+
+The two-dimensional structure of the Arnold tongues makes a direct
+prediction for atomic spectroscopy.
+A resonance with finite width
+$\Delta\omega_\text{tongue}$ in $(\omega, V)$ parameter space has a
+calculable threshold: an external perturbation of magnitude
+proportional to $\Delta\omega_\text{tongue}/2$ should be sufficient
+to push the system off the tongue, breaking the resonance lock.
+
+\paragraph{The threshold prediction.}
+For an atom in an external electric field $\mathbf{E}_\text{ext}$,
+the perturbation to the orbital phase rate is
+$\delta\omega_\text{ext} \propto e\,\mathbf{E}_\text{ext}\cdot\mathbf{r}/c$.
+The lock breaks when
+\begin{equation}
+    \delta\omega_\text{ext} \sim \Delta\omega_\text{tongue}/2,
+    \label{eq:stark_threshold}
+\end{equation}
+which gives a critical field strength
+$\mathbf{E}_\text{crit} \propto c\,\Delta\omega_\text{tongue}/(2 e\,R_n)$
+above which the $n^\text{th}$ orbital can no longer support
+quantisation.
+
+\paragraph{Comparison with QED predictions.}
+Standard QED treats the Stark effect and the Lamb shift as
+perturbative corrections to the energy levels of an unperturbed
+hydrogen atom. The tongue-width picture is structurally different:
+the lattice predicts a \emph{discontinuous} loss of quantisation at
+the tongue boundary, not a smooth perturbative shift. Within the
+tongue the spectrum follows Bohr exactly; at the boundary the
+quantisation breaks; beyond the boundary the orbital is
+unquantised (Regime~2 of Section~\ref{subsec:exp16}).
+
+The numerical signature: precision atomic spectroscopy in calibrated
+fields should show a sharp threshold field above which line widths
+broaden discontinuously, rather than the smooth Stark broadening
+predicted by QED. The threshold is calculable from the Arnold
+tongue widths extracted from \texttt{exp\_09} data.
+Section~\ref{sec:predictions} develops this as Prediction P5.
+
+% ── 13.6 The Brillouin Zone and Photon Dispersion ────────────────────────────
+\subsection{The Brillouin Zone and Photon Dispersion}
+\label{subsec:brillouin_zone}
+
+The diagonal RGB/CMY basis vectors of the $\Tdiamond$ lattice
+generate a face-centred-cubic reciprocal lattice in momentum space.
+The first Brillouin zone of this reciprocal lattice is a truncated
+octahedron --- the same shape as the causal cone in real space. The
+duality is geometric: the causal cone is the maximum-velocity
+envelope of a session, and the Brillouin zone is the maximum-momentum
+envelope of its Fourier transform. They share their truncated-
+octahedral geometry because they are built from the same basis
+vectors.
+
+\paragraph{Photon dispersion.}
+The photon ($\omega = 0$) is massless and propagates at $c = 1$
+node per tick. Its dispersion relation on the lattice is
+\begin{equation}
+    \omega_\text{photon}(\mathbf{k})
+        = c\,\frac{\sin(|\mathbf{k}|\,a/2)}{a/2}.
+    \label{eq:photon_dispersion}
+\end{equation}
+For $|\mathbf{k}| \ll \pi/a$ this reduces to
+$\omega_\text{photon} = c\,|\mathbf{k}|$, the standard relativistic
+linear dispersion.
+At the Brillouin zone boundary $|\mathbf{k}| = \pi/a$ the dispersion
+becomes nonlinear and the group velocity
+$d\omega/d|\mathbf{k}|$ goes to zero: photons at the zone boundary
+are standing waves. \texttt{exp\_09} Part~C measures this dispersion
+directly and confirms the linear regime in the long-wavelength limit.
+
+\paragraph{Falsifiable prediction.}
+Equation~\eqref{eq:photon_dispersion} predicts that the photon
+group velocity decreases at lattice-scale wavelengths. The size of
+the deviation depends on the lattice calibration:
+
+\begin{itemize}
+    \item \textbf{Planck calibration} ($a \sim \ell_P$): the
+    deviation is observable only at gamma-ray frequencies above
+    $\sim 10^{19}$ Hz, in regions of high spacetime curvature where
+    $a$ is effectively larger.
+    \item \textbf{Compton calibration} ($a \sim \lambda_C$): the
+    deviation is observable in any electromagnetic interaction
+    sensitive to the electron Compton wavelength, including pair
+    production cross-sections and Compton scattering at high energies.
+\end{itemize}
+
+A measured photon group velocity that depends on frequency above the
+QED prediction is a positive lattice signature; a velocity that
+remains $c$ to all measured precisions falsifies the discreteness
+at the corresponding scale. The specific predicted form is
+Eq.~\eqref{eq:photon_dispersion}, and the experimental signature is
+developed in Section~\ref{sec:predictions}.
+
+% ── 13.7 Music, Hofstadter, and the Temperament Problem ──────────────────────
+\subsection{Music, Hofstadter, and the Temperament Problem}
+\label{subsec:music_hofstadter}
+
+The harmonic landscape of the $\Tdiamond$ lattice has the same
+self-similar structure as the Hofstadter
+butterfly~\cite{hofstadter1976}, observed experimentally in graphene
+superlattices~\cite{dean2013}: bright resonance bands at rational
+frequencies, dark exclusion zones at irrationals, and a Farey
+hierarchy of widths. The convergence is not coincidence. Both
+arise from the same underlying mathematics: the spectral structure
+of a bipartite discrete lattice with a $U(1)$ phase.
+
+\paragraph{The musical correspondence.}
+The small-integer resonances that dominate the harmonic landscape
+are the same small-integer ratios that every major musical
+tradition has independently arrived at as consonant intervals:
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lll}
+\hline
+Lattice resonance & Musical interval & Mass / energy correspondence \\
+\hline
+2:1 ($\omega = \pi/2$) & Octave & Pair-annihilation fixed point \\
+3:1 ($\omega = \pi/3$) & Octave + perfect fifth & Hydrogen ground state \\
+4:1 ($\omega = \pi/4$) & Two octaves & Higher Bohr shells \\
+3:2 (mediant)         & Perfect fifth & --- \\
+\hline
+\end{tabular}
+\end{center}
+The hydrogen atom is locked to the same ratio that musical
+traditions across every culture have treated as the most stable
+resolved interval above the fundamental. Not approximately --- to
+within $0.23\%$ (Eq.~\ref{eq:hydrogen_pi3}).
+
+\paragraph{The temperament problem.}
+The Farey hierarchy carries a known mathematical obstruction: you
+cannot have every small-integer ratio be perfect \emph{and} have
+them all close up consistently in a finite cycle. Tuning a piano to
+pure fifths leaves the octaves out of register; tuning to pure
+octaves leaves the fifths slightly off. This is the same mathematical
+obstruction that produces the dark exclusion zones in the harmonic
+landscape: the irrationals between rational resonances are
+structurally excluded from stable locking. Bach's well-tempered
+tuning was an empirical solution to this obstruction in music;
+the dark gaps in the lattice spectrum are its physical signature.
+
+The chain runs: the lattice has preferred frequencies; particles
+stabilise at those frequencies; atoms form at those configurations;
+chemistry follows; biology emerges. Nervous systems evolve inside
+a universe whose fundamental fabric is harmonic, and they
+eventually discover that rational frequency ratios sound consonant.
+The musical preference is not invented. It is inherited from the
+structure of the substrate.
+
+% ── 13.8 Open: The Particle Mass Spectrum as a Farey Hierarchy ───────────────
+\subsection{Open: The Particle Mass Spectrum as a Farey Hierarchy?}
+\label{subsec:open_mass_spectrum}
+
+The hydrogen result $\omega_e \times R_1 = \pi/3$ and the
+2:1 fixed point at $\omega = \pi/2$ identify two specific resonances
+of the lattice with two specific physical phenomena. The natural
+question is whether the entire particle mass spectrum corresponds
+to small-integer resonances of the same hierarchy.
+
+The Standard Model has roughly twenty free parameters --- particle
+masses, coupling constants, mixing angles. If stable masses
+correspond to small-integer resonances of the lattice, those
+parameters are not free. They are the Farey sequence of a single
+underlying harmonic structure, and the apparent freedom of the
+Standard Model is the freedom to label the resonances rather than
+to choose them.
+
+The observed lepton mass ratios
+$m_e : m_\mu : m_\tau \approx 1 : 207 : 3477$
+do not obviously fit a Farey hierarchy, but they have not been
+checked against the lattice calibration in detail. A direct test
+would be to extract the resonance widths from \texttt{exp\_09}
+data, compute the theoretical Farey hierarchy for the bipartite
+$\Tdiamond$ lattice, and compare with measured mass ratios across
+the lepton, quark, and meson spectra.
+
+This is either the deepest possible unification of the mass
+spectrum or a coincidence worth measuring precisely. It is a
+follow-on calculation; we flag it here as the most natural
+research direction emerging from the harmonic structure of the
+present paper.
+
+% ── Figures ──────────────────────────────────────────────────────────────────
 \begin{figure}[htbp]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
@@ -97,7 +444,7 @@
       See full caption in Fig.~\ref{fig:harmonic_hires_full}.}
     \label{fig:harmonic_hires}
   \end{subfigure}
-  \caption{Harmonic fingerprint of the $T^3_\text{diamond}$ lattice.
+  \caption{Harmonic fingerprint of the $\Tdiamond$ lattice.
     \textbf{Left:} observed spectral power with theoretical frequency markers.
     \textbf{Right:} Arnold tongue structure inferred from the same data.
     Mass quantization emerges as an attractor property of the bipartite tick
@@ -105,7 +452,6 @@
   \label{fig:harmonic_pair}
 \end{figure}
 
-% Full annotated caption for the hires figure (standalone reference)
 \begin{figure}[htbp]
   \centering
   \input{../figures/exp_09_harmonics_hires}

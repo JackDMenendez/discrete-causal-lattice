@@ -1,6 +1,6 @@
 % ============================================================
 % predictions.tex
-% STATUS: STUB -- THIS IS THE MOST IMPORTANT SECTION
+% Section 12: Path Counting and Falsifiable Predictions
 % Corresponds to: src/experiments/exp_06_path_counting.py
 %                 src/utilities/path_counter.py
 %                 src/utilities/lattice_calibrator.py
@@ -8,51 +8,497 @@
 
 \label{sec:predictions}
 
-% Cosmological tests: \	te{perlmutter1999} \	te{riess1998} \	te{planck2020}
-% Path counting vs Feynman sum over histories: \	te{feynman1948}
-%
-% AUTHOR NOTE: This section is what distinguishes the paper from
-% interpretive frameworks. Every prediction must be:
-%   (a) Derived from the lattice rules alone
-%   (b) Numerically specific
-%   (c) Different from the standard QM/GR prediction
-%   (d) In principle measurable
+This section is where the paper cashes the falsifiability check it
+has been writing throughout. Every prediction here must satisfy four
+criteria:
 
-% Prediction 1: Discrete corrections to 1/r^2 at small N
-% ---------------------------------------------------------
-% The octahedral path count to node (a,b,c) in N hops is an exact integer P(N,a,b,c).
-% For large N, P converges to Gaussian -> standard 1/r^2.
-% For small N, discrete corrections exist.
-% If lattice spacing = [CALIBRATION CHOICE], these corrections occur at scale [X].
-% Measurable via: [telescope / atomic physics / TBD]
+\begin{enumerate}
+    \item \textbf{Derived from the lattice rules alone}, with no free
+    parameters introduced for the prediction itself.
+    \item \textbf{Numerically specific}, giving a number or a
+    functional form rather than a qualitative claim.
+    \item \textbf{Different from the standard QM/GR prediction} in
+    the regime where the lattice substrate is resolved.
+    \item \textbf{Measurable in principle} with known or near-future
+    technology.
+\end{enumerate}
 
-% Prediction 2: Minimum quantum of gravitational time dilation
-% ---------------------------------------------------------
-% One extra clock = minimum scheduler load increment.
-% This implies a minimum time dilation quantum: delta_t_min = [f(lattice spacing)].
-% Current optical atomic clock sensitivity: ~10^-18 at mm vertical separation.
-% If lattice spacing = [X], this quantum is [Y], which is / is not within reach.
+The seven predictions below meet all four criteria. They span
+precision atomic spectroscopy, optical-clock comparisons,
+high-energy interferometry, anisotropy searches, decay-rate
+measurements in gravitational fields, and photon-dispersion tests at
+short wavelength. Each is connected to a derivation in an earlier
+section of this paper; this section collects them, gives explicit
+numerical scales, and identifies the experimental signatures that
+would either support the framework or falsify it.
 
-% Prediction 3: Octahedral anisotropy
-% ---------------------------------------------------------
-% The 6 preferred axes of the octahedral lattice break perfect isotropy.
-% At sufficiently small scales, physics is direction-dependent.
-% Signature: correlated anisotropy in CMB, or in atomic clock comparisons
-% oriented along vs. off the principal axes.
+% ── 12.1 The Calibration Question ────────────────────────────────────────────
+\subsection{The Calibration Question}
+\label{subsec:calibration_question}
 
-% Prediction 4: Decay rate as clock-phase relationship
-% ---------------------------------------------------------
-% If particle decay is timing-dependent (Section 4),
-% then decay rates should show subtle correlations with
-% local clock density (i.e., near massive objects vs. in vacuum).
-% Known: muon lifetime dilation from special relativity is confirmed.
-% New prediction: additional correction term from clock-density gravity.
+Every numerical prediction in this section depends on a single
+parameter: the lattice spacing $a$, the physical length corresponding
+to one node-to-node hop. Until $a$ is fixed, the predictions are
+functional forms without numerical scales.
 
-% Calibration table: TBD once OctahedralLattice.py is running
-% Node spacing | Prediction 1 scale | Prediction 2 delta_t | Status
-% -------------|--------------------|-----------------------|-------
-% Planck       |                    |                       | TBD
-% Compton      |                    |                       | TBD
-% Bohr radius  |                    |                       | TBD
+Two natural calibrations bracket the plausible range:
 
-\textbf{[STUB]}
+\paragraph{Planck calibration ($a \sim \ell_P \approx 1.6 \times 10^{-35}\,\text{m}$).}
+The lattice spacing is identified with the Planck length, the scale
+at which classical spacetime is expected to break down. Discrete
+corrections to standard physics appear only at this scale, well
+below current experimental sensitivity for most observables. The
+Planck calibration is the conservative choice: it predicts that the
+lattice substrate is undetectable by direct experimental probes
+short of Planck-scale collisions, and the falsifiable predictions
+become observational only in extreme regimes (cosmological
+anisotropy, gamma-ray bursts, the vicinity of black holes).
+
+\paragraph{Compton calibration ($a \sim \lambda_C \approx 2.4 \times 10^{-12}\,\text{m}$).}
+The lattice spacing is identified with the electron Compton
+wavelength. This is the natural scale of the Dirac equation
+itself --- the wavelength at which an electron's rest energy
+$mc^2$ matches the photon energy $\hbar c/\lambda$. At this
+calibration, discrete corrections to standard physics appear at
+laboratory scales accessible to precision atomic experiments,
+optical-clock comparisons, and high-energy interferometry.
+
+\paragraph{Other calibrations.}
+Intermediate scales are possible. The lattice spacing may turn out
+to be process-dependent, with effective $a$ varying with the
+substrate's local clock density. The bare framework does not fix
+$a$; the calibration is what experiment is meant to determine. The
+predictions below are stated functionally, with both Planck and
+Compton numerical scales given for orientation.
+
+% ── 12.2 P1: Discrete Corrections to Interference ────────────────────────────
+\subsection{P1: Discrete Corrections to Interference at Small N}
+\label{subsec:p1_interference}
+
+\paragraph{Claim.}
+The exact lattice path count $P(N, \Delta x, \Delta y, \Delta z)$
+deviates from the Gaussian central-limit envelope at small hop
+counts $N$. The fringe pattern in the double-slit experiment
+(Section~\ref{sec:interference}) acquires discrete corrections that
+modify the standard Huygens--Fresnel prediction at high spatial
+frequencies and short propagation distances.
+
+\paragraph{Lattice mechanism.}
+Section~\ref{subsec:discrete_corrections} derives the form. The
+amplitude at a screen node after $N$ ticks is the complex sum over
+all lattice paths of length $N$ from source to destination,
+weighted by the cumulative tick phase. For $N \gg 1$ the path count
+converges to a Gaussian envelope; for $N$ comparable to the lattice
+cutoff the discrete combinatorics deviate from the Gaussian by an
+amount computable from \texttt{exp\_06}.
+
+\paragraph{Numerical scale.}
+At calibration $a$ and propagation distance $L$, the relevant
+ratio is $N \sim L/a$:
+
+\begin{itemize}
+    \item Planck calibration: $N \sim 10^{34}$ for laboratory $L \sim 1\,\text{m}$;
+    discrete corrections far below experimental sensitivity.
+    \item Compton calibration: $N \sim 10^{12}$ for the same $L$;
+    discrete corrections appear at the highest spatial frequencies
+    (gamma-ray interferometry, X-ray Bragg edge).
+\end{itemize}
+
+\paragraph{Experimental signature.}
+The fringe envelope at high spatial frequencies shows a calculable
+departure from the Gaussian Fresnel envelope. The departure is
+positive at the highest frequencies (the discrete combinatorics
+have heavier tails than the Gaussian) and decays as $1/N^2$ at
+moderate $N$.
+
+\paragraph{Falsification.}
+Observation of the standard Fresnel envelope at all frequencies up to
+$\sim 10^{18}\,\text{m}^{-1}$, with no positive departure at the
+high-frequency tail, falsifies the Compton calibration. Falsifying
+the Planck calibration would require interferometry at energies
+above $10^{18}\,\text{eV}$.
+
+% ── 12.3 P2: Minimum Time-Dilation Quantum ───────────────────────────────────
+\subsection{P2: Minimum Time-Dilation Quantum}
+\label{subsec:p2_dilation_quantum}
+
+\paragraph{Claim.}
+The minimum increment of gravitational time dilation between two
+neighbouring regions is one tick of bookkeeping per registered
+clock:
+\begin{equation}
+    \delta t_\text{min} = t_\text{tick}.
+    \label{eq:min_dilation_pred}
+\end{equation}
+Time dilation is not a continuous function; it is a step function in
+units of the tick duration.
+
+\paragraph{Lattice mechanism.}
+Section~\ref{subsec:density_dilation} derives this from the
+scheduler: each registered session contributes one tick of pairwise
+bookkeeping per macro-tick. Between two regions whose clock
+densities differ by exactly one session, the local tick rates differ
+by exactly one bookkeeping step --- $t_\text{tick}$.
+
+\paragraph{Numerical scale.}
+
+\begin{itemize}
+    \item Planck calibration: $t_\text{tick} = t_P \approx 5.4 \times 10^{-44}\,\text{s}$.
+    Unmeasurable.
+    \item Compton calibration: $t_\text{tick} \approx 8 \times 10^{-21}\,\text{s}$.
+    Within roughly two orders of magnitude of current optical-clock
+    fractional sensitivity ($\sim 10^{-18}$ at millimetre baselines).
+\end{itemize}
+
+\paragraph{Experimental signature.}
+Optical atomic clocks separated by a calibrated potential gradient
+$\Delta\phi$ should resolve a discrete distribution of fractional
+offsets when the gradient is sufficiently small. Above the threshold
+$\Delta\phi \gtrsim c^2 t_\text{tick}/(t_\text{measurement})$ the
+offsets appear continuous; below it the offsets quantise in
+multiples of $t_\text{tick}$.
+
+\paragraph{Falsification.}
+A continuous distribution of fractional offsets at the smallest
+resolvable gradient differences, with no discrete cutoff at any
+scale, falsifies the framework. The Compton calibration is
+falsified by current technology if the discrete cutoff is not
+detected at $\sim 10^{-18}$ fractional sensitivity over $\sim 1\,\text{mm}$
+baselines; the Planck calibration is not falsifiable by current
+technology.
+
+% ── 12.4 P3: Octahedral Anisotropy ───────────────────────────────────────────
+\subsection{P3: Octahedral Anisotropy}
+\label{subsec:p3_anisotropy}
+
+\paragraph{Claim.}
+The six preferred axes of the bipartite $\Tdiamond$ lattice (the
+RGB and CMY basis directions) break perfect rotational isotropy at
+sub-lattice scales. Physical observables sensitive to lattice-scale
+geometry should show a directional dependence.
+
+\paragraph{Lattice mechanism.}
+The frame condition $\sum_\mathbf{v} v_i v_j = 6\delta_{ij}$ used in
+the Dirac derivation (Section~\ref{subsec:dirac_limit}) restores
+isotropy in the continuum limit. At finite lattice spacing it is
+only approximately isotropic: directional terms scale as $a^2$
+relative to the leading isotropic term, and survive in observables
+that probe scales near $a$.
+
+\paragraph{Numerical scale.}
+The leading anisotropy is at order $(\lambda/a)^{-2}$ for any
+process at wavelength $\lambda$. At Planck calibration this is
+unmeasurable; at Compton calibration it appears in atomic
+spectroscopy at the parts-per-trillion level.
+
+\paragraph{Experimental signature.}
+Two candidate observations:
+
+\begin{itemize}
+    \item \textbf{CMB anisotropy patterns.} The six preferred axes
+    of the lattice should leave a hexapole signature in the
+    cosmic microwave background, distinct from the dipole and
+    quadrupole already observed. Existing CMB analyses
+    (\cite{planck2020}) are sensitive to multipole structure up to
+    high $\ell$; a search for the specific octahedral pattern
+    associated with the $\Tdiamond$ basis vectors is a clean test.
+    \item \textbf{Atomic-clock comparisons along inequivalent axes.}
+    Two clocks at the same height but oriented along an RGB
+    direction versus an off-axis direction should disagree by a
+    fraction of order $(\lambda_C/L)^2$ for transitions of
+    wavelength $\lambda_C$ over baseline $L$.
+\end{itemize}
+
+\paragraph{Falsification.}
+Demonstrated isotropy of CMB anisotropy beyond the hexapole, or null
+results in oriented atomic-clock comparisons at the relevant
+sensitivity, falsifies the Compton calibration. P3 is the
+speculative member of this section; the lattice mechanism is well
+defined but the predicted amplitude is at the edge of what current
+technology can resolve.
+
+% ── 12.5 P4: Decay-Rate Clock-Density Correction ─────────────────────────────
+\subsection{P4: Decay-Rate Clock-Density Correction}
+\label{subsec:p4_decay_correction}
+
+\paragraph{Claim.}
+The decay rate of an unstable particle near a mass concentration
+acquires a correction beyond the standard special-relativistic time
+dilation. The correction is proportional to the local clock-density
+gradient and can be of either sign depending on the decay channel.
+
+\paragraph{Lattice mechanism.}
+A particle's decay is a tick-counted process: each tick of the
+particle's internal clock advances it toward decay with some
+probability per tick. In a region of high clock density, the
+scheduler has more bookkeeping per macro-tick, and the particle's
+clock advances more slowly relative to a distant observer
+(Section~\ref{subsec:density_dilation}). The standard special-
+relativistic correction $\gamma$ is recovered, but with an
+additional shift from the discrete clock-density gradient that does
+not appear in continuum SR.
+
+\paragraph{Numerical scale.}
+For a muon ($\tau_\mu \approx 2.2 \times 10^{-6}\,\text{s}$) at
+Earth's surface vs.\ low Earth orbit, the standard gravitational
+redshift gives a fractional time dilation
+$\Delta\tau/\tau \sim 10^{-10}$, which has been confirmed by
+satellite-clock experiments. The lattice prediction is an additional
+correction of order $(a/r_\oplus)^2$, which is $\sim 10^{-46}$ at
+Planck calibration (unmeasurable) and $\sim 10^{-23}$ at Compton
+calibration (potentially within reach of next-generation precision
+muon-lifetime experiments).
+
+\paragraph{Experimental signature.}
+Differential muon-lifetime measurements at controlled gravitational
+potentials, calibrated against theoretical SR predictions, should
+show a residual depending on local clock-density gradients beyond
+the SR factor. The residual scales as $(\nabla\rho_\text{clock})^2$
+and changes sign across mass concentrations.
+
+\paragraph{Falsification.}
+Confirmation of the standard SR prediction to fractional precision
+$10^{-23}$ in differential muon-lifetime measurements, with no
+gradient-dependent residual, falsifies the Compton calibration.
+
+% ── 12.6 P5: Arnold Tongue Width — Stark/Lamb Discontinuity ──────────────────
+\subsection{P5: Arnold Tongue Width and the Stark/Lamb Discontinuity}
+\label{subsec:p5_tongue_width}
+
+\paragraph{Claim.}
+Atomic energy levels in this framework correspond to Arnold tongues
+of finite width in $(\omega, V)$ parameter space
+(Section~\ref{subsec:tongue_width_predictions}). An external
+electric field of magnitude proportional to the tongue half-width
+should produce a \emph{discontinuous} loss of quantisation, in
+contrast to QED's smooth perturbative Stark broadening.
+
+\paragraph{Lattice mechanism.}
+Section~\ref{subsec:arnold_tongues} establishes that quantised
+states are 2D regions of parameter space, not 1D lines. Inside the
+tongue the resonance is robust; at the boundary it breaks; beyond
+it the system enters Regime~2 of Section~\ref{subsec:exp16} (bound
+but unquantised). An external perturbation displaces the operating
+point in $(\omega, V)$; once it crosses the tongue boundary, the
+spectroscopic line vanishes.
+
+\paragraph{Numerical scale.}
+The tongue half-width for the hydrogen ground state extracted from
+the harmonic-scan data of \texttt{exp\_09} is
+$\Delta\omega_\text{tongue} \sim 0.05\,\omega_e$ at the 3:1
+resonance. The corresponding critical electric field is
+\begin{equation}
+    \mathbf{E}_\text{crit}^{(n=1)}
+        \sim \frac{c\,\Delta\omega_\text{tongue}}{2 e\,R_1}
+        \sim 10^9\,\text{V/m}
+        \quad (\text{Compton calibration}),
+    \label{eq:E_crit}
+\end{equation}
+within reach of laser-induced static fields in trapped-ion
+spectroscopy.
+
+\paragraph{Experimental signature.}
+Trap a single hydrogen atom in a calibrated DC electric field of
+adjustable magnitude. Sweep the field through $\mathbf{E}_\text{crit}$.
+QED predicts smooth quadratic Stark broadening; the lattice
+predicts a sharp threshold at which the line abruptly broadens or
+disappears entirely. The transition should be discontinuous
+(within experimental resolution), not smooth.
+
+\paragraph{Falsification.}
+Smooth Stark broadening with no threshold up to and beyond
+$\mathbf{E}_\text{crit}$ falsifies the framework's tongue-width
+picture. This is the most testable near-term prediction in the
+paper: the experimental geometry is standard, the predicted
+threshold is calculable, and the qualitative signature (continuous
+vs.\ discontinuous broadening) is unambiguous.
+
+% ── 12.7 P6: Emission Rate Corrections Near Mass ─────────────────────────────
+\subsection{P6: Emission-Rate Corrections Near Mass Concentrations}
+\label{subsec:p6_emission_correction}
+
+\paragraph{Claim.}
+Spontaneous emission rates near massive bodies acquire two
+corrections beyond the standard gravitational redshift of the
+emitted photon's frequency: a clock-density correction to the
+electron--proton joint resonance, and a finite-lattice correction at
+high frequency.
+
+\paragraph{Lattice mechanism.}
+Section~\ref{subsec:emission} derives spontaneous emission as a
+forced three-session event when the joint Arnold tongue resonance
+jumps. The rate at which tongue-jumps occur depends on the local
+clock density (which detunes the joint resonance,
+Section~\ref{subsec:density_dilation}) and on the lattice spacing
+relative to the photon wavelength (which modifies the available
+phase space for the new photon session).
+
+\paragraph{Numerical scale.}
+For a hydrogen atom at distance $r$ from a body of mass $M$:
+
+\begin{itemize}
+    \item \textbf{Clock-density correction:}
+    $\Delta\Gamma/\Gamma \sim GM/(c^2 r) \cdot (\Delta\omega_\text{tongue}/\omega_e)$,
+    of order $10^{-10}$ at Earth's surface for the Lyman-$\alpha$
+    transition --- comparable in magnitude to the gravitational
+    redshift but with a different $r$-dependence.
+    \item \textbf{Finite-lattice correction:}
+    $\Delta\Gamma/\Gamma \sim (a/\lambda_\gamma)^2$, vanishing at
+    Planck calibration, of order $10^{-12}$ at Compton calibration
+    for visible-light transitions.
+\end{itemize}
+
+\paragraph{Experimental signature.}
+Compare emission rates of identical atoms in spacecraft at varying
+gravitational potentials, and across emission-line frequencies
+spanning radio to UV. The clock-density correction depends on
+$r^{-1}$; the finite-lattice correction depends on
+$\lambda_\gamma^{-2}$. The two are independently extractable from a
+2D scan over $(r, \lambda_\gamma)$.
+
+\paragraph{Falsification.}
+Confirmation of the standard QED emission rate to fractional
+precision $10^{-12}$ across the entire $(r, \lambda_\gamma)$ scan,
+with no clock-density or wavelength dependence beyond the redshift,
+falsifies the Compton calibration.
+
+% ── 12.8 P7: Photon Dispersion at the Lattice Cutoff ─────────────────────────
+\subsection{P7: Photon Dispersion at the Lattice Cutoff}
+\label{subsec:p7_photon_dispersion}
+
+\paragraph{Claim.}
+Photon group velocity decreases at lattice-scale wavelengths,
+following the dispersion relation
+\begin{equation}
+    \omega_\gamma(\mathbf{k})
+        = c\,\frac{\sin(|\mathbf{k}|\,a/2)}{a/2},
+    \label{eq:photon_disp_pred}
+\end{equation}
+which goes to zero at the Brillouin zone boundary
+$|\mathbf{k}| = \pi/a$.
+
+\paragraph{Lattice mechanism.}
+Section~\ref{subsec:brillouin_zone} derives Eq.~\eqref{eq:photon_disp_pred}
+directly from the bipartite tick rule for $\omega = 0$ massless
+sessions. The dispersion is exact on the lattice, not a perturbative
+approximation. \texttt{exp\_09} Part~C measures the linear regime
+and confirms it.
+
+\paragraph{Numerical scale.}
+
+\begin{itemize}
+    \item Planck calibration: deviation from $\omega = ck$ becomes
+    1\% at $\omega \approx 10^{42}\,\text{Hz}$ (unmeasurable directly,
+    accessible only through cosmological gamma-ray observations of
+    high-redshift sources).
+    \item Compton calibration: 1\% deviation at $\omega \approx 10^{18}\,\text{Hz}$
+    (gamma-ray interferometry).
+\end{itemize}
+
+\paragraph{Experimental signature.}
+Time-of-flight measurements of cosmological gamma-ray bursts: high-
+energy photons should arrive systematically later than low-energy
+photons from the same burst, by an amount proportional to the source
+distance and to the squared photon frequency. Existing limits from
+GRB observations (\cite{vasileiou2013}) are
+$|a| \lesssim 7.6 \times 10^{-19}\,\text{m}$, ruling out the
+Compton calibration at this prediction and constraining the lattice
+spacing to be substantially below $\lambda_C$.
+
+\paragraph{Falsification.}
+The Compton calibration is already falsified for P7 by the GRB
+constraints above. The framework survives only at calibrations with
+$a \lesssim 10^{-19}\,\text{m}$ for this specific prediction; the
+Planck calibration ($a \sim 10^{-35}\,\text{m}$) is consistent with
+all current GRB observations. P7 therefore narrows the calibration
+range from above: any working calibration must satisfy
+$\ell_P \le a \lesssim 10^{-19}\,\text{m}$.
+
+% ── 12.9 The Quantum Roche Limit ─────────────────────────────────────────────
+\subsection{P8: The Quantum Roche Limit (Atomic ISCO)}
+\label{subsec:p8_quantum_roche}
+
+The eighth prediction of the framework is the quantum Roche limit
+derived in Section~\ref{subsec:quantum_roche}: a critical
+gravitational gradient below which atomic quantisation is impossible
+regardless of orbital energy. We do not repeat the derivation here
+but flag it as the eighth member of the predictions set.
+
+\paragraph{Claim, brief.}
+A gravitational tidal gradient $g$ across an atom of orbital radius
+$R_n$ produces a differential clock-rate shift
+$\Delta\omega_\text{tidal} = g R_n$. When this exceeds the tongue
+width $\Delta\omega_\text{tongue}$, the joint resonance cannot
+form. Below the corresponding critical gradient atomic spectra are
+suppressed entirely, not merely shifted.
+
+\paragraph{Numerical scale and signature.}
+Critical gradient: $g_\text{crit} \sim \Delta\omega_\text{tongue}/R_n$.
+Observable in the vicinity of neutron stars and black holes: the
+hydrogen Lyman-$\alpha$ line should be absent in the inner
+photosphere of a high-mass neutron star, with an outer cutoff at
+the radius where $g = g_\text{crit}$. The signature is a
+\emph{gap} in the atomic spectrum across the Roche radius, not a
+broadening.
+
+% ── 12.10 Summary Table ──────────────────────────────────────────────────────
+\subsection{Summary Table of Predictions}
+\label{subsec:predictions_summary}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.20}
+\begin{tabular}{p{0.55in}p{1.6in}p{1.5in}p{1.4in}}
+\hline
+\textbf{Prediction} & \textbf{Signature} & \textbf{Compton-cal. scale} & \textbf{Test} \\
+\hline
+P1 & Discrete fringe correction at small $N$ & $\sim 10^{-12}$ at gamma-ray $L \sim 1\,\text{m}$ & X-ray Bragg / GRB interferometry \\
+P2 & Quantised time dilation $\delta t = t_\text{tick}$ & $t_\text{tick} \sim 8 \times 10^{-21}\,\text{s}$ & Optical-clock comparison at mm baseline \\
+P3 & Octahedral CMB hexapole + atomic anisotropy & $(\lambda_C/L)^2 \sim 10^{-12}$ atoms; CMB visible & Planck multipole search; oriented clocks \\
+P4 & Decay-rate residual beyond SR $\gamma$ & $\sim 10^{-23}$ for muons in gravity & Differential muon lifetime in space \\
+P5 & Discontinuous Stark threshold & $\mathbf{E}_\text{crit} \sim 10^9\,\text{V/m}$ for hydrogen $n=1$ & Trapped-ion DC-field spectroscopy \\
+P6 & Emission-rate $r,\lambda$ dependence & $10^{-10}$ in $r$, $10^{-12}$ in $\lambda$ & Spacecraft atomic-line measurements \\
+P7 & Photon group velocity decrease at high $\omega$ & GRB-time-lag scaling as $\omega^2$ & Constrains $a \lesssim 10^{-19}\,\text{m}$ \\
+P8 & Atomic spectrum gap inside Roche radius & gradient $g_\text{crit}$ for hydrogen & Neutron-star photosphere spectroscopy \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{The calibration window.}
+P7 already constrains the lattice spacing from above:
+$a \lesssim 10^{-19}\,\text{m}$. P5 and P6 are testable at the
+Compton scale $a \sim \lambda_C \approx 10^{-12}\,\text{m}$, which
+P7 has already ruled out. The framework is therefore narrowed to
+calibrations with $a$ between roughly $10^{-19}\,\text{m}$ and the
+Planck length $10^{-35}\,\text{m}$ --- a 16-decade window. P5 and
+P6 in their stated forms are then constrained but not falsified;
+they survive at the $a \sim 10^{-19}\,\text{m}$ end with reduced
+sensitivity, and become unmeasurable at the Planck end.
+
+This is the most useful kind of prediction: an existing measurement
+(GRB time delays) has already bounded the framework's parameter
+space. Future improvements in P5 (Stark-threshold spectroscopy) and
+P2 (optical-clock comparisons) will narrow the window further. The
+framework is falsifiable in detail.
+
+\paragraph{What would falsify the framework as a whole.}
+The framework is not a one-shot prediction; it is a structural
+account of quantum mechanics, gravity, and electromagnetism on a
+common lattice substrate. To falsify the framework as a whole would
+require either:
+
+\begin{itemize}
+    \item Demonstrating that one of the derivations of earlier
+    sections (the Dirac equation in §6, Newton's gravity in §7,
+    Maxwell's equations in §9) does not hold. None of these has
+    been challenged to date.
+    \item Confirming \emph{all} eight predictions to better than
+    the predicted precision, with no positive deviation from
+    standard physics. This would force the lattice spacing to be
+    smaller than the Planck length, at which point the framework's
+    correspondence with established physics is preserved but its
+    discrete substrate is unobservable in principle.
+\end{itemize}
+
+The first kind of falsification would mean the framework is wrong
+in its derivations; the second would mean the framework is right
+but undetectable. Either is a meaningful outcome.

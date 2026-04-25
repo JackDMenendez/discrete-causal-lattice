@@ -33,12 +33,43 @@ and the completion of exp_19c. The major changes from the prior version:
 These are the remaining substantive obstacles to releasing the paper. Each must be
 written before the paper is reviewable.
 
-### 1. Predictions Section
+### 1. Predictions Section — DONE (2026-04-25)
 **File:** `paper/sections/predictions.tex`
-**Status:** STUB
-**Why Tier 1:** The paper claims falsifiability throughout. This section is where
-that claim is cashed out with explicit formulas, numerical scales, and proposed
-experiments.
+**Status:** DONE — section rewritten from STUB to ten subsections,
+covering eight predictions plus the calibration question and a summary
+table.
+
+**What landed:**
+- 12.1 The Calibration Question — Planck vs Compton vs other; predictions
+  as functional forms with calibration setting scale.
+- 12.2 P1 Discrete Interference Corrections — fringe envelope departure
+  from Gaussian Fresnel at small N; X-ray Bragg / GRB tests.
+- 12.3 P2 Minimum Time-Dilation Quantum — δt_min = t_tick; optical
+  clocks at mm baselines.
+- 12.4 P3 Octahedral Anisotropy — CMB hexapole + oriented atomic clocks.
+- 12.5 P4 Decay-Rate Clock-Density Correction — residual beyond SR γ.
+- 12.6 P5 Arnold Tongue Width / Stark Discontinuity — discontinuous
+  threshold vs QED's smooth broadening; E_crit ~ 10⁹ V/m at Compton.
+- 12.7 P6 Emission-Rate Corrections Near Mass — clock-density and
+  finite-lattice corrections; spacecraft tests.
+- 12.8 P7 Photon Dispersion at Lattice Cutoff — GRB time-of-flight
+  already constrains a ≲ 10⁻¹⁹ m (rules out Compton calibration).
+- 12.9 P8 Quantum Roche Limit / Atomic ISCO — neutron-star photosphere
+  spectrum gap.
+- 12.10 Summary Table — all eight predictions, calibration window
+  narrowed to 16 decades, two falsification routes stated.
+
+**Side fixes:**
+- Added `vasileiou2013` (Fermi-LAT GRB Lorentz-invariance bounds) to
+  references.bib.
+- Renamed predictions `subsec:calibration` → `subsec:calibration_question`
+  to avoid conflict with octahedral_substrate.tex.
+
+**Honest framing:** P7's GRB constraint already kills the Compton
+calibration; the Compton-scale numbers in P1–P6 are upper bounds at
+the surviving 10⁻¹⁹–10⁻³⁵ m range. P5 and P2 are the most testable
+in the near term. Two falsification routes stated: derivation flaw
+or all-eight-confirmation forcing a < ℓ_P.
 
 **Required for each prediction:**
 - explicit formula
@@ -236,18 +267,43 @@ have visible gaps without them.
 **Side fix:** added `\label{sec:causal_sessions}` to causal_sessions.tex
 so the new section's references resolve.
 
-### 7. Lattice Harmonics Section
+### 7. Lattice Harmonics Section — DONE (2026-04-25)
 **File:** `paper/sections/lattice_harmonics.tex`
-**Status:** STUB
-**Why Tier 2:** exp_09 is one of the strongest numerical results. The section must
-connect:
-- spectral peaks
-- Arnold tongue boundaries
-- Farey hierarchy
-- fractal-dimension prediction
-- **tongue *width*** (per comment 2 — feeds P5)
+**Status:** DONE — section rewritten from STUB to eight subsections,
+existing figures preserved.
 
-This section is also where the mass spectrum argument begins.
+**What landed:**
+- 13.1 The Zitterbewegung Mass Spectrum — sin²(ω/2) periodicity;
+  ω as compact U(1) generator; mass quantization as geometric, not Higgs.
+- 13.2 The Vacuum Carrier and the A Structure — f_vacuum = 0.5 cyc/tick;
+  f_beat = 0.5 - f_zitt; the A bilateral symmetry; 2:1 fixed point at
+  ω = π/2 as the unique self-mirror point (charge-conjugation analogue).
+- 13.3 Arnold Tongues and the Farey Hierarchy — lock condition,
+  tongues not lines (A=1 makes them 2D), Δω ∝ 1/q² Farey scaling,
+  Hofstadter-butterfly structure.
+- 13.4 The Hydrogen Connection: ω × R₁ = π/3 — to within 0.23%;
+  Bohr shells as multiples of π/3; why 3:1 specifically (after the
+  2:1 mirror fixed point).
+- 13.5 Tongue Width and Stark/Lamb Corrections — finite tongue width
+  in (ω, V) space gives critical field threshold; predicts
+  *discontinuous* loss of quantization vs QED's smooth perturbative
+  shift. Feeds P5.
+- 13.6 The Brillouin Zone and Photon Dispersion — FCC reciprocal lattice,
+  truncated-octahedron BZ; sin(ka/2)/(a/2) dispersion; group velocity
+  decreases at lattice scale; Compton-calibration test.
+- 13.7 Music, Hofstadter, and the Temperament Problem — small-integer
+  resonances = consonant intervals; dark gaps = wolf intervals; the
+  chain from lattice resonance to musical preference is inheritance,
+  not invention.
+- 13.8 Open: Particle Mass Spectrum as Farey Hierarchy? — Standard
+  Model parameters as Farey sequence, lepton ratios as test case;
+  flagged as natural research direction.
+
+**Citations used:** hofstadter1976, dean2013 (both already in bib).
+
+**Bonus:** The section makes the connection to the music/Hofstadter notes
+explicit and weaves in the physics-music correspondence in a way that
+reads as a derived result rather than philosophical asides.
 
 ### 8. Interference Section — DONE (2026-04-25)
 **File:** `paper/sections/interference.tex`
