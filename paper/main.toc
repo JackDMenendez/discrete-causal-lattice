@@ -1,100 +1,110 @@
-\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
-\contentsline {paragraph}{Relation to prior discrete spacetime programmes.}{6}{section*.2}%
-\contentsline {paragraph}{Methodology and the role of $\mathcal {A}=1$.}{7}{section*.3}%
-\contentsline {paragraph}{Computational resources.}{7}{section*.4}%
-\contentsline {paragraph}{Organisation of the paper.}{8}{section*.5}%
-\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{8}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Nodes, Edges, and Causal Adjacency}{9}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}The Bipartite Structure and Chirality}{9}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Same-Sublattice Exclusion}{10}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}The Causal Cone}{10}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Calibration and Physical Units}{12}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Relation to Prior Discrete Spacetime Frameworks}{12}{subsection.2.6}%
-\contentsline {section}{\numberline {3}Causal Sessions and the Phase Oscillator}{14}{section.3}%
-\contentsline {subsection}{\numberline {3.1}The Phase Oscillator: U(1) Group and Algebra}{14}{subsection.3.1}%
-\contentsline {paragraph}{The phase mismatch as local Hamiltonian.}{16}{section*.10}%
-\contentsline {paragraph}{Why this matters.}{16}{section*.11}%
-\contentsline {subsection}{\numberline {3.2}The Causal Session: Spinor Amplitude on the Lattice}{16}{subsection.3.2}%
-\contentsline {paragraph}{Massless sessions.}{17}{section*.12}%
-\contentsline {subsection}{\numberline {3.3}The Tick Rule as Gauge Transformation}{17}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Inertia as Phase-Gradient Stability}{17}{subsection.3.4}%
-\contentsline {paragraph}{Summary.}{18}{section*.13}%
-\contentsline {section}{\numberline {4}The Tick Scheduler}{18}{section.4}%
-\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{18}{section.5}%
-\contentsline {section}{\numberline {6}Emergent Kinematics: Momentum and Force in the $\mathcal {T}_{3d}$ Manifold}{18}{section.6}%
-\contentsline {section}{\numberline {7}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{18}{section.7}%
-\contentsline {subsection}{\numberline {7.1}The Bipartite Velocity}{19}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Phase Gradient as Momentum}{19}{subsection.7.2}%
-\contentsline {paragraph}{Massless limit.}{20}{section*.15}%
-\contentsline {paragraph}{Numerical verification.}{21}{section*.16}%
-\contentsline {subsection}{\numberline {7.3}Acceleration and Force}{21}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}The Continuum Limit: Emergence of the Dirac Equation}{21}{subsection.7.4}%
-\contentsline {paragraph}{The hop operator in Fourier space.}{21}{section*.17}%
-\contentsline {paragraph}{Isotropy: frame condition and octahedral symmetry.}{22}{section*.18}%
-\contentsline {paragraph}{The Dirac equation.}{22}{section*.19}%
-\contentsline {paragraph}{Summary of structural consequences.}{23}{section*.20}%
-\contentsline {section}{\numberline {8}Gravity as Clock Density}{23}{section.8}%
-\contentsline {subsection}{\numberline {8.1}The Clock Density Field}{24}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Gravitational Attraction as Refractive Bias}{24}{subsection.8.2}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_02}).}{24}{section*.21}%
-\contentsline {subsection}{\numberline {8.3}The Continuum Limit: Newtonian Gravity}{25}{subsection.8.3}%
-\contentsline {paragraph}{Step 1: Force from phase mismatch (Newton's second law).}{25}{section*.22}%
-\contentsline {paragraph}{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}{26}{section*.23}%
-\contentsline {paragraph}{The classical domain.}{27}{section*.24}%
-\contentsline {paragraph}{Structural consequence: the equivalence principle.}{27}{section*.25}%
-\contentsline {subsection}{\numberline {8.4}Gravitational Time Dilation as Scheduler Load}{27}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}Conservation of Clock Density}{28}{subsection.8.5}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{28}{section*.26}%
-\contentsline {subsection}{\numberline {8.6}Black Holes as Scheduler Saturation}{28}{subsection.8.6}%
-\contentsline {subsection}{\numberline {8.7}Connection to General Relativity}{29}{subsection.8.7}%
-\contentsline {subsection}{\numberline {8.8}The Quantum Roche Limit}{29}{subsection.8.8}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_18}).}{30}{section*.27}%
-\contentsline {paragraph}{Comparison with entropic gravity.}{31}{section*.29}%
-\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{31}{section.9}%
-\contentsline {subsection}{\numberline {9.1}The Global Clock Budget}{31}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}The Continuity Equation}{31}{subsection.9.2}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{32}{section*.30}%
-\contentsline {subsection}{\numberline {9.3}The Momentum Equation and Emergent Gravity}{32}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}The Clock Fluid as a Compressible Superfluid}{32}{subsection.9.4}%
-\contentsline {subsection}{\numberline {9.5}Gravitational Waves as Clock Fluid Phonons}{33}{subsection.9.5}%
-\contentsline {subsection}{\numberline {9.6}General Relativity as the Continuum Limit}{33}{subsection.9.6}%
-\contentsline {paragraph}{Discrete corrections.}{34}{section*.31}%
-\contentsline {subsection}{\numberline {9.7}Black Hole Formation as a Clock Fluid Shock Wave}{34}{subsection.9.7}%
-\contentsline {subsection}{\numberline {9.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{35}{subsection.9.8}%
-\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{35}{section*.32}%
-\contentsline {paragraph}{Plasma as a clock fluid phase.}{36}{section*.33}%
-\contentsline {paragraph}{The quantum Roche limit.}{36}{section*.34}%
-\contentsline {paragraph}{Open questions.}{37}{section*.35}%
-\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{37}{section.10}%
-\contentsline {section}{\numberline {11}Interference and the Huygens Lantern}{37}{section.11}%
-\contentsline {section}{\numberline {12}The Observer as Clock}{38}{section.12}%
-\contentsline {section}{\numberline {13}The Observer as a Clock}{38}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Observation as Clock Registration}{38}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Asymmetric Phase Exchange and Apparent Collapse}{39}{subsection.13.2}%
-\contentsline {paragraph}{The mechanism of apparent collapse.}{40}{section*.37}%
-\contentsline {subsection}{\numberline {13.3}Irreversibility and Entropy}{40}{subsection.13.3}%
-\contentsline {paragraph}{No special role for consciousness.}{40}{section*.38}%
-\contentsline {subsection}{\numberline {13.4}Entanglement as Correlated Cone Structure}{41}{subsection.13.4}%
-\contentsline {section}{\numberline {14}Path Counting and Falsifiable Predictions}{41}{section.14}%
-\contentsline {section}{\numberline {15}Lattice Harmonics and Quantization}{41}{section.15}%
-\contentsline {section}{\numberline {16}The Universe is a Fractal}{41}{section.16}%
-\contentsline {subsection}{\numberline {16.1}The Tick Rule is Symplectic}{42}{subsection.16.1}%
-\contentsline {subsection}{\numberline {16.2}The KAM Theorem Forces a Cantor Set}{43}{subsection.16.2}%
-\contentsline {subsection}{\numberline {16.3}The Hausdorff Dimension is a Prediction}{43}{subsection.16.3}%
-\contentsline {subsection}{\numberline {16.4}The Devil's Staircase and the Farey Hierarchy of Masses}{44}{subsection.16.4}%
-\contentsline {subsection}{\numberline {16.5}Connection to the Hofstadter Butterfly}{45}{subsection.16.5}%
-\contentsline {subsection}{\numberline {16.6}What It Means for the Universe}{45}{subsection.16.6}%
-\contentsline {section}{\numberline {17}The Hydrogen Spectrum from Lattice Geometry}{46}{section.17}%
-\contentsline {subsection}{\numberline {17.1}The Two-Session Requirement}{46}{subsection.17.1}%
-\contentsline {subsection}{\numberline {17.2}The Coulomb Clock-Density Well}{47}{subsection.17.2}%
-\contentsline {subsection}{\numberline {17.3}Bohr Spectrum from a Fixed Well}{47}{subsection.17.3}%
-\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{47}{section*.41}%
-\contentsline {subsection}{\numberline {17.4}Spontaneous Quantization and the Arnold Tongue}{48}{subsection.17.4}%
-\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{48}{section*.42}%
-\contentsline {subsection}{\numberline {17.5}Two-Body Hydrogen: Four Significant Figures}{48}{subsection.17.5}%
-\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{48}{section*.43}%
-\contentsline {subsection}{\numberline {17.6}Binding and Quantization are Separate Conditions}{49}{subsection.17.6}%
-\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{49}{section*.44}%
-\contentsline {subsection}{\numberline {17.7}Photon Emission as a Three-Session Event}{50}{subsection.17.7}%
-\contentsline {subsection}{\numberline {17.8}Connection to the Gravitational Programme}{50}{subsection.17.8}%
-\contentsline {section}{\numberline {18}Conclusion}{51}{section.18}%
+\contentsline {section}{\numberline {1}Introduction}{6}{section.1}%
+\contentsline {paragraph}{Relation to prior discrete spacetime programmes.}{9}{section*.2}%
+\contentsline {paragraph}{Methodology and the role of $\mathcal {A}=1$.}{9}{section*.3}%
+\contentsline {paragraph}{Computational resources.}{10}{section*.4}%
+\contentsline {paragraph}{Organisation of the paper.}{10}{section*.5}%
+\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{11}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Nodes, Edges, and Causal Adjacency}{11}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The Bipartite Structure and Chirality}{12}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Same-Sublattice Exclusion}{12}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}The Causal Cone}{14}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Calibration and Physical Units}{14}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Relation to Prior Discrete Spacetime Frameworks}{16}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Causal Sessions and the Phase Oscillator}{16}{section.3}%
+\contentsline {subsection}{\numberline {3.1}The Phase Oscillator: U(1) Group and Algebra}{16}{subsection.3.1}%
+\contentsline {paragraph}{The phase mismatch as local Hamiltonian.}{18}{section*.10}%
+\contentsline {paragraph}{Why this matters.}{18}{section*.11}%
+\contentsline {subsection}{\numberline {3.2}The Causal Session: Spinor Amplitude on the Lattice}{18}{subsection.3.2}%
+\contentsline {paragraph}{Massless sessions.}{19}{section*.12}%
+\contentsline {subsection}{\numberline {3.3}The Tick Rule as Gauge Transformation}{19}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Inertia as Phase-Gradient Stability}{19}{subsection.3.4}%
+\contentsline {paragraph}{Summary.}{20}{section*.13}%
+\contentsline {section}{\numberline {4}The Tick Scheduler}{20}{section.4}%
+\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{20}{section.5}%
+\contentsline {section}{\numberline {6}Emergent Kinematics: Momentum and Force in the $\mathcal {T}_{3d}$ Manifold}{20}{section.6}%
+\contentsline {section}{\numberline {7}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{20}{section.7}%
+\contentsline {subsection}{\numberline {7.1}The Bipartite Velocity}{21}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Phase Gradient as Momentum}{21}{subsection.7.2}%
+\contentsline {paragraph}{Massless limit.}{22}{section*.15}%
+\contentsline {paragraph}{Numerical verification.}{23}{section*.16}%
+\contentsline {subsection}{\numberline {7.3}Acceleration and Force}{23}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}The Continuum Limit: Emergence of the Dirac Equation}{23}{subsection.7.4}%
+\contentsline {paragraph}{The hop operator in Fourier space.}{23}{section*.17}%
+\contentsline {paragraph}{Isotropy: frame condition and octahedral symmetry.}{24}{section*.18}%
+\contentsline {paragraph}{The Dirac equation.}{24}{section*.19}%
+\contentsline {paragraph}{Summary of structural consequences.}{25}{section*.20}%
+\contentsline {section}{\numberline {8}Gravity as Clock Density}{25}{section.8}%
+\contentsline {subsection}{\numberline {8.1}The Clock Density Field}{26}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Gravitational Attraction as Refractive Bias}{26}{subsection.8.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_02}).}{26}{section*.21}%
+\contentsline {subsection}{\numberline {8.3}The Continuum Limit: Newtonian Gravity}{27}{subsection.8.3}%
+\contentsline {paragraph}{Step 1: Force from phase mismatch (Newton's second law).}{27}{section*.22}%
+\contentsline {paragraph}{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}{28}{section*.23}%
+\contentsline {paragraph}{The classical domain.}{29}{section*.24}%
+\contentsline {paragraph}{Structural consequence: the equivalence principle.}{29}{section*.25}%
+\contentsline {subsection}{\numberline {8.4}Gravitational Time Dilation as Scheduler Load}{29}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Conservation of Clock Density}{30}{subsection.8.5}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{30}{section*.26}%
+\contentsline {subsection}{\numberline {8.6}Black Holes as Scheduler Saturation}{30}{subsection.8.6}%
+\contentsline {subsection}{\numberline {8.7}Connection to General Relativity}{31}{subsection.8.7}%
+\contentsline {subsection}{\numberline {8.8}The Quantum Roche Limit}{31}{subsection.8.8}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_18}).}{32}{section*.27}%
+\contentsline {paragraph}{Comparison with entropic gravity.}{33}{section*.29}%
+\contentsline {section}{\numberline {9}Clock Fluid Dynamics and the Continuum Limit}{33}{section.9}%
+\contentsline {subsection}{\numberline {9.1}The Global Clock Budget}{33}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}The Continuity Equation}{33}{subsection.9.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{34}{section*.30}%
+\contentsline {subsection}{\numberline {9.3}The Momentum Equation and Emergent Gravity}{34}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}The Clock Fluid as a Compressible Superfluid}{34}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Gravitational Waves as Clock Fluid Phonons}{35}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}General Relativity as the Continuum Limit}{35}{subsection.9.6}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_08}).}{36}{section*.31}%
+\contentsline {paragraph}{Discrete corrections.}{36}{section*.32}%
+\contentsline {subsection}{\numberline {9.7}Black Hole Formation as a Clock Fluid Shock Wave}{36}{subsection.9.7}%
+\contentsline {subsection}{\numberline {9.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{37}{subsection.9.8}%
+\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{37}{section*.33}%
+\contentsline {paragraph}{Plasma as a clock fluid phase.}{38}{section*.34}%
+\contentsline {paragraph}{The quantum Roche limit.}{38}{section*.35}%
+\contentsline {paragraph}{Open questions.}{39}{section*.36}%
+\contentsline {section}{\numberline {10}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{39}{section.10}%
+\contentsline {section}{\numberline {11}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{39}{section.11}%
+\contentsline {subsection}{\numberline {11.1}The Three Regimes of $\delta \phi $}{39}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Gravity as Divergence of the Phase Field}{40}{subsection.11.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_08}).}{40}{section*.37}%
+\contentsline {subsection}{\numberline {11.3}Electromagnetism as Curl of the Phase Field}{40}{subsection.11.3}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_19}).}{41}{section*.38}%
+\contentsline {subsection}{\numberline {11.4}The Unified Phase Field Equation}{41}{subsection.11.4}%
+\contentsline {subsection}{\numberline {11.5}Acceleration as Differential Zitterbewegung}{42}{subsection.11.5}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_08}).}{42}{section*.39}%
+\contentsline {section}{\numberline {12}Interference and the Huygens Lantern}{42}{section.12}%
+\contentsline {section}{\numberline {13}The Observer as Clock}{43}{section.13}%
+\contentsline {section}{\numberline {14}The Observer as a Clock}{43}{section.14}%
+\contentsline {subsection}{\numberline {14.1}Observation as Clock Registration}{43}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}Asymmetric Phase Exchange and Apparent Collapse}{44}{subsection.14.2}%
+\contentsline {paragraph}{The mechanism of apparent collapse.}{44}{section*.41}%
+\contentsline {subsection}{\numberline {14.3}Irreversibility and Entropy}{45}{subsection.14.3}%
+\contentsline {paragraph}{No special role for consciousness.}{45}{section*.42}%
+\contentsline {subsection}{\numberline {14.4}Entanglement as Correlated Cone Structure}{46}{subsection.14.4}%
+\contentsline {section}{\numberline {15}Path Counting and Falsifiable Predictions}{46}{section.15}%
+\contentsline {section}{\numberline {16}Lattice Harmonics and Quantization}{46}{section.16}%
+\contentsline {section}{\numberline {17}The Universe is a Fractal}{46}{section.17}%
+\contentsline {subsection}{\numberline {17.1}The Tick Rule is Symplectic}{47}{subsection.17.1}%
+\contentsline {subsection}{\numberline {17.2}The KAM Theorem Forces a Cantor Set}{47}{subsection.17.2}%
+\contentsline {subsection}{\numberline {17.3}The Hausdorff Dimension is a Prediction}{48}{subsection.17.3}%
+\contentsline {subsection}{\numberline {17.4}The Devil's Staircase and the Farey Hierarchy of Masses}{49}{subsection.17.4}%
+\contentsline {subsection}{\numberline {17.5}Connection to the Hofstadter Butterfly}{49}{subsection.17.5}%
+\contentsline {subsection}{\numberline {17.6}What It Means for the Universe}{50}{subsection.17.6}%
+\contentsline {section}{\numberline {18}The Hydrogen Spectrum from Lattice Geometry}{51}{section.18}%
+\contentsline {subsection}{\numberline {18.1}The Two-Session Requirement}{51}{subsection.18.1}%
+\contentsline {subsection}{\numberline {18.2}The Coulomb Clock-Density Well}{52}{subsection.18.2}%
+\contentsline {subsection}{\numberline {18.3}Bohr Spectrum from a Fixed Well}{52}{subsection.18.3}%
+\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{52}{section*.45}%
+\contentsline {subsection}{\numberline {18.4}Spontaneous Quantization and the Arnold Tongue}{53}{subsection.18.4}%
+\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{53}{section*.46}%
+\contentsline {subsection}{\numberline {18.5}Two-Body Hydrogen: Four Significant Figures}{53}{subsection.18.5}%
+\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{53}{section*.47}%
+\contentsline {subsection}{\numberline {18.6}Binding and Quantization are Separate Conditions}{54}{subsection.18.6}%
+\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{54}{section*.48}%
+\contentsline {subsection}{\numberline {18.7}Photon Emission as a Three-Session Event}{54}{subsection.18.7}%
+\contentsline {subsection}{\numberline {18.8}Connection to the Gravitational Programme}{55}{subsection.18.8}%
+\contentsline {section}{\numberline {19}Conclusion}{55}{section.19}%

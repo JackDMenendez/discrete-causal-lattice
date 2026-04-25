@@ -43,7 +43,7 @@ from typing import Tuple
 from .OctahedralLattice import (OctahedralLattice, COORDINATION_NUMBER,
                                  SUBLATTICE_SIZE, active_vectors,
                                  ALL_VECTORS, RGB_VECTORS, CMY_VECTORS)
-from .PhaseRotor import PhaseRotor
+from .PhaseOscillator import PhaseOscillator
 from .UnityConstraint import enforce_unity, enforce_unity_spinor
 
 
@@ -65,7 +65,7 @@ class CausalSession:
                  momentum: Tuple[float, float, float] = (0.0, 0.0, 0.0),
                  is_massless: bool = False):
         self.lattice          = lattice
-        self.phase_rotor      = PhaseRotor(frequency=instruction_frequency)
+        self.phase_rotor      = PhaseOscillator(frequency=instruction_frequency)
         self.tick_counter     = 0
         self.is_massless      = is_massless
 

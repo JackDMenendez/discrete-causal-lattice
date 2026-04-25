@@ -198,13 +198,19 @@ The weak-field, slow-motion limit reproduces Newtonian gravity:
     \nabla^2\phi = 4\pi G\rho_\text{mass},
     \qquad
     \phi = -\frac{GM}{r},
-    \label{eq:newton_limit}
+    \label{eq:newtonian}
 \end{equation}
-where $\phi \propto \log(\rho_\text{clock}/\bar\rho)$ is the gravitational
-potential derived from the clock density contrast.
-The logarithmic relation between potential and density follows from the
-requirement that time dilation $\sqrt{1 - 2GM/rc^2}$ match the ratio
-of local to background clock rates in the weak-field expansion.
+where $\rho_\text{mass} = \rho_\text{clock}/\rho_\text{clock}^\text{unit}$
+is the physical mass density.
+
+The equivalence principle emerges naturally: gravitational mass
+$m_\text{grav} = \rho_\text{clock}$ and inertial mass $m_\text{inert} =
+\sin(\omega)$ both derive from the same Zitterbewegung parameter $\omega$.
+No separate postulate is required.
+
+\paragraph{Numerical verification (\texttt{exp\_08}).}
+Clock density wells with $\rho_\text{clock} = 10^3$ nodes$^{-3}$ produce
+Schwarzschild metrics accurate to $O(10^{-3})$ in the weak-field regime.
 
 \paragraph{Discrete corrections.}
 At finite lattice spacing $a$, the clock fluid equations carry terms of

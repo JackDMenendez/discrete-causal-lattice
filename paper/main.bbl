@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{vonneumann1932}
+John von Neumann.
+\newblock {\em Mathematische Grundlagen der Quantenmechanik}.
+\newblock Springer, Berlin, 1932.
+\newblock Mathematical Foundations of Quantum Mechanics -- measurement axiom.
+
 \bibitem{bombelli1987}
 Luca Bombelli, Joohan Lee, David Meyer, and Rafael~D. Sorkin.
 \newblock Space-time as a causal set.
@@ -20,6 +26,21 @@ Konrad Zuse.
 \newblock Rechnender raum.
 \newblock {\em Elektronische Datenverarbeitung}, 8:336--344, 1969.
 \newblock ``Calculating Space'' -- first proposal of digital physics.
+
+\bibitem{verlinde2011}
+Erik Verlinde.
+\newblock On the origin of gravity and the laws of newton.
+\newblock {\em Journal of High Energy Physics}, 2011(4):29, 2011.
+\newblock Entropic gravity -- gravity as emergent from information.
+
+\bibitem{lazarev2026}
+S.~V. Lazarev.
+\newblock Nmsi: Gravity as an emergent phenomenon from informational
+  structures.
+\newblock {\em Journal of High Energy Physics, Gravitation and Cosmology},
+  12:1023--1034, 2026.
+\newblock Non-Metric Space Information theory -- gravity as informational
+  oscillations.
 
 \bibitem{schrodinger1930}
 Erwin Schr{\"o}dinger.
@@ -51,6 +72,12 @@ Isaac Newton.
 \newblock {\em Philosophi{\ae} Naturalis Principia Mathematica}.
 \newblock Royal Society, London, 1687.
 
+\bibitem{susskind1977}
+Leonard Susskind.
+\newblock Lattice fermions.
+\newblock {\em Physical Review D}, 16(6):3031--3038, 1977.
+\newblock Staggered fermions and Lorentz invariance in lattice QCD.
+
 \bibitem{bekenstein1973}
 Jacob~D. Bekenstein.
 \newblock Black holes and entropy.
@@ -60,12 +87,6 @@ Jacob~D. Bekenstein.
 Stephen~W. Hawking.
 \newblock Particle creation by black holes.
 \newblock {\em Communications in Mathematical Physics}, 43(3):199--220, 1975.
-
-\bibitem{verlinde2011}
-Erik Verlinde.
-\newblock On the origin of gravity and the laws of newton.
-\newblock {\em Journal of High Energy Physics}, 2011(4):29, 2011.
-\newblock Entropic gravity -- gravity as emergent from information.
 
 \bibitem{payne1971}
 Harold~J. Payne.

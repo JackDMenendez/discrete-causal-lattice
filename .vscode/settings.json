@@ -3,12 +3,25 @@
     "terminal.integrated.defaultProfile.windows": "UCRT64",
     "terminal.integrated.profiles.windows": {
         "UCRT64": {
-            "path": "C:\\msys64\\ucrt64.exe"
+            "path": "C:\\msys64\\usr\\bin\\bash.exe",
+            "args": ["--login", "-i"],
+            "env": {
+                "MSYSTEM": "UCRT64",
+                "CHERE_INVOKING": "1",
+                "MSYS2_PATH_TYPE": "inherit"
+            }
         },
         "MINGW64": {
-            "path": "C:\\msys64\\mingw64.exe"
+            "path": "C:\\msys64\\usr\\bin\\bash.exe",
+            "args": ["--login", "-i"],
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1",
+                "MSYS2_PATH_TYPE": "inherit"
+            }
         }
     },
     
-    "files.eol": "lf"
+    "files.eol": "lf",
+    "makefile.configureOnOpen": false
 }
