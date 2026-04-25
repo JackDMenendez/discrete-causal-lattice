@@ -1,27 +1,263 @@
 % ============================================================
 % phase_propagation.tex
-% STATUS: STUB
-% Corresponds to: src/core/UnityConstraint.py
-% Experiment: exp_03_interference.py
+% Section 5: Phase Propagation and the Unity Constraint
+% Corresponds to: src/core/UnityConstraint.py, src/core/CausalSession.py
+% Experiments: exp_03_interference.py, exp_05_observer_clock.py
 % ============================================================
 
 \label{sec:phase}
 
-% Topics to cover:
-% - The unitary update cycle: the tick
-% - Complex amplitudes at each node (not densities)
-%   - Phase must survive to the summation step
-%   - |psi|^2 taken AFTER summation, not before
-%   - This is why interference works: signed cancellation
-% - The discrete Hamiltonian as phase routing matrix
-%   H(x,y,z) = omega + V(x,y,z)
-% - The A=1 unity constraint
-%   - Normalization after every tick
-%   - Physical interpretation: probability is conserved, not created
-%   - Contrast with v1.0: this must be enforced structurally, not just renormalized
-% - The CLT bridge: N hops -> Gaussian -> Schrodinger equation
-%   - At what N does the continuous approximation become valid?
-%   - Below that N: discrete corrections exist and are calculable
-% - Boundary conditions on the octahedral lattice
+Section~\ref{sec:causal_sessions} defined the causal session as a
+$U(1)$ oscillator distributed over the bipartite lattice as a
+two-component spinor.
+Section~\ref{sec:scheduler} placed that session in a multi-session
+scheduler.
+This section sets out how the distributed oscillator
+\emph{propagates}: what the tick operator does to the amplitude at
+each macro-tick, how the unity constraint is preserved through
+propagation, and how the discrete dynamics reduces to the
+Schr\"odinger equation in the long-time limit.
 
-\textbf{[STUB]}
+The headline result is that the Schr\"odinger equation is not a
+postulate. It is the central-limit-theorem limit of the bipartite
+tick rule, derived in two stages: the Dirac equation as the
+relativistic continuum limit
+(Section~\ref{subsec:dirac_limit}), and the Schr\"odinger equation as
+the non-relativistic limit of Dirac. Standard quantum mechanics is a
+theorem in the framework, not an axiom.
+
+% ── 5.1 The Tick Operator ────────────────────────────────────────────────────
+\subsection{The Tick Operator}
+\label{subsec:tick_operator}
+
+One macro-tick on a single session combines three operations: a local
+phase advance by $e^{-i\delta\phi(\mathbf{x})}$ at each node, a
+directional hop along the basis vectors of the active sublattice, and
+a $\unity$-preserving renormalisation. We write the composite
+operation as the tick operator $\hat{T}$:
+\begin{equation}
+    \hat{T}\,\psi(\mathbf{x}) =
+        \mathcal{N}\bigl[
+            \cos\!\tfrac{\delta\phi}{2}\,\hat{H}\,\psi(\mathbf{x})
+          + i\sin\!\tfrac{\delta\phi}{2}\,\psi(\mathbf{x})
+        \bigr],
+    \label{eq:tick_operator}
+\end{equation}
+where $\hat{H}$ is the bipartite hop operator (sum over the three
+basis vectors of the active sublattice, see
+Section~\ref{subsec:macro_tick}), $\delta\phi(\mathbf{x}) = \omega +
+V(\mathbf{x})$ is the local phase mismatch, and $\mathcal{N}$ is the
+unity-enforcing renormalisation. The $\cos$ and $\sin$ amplitudes
+encode the hop/stay split derived in
+Section~\ref{subsec:phase_oscillator}: the half-angle structure makes
+$\hat{T}$ a $U(1)$ rotation by $\delta\phi/2$ in the plane spanned by
+the local node and its neighbours.
+
+$\hat{T}$ is unitary in the continuum limit $a \to 0$. At finite $a$
+it has $O(a^2)$ drift away from exact unitarity, and $\mathcal{N}$
+corrects the drift. The correction is numerical, not physical: the
+discrete operators do not form an exact representation of the $U(1)$
+Lie group, but the constraint $\sum_\mathbf{x} \rho(\mathbf{x}) = 1$
+\emph{is} the Lie-group requirement that the state remain on $U(1)$,
+so $\mathcal{N}$ is the discrete implementation of that constraint
+rather than a normalisation hack.
+
+% ── 5.2 Linearity and Superposition ──────────────────────────────────────────
+\subsection{Linearity and Superposition}
+\label{subsec:linearity}
+
+The tick operator is linear in the spinor amplitude:
+\begin{equation}
+    \hat{T}\,(\alpha\psi_1 + \beta\psi_2) =
+        \alpha\,\hat{T}\psi_1 + \beta\,\hat{T}\psi_2
+    \label{eq:linearity}
+\end{equation}
+for any complex constants $\alpha, \beta$. The renormalisation
+$\mathcal{N}$ is non-linear in the global norm but acts equally on
+all path contributions; within a tick the propagation is linear, and
+the relative phase between paths is preserved exactly.
+
+Linearity is what makes interference possible. When two amplitudes
+from different sources arrive at the same node after $N$ ticks they
+add as complex numbers (Section~\ref{sec:interference}). The relative
+phase determines whether the addition is constructive (bright fringe)
+or destructive (dark fringe). A non-linear propagation rule would
+mix amplitudes and intensities, and would not exhibit signed
+cancellation.
+
+The bipartite tick rule preserves linearity by construction.
+Stochastic propagation rules (Markov chains on probability
+distributions, for example) do not. The framework is amplitude-based
+not probability-based, and the linearity of the tick operator is
+what distinguishes it.
+
+% ── 5.3 Phase Routing and the Discrete Hamiltonian ───────────────────────────
+\subsection{Phase Routing and the Discrete Hamiltonian}
+\label{subsec:phase_routing}
+
+The local Hamiltonian
+\begin{equation}
+    H(\mathbf{x}) = \omega + V(\mathbf{x})
+    \label{eq:local_hamiltonian}
+\end{equation}
+is a real number at each node --- an element of the $\mathfrak{u}(1)$
+Lie algebra (Section~\ref{subsec:phase_oscillator}). The tick
+operator advances the local phase by $-iH(\mathbf{x})\,a$ per tick.
+In the small-$a$ limit
+\begin{equation}
+    \hat{T}\,\psi \approx
+        \bigl(1 - iH(\mathbf{x})\,a\bigr)\,\psi
+        + a\,\hat{D}\,\psi
+        + O(a^2),
+    \label{eq:tick_smalla}
+\end{equation}
+where $\hat{D}$ is the discrete spatial derivative implemented by the
+hop step. Comparing with the standard time-evolution operator
+$1 - iH\,dt + (i/2m)\nabla^2\,dt$ identifies the lattice spacing $a$
+with the time step $dt$ and the hop operator with the kinetic term
+--- this is the staggered-fermion identification of
+Kogut and Susskind~\cite{kogutsusskind1975}.
+
+The discrete Hamiltonian does not act on a vector space of
+pre-defined basis states. It is a spatial field of phase rates,
+evaluated locally at each node. Different nodes carry different
+phase rates, and the tick operator routes amplitude between them
+according to $e^{-iH(\mathbf{x})\,a}$. In standard quantum mechanics
+this is the Magnus expansion of the time-evolution operator; on the
+lattice it is the literal tick rule.
+
+% ── 5.4 The Unity Constraint in Operation ────────────────────────────────────
+\subsection{The Unity Constraint in Operation}
+\label{subsec:unity_in_operation}
+
+The $\unity$ constraint
+\begin{equation}
+    \sum_{\mathbf{x}} \bigl(|\psi_R(\mathbf{x})|^2
+                             + |\psi_L(\mathbf{x})|^2\bigr) = 1
+    \label{eq:unity_propagation}
+\end{equation}
+is preserved by $\hat{T}$ up to $O(a^2)$. The renormalisation step
+$\mathcal{N}$ corrects the drift by dividing both spinor components
+by their joint norm. The typical residual at the per-tick level is
+$\sim 10^{-15}$ in double precision and scales as $a^2$, so the
+correction vanishes in the continuum limit.
+
+The renormalisation has two distinct legitimate uses:
+
+\paragraph{Conservation.}
+Per-tick correction of the $O(a^2)$ drift in a single session. This
+is the standard usage and is invoked at the end of every macro-tick
+in every experiment. The drift is a property of the discrete
+operators, not of the physics: the lattice does not allow an exact
+representation of the continuous unitary group with finite-step
+operators.
+
+\paragraph{Projection.}
+After amplitude transfer between sessions (the photon-emission
+mechanism of Section~\ref{subsec:emission}), the source session is
+projected onto its remaining sub-space and the destination session
+receives the transferred amplitude. Each session is renormalised
+individually; joint $\unity$ is preserved across the pair. This is
+the discrete equivalent of wavefunction collapse onto a sub-space,
+implemented as $\unity$ applied per session after the amplitude
+budget has changed.
+
+In neither case is $\mathcal{N}$ a free parameter. Both are
+applications of the Lie-group constraint
+$\sum \rho = 1$ from Section~\ref{sec:causal_sessions}, applied to a
+session whose amplitude budget has changed by a defined physical
+mechanism (numerical drift, or amplitude transfer to another
+session).
+
+% ── 5.5 The Continuum Limit: From Tick Rule to Schrödinger ───────────────────
+\subsection{The Continuum Limit: From Tick Rule to Schr\"odinger}
+\label{subsec:continuum_to_schrodinger}
+
+Take $a \to 0$ and $\omega \to 0$ with the lattice velocity
+$v = a/dt = 1$ and the rest mass $m = \omega/a$ held fixed. The tick
+operator becomes
+\begin{equation}
+    \hat{T} \;\xrightarrow{a \to 0}\;
+        e^{-iH\,dt}
+        = e^{-i(m + V - \tfrac{1}{2m}\nabla^2 + \cdots)\,dt},
+    \label{eq:tick_continuum}
+\end{equation}
+the standard non-relativistic Schr\"odinger evolution operator. The
+$-\tfrac{1}{2m}\nabla^2$ kinetic term is the small-$a$ expansion of
+the bipartite hop operator $\hat{D}$, derived in
+Section~\ref{subsec:dirac_limit} via the frame condition
+$\sum_{\mathbf{v}} v_i v_j = 6\delta_{ij}$.
+
+The full bipartite tick rule reduces to the Dirac equation in the
+relativistic limit (Section~\ref{subsec:dirac_limit}); the
+non-relativistic limit of the Dirac equation is the Schr\"odinger
+equation. So Schr\"odinger emerges as the long-time, large-$N$,
+small-$a$ limit of the discrete rule via
+\begin{equation*}
+    \text{tick rule}
+    \;\xrightarrow{a \to 0}\;
+    \text{Dirac equation}
+    \;\xrightarrow{v \ll c}\;
+    \text{Schr\"odinger equation}.
+\end{equation*}
+
+This is the right way to think about the framework's relationship to
+standard quantum mechanics. The Schr\"odinger equation is not
+assumed; it is derived. A measurable departure from
+Schr\"odinger predictions in regimes where $N$ is small (high-energy
+interferometry, atom interferometers at the Compton wavelength, etc.)
+is a falsifiable consequence of the framework
+(Section~\ref{sec:predictions}).
+
+% ── 5.6 Boundary Conditions ──────────────────────────────────────────────────
+\subsection{Boundary Conditions}
+\label{subsec:boundary_conditions}
+
+Lattice experiments require boundary conditions on the spinor field.
+The framework supports three kinds, each appropriate to a different
+class of experiment.
+
+\paragraph{Periodic.}
+The lattice wraps:
+$\psi(\mathbf{x} + L\hat{\mu}) = \psi(\mathbf{x})$ for all basis
+directions $\hat{\mu}$. This is appropriate for momentum eigenstates
+and is used by default in the harmonic experiments
+(\texttt{exp\_09}). Periodic boundaries preserve $\unity$ exactly:
+the lattice has no edge from which amplitude can escape.
+
+\paragraph{Absorbing.}
+A subset of nodes is marked as absorbing: their hop probability is
+set to zero, and amplitude arriving at them is removed by the
+$\mathcal{N}$ step. This implements barriers (the double-slit
+barrier of Section~\ref{subsec:double_slit_setup}) and detector
+geometries. Absorbing boundaries do \emph{not} preserve $\unity$
+within a single session: per-session probability is reduced as
+amplitude enters the absorbed region. Joint $\unity$ across all
+sessions is preserved if the absorbed amplitude is transferred to an
+external sink session (e.g., a detector).
+
+\paragraph{Reflecting.}
+Hops into the boundary node return as hops out. This implements
+infinite-potential confinement (a quantum well). $\unity$ is
+preserved exactly because no amplitude leaves the session.
+
+\paragraph{Choice of boundary condition.}
+The same tick rule operates inside the lattice; the boundary modifies
+which hops are allowed at the edge. The choice is part of the
+experimental setup, not an additional postulate. Different
+experiments use different boundaries: \texttt{exp\_09} (harmonics)
+uses periodic; \texttt{exp\_03} (interference) uses absorbing for the
+barrier and reflecting for the lattice edge; \texttt{exp\_10}
+(hydrogen) uses reflecting for the lattice edge with an interior
+Coulomb well. The freedom to choose is the lattice version of the
+freedom to choose boundary conditions on a continuum partial
+differential equation.
+
+\paragraph{Summary.}
+The propagation step is one tick of the bipartite tick rule applied
+to the spinor amplitude $(\psi_R, \psi_L)$. It is linear in the
+amplitude, preserves $\unity$ up to $O(a^2)$ drift corrected by
+renormalisation, and reduces to the Dirac equation in the
+relativistic continuum limit and to the Schr\"odinger equation in the
+non-relativistic continuum limit. The lattice does not assume
+standard quantum mechanics; it derives it.

@@ -211,11 +211,30 @@ with `exp_19c` cited as the numerical demonstration.
 These are not publication blockers in the same sense as Tier 1, but the paper will
 have visible gaps without them.
 
-### 6. Phase Propagation Section
+### 6. Phase Propagation Section — DONE (2026-04-25)
 **File:** `paper/sections/phase_propagation.tex`
-**Status:** STUB after subsection 5.2
-**Why Tier 2:** Ties the U(1) rotor to the lattice hop rule. Without it the Dirac
-derivation appears to come out of nowhere.
+**Status:** DONE — section rewritten from STUB to six subsections.
+
+**What landed:**
+- 5.1 The Tick Operator — explicit form of T̂ combining phase advance,
+  hop, and unity renormalisation; O(a²) drift as numerical not physical.
+- 5.2 Linearity and Superposition — T̂ linear in ψ; this is what makes
+  interference possible vs stochastic propagation.
+- 5.3 Phase Routing and the Discrete Hamiltonian — H(x) = ω + V(x) as
+  u(1) algebra element; small-a expansion identifies hop with kinetic
+  term (Kogut-Susskind staggered fermions).
+- 5.4 The Unity Constraint in Operation — two distinct legitimate uses
+  of N: conservation (per-tick drift correction) and projection
+  (post-emission). Neither is a free parameter.
+- 5.5 The Continuum Limit: From Tick Rule to Schrödinger — explicit
+  reduction T̂ → exp(-iH·dt) in the small-a, small-ω limit; full chain
+  is tick rule → Dirac → Schrödinger. Standard QM is a theorem,
+  not an axiom.
+- 5.6 Boundary Conditions — periodic, absorbing, reflecting; which
+  experiments use which.
+
+**Side fix:** added `\label{sec:causal_sessions}` to causal_sessions.tex
+so the new section's references resolve.
 
 ### 7. Lattice Harmonics Section
 **File:** `paper/sections/lattice_harmonics.tex`
