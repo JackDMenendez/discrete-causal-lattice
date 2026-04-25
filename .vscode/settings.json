@@ -1,3 +1,14 @@
 {
-    "makefile.configureOnOpen": false
+    "python.defaultInterpreterPath": "C:/dev/dcl/.venv-ucrt64/bin/python.exe",
+    "terminal.integrated.defaultProfile.windows": "UCRT64",
+    "terminal.integrated.profiles.windows": {
+        "UCRT64": {
+            "path": "C:\\msys64\\ucrt64.exe"
+        },
+        "MINGW64": {
+            "path": "C:\\msys64\\mingw64.exe"
+        }
+    },
+    
+    "files.eol": "lf"
 }
