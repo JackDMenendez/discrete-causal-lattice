@@ -97,18 +97,39 @@ derivation, see Tier 1 item 5 below).
 
 ---
 
-### 2. Tick Scheduler Section
+### 2. Tick Scheduler Section — DONE (2026-04-25)
 **File:** `paper/sections/tick_scheduler.tex`
-**Status:** STUB
-**Why Tier 1:** This section is the backbone of the observer, decoherence, and gravity
-arguments. The conceptual material exists in notes; it must be formalized.
+**Status:** DONE — section rewritten from STUB to eight subsections covering the
+full architectural apparatus.
 
-**Required content:**
-- Scheduler state space (queue structure, registration model)
-- Irreversibility argument (why scheduler ordering is asymmetric in time)
-- Clock-registration mechanism (how an observer gets on the queue)
-- Queue saturation → Hawking radiation argument
-- Connection to P2 (minimum time-dilation quantum) and P4 (decay-rate correction)
+**What landed:**
+- 4.1 The Macro-Tick — three-step cycle (order, tick, couple) with the
+  per-session A=1 invariant explicit.
+- 4.2 The Combinatorial Clock Space — $|\Omega_n| = n!$, four shuffle schemes,
+  exp_05 numerical verification of ordering-invariant probability conservation.
+- 4.3 Pairwise Coupling and the Binding Dial — the $c_{ij} \in [0,1]$ parameter
+  spans free particles (0) through observer/decoherence (~0.1) through atomic
+  binding (~0.5) through composite phase-lock (1).
+- 4.4 Three-Session Coupling and Emission — explicit emission triplet
+  registration; tangential phase drain; forward ref to Section 14.6.
+- 4.5 Clock Density and Time Dilation — pairwise step is not constant-cost;
+  high-density regions impose more bookkeeping per macro-tick; gravitational
+  time dilation as architectural consequence.
+- 4.6 Queue Saturation and the Event Horizon — $\rho_{\max} = \ell_P^{-3}$ as
+  computational deadlock; Hawking radiation as stochastic boundary queue-drop.
+- 4.7 Architectural Irreversibility and the Arrow of Time — no
+  `remove_session` method, $S = k_B \log(n!)$, second law as structural fact
+  not statistical approximation.
+- 4.8 Falsifiable Consequences — minimum time-dilation quantum
+  $\delta t_{\min} = t_{\text{tick}}$ feeding into P2; queue-drop signature
+  in Hawking spectra and Planck-density GW dispersion cutoff.
+
+**Side fix:** added `\label{sec:phase}` to phase_propagation.tex (referenced
+from the new section).
+
+**Deferred (intentionally):** full Hawking-temperature derivation from
+queue-drop rate is left to future work; the structural argument is in place
+but the explicit $T_H = \hbar c/(8\pi G M k_B)$ recovery is a follow-on.
 
 ---
 

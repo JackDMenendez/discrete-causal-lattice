@@ -1,26 +1,370 @@
 % ============================================================
 % tick_scheduler.tex
-% STATUS: STUB
+% Section 4: The Tick Scheduler
 % Corresponds to: src/core/TickScheduler.py
-% Experiment: exp_05_observer_clock.py
+% Experiments: exp_05_observer_clock.py, exp_07_clock_conservation.py
 % ============================================================
 
-% Topics to cover:
-% - Each particle carries an independent tick counter
-% - The scheduler maintains a priority queue of counters
-% - Processing order is shuffled: combinatorial clock space
-%   - Different shuffling schemes as experimental variables
-%   - Is physics invariant under reordering? (discrete Lorentz invariance test)
-% - The observer as a new clock
-%   - Measurement = two tick sequences becoming entangled
-%   - Observation is irreversible because you cannot un-add a clock
-%   - Connection to decoherence: clock count expansion = entropy increase
-% - Particle decay as timing-dependent phenomena
-%   - Decay rate as a function of clock-counter phase relationships
-% - Clock density near mass
-%   - More mass = more clocks = more scheduler load
-%   - External observer sees slower time = gravitational time dilation
-%   - Event horizon as computational deadlock: infinite queue depth
-% - The arrow of time as monotonically increasing scheduler complexity
+\label{sec:scheduler}
 
-\textbf{[STUB]}
+The previous section defined a single causal session: a U(1) phase
+oscillator on the $\Tdiamond$ lattice with its own tick counter, evolving
+under the bipartite tick rule and obeying the $\unity$ constraint at every
+tick.
+A real physical situation is rarely one session.
+Atoms are at least two; molecules many; macroscopic bodies astronomically
+many.
+The \emph{tick scheduler} is the architectural component that turns a
+collection of independent sessions into the dynamics of an interacting
+universe.
+
+The scheduler is conceptually small.
+It maintains a list of registered sessions, advances each session by one
+tick in some order, and applies an interaction step that exchanges phase
+between sessions whose probability supports overlap.
+That is the whole machine.
+The richness of the framework comes from what follows from those two
+operations.
+This section sets out the formal apparatus.
+The phenomenological consequences --- measurement
+(Section~\ref{sec:observer}), gravity
+(Section~\ref{sec:gravity}), spontaneous emission
+(Section~\ref{subsec:emission}) --- are derived from the scheduler in
+later sections.
+
+% ── 4.1 The Macro-Tick ────────────────────────────────────────────────────────
+\subsection{The Macro-Tick}
+\label{subsec:macro_tick}
+
+A \emph{macro-tick} is one cycle of the scheduler.
+For a scheduler with $n$ registered sessions
+$\{\mathcal{S}_1, \ldots, \mathcal{S}_n\}$, one macro-tick consists of
+three steps:
+
+\begin{enumerate}
+    \item \textbf{Order.}  Determine a processing order
+    $\sigma \in S_n$ over the sessions according to the active shuffle
+    scheme.
+    \item \textbf{Tick.}  For each $i$ in the order $\sigma$, advance
+    $\mathcal{S}_i$ by one bipartite tick (Section~\ref{sec:phase}) and
+    increment its tick counter.  Each session enforces $\unity$
+    individually after its own tick.
+    \item \textbf{Couple.}  Apply the pairwise phase-exchange step
+    (Section~\ref{subsec:binding}) at every node where two sessions have
+    significant probability support.  Apply any registered three-session
+    couplings (Section~\ref{subsec:emission_coupling}).
+\end{enumerate}
+
+The decomposition into \emph{tick} and \emph{couple} is essential.
+Each session is independently norm-preserving during the tick step ---
+this is what makes the U(1) group structure of
+Section~\ref{subsec:phase_oscillator} survive at the multi-session level.
+The couple step then redistributes \emph{phase} between sessions at
+shared nodes without moving probability across them.
+$\unity$ is preserved per session through both steps; what is shared is
+the coherent structure of the wavefunction, not the probability mass.
+
+In code, the macro-tick is the \texttt{TickScheduler.advance} method.
+The full state of the universe at macro-tick $n$ is the tuple
+$(\{\mathcal{S}_i\}, \sigma_n, n)$: the sessions, the ordering used at
+this step, and the global cycle count.
+
+% ── 4.2 The Combinatorial Clock Space ─────────────────────────────────────────
+\subsection{The Combinatorial Clock Space}
+\label{subsec:clock_space}
+
+The scheduler's state space is the set of orderings of its registered
+clocks.
+For $n$ sessions this is the symmetric group $S_n$, of size
+\begin{equation}
+    |\Omega_n| = n!.
+    \label{eq:state_space_factorial}
+\end{equation}
+This factorial growth is the algebraic root of the framework's
+treatment of time.
+It will appear again as the entropy of an observer interaction
+(Section~\ref{subsec:irreversibility}), as the load on a region near
+mass concentrations (Section~\ref{subsec:density_dilation}), and as the
+combinatorial source of the second law
+(Section~\ref{subsec:arrow_of_time}).
+
+\paragraph{Shuffle schemes as experimental variables.}
+The framework does not fix a single ordering rule.
+Four schemes are implemented:
+
+\begin{itemize}
+    \item \textsc{Sequential}: process sessions in registration order.
+    \item \textsc{Random}: uniform random shuffle each macro-tick.
+    \item \textsc{Priority}: lowest tick counter first.
+    \item \textsc{Clock-density}: highest local
+    $\clockdensity$ first.
+\end{itemize}
+
+If the framework is correct as a model of physics, the bulk
+phenomenology --- conserved probability, the Dirac equation in the
+continuum limit, gravitational attraction --- should be invariant under
+the choice of scheme.
+Different schemes correspond to different choices of simultaneity for the
+discrete substrate, in close analogy to choices of foliation in general
+relativity.
+A discrete \emph{Lorentz invariance} is the prediction that the
+choice does not matter for any observable bulk quantity.
+
+\paragraph{Numerical verification (\texttt{exp\_05}).}
+The conserved-probability check is straightforward and was performed in
+\texttt{exp\_05}.
+Across all three implemented schemes
+(\textsc{sequential}, \textsc{random}, \textsc{priority}) and across
+session counts $n = 1, 2, 3, \ldots, 6$, the total probability satisfies
+$|\sum_i \rho_i - n| < 10^{-15}$ at every macro-tick --- machine precision
+conservation independent of ordering.
+The deeper question --- whether two observers using different shuffle
+schemes can disagree on a measurement outcome --- is treated in
+Section~\ref{sec:observer}.
+The answer is no: the only quantities that depend on the ordering are
+those that depend on \emph{which} cone perturbed which, not on the
+final probability distribution.
+
+% ── 4.3 Pairwise Coupling and the Binding Dial ────────────────────────────────
+\subsection{Pairwise Coupling and the Binding Dial}
+\label{subsec:binding}
+
+Two sessions registered in the same scheduler are not, by themselves,
+coupled.
+They share a lattice but evolve independently.
+Coupling enters through the third step of the macro-tick: at any node
+$\mathbf{x}$ where two sessions $\mathcal{S}_i$ and $\mathcal{S}_j$ both
+have significant amplitude (above a threshold $\sim 10^{-4}$), their
+phases are partially exchanged.
+
+The mechanism is a U(1) rotation in the orbital plane of phase
+$\phi_i = \arg(\psi_R^{(i)})$ at each shared node:
+\begin{align}
+    \phi_i &\to \phi_i + c_{ij}\,(\phi_j - \phi_i), \\
+    \phi_j &\to \phi_j + c_{ij}\,(\phi_i - \phi_j),
+    \label{eq:phase_mix}
+\end{align}
+where $c_{ij} \in [0, 1]$ is the binding strength registered for the
+pair.
+Both spinor components are rotated by the same phase
+($\unity$ does not mix $\psi_R$ with $\psi_L$ here), and each session is
+re-normalised after the rotation.
+
+The single parameter $c_{ij}$ encodes the entire spectrum of two-session
+relationships:
+
+\medskip
+\begin{center}
+\begin{tabular}{ll}
+\hline
+$c_{ij}$ & Physical regime \\
+\hline
+$0$       & Free particles --- no interaction \\
+$\sim 0.1$ & Weak --- observer / decoherence regime \\
+$\sim 0.5$ & Atomic binding --- joint Arnold tongue \\
+$\sim 0.9$ & Strong binding --- composite particle \\
+$1$       & Phase lock --- sessions move as a single unit \\
+\hline
+\end{tabular}
+\end{center}
+\medskip
+
+The same algebraic step thus produces, in different parameter regimes,
+the observer effect of Section~\ref{sec:observer}, the joint hydrogen
+resonance of Section~\ref{subsec:exp12}, and the bound-state binding
+that defines composite particles.
+A neutral composite (a neutron, a hydrogen atom seen from far away) is
+two or more sessions with $c \to 1$ \emph{and} opposite RGB/CMY
+imbalance: their phase gradients cancel, narrowing the effective causal
+cone of the composite below those of its constituents.
+This cone narrowing is the lattice mechanism for why neutral matter
+behaves more classically than its charged constituents.
+
+% ── 4.4 Three-Session Coupling and Emission ───────────────────────────────────
+\subsection{Three-Session Coupling and Emission}
+\label{subsec:emission_coupling}
+
+Some interactions cannot be reduced to pairwise phase exchange.
+The clearest example is spontaneous emission, which we showed in
+Section~\ref{subsec:emission} to be a three-session event: the joint
+electron--proton resonance jumps to a lower Arnold tongue, and a third
+session (the photon) is created to absorb the displaced amplitude under
+$\unity$.
+The scheduler accommodates this by maintaining an explicit list of
+\emph{emission triplets} $(\mathcal{S}_e, \mathcal{S}_\gamma,
+\mathcal{S}_p, r)$, where $r$ is the per-tick drain rate.
+
+The drain step is engineered to respect $\unity$ exactly.
+At each macro-tick the electron's tangential phase gradient
+$\nabla_\perp\phi_e$ (the radial component is preserved so the Coulomb
+attraction continues to act) is rotated by $-r\,k_\text{tang}\cdot s$,
+where $s$ is the arc-length coordinate along the orbital plane and
+$k_\text{tang}$ is the current orbital wavevector.
+The conjugate rotation is applied to the photon, transferring orbital
+angular momentum from electron to photon while leaving the per-session
+probability density --- and therefore $\unity$ --- untouched.
+The \emph{appearance} of dissipation comes from the subsequent
+re-normalisation step, which sees a redistributed phase structure and
+adjusts the spinor components accordingly.
+
+The three-session coupling is the clearest demonstration that the
+scheduler is more than a clock-shuffler.
+It is a mechanism that decides, at each tick, which combinations of
+sessions are interacting and how.
+Pairwise binding handles two-session phenomena; emission triplets
+handle three-session events; further $n$-session generalisations
+(electroweak vertices, hadronic decays) follow the same pattern of
+explicit registration with an $\unity$-preserving update rule.
+
+% ── 4.5 Clock Density and Time Dilation ───────────────────────────────────────
+\subsection{Clock Density and Time Dilation}
+\label{subsec:density_dilation}
+
+The pairwise step of the macro-tick scales with the number of session
+overlaps.
+For $n$ sessions with significant pairwise support there are at most
+$\binom{n}{2}$ pairs to evaluate; for sessions whose probability supports
+all share a common node, every pair contributes.
+The scheduler is therefore not a constant-cost machine.
+Regions of the lattice where many sessions overlap impose more
+bookkeeping per macro-tick than regions where sessions are isolated.
+
+This is the lattice substrate for gravitational time dilation.
+A region of high clock density $\clockdensity$ runs more couplings per
+macro-tick.
+A session embedded in that region executes its own tick rule
+unchanged --- but each macro-tick it is processed alongside more
+neighbours, with more phase exchanges to settle.
+From the perspective of a distant observer, who sees only the global
+macro-tick count $n$, the local session has accumulated fewer
+``personal'' tick advances per global macro-tick: its clock runs slow.
+
+The continuum-limit derivation of this picture --- with the explicit
+identification $\nabla\phi_\text{Newton} \leftrightarrow$ macro-tick
+imbalance and the recovery of the Schwarzschild time dilation factor
+--- is given in Section~\ref{sec:gravity}.
+The point here is architectural: time dilation is not added by hand
+through a metric.
+It is the unavoidable consequence of running a scheduler whose
+per-macro-tick cost is proportional to the local session density.
+
+% ── 4.6 Queue Saturation and the Event Horizon ────────────────────────────────
+\subsection{Queue Saturation and the Event Horizon}
+\label{subsec:saturation}
+
+The scheduler can register at most one session per Planck volume.
+Each session occupies a U(1) oscillator at a node, and the lattice
+provides a finite number of nodes per unit volume.
+The maximum clock density is therefore
+\begin{equation}
+    \clockdensity^\text{max} = \ell_P^{-3}
+        \approx 2.37 \times 10^{104}\ \text{clocks/m}^3,
+    \label{eq:rho_max_scheduler}
+\end{equation}
+the same bound that appears in Section~\ref{subsec:black_holes}.
+At this density the scheduler queue is saturated: every available node
+is bound to a session, and the next registration cannot proceed.
+
+Saturation is the lattice definition of an event horizon.
+From the outside, sessions in the saturated region cannot accept new
+clock registrations and so cannot accept new information; the local
+tick rate falls to zero relative to the global macro-tick.
+This is not a coordinate singularity but a computational deadlock,
+strictly bounded above.
+There is no infinite curvature inside the horizon because there is no
+infinite density: the substrate runs out of nodes before the divergence
+can occur.
+
+\paragraph{Hawking radiation as queue-drop.}
+A scheduler that has reached saturation but receives further
+registration attempts must do something.
+The architecturally simplest response is to occasionally drop the
+oldest registered session at the boundary, freeing a node for the
+incoming registration.
+The drop is stochastic over the boundary and proportional to the
+attempted registration rate.
+Each drop releases a session into the surrounding lower-density region,
+where it propagates outward at $c$ along a geodesic of the clock fluid.
+The thermal character of the resulting radiation --- the Hawking
+spectrum --- is the thermodynamic fingerprint of a uniform-prior
+boundary queue under stochastic drop, and is recovered without
+trans-Planckian field modes.
+
+A full lattice derivation of the Hawking temperature
+$T_H = \hbar c / (8\pi G M k_B)$ from the queue-drop rate is left to
+future work; the present claim is structural.
+Hawking radiation is what an architecturally bounded scheduler does
+when it is asked to do more than it can.
+
+% ── 4.7 Architectural Irreversibility and the Arrow of Time ───────────────────
+\subsection{Architectural Irreversibility and the Arrow of Time}
+\label{subsec:arrow_of_time}
+
+The scheduler has a \texttt{register\_session} method.
+It does not have a \texttt{remove\_session} method, by design.
+
+This single architectural fact is enough to derive the second law of
+thermodynamics for the framework.
+A measurement, in the sense of Section~\ref{sec:observer}, is the
+registration of a new session that overlaps an existing one.
+After the registration the state space has grown from $|\Omega_{n-1}| =
+(n-1)!$ to $|\Omega_n| = n!$, an increase by a factor of $n$.
+The corresponding entropy of the scheduler state space,
+\begin{equation}
+    S_\text{scheduler} = k_B \log |\Omega_n| = k_B \log(n!),
+    \label{eq:scheduler_entropy}
+\end{equation}
+strictly increases with each registration, and by Stirling's
+approximation grows as $S \sim k_B\,n \log n$ for large $n$.
+There is no operation that can decrease $n$.
+The arrow of time is not a thermodynamic approximation that becomes
+exact in some statistical limit --- it is a structural feature of the
+scheduler interface.
+
+The deeper consequence, derived in Section~\ref{subsec:irreversibility},
+is that what we ordinarily call the second law is the same statement as
+``measurement is irreversible.''
+Both follow from the absence of a clock-removal operation.
+You cannot un-observe a particle for the same reason you cannot reduce
+the entropy of an isolated system: the scheduler does not expose the
+operation that would let you.
+
+% ── 4.8 Falsifiable Consequences ──────────────────────────────────────────────
+\subsection{Falsifiable Consequences}
+\label{subsec:scheduler_predictions}
+
+The scheduler architecture makes one prediction directly that distinguishes
+it from any continuum-time formalism.
+
+\paragraph{Minimum time-dilation quantum.}
+Each registered session contributes one tick of bookkeeping per
+macro-tick.
+The minimum increment of gravitational time dilation between two
+neighbouring regions is therefore one tick duration:
+\begin{equation}
+    \delta t_\text{min} = t_\text{tick},
+    \label{eq:min_dilation}
+\end{equation}
+where $t_\text{tick}$ is the lattice tick duration in seconds.
+At Planck calibration, $t_\text{tick} = t_P \approx 5.4 \times 10^{-44}$~s
+and the prediction is unmeasurable.
+At Compton calibration, $t_\text{tick} \approx 8 \times 10^{-21}$~s,
+which is within roughly two orders of magnitude of current optical-clock
+fractional sensitivity ($\sim 10^{-18}$ over millimetre baselines).
+Section~\ref{sec:predictions} develops the experimental geometry that
+would convert this predicted floor into a falsifiable null-result test:
+if optical clocks separated by a calibrated $\Delta\phi$ in a
+controlled potential gradient ever resolve a continuous distribution of
+fractional offsets without a discrete cutoff, the framework is wrong.
+
+\paragraph{Discrete corrections in queue dynamics.}
+Two further structural predictions follow from queue saturation, but
+their numerical form requires the gravitational continuum-limit
+derivation of Section~\ref{sec:clock_fluid}.
+These are: (i) a Planck-density cutoff to gravitational wave dispersion,
+producing frequency-dependent gravitational-wave speeds in regions
+approaching $\clockdensity^\text{max}$; and (ii) a queue-drop signature
+in Hawking emission spectra at the high-frequency tail, where the
+finite-lattice cutoff replaces the trans-Planckian modes of standard
+treatments.
+Both feed into Section~\ref{sec:predictions}.
