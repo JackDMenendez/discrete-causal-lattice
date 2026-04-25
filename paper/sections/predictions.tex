@@ -71,6 +71,29 @@ $a$; the calibration is what experiment is meant to determine. The
 predictions below are stated functionally, with both Planck and
 Compton numerical scales given for orientation.
 
+\paragraph{Compton-calibration numbers as upper bounds.}
+Prediction P7 below (gamma-ray-burst time-of-flight, see
+Section~\ref{subsec:p7_photon_dispersion}) already constrains the
+lattice spacing from above: existing observations require
+$a \lesssim 10^{-19}\,\text{m}$, which rules out the Compton
+calibration ($a \sim 10^{-12}\,\text{m}$) for any prediction whose
+signal scales as a positive power of $a$.
+The Compton-calibration numbers quoted in the predictions below are
+therefore \emph{upper bounds} on the predicted signal strengths ---
+the largest values consistent with the framework's matter sector
+before P7's constraint is applied.
+At the surviving calibration window
+$10^{-19}\,\text{m} \gtrsim a \gtrsim \ell_P \approx 10^{-35}\,\text{m}$,
+the actual predicted signals are smaller than the Compton-scale
+numbers by a factor of order $(a/\lambda_C)^n$, where $n$ is the
+power of $a$ in the specific prediction (typically $n = 1$ or $2$).
+We retain the Compton numbers throughout this section for two
+reasons: they make the functional form concrete, and they identify
+the largest plausible signal that any future tightening of $a$ can
+yield. The reader should treat them as upper-bound estimates rather
+than as the predicted signal strength at the actual lattice
+spacing.
+
 % ── 12.2 P1: Discrete Corrections to Interference ────────────────────────────
 \subsection{P1: Discrete Corrections to Interference at Small N}
 \label{subsec:p1_interference}
@@ -92,17 +115,22 @@ converges to a Gaussian envelope; for $N$ comparable to the lattice
 cutoff the discrete combinatorics deviate from the Gaussian by an
 amount computable from \texttt{exp\_06}.
 
-\paragraph{Numerical scale.}
+\paragraph{Numerical scale (upper bound at Compton calibration).}
 At calibration $a$ and propagation distance $L$, the relevant
 ratio is $N \sim L/a$:
 
 \begin{itemize}
     \item Planck calibration: $N \sim 10^{34}$ for laboratory $L \sim 1\,\text{m}$;
     discrete corrections far below experimental sensitivity.
-    \item Compton calibration: $N \sim 10^{12}$ for the same $L$;
-    discrete corrections appear at the highest spatial frequencies
-    (gamma-ray interferometry, X-ray Bragg edge).
+    \item Compton calibration (upper bound, see
+    Section~\ref{subsec:calibration_question}): $N \sim 10^{12}$ for
+    the same $L$; discrete corrections appear at the highest spatial
+    frequencies (gamma-ray interferometry, X-ray Bragg edge).
 \end{itemize}
+At the GRB-constrained $a \lesssim 10^{-19}\,\text{m}$ the predicted
+correction is smaller than the Compton-calibration estimate by a
+factor of $(a/\lambda_C)^2 \lesssim 10^{-14}$, placing it below the
+sensitivity of present interferometry.
 
 \paragraph{Experimental signature.}
 The fringe envelope at high spatial frequencies shows a calculable
@@ -112,11 +140,13 @@ have heavier tails than the Gaussian) and decays as $1/N^2$ at
 moderate $N$.
 
 \paragraph{Falsification.}
-Observation of the standard Fresnel envelope at all frequencies up to
-$\sim 10^{18}\,\text{m}^{-1}$, with no positive departure at the
-high-frequency tail, falsifies the Compton calibration. Falsifying
-the Planck calibration would require interferometry at energies
-above $10^{18}\,\text{eV}$.
+The functional form is well defined; the testable regime depends on
+the calibration. The Compton-scale interferometry test described
+above cannot be performed at the surviving calibration window. The
+prediction remains observable in principle at the Planck end via
+cosmological-baseline gamma-ray interferometry of high-redshift
+sources, where $N$ becomes small relative to the propagation
+distance.
 
 % ── 12.3 P2: Minimum Time-Dilation Quantum ───────────────────────────────────
 \subsection{P2: Minimum Time-Dilation Quantum}
@@ -140,15 +170,22 @@ bookkeeping per macro-tick. Between two regions whose clock
 densities differ by exactly one session, the local tick rates differ
 by exactly one bookkeeping step --- $t_\text{tick}$.
 
-\paragraph{Numerical scale.}
+\paragraph{Numerical scale (upper bound at Compton calibration).}
 
 \begin{itemize}
     \item Planck calibration: $t_\text{tick} = t_P \approx 5.4 \times 10^{-44}\,\text{s}$.
     Unmeasurable.
-    \item Compton calibration: $t_\text{tick} \approx 8 \times 10^{-21}\,\text{s}$.
+    \item Compton calibration (upper bound, see
+    Section~\ref{subsec:calibration_question}): $t_\text{tick} \approx 8 \times 10^{-21}\,\text{s}$.
     Within roughly two orders of magnitude of current optical-clock
     fractional sensitivity ($\sim 10^{-18}$ at millimetre baselines).
 \end{itemize}
+At the GRB-constrained $a \lesssim 10^{-19}\,\text{m}$, the
+corresponding $t_\text{tick}$ is reduced by $a/\lambda_C \lesssim 10^{-7}$,
+giving $t_\text{tick} \lesssim 10^{-28}\,\text{s}$ --- far below
+current optical-clock sensitivity. The prediction's functional form
+remains; its observable scale shifts to whatever near-future
+optical-clock technology can resolve.
 
 \paragraph{Experimental signature.}
 Optical atomic clocks separated by a calibrated potential gradient
@@ -161,11 +198,11 @@ multiples of $t_\text{tick}$.
 \paragraph{Falsification.}
 A continuous distribution of fractional offsets at the smallest
 resolvable gradient differences, with no discrete cutoff at any
-scale, falsifies the framework. The Compton calibration is
-falsified by current technology if the discrete cutoff is not
-detected at $\sim 10^{-18}$ fractional sensitivity over $\sim 1\,\text{mm}$
-baselines; the Planck calibration is not falsifiable by current
-technology.
+scale, falsifies the framework's discrete-time substrate at the
+corresponding sensitivity. At present sensitivity the Compton
+calibration is already inaccessible (P7 rules it out); P2 at the
+constrained calibration is not testable with current technology and
+becomes a target for future optical-clock improvements.
 
 % ── 12.4 P3: Octahedral Anisotropy ───────────────────────────────────────────
 \subsection{P3: Octahedral Anisotropy}
@@ -185,11 +222,20 @@ only approximately isotropic: directional terms scale as $a^2$
 relative to the leading isotropic term, and survive in observables
 that probe scales near $a$.
 
-\paragraph{Numerical scale.}
-The leading anisotropy is at order $(\lambda/a)^{-2}$ for any
+\paragraph{Numerical scale (upper bound at Compton calibration).}
+The leading anisotropy is at order $(a/\lambda)^2$ for any
 process at wavelength $\lambda$. At Planck calibration this is
-unmeasurable; at Compton calibration it appears in atomic
-spectroscopy at the parts-per-trillion level.
+unmeasurable; at Compton calibration it would appear in atomic
+spectroscopy at parts-per-trillion sensitivity.
+At the GRB-constrained calibration the predicted amplitude is
+smaller by $(a/\lambda_C)^2 \lesssim 10^{-14}$ and is therefore
+below current sensitivities for atomic measurements.
+The CMB anisotropy signature (a multipole pattern with the lattice's
+hexapole symmetry) is independent of the lattice spacing in this
+sense --- it depends on the bipartite topology of the substrate, not
+on $a$ directly --- and remains observable at any calibration if
+the framework is correct and the CMB modes are sensitive to the
+substrate symmetry.
 
 \paragraph{Experimental signature.}
 Two candidate observations:
@@ -238,16 +284,22 @@ relativistic correction $\gamma$ is recovered, but with an
 additional shift from the discrete clock-density gradient that does
 not appear in continuum SR.
 
-\paragraph{Numerical scale.}
+\paragraph{Numerical scale (upper bound at Compton calibration).}
 For a muon ($\tau_\mu \approx 2.2 \times 10^{-6}\,\text{s}$) at
 Earth's surface vs.\ low Earth orbit, the standard gravitational
 redshift gives a fractional time dilation
 $\Delta\tau/\tau \sim 10^{-10}$, which has been confirmed by
 satellite-clock experiments. The lattice prediction is an additional
-correction of order $(a/r_\oplus)^2$, which is $\sim 10^{-46}$ at
+correction whose order-of-magnitude scaling is $\sim (a/r_\oplus)^2$
+times a process-dependent prefactor we have not computed; assuming
+that prefactor is $O(1)$, the correction is $\sim 10^{-46}$ at
 Planck calibration (unmeasurable) and $\sim 10^{-23}$ at Compton
-calibration (potentially within reach of next-generation precision
-muon-lifetime experiments).
+calibration as an upper bound. At the GRB-constrained calibration
+the upper bound falls by $(a/\lambda_C)^2 \lesssim 10^{-14}$,
+yielding $\sim 10^{-37}$ --- well below any feasible muon
+experiment. A rigorous calculation of the prefactor from the
+clock-density gradient model of Section~\ref{subsec:density_dilation}
+is the natural next step to sharpen this prediction.
 
 \paragraph{Experimental signature.}
 Differential muon-lifetime measurements at controlled gravitational
@@ -282,20 +334,32 @@ but unquantised). An external perturbation displaces the operating
 point in $(\omega, V)$; once it crosses the tongue boundary, the
 spectroscopic line vanishes.
 
-\paragraph{Numerical scale.}
-The tongue half-width for the hydrogen ground state extracted from
-the harmonic-scan data of \texttt{exp\_09} is
+\paragraph{Numerical scale (estimate).}
+The tongue half-width for the hydrogen ground state can be read
+off the harmonic-scan landscape of \texttt{exp\_09} as
 $\Delta\omega_\text{tongue} \sim 0.05\,\omega_e$ at the 3:1
-resonance. The corresponding critical electric field is
+resonance, an order-of-magnitude estimate from the visible width
+of the 3:1 Arnold tongue in
+Figure~\ref{fig:harmonic_pair}. A rigorous extraction of the tongue
+width from \texttt{exp\_09} data --- the calculation that converts
+the visible band into a sharp number --- is reserved for a follow-on
+analysis. With the estimate above, the corresponding critical
+electric field is
 \begin{equation}
     \mathbf{E}_\text{crit}^{(n=1)}
         \sim \frac{c\,\Delta\omega_\text{tongue}}{2 e\,R_1}
         \sim 10^9\,\text{V/m}
-        \quad (\text{Compton calibration}),
+        \quad (\text{Compton-calibration upper bound}),
     \label{eq:E_crit}
 \end{equation}
-within reach of laser-induced static fields in trapped-ion
-spectroscopy.
+in principle within reach of laser-induced static fields in
+trapped-ion spectroscopy.
+At the GRB-constrained calibration the predicted critical field is
+reduced by $a/\lambda_C \lesssim 10^{-7}$ (the threshold scales as
+$\Delta\omega_\text{tongue}$, which is set by the lattice geometry,
+times $1/R_1$ which scales with $a$). The qualitative signature ---
+a discontinuous threshold rather than smooth Stark broadening ---
+survives at any calibration and is the load-bearing claim.
 
 \paragraph{Experimental signature.}
 Trap a single hydrogen atom in a calibrated DC electric field of
@@ -306,12 +370,16 @@ disappears entirely. The transition should be discontinuous
 (within experimental resolution), not smooth.
 
 \paragraph{Falsification.}
-Smooth Stark broadening with no threshold up to and beyond
-$\mathbf{E}_\text{crit}$ falsifies the framework's tongue-width
-picture. This is the most testable near-term prediction in the
-paper: the experimental geometry is standard, the predicted
-threshold is calculable, and the qualitative signature (continuous
-vs.\ discontinuous broadening) is unambiguous.
+The qualitative signature --- a discontinuous threshold at any
+finite field magnitude rather than smooth quadratic Stark broadening
+to arbitrarily high precision --- falsifies the framework's
+tongue-width picture if absent. The numerical threshold depends on
+the calibration; the existence of \emph{any} threshold is the
+load-bearing claim. This is the most testable near-term prediction
+in the paper: the experimental geometry is standard (DC fields on
+trapped hydrogen) and the qualitative signature (smooth vs.\
+discontinuous broadening) is unambiguous regardless of where the
+threshold sits.
 
 % ── 12.7 P6: Emission Rate Corrections Near Mass ─────────────────────────────
 \subsection{P6: Emission-Rate Corrections Near Mass Concentrations}
@@ -333,19 +401,28 @@ Section~\ref{subsec:density_dilation}) and on the lattice spacing
 relative to the photon wavelength (which modifies the available
 phase space for the new photon session).
 
-\paragraph{Numerical scale.}
+\paragraph{Numerical scale (order-of-magnitude estimates).}
 For a hydrogen atom at distance $r$ from a body of mass $M$:
 
 \begin{itemize}
     \item \textbf{Clock-density correction:}
-    $\Delta\Gamma/\Gamma \sim GM/(c^2 r) \cdot (\Delta\omega_\text{tongue}/\omega_e)$,
-    of order $10^{-10}$ at Earth's surface for the Lyman-$\alpha$
-    transition --- comparable in magnitude to the gravitational
-    redshift but with a different $r$-dependence.
+    $\Delta\Gamma/\Gamma \sim (GM/c^2 r) \cdot (\Delta\omega_\text{tongue}/\omega_e)$.
+    With $\Delta\omega_\text{tongue}/\omega_e \sim 0.05$ (the
+    estimate from P5) and the gravitational potential of Earth's
+    surface giving $GM/c^2 r \sim 10^{-9}$, the correction is of
+    order $10^{-10}$ for Lyman-$\alpha$ --- comparable to the
+    gravitational redshift but with a different $r$-dependence.
+    This estimate inherits the uncertainty in
+    $\Delta\omega_\text{tongue}$ from P5; a rigorous extraction
+    sharpens both predictions simultaneously.
     \item \textbf{Finite-lattice correction:}
     $\Delta\Gamma/\Gamma \sim (a/\lambda_\gamma)^2$, vanishing at
     Planck calibration, of order $10^{-12}$ at Compton calibration
-    for visible-light transitions.
+    (upper bound) for visible-light transitions. At the
+    GRB-constrained calibration this is $\lesssim 10^{-26}$ for
+    visible light, potentially observable at the highest emission
+    frequencies (X-ray and gamma-ray) where the ratio is closer to
+    unity.
 \end{itemize}
 
 \paragraph{Experimental signature.}
@@ -447,9 +524,9 @@ broadening.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.20}
-\begin{tabular}{p{0.55in}p{1.6in}p{1.5in}p{1.4in}}
+\begin{tabular}{p{0.55in}p{1.6in}p{1.6in}p{1.4in}}
 \hline
-\textbf{Prediction} & \textbf{Signature} & \textbf{Compton-cal. scale} & \textbf{Test} \\
+\textbf{Prediction} & \textbf{Signature} & \textbf{Compton-cal. upper bound} & \textbf{Test} \\
 \hline
 P1 & Discrete fringe correction at small $N$ & $\sim 10^{-12}$ at gamma-ray $L \sim 1\,\text{m}$ & X-ray Bragg / GRB interferometry \\
 P2 & Quantised time dilation $\delta t = t_\text{tick}$ & $t_\text{tick} \sim 8 \times 10^{-21}\,\text{s}$ & Optical-clock comparison at mm baseline \\
@@ -465,20 +542,23 @@ P8 & Atomic spectrum gap inside Roche radius & gradient $g_\text{crit}$ for hydr
 
 \paragraph{The calibration window.}
 P7 already constrains the lattice spacing from above:
-$a \lesssim 10^{-19}\,\text{m}$. P5 and P6 are testable at the
-Compton scale $a \sim \lambda_C \approx 10^{-12}\,\text{m}$, which
-P7 has already ruled out. The framework is therefore narrowed to
-calibrations with $a$ between roughly $10^{-19}\,\text{m}$ and the
-Planck length $10^{-35}\,\text{m}$ --- a 16-decade window. P5 and
-P6 in their stated forms are then constrained but not falsified;
-they survive at the $a \sim 10^{-19}\,\text{m}$ end with reduced
-sensitivity, and become unmeasurable at the Planck end.
+$a \lesssim 10^{-19}\,\text{m}$. The Compton-calibration numbers in
+the table above are therefore upper bounds. The framework's
+surviving calibration window is $\ell_P \lesssim a \lesssim 10^{-19}\,\text{m}$,
+a 16-decade range. The numerical signal strengths of P1–P6 within
+this window are smaller than the Compton-scale entries by factors
+$(a/\lambda_C)^n$ where $n \in \{1, 2\}$ depending on the prediction.
+The qualitative signatures (a discrete time-dilation cutoff in P2,
+a discontinuous Stark threshold in P5, a hexapole CMB pattern in
+P3, etc.) survive at any calibration; only their amplitudes scale
+with $a$.
 
 This is the most useful kind of prediction: an existing measurement
 (GRB time delays) has already bounded the framework's parameter
-space. Future improvements in P5 (Stark-threshold spectroscopy) and
-P2 (optical-clock comparisons) will narrow the window further. The
-framework is falsifiable in detail.
+space. Future improvements in P5 (Stark-threshold spectroscopy),
+P2 (optical-clock comparisons), and P3 (CMB anisotropy searches)
+will narrow the window further. The framework is falsifiable in
+detail.
 
 \paragraph{What would falsify the framework as a whole.}
 The framework is not a one-shot prediction; it is a structural
