@@ -19,7 +19,7 @@ OUT  = os.path.join(ROOT, "paper", "figures", "zenodo_doi_badge.png")
 
 # --- Configuration matches the live Zenodo badge -----------------------------
 LABEL_TEXT = "DOI"
-VALUE_TEXT = "10.5281/zenodo.19753756"
+VALUE_TEXT = "10.5281/zenodo.19799004"
 
 # Zenodo's badge palette (sampled from the live SVG)
 LABEL_BG = (85, 85, 85)        # #555 dark grey

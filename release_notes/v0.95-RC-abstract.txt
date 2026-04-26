@@ -1,0 +1,53 @@
+We propose that conservation of probability — the single axiom A=1
+— is sufficient to derive the principal results of quantum mechanics
+without additional postulates. On a bipartite three-dimensional
+causal lattice (T³_diamond), each particle is represented as a
+causal session: an independent phase oscillator that propagates
+amplitude across the lattice subject to |ψ_R|² + |ψ_L|² = 1 at
+every tick. No Hamiltonian, no Hilbert space, and no measurement
+postulate are assumed.
+
+From this single constraint we derive:
+
+(i) the Dirac equation in the continuum limit a → 0, with the
+gamma matrices identified as geometric encodings of the RGB/CMY
+bipartite sublattice geometry; rotational invariance is restored
+automatically by the frame condition Σ_RGB v_i v_j^T = 3 δ_ij,
+by the same mechanism as staggered fermions in lattice QCD;
+
+(ii) wave-particle duality and the Born rule as consequences of
+amplitude redistribution under A=1;
+
+(iii) quantization of atomic orbitals as Arnold-tongue attractors
+of the two-body phase dynamics, recovering the hydrogen Bohr radius
+to four significant figures without fitting;
+
+(iv) gravity as a clock-density gradient rather than spacetime
+curvature — a refraction of causal paths through regions of
+higher session density, reproducing the 1/r² force law with a
+falsifiable discrete correction at short range;
+
+(v) photon emission as a structural consequence of A=1: the
+Coulomb interaction is a probability source that a single session
+cannot accommodate, mandating creation of a new photon session
+at orbital lock-in (numerical verification of the joint A=1 +
+recoil mechanism in progress).
+
+Energy conservation and momentum conservation are not independent
+inputs — they are consequences of A=1 applied to closed session
+sets. The gauge structure of the Standard Model is reframed as
+the minimal set of session types required to maintain A=1 on the
+bipartite lattice geometry.
+
+The numerically tractable results are verified by a suite of more
+than fifteen experiments with no free parameters beyond the
+Planck-scale calibration of the lattice spacing; the framework's
+remaining derivations — black-hole thermodynamics among them —
+are established analytically under explicitly stated modelling
+assumptions and flagged as such where they appear.
+
+The particle content of the Standard Model is the catalogue of
+probability imbalances the bipartite lattice geometry generates,
+and the session types A=1 requires to resolve them. The Standard
+Model is not a theory — it is an accounting system. A=1 is the
+account.

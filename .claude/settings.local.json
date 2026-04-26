@@ -19,7 +19,8 @@
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c ' *)",
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install pyyaml)",
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install --quiet pyyaml)",
-      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c \"import yaml; print\\('ok', yaml.__version__\\)\")"
+      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c \"import yaml; print\\('ok', yaml.__version__\\)\")",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/zenodo_badge.py)"
     ],
     "additionalDirectories": [
       "c:\\dev\\dcl\\build"
