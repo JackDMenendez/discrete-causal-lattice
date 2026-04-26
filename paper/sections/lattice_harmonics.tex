@@ -420,40 +420,42 @@ research direction emerging from the harmonic structure of the
 present paper.
 
 % ── Figures ──────────────────────────────────────────────────────────────────
-\begin{figure}[htbp]
+\begin{figure}[!t]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{../figures/exp_harmonic_landscape}
-    \caption{Raw spectral power of \texttt{rgb\_cmy\_imbalance}$(t)$ across
-      $\omega \in (0,\pi)$.  Coloured dots mark the five theoretical frequency
-      series ($f_\text{zitt}$, $f_\text{vacuum}$, $f_\text{beat}$,
-      $f_\text{2nd}$, $f_\text{3rd}$); stars mark confirmed 3:1 and 4:1
-      lock-in points.  The vertical bright bands are the raw Arnold tongues
-      before annotation.}
-    \label{fig:harmonic_landscape}
+    \includegraphics[width=\textwidth]{../figures/exp_harmonic_hires}
+    \caption{Raw harmonic landscape: $\log_{10}$ spectral power of
+      $\mathrm{rgb\_cmy\_imbalance}(t)$ across $\omega \in (0,\pi)$
+      at $N{=}150$ resolution.  Coloured dots mark the theoretical
+      frequency series ($f_\mathrm{zitt}$, $f_\mathrm{vacuum}$,
+      $f_\mathrm{beat}$, $f_\mathrm{2nd}$, $f_\mathrm{3rd}$); white-fill
+      stars mark the 2:1, 3:1, and 4:1 lock-in points where
+      band-crossings occur.  See Fig.~\ref{fig:dirac_cones} for the
+      same data with Dirac-cone annotations overlaid.}
+    \label{fig:harmonic_hires}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{../figures/exp_harmonic_hires_drawio}
-    \caption{High-resolution scan (N=150) with Arnold tongue boundaries
-      (white lines L-1 through L-8) and resonance lock-in stars overlaid.
-      Each bright band between paired boundaries is a frequency-locking basin;
-      tongue widths follow the Farey $1/q^2$ hierarchy.
-      See full caption in Fig.~\ref{fig:harmonic_hires_full}.}
-    \label{fig:harmonic_hires}
+    \includegraphics[width=\textwidth]{../figures/dirac_cones_overlay}
+    \caption{Dirac-cone annotation of the same heatmap as
+      Fig.~\ref{fig:harmonic_hires}: at each Arnold-tongue lock-in
+      (2:1, 3:1, 4:1), two dispersion lines cross linearly --- a
+      Dirac-cone band crossing.  The graphene K-point (inset, top
+      right) has the same local $E \propto |k|$ structure.  Mass
+      quantization on the lattice and the spin-$\tfrac{1}{2}$
+      Dirac-point physics of graphene therefore share a single
+      band-crossing mechanism, not a coincidence of formulas.}
+    \label{fig:dirac_cones}
   \end{subfigure}
   \caption{Harmonic fingerprint of the $\Tdiamond$ lattice.
-    \textbf{Left:} observed spectral power with theoretical frequency markers.
-    \textbf{Right:} Arnold tongue structure inferred from the same data.
-    Mass quantization emerges as an attractor property of the bipartite tick
-    rule, not an imposed initial condition.}
+    \textbf{Left:} the raw spectral power across the
+    instruction-frequency scan, with theoretical frequency markers.
+    \textbf{Right:} Dirac-cone annotation showing each Arnold-tongue
+    lock-in as a linear band crossing, paralleling the spin-$\tfrac{1}{2}$
+    Dirac point of graphene.  Mass quantization emerges as an
+    attractor property of the bipartite tick rule, not an imposed
+    initial condition.}
   \label{fig:harmonic_pair}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \input{../figures/exp_09_harmonics_hires}
-  \label{fig:harmonic_hires_full}
 \end{figure}

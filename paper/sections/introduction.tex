@@ -97,9 +97,15 @@ The five answers:
     The Coulomb interaction is a probability \emph{source} --- it injects
     amplitude into the electron session from outside.
     $\mathcal{A}=1$ cannot accommodate this within a single session;
-    it mandates creation of a new photon session at orbital lock-in.
+    it mandates creation of a new photon session at orbital lock-in,
+    and momentum conservation requires the transfer to be accompanied
+    by physical recoil between proton and electron.
     Emission, recoil, and energy conservation all follow from
     $\mathcal{A}=1$ alone.
+    A first numerical implementation (\texttt{exp\_19c}) verifies the
+    joint $\mathcal{A}=1$ + recoil mechanism and confirms that the
+    bound electron orbit stabilises at the Arnold tongue boundary;
+    event-rate measurements at higher coupling are in progress.
 
 \item \textbf{Gravity is refraction, not curvature.}
     Every causal session carries an independent tick counter.
@@ -161,6 +167,15 @@ proton-electron resonance transitions to a lower Arnold tongue, the
 displaced amplitude is absorbed by a new photon session, and the proton
 adjusts to the new joint configuration.
 None of this requires a separately postulated transition rate.
+A direct numerical test of the joint mechanism (\texttt{exp\_19c}) ---
+two-body initialisation with Coulomb-driven amplitude drain, recoil
+detection, and momentum transfer ---
+confirms that $\mathcal{A}=1$ is preserved with the recoil channel
+active and that the bound orbit stabilises at the Arnold tongue
+boundary (peak radius $10.28$ lattice nodes against the predicted
+$R_1 = 10.3$, within $0.2\%$, in the rate $= 0.05$ regime).
+Higher-rate sweeps that resolve discrete emission events are work
+in progress.
 
 The framework also distinguishes two conditions that standard quantum
 mechanics treats as identical.

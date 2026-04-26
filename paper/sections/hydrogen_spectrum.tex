@@ -138,6 +138,27 @@ The fixed-well approximation breaks down precisely where the orbit is
 large enough that the proton's active phase dynamics are required.
 The $n{=}2$ state \emph{requires a live proton}.
 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.78\textwidth]{../figures/quantization_scan}
+  \caption{\textbf{Spontaneous quantization scan from a fixed Coulomb
+    well (\texttt{exp\_11}).}
+    Time-averaged $P(r,k)$, each $k$-column normalised to its peak.
+    Teal dashed crosshairs mark the Bohr targets $(k_n, r_n)$; the
+    cyan line is the epoch-averaged stability score (right axis,
+    inverted: a minimum dips toward the bright spot).
+    \textbf{Top, $n{=}1$:} bright concentration around the Bohr
+    crosshair $(k_1{=}0.0971,\,r_1{=}10.3)$, with the score curve
+    dipping near $k{=}0.094$ --- the lattice selects a Bohr-like
+    attractor without parameter tuning.
+    \textbf{Bottom, $n{=}2$:} the score is essentially flat across
+    the full $k$-range and density collapses to $r\approx 2$--$3$,
+    far from $(k_2{=}0.0485,\,r_2{=}41.2)$. The fixed well cannot
+    sustain $n{=}2$; the live proton of \texttt{exp\_12}
+    (Fig.~\ref{fig:exp12_twobody}) is required.}
+  \label{fig:quantization_scan}
+\end{figure}
+
 \subsection{Two-Body Hydrogen: Four Significant Figures}
 \label{subsec:exp12}
 
@@ -159,6 +180,27 @@ the fixed-well and two-body runs side by side.
 The contrast is unambiguous: the static well minimum sits $7.3\%$ below
 $k_\text{Bohr}$ with a broad noisy landscape; the live-proton minimum
 snaps to within $0.09\%$ with a sharper, smoother basin.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\textwidth]{../figures/exp_12_twobody_scan}
+  \caption{\textbf{Two-body hydrogen recovers the Bohr quantization
+    to four significant figures (\texttt{exp\_12}).}
+    Epoch score (lower is better) as a function of the electron's
+    initial phase gradient $k$, comparing the fixed-well scan
+    (\texttt{exp\_11}, navy) against the live-proton two-body scan
+    (\texttt{exp\_12}, dark red).  Shaded bands give one
+    epoch-standard-deviation.  The teal dashed line marks the
+    analytic prediction $k_\text{Bohr} = 1/R_1 = 0.0971$.
+    The fixed-well minimum sits at $k_\text{min} = 0.0900$
+    ($7.3\%$ below Bohr), with a broad noisy basin.  Adding a live
+    proton session shifts the minimum to $k_\text{min} = 0.0970$,
+    matching $k_\text{Bohr}$ to $0.09\%$, and tightens the basin.
+    The remaining discrepancy is at the level of the scan resolution
+    $\Delta k = 0.003$ (teal band).  Compare with the fixed-well
+    landscape of Fig.~\ref{fig:quantization_scan}.}
+  \label{fig:exp12_twobody}
+\end{figure}
 
 The live proton widens the Arnold tongue.
 In the two-session model, two degrees of freedom are locking simultaneously;

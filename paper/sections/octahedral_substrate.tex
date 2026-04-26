@@ -184,6 +184,25 @@ $^\ddagger$Two-body hydrogen experiment; 4 significant figures.
 $^\dagger$3:1 Zitterbewegung/orbital resonance; dynamical result,
 derivation in Section~\ref{sec:kinematics}.
 
+\paragraph{Two lengths, one convention.}
+The cubic geometry carries two natural distances: the grid spacing
+$\ell_P$ (one cube edge) and the body-diagonal $h \equiv \sqrt{3}\,\ell_P$
+(the actual hop distance per tick).  Every causal hop covers $h$, not
+$\ell_P$, so the speed of light is
+\begin{equation}
+    c \;=\; \frac{h}{\tau} \;=\; \frac{\sqrt{3}\,\ell_P}{\tau},
+    \label{eq:c_definition}
+\end{equation}
+where $\tau$ is one tick.  Throughout the rest of the paper,
+\emph{``the lattice spacing'' $a$ denotes the hop distance $h$}, not
+the cube edge $\ell_P$, unless explicitly stated otherwise.  This is
+the length that enters the Compton- and GRB-calibration relations
+($a = \lambda_C$ at Compton calibration; $a \lesssim 10^{-19}\,\text{m}$
+from GRB time-of-flight), the predictions table in
+Section~\ref{sec:predictions}, and the discrete-correction expressions
+of Section~\ref{sec:gravity}.  A reader doing a back-of-envelope
+calculation should always read $a$ as $h$, not as $\ell_P$.
+
 \medskip
 The HUP saturation entry $R_1 \cdot k_\text{Bohr} = 1$ deserves emphasis.
 The Bohr orbit is precisely the minimum-uncertainty state on the lattice:

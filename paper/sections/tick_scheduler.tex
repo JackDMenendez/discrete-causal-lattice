@@ -290,11 +290,53 @@ spectrum --- is the thermodynamic fingerprint of a uniform-prior
 boundary queue under stochastic drop, and is recovered without
 trans-Planckian field modes.
 
-A full lattice derivation of the Hawking temperature
-$T_H = \hbar c / (8\pi G M k_B)$ from the queue-drop rate is left to
-future work; the present claim is structural.
-Hawking radiation is what an architecturally bounded scheduler does
-when it is asked to do more than it can.
+\paragraph{The Hawking temperature from boundary surface gravity.}
+The temperature of the queue-drop emission can be fixed to leading
+order under one modelling assumption: that the saturation boundary
+inherits, as an external metric quantity, the Schwarzschild surface
+gravity
+\begin{equation}
+    \kappa = \frac{c^4}{4 G M},
+    \label{eq:surface_gravity}
+\end{equation}
+where $M$ is the total mass enclosed by the saturated region.
+This assumption is the architectural counterpart of identifying the
+saturation boundary with a black-hole horizon
+(Section~\ref{subsec:black_holes}); the strong-field clock-fluid
+derivation that fixes the metric to Schwarzschild form is reserved
+for the gravitational-continuum-limit work of
+Section~\ref{sec:clock_fluid}.
+
+A boundary with effective surface acceleration $\kappa$ supports an
+Unruh-style local thermal spectrum at temperature
+$T_\text{local} = \hbar\kappa/(2\pi c\,k_B)$.
+Folding the gravitational redshift between the local frame and the
+asymptotic observer (which, near the horizon, exactly cancels the
+$1/\sqrt{1-r_s/r}$ blueshift of $T_\text{local}$) leaves the
+temperature seen at infinity equal to the surface-gravity expression
+itself~\cite{hawking1975}:
+\begin{equation}
+    T_H \;=\; \frac{\hbar\,\kappa}{2\pi\,c\,k_B}
+        \;=\; \frac{\hbar\,c^3}{8\pi\,G\,M\,k_B}.
+    \label{eq:hawking_T}
+\end{equation}
+The queue-drop rate at the saturated boundary is therefore set, up
+to architectural constants of order unity, by
+$\Gamma_\text{drop}\sim \kappa/(2\pi)$: the boundary releases on
+average one session per $2\pi/\kappa$ of asymptotic time.
+
+\paragraph{Honest scope of Eq.~\eqref{eq:hawking_T}.}
+The lattice contribution is the architectural claim that
+\emph{some} thermal emission must occur at the saturated boundary
+because the scheduler cannot accept further registrations and the
+queue-drop is the architecturally simplest legal response.  The
+specific form $T_H = \hbar c^3/(8\pi G M k_B)$ then follows from
+Eq.~\eqref{eq:surface_gravity} via the standard Unruh--horizon
+relation.  The modelling assumption that fixes the numerical
+prefactor is the inheritance of the Schwarzschild $\kappa$ at the
+saturation boundary: a strong-field derivation of this
+correspondence from the clock-fluid equations is the natural
+follow-on calculation.
 
 % ── 4.7 Architectural Irreversibility and the Arrow of Time ───────────────────
 \subsection{Architectural Irreversibility and the Arrow of Time}

@@ -5,7 +5,20 @@
       "Bash(python src/experiments/exp_01_inertia.py)",
       "Bash(python src/experiments/exp_00_causal_cone.py)",
       "Bash(\"../../.venv/Scripts/python\" -c \":*)",
-      "Bash(make exp_00_causal_cone)"
+      "Bash(make exp_00_causal_cone)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_twobody_scan.py --datadir data --light --out figures/exp_12_twobody_scan.png)",
+      "Bash(pdflatex -interaction=nonstopmode -halt-on-error -file-line-error -output-directory=../build -jobname=Discrete_Causal_Lattice_TEST main.tex)",
+      "Bash(grep -B0 \"fig:lanterns\\\\|\\\\\\\\\\\\\\\\ignorespaces.*Double-Slit\" c:/dev/dcl/build/Discrete_Causal_Lattice_TEST.aux)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/dirac_cones_overlay.py)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_quantization_scan.py --datadir data --no-heatmap --out figures/quantization_scan_classic.png)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_quantization_scan.py --datadir data --light --vertical --out figures/quantization_scan.pdf)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_quantization_scan.py --datadir data --light --vertical --out figures/quantization_scan.png)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py --quick)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py --slits 50 --propagation 80 --ticks 150 --omega 0.40)"
+    ],
+    "additionalDirectories": [
+      "c:\\dev\\dcl\\build"
     ]
   }
 }

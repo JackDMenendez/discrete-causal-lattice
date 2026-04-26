@@ -18,6 +18,7 @@ Run from repo root:
 Saves: figures/dirac_cones_overlay.pdf  +  .png
 """
 
+import argparse
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -31,8 +32,43 @@ OUT_DIR  = os.path.join(_ROOT, 'figures')
 N_OMEGA  = 150
 N_TICKS  = 512
 
-C_BG     = '#111111'
-C_TEXT   = 'white'
+# Theme is selected at runtime via --light or --dark.  Default light, since the
+# dark version is print-expensive and the inferno colormap reads on either bg.
+_ap = argparse.ArgumentParser()
+_ap.add_argument('--dark', action='store_true', help='Render dark-on-black.')
+_ap.add_argument('--light', action='store_true',
+                 help='Render light-on-white (default; print-friendly).')
+_args, _ = _ap.parse_known_args()
+LIGHT = not _args.dark   # default light unless --dark explicitly passed
+
+if LIGHT:
+    C_BG       = 'white'
+    C_TEXT     = 'black'
+    C_SPINE    = '#222222'
+    C_GRID     = '#cccccc'
+    C_INSET_BG = '#f4f4ff'
+    C_INSET_SPINE = '#222244'
+    C_DASH     = '#888888'
+    # Crossings: dark labels for legibility on white
+    C_2to1     = '#222222'
+    C_3to1     = '#0a7d2c'
+    C_4to1     = '#aa1a8a'
+    # Inset Dirac-point + shading: dark fill on light bg
+    C_INSET_FILL = 'black'
+    C_INSET_SHADE = '#666666'
+else:
+    C_BG       = '#111111'
+    C_TEXT     = 'white'
+    C_SPINE    = '#555555'
+    C_GRID     = '#444444'
+    C_INSET_BG = '#1a1a2e'
+    C_INSET_SPINE = '#666688'
+    C_DASH     = '#555555'
+    C_2to1     = 'white'
+    C_3to1     = '#88ff88'
+    C_4to1     = '#ffaaff'
+    C_INSET_FILL = 'white'
+    C_INSET_SHADE = 'white'
 
 # ── Coordinate conversion ──────────────────────────────────────────────────────
 def omega_to_y(omega):
@@ -63,22 +99,22 @@ for ln in lines:
 # ── Crossing points ────────────────────────────────────────────────────────────
 crossings = [
     dict(f=0.250, y=omega_to_y(np.pi/2),
-         label='2:1\n$\\omega=\\pi/2$',  color='white',
+         label='2:1\n$\\omega=\\pi/2$',  color=C_2to1,
          lxy=(0.11, omega_to_y(np.pi/2) + 18)),   # upper-left, plenty of space
     dict(f=1/3,   y=omega_to_y(np.pi/3),
-         label='3:1\n$\\omega=\\pi/3$',  color='#88ff88',
+         label='3:1\n$\\omega=\\pi/3$',  color=C_3to1,
          lxy=(0.13, omega_to_y(np.pi/3) - 16)),   # lower-left
     dict(f=3/8,   y=omega_to_y(np.pi/4),
-         label='4:1\n$\\omega=\\pi/4$',  color='#ffaaff',
+         label='4:1\n$\\omega=\\pi/4$',  color=C_4to1,
          lxy=(0.46, omega_to_y(np.pi/4) - 14)),   # lower-right, well clear of 3:1
 ]
 
 # ── Cone geometry ──────────────────────────────────────────────────────────────
 # slopes d(y_row)/d(f) for each crossing pair:
 cone_specs = [
-    dict(fc=0.250, yc=omega_to_y(np.pi/2), s1= 302,    s2=-302,   size=0.020, color='white'),
-    dict(fc=1/3,   yc=omega_to_y(np.pi/3), s1= 151,    s2=-302,   size=0.020, color='#88ff88'),
-    dict(fc=3/8,   yc=omega_to_y(np.pi/4), s1= 302/3,  s2=-302,   size=0.020, color='#ffaaff'),
+    dict(fc=0.250, yc=omega_to_y(np.pi/2), s1= 302,    s2=-302,   size=0.020, color=C_2to1),
+    dict(fc=1/3,   yc=omega_to_y(np.pi/3), s1= 151,    s2=-302,   size=0.020, color=C_3to1),
+    dict(fc=3/8,   yc=omega_to_y(np.pi/4), s1= 302/3,  s2=-302,   size=0.020, color=C_4to1),
 ]
 
 
@@ -92,7 +128,7 @@ def draw_cone(ax, fc, yc, s1, s2, size, color, alpha=0.32):
     ax.plot(fc + df_full, yc + s1*df_full, color=color, lw=2.0, alpha=0.90, zorder=5)
     ax.plot(fc + df_full, yc + s2*df_full, color=color, lw=2.0, alpha=0.90, zorder=5)
     ax.plot(fc, yc, 'o', color=color, markersize=7, zorder=6,
-            markeredgecolor='white', markeredgewidth=0.8)
+            markeredgecolor=C_TEXT, markeredgewidth=0.8)
 
 
 # ── Graphene inset helper ──────────────────────────────────────────────────────
@@ -113,16 +149,16 @@ def draw_graphene_inset(ax_main):
     ax_in.plot(k, -np.abs(k), color='#dd8800', lw=2.0)
 
     # shading
-    ax_in.fill_between(k[k >= 0],  k[k >= 0],  -k[k >= 0], alpha=0.18, color='white')
-    ax_in.fill_between(k[k <= 0], -k[k <= 0],   k[k <= 0], alpha=0.18, color='white')
+    ax_in.fill_between(k[k >= 0],  k[k >= 0],  -k[k >= 0], alpha=0.18, color=C_INSET_SHADE)
+    ax_in.fill_between(k[k <= 0], -k[k <= 0],   k[k <= 0], alpha=0.18, color=C_INSET_SHADE)
 
     # Dirac point
-    ax_in.plot(0, 0, 'o', color='white', markersize=6,
-               markeredgecolor='white', zorder=5)
+    ax_in.plot(0, 0, 'o', color=C_INSET_FILL, markersize=6,
+               markeredgecolor=C_INSET_FILL, zorder=5)
 
     # axes lines
-    ax_in.axhline(0, color='#555555', lw=0.6, ls='--')
-    ax_in.axvline(0, color='#555555', lw=0.6, ls='--')
+    ax_in.axhline(0, color=C_DASH, lw=0.6, ls='--')
+    ax_in.axvline(0, color=C_DASH, lw=0.6, ls='--')
 
     # labels
     ax_in.set_xlabel('$k$',  color=C_TEXT, fontsize=8, labelpad=1)
@@ -130,8 +166,8 @@ def draw_graphene_inset(ax_main):
     ax_in.set_title('Graphene K-point\n(spin-½, 2 bands)',
                     color=C_TEXT, fontsize=7.5, pad=3)
     ax_in.annotate('Dirac\npoint', xy=(0, 0), xytext=(0.35, 0.35),
-                   color='white', fontsize=6.5,
-                   arrowprops=dict(arrowstyle='->', color='white', lw=0.7),
+                   color=C_TEXT, fontsize=6.5,
+                   arrowprops=dict(arrowstyle='->', color=C_TEXT, lw=0.7),
                    ha='center')
 
     ax_in.set_xlim(-1, 1)
@@ -142,9 +178,9 @@ def draw_graphene_inset(ax_main):
     ax_in.set_yticklabels([r'$-E$', '0', r'$+E$'], color=C_TEXT, fontsize=6)
     ax_in.tick_params(colors=C_TEXT, labelsize=6, length=2)
 
-    ax_in.set_facecolor('#1a1a2e')
+    ax_in.set_facecolor(C_INSET_BG)
     for spine in ax_in.spines.values():
-        spine.set_edgecolor('#666688')
+        spine.set_edgecolor(C_INSET_SPINE)
         spine.set_linewidth(0.8)
 
     # border box
@@ -192,7 +228,7 @@ for c in crossings:
                 color=c['color'], fontsize=9, ha='center', va='center',
                 arrowprops=dict(arrowstyle='->', color=c['color'], lw=0.9),
                 bbox=dict(boxstyle='round,pad=0.3', facecolor=C_BG,
-                          edgecolor=c['color'], alpha=0.88, linewidth=0.9),
+                          edgecolor=c['color'], alpha=0.92, linewidth=0.9),
                 zorder=7)
 
 # --- graphene inset ---
@@ -212,7 +248,7 @@ ax.set_xticks(x_ticks)
 ax.set_xticklabels(x_labels, color=C_TEXT, fontsize=9)
 ax.tick_params(colors=C_TEXT, which='both')
 for spine in ax.spines.values():
-    spine.set_edgecolor('#555555')
+    spine.set_edgecolor(C_SPINE)
 
 ax.set_xlim(0, 0.5)
 ax.set_ylim(0, N_OMEGA)
@@ -223,8 +259,8 @@ ax.set_title(
     'each Arnold tongue lock-in $\\equiv$ linear band crossing',
     color=C_TEXT, fontsize=11, pad=8)
 
-ax.legend(loc='upper left', fontsize=8.5, framealpha=0.7,
-          facecolor=C_BG, edgecolor='#555555', labelcolor=C_TEXT)
+ax.legend(loc='upper left', fontsize=8.5, framealpha=0.85,
+          facecolor=C_BG, edgecolor=C_SPINE, labelcolor=C_TEXT)
 
 # --- save ---
 out_pdf = os.path.join(OUT_DIR, 'dirac_cones_overlay.pdf')

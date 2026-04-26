@@ -96,16 +96,17 @@ Clock density conservation
     & Einstein field equations (§\ref{sec:clock_fluid})
     & \texttt{exp\_07}
     & \texttt{PASS} \\
-Event horizon
-    & Scheduler saturation $\rho \to \ell_P^{-3}$
-    & No singularity; Planck density ceiling
-    & Derived analytically (§\ref{sec:gravity})
-    & \texttt{STUB} \\
+Event horizon + Hawking $T$
+    & Scheduler saturation $\rho \to \ell_P^{-3}$;
+      boundary surface gravity $\kappa = c^4/(4GM)$
+    & No singularity; $T_H = \hbar c^3/(8\pi G M k_B)$
+    & Derived analytically (§\ref{subsec:saturation})
+    & \texttt{PART} \\
 Bekenstein-Hawking entropy
-    & Boundary clock count at saturation
-    & $S = A/(4\ell_P^2)$
-    & Derived analytically (§\ref{sec:gravity})
-    & \texttt{STUB} \\
+    & Boundary session count, $A_\text{session} = 4\ell_P^2$
+    & $S = k_B A/(4\ell_P^2) = k_B A c^3/(4G\hbar)$
+    & Derived analytically (§\ref{subsec:black_holes})
+    & \texttt{PART} \\
 \hline
 % ── Electromagnetism ──────────────────────────────────────────────────────────
 EM vs.\ gravity (curl vs.\ div)
@@ -119,10 +120,11 @@ Photon emission
     & \texttt{exp\_08}
     & \texttt{PASS} \\
 Photon emission as $\mathcal{A}=1$ necessity
-    & Tongue-jump $\Rightarrow$ third session forced by $\mathcal{A}=1$
+    & Joint $\mathcal{A}=1$ + momentum-transfer recoil at orbit;
+      tongue-jump mandates third session
     & Spontaneous emission without separate field quantization
     & \texttt{exp\_19c} (§\ref{subsec:emission})
-    & \texttt{PASS} \\
+    & \texttt{PART} \\
 \hline
 % ── Hydrogen and atomic physics ───────────────────────────────────────────────
 Hydrogen $E_n \sim -1/n^2$

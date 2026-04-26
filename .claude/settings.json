@@ -34,7 +34,10 @@
       "Bash(python -c \"import src.experiments.exp_strength_sweep\")",
       "Bash(ls src/experiments/*.npy)",
       "Bash(ls data/strength_sweep*)",
-      "Bash(python src/experiments/exp_08_vacuum_twist.py)"
+      "Bash(python src/experiments/exp_08_vacuum_twist.py)",
+      "Bash(grep -n \"^\\\\\\\\\\\\\\\\section\\\\b\" c:/dev/dcl/paper/sections/*.tex)",
+      "Bash(grep -l \"facecolor\\\\|\\\\\\\\.use\\\\\\\\['Agg'\\\\\\\\]\\\\|set_facecolor\" c:/dev/dcl/src/experiments/exp_09b*.py c:/dev/dcl/src/experiments/exp_09c*.py c:/dev/dcl/src/utilities/plot_twobody_scan.py)",
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_twobody_scan.py --datadir data --light --out figures/exp_12_twobody_scan.pdf)"
     ]
   }
 }

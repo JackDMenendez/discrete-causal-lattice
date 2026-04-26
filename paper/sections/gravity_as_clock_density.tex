@@ -312,21 +312,67 @@ for a new one; this stochastic queue-drop is the lattice mechanism for
 Hawking radiation, recovering the thermal character of the emission
 without requiring trans-Planckian modes.
 
-The Bekenstein-Hawking entropy
-$S = A/(4\ell_P^2)$~\cite{bekenstein1973,hawking1975}
-has a natural reading in this framework.
-Clocks live on the boundary of the region where information exchange
-occurs; at saturation, each Planck-area boundary cell holds exactly one
-clock.
-The entropy is the boundary clock count:
+\paragraph{The Bekenstein-Hawking entropy from boundary session counting.}
+The horizon entropy
+$S = k_B\,A/(4\ell_P^2)$~\cite{bekenstein1973,hawking1975}
+follows from a microstate count on the saturated boundary, under one
+explicit modelling assumption about how the bipartite/chiral lattice
+degrees of freedom assemble into a single registered session.
+
+Each causal session in the framework carries four binary degrees of
+freedom (Sections~\ref{subsec:macro_tick} and~\ref{subsec:dirac_limit}):
+the sublattice it occupies on a given tick (RGB or CMY) and its
+chirality component ($\psi_R$ or $\psi_L$).  The Dirac tick rule
+couples all four components together --- a session cannot be
+specified by fewer.  We therefore adopt the
+\emph{boundary-cell-grouping assumption}: each registered session at
+the saturation boundary occupies a coherent four-cell patch carrying
+one of each (sublattice, chirality) component.  The patch area is
 \begin{equation}
-    S = \frac{A}{4\ell_P^2}
-      = \frac{\text{boundary area}}{\text{Planck area per clock}}.
+    A_\text{session} = 4\,\ell_P^2,
+    \label{eq:session_patch}
+\end{equation}
+where the factor of $4 = 2_\text{RGB/CMY}\times 2_{R/L}$ counts the
+fundamental lattice degrees of freedom that must coexist for a tick to
+proceed.
+
+The number of distinct session registrations a boundary of area $A$
+can support is then
+\begin{equation}
+    N_\text{boundary} = \frac{A}{A_\text{session}} = \frac{A}{4\ell_P^2}.
+    \label{eq:N_boundary}
+\end{equation}
+Because the only operation the scheduler exposes at saturation is
+\emph{whether} each boundary patch is currently registered ---
+register or not --- each patch carries one bit of distinguishing
+information.  The entropy of the boundary is therefore the patch
+count\footnote{This is a structural definition rather than the
+$\log(\text{microstate count})$ of statistical mechanics.  It coincides
+in nats per $k_B$ with the latter when each patch is in a maximally
+mixed binary state, and is the form in which the boundary count
+matches the area--entropy law literally.  A careful microstate-count
+derivation along the lines of Strominger--Vafa is open work, deferred
+to a follow-on paper.}
+\begin{equation}
+    S \;=\; k_B\,N_\text{boundary} \;=\; \frac{k_B\,A}{4\ell_P^2}
+        \;=\; \frac{k_B\,A\,c^3}{4\,G\,\hbar},
     \label{eq:bekenstein}
 \end{equation}
-The factor of 4 is a lattice geometry question (the four faces of each
-boundary simplex in the $\Tdiamond$ structure) that we leave for future
-work.
+recovering the Bekenstein--Hawking relation with the correct
+prefactor.
+
+\paragraph{Honest scope of Eq.~\eqref{eq:bekenstein}.}
+The load-bearing claim is that the lattice's saturation boundary
+\emph{has} an extensive entropy proportional to its area --- a
+non-trivial holographic statement that follows directly from the
+existence of a Planck-volume cap and the architectural separation of
+boundary and interior.  The numerical $1/4$ rests on
+Eq.~\eqref{eq:session_patch}, the boundary-cell-grouping assumption.
+A first-principles derivation of $A_\text{session} = 4\ell_P^2$ from
+the bipartite/chiral session geometry is open work; alternative
+groupings (e.g.\ a session occupying a different number of cells, or
+a non-trivial fractional packing) would replace the $1/4$ with another
+geometric constant while leaving the area law intact.
 
 % ── 7.6 Connection to GR and falsifiable predictions ─────────────────────────
 \subsection{Connection to General Relativity}

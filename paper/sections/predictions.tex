@@ -284,34 +284,85 @@ relativistic correction $\gamma$ is recovered, but with an
 additional shift from the discrete clock-density gradient that does
 not appear in continuum SR.
 
-\paragraph{Numerical scale (upper bound at Compton calibration).}
-For a muon ($\tau_\mu \approx 2.2 \times 10^{-6}\,\text{s}$) at
-Earth's surface vs.\ low Earth orbit, the standard gravitational
-redshift gives a fractional time dilation
-$\Delta\tau/\tau \sim 10^{-10}$, which has been confirmed by
-satellite-clock experiments. The lattice prediction is an additional
-correction whose order-of-magnitude scaling is $\sim (a/r_\oplus)^2$
-times a process-dependent prefactor we have not computed; assuming
-that prefactor is $O(1)$, the correction is $\sim 10^{-46}$ at
-Planck calibration (unmeasurable) and $\sim 10^{-23}$ at Compton
-calibration as an upper bound. At the GRB-constrained calibration
-the upper bound falls by $(a/\lambda_C)^2 \lesssim 10^{-14}$,
-yielding $\sim 10^{-37}$ --- well below any feasible muon
-experiment. A rigorous calculation of the prefactor from the
-clock-density gradient model of Section~\ref{subsec:density_dilation}
-is the natural next step to sharpen this prediction.
+\paragraph{Derivation of the lattice correction.}
+The discrete update of the clock-density field, derived from the
+all-six-basis-vector Taylor expansion of the hop operator
+(Section~\ref{subsec:density_dilation} and the parallel gravity
+derivation), reads
+\begin{equation}
+    \rho_\text{clock}(\mathbf{x},t+1) - \rho_\text{clock}(\mathbf{x},t)
+        = \frac{a^2}{6}\,\nabla^2 \rho_\text{clock}(\mathbf{x})
+        + S(\mathbf{x}) + O(a^4),
+    \label{eq:rho_clock_discrete}
+\end{equation}
+where the $1/6$ is the frame-condition factor $\sum_\text{ALL} v_i v_j = 6\,\delta_{ij}$
+divided over the second-derivative coefficient.  We adopt the
+modelling assumption that the muon's per-macro-tick advance rate
+inherits this same discrete correction --- i.e.\ that the muon
+session's coupling to its local clock-density background is, to
+leading order, identical to $\rho_\text{clock}$'s coupling to itself
+through Eq.~\eqref{eq:rho_clock_discrete}.  This is a specific
+assumption, not a derived result: a full first-principles derivation
+would require coupling a single-particle session to the scheduler
+load explicitly.
+
+Under this assumption, the fractional shift in the muon's
+distant-observer decay rate, beyond the standard SR
+$\gamma$ factor, is
+\begin{equation}
+    \left(\frac{\Delta \tau}{\tau}\right)_\text{lattice}
+        = \frac{a^2}{6}\,\frac{\nabla^2 \rho_\text{clock}}{\rho_\text{clock}}
+        \approx \frac{a^2}{6}\,\frac{4\pi G\,\rho_\text{mass}}{c^2},
+    \label{eq:p4_shift}
+\end{equation}
+where the second equality uses the Poisson relation $\nabla^2 \phi = 4\pi G\rho_\text{mass}$
+and $\rho_\text{clock}/\rho_0 \approx 1 - \phi/c^2$ in the weak-field
+limit.
+
+\paragraph{Numerical scale.}
+At Earth's surface with mean mass density $\rho_\oplus = 5510\,\text{kg/m}^3$,
+the curvature factor evaluates to $4\pi G\rho_\oplus / c^2 \approx 5.1 \times 10^{-23}\,\text{m}^{-2}$.
+For a muon ($\tau_\mu \approx 2.2 \times 10^{-6}\,\text{s}$), the
+lattice correction beyond the standard gravitational redshift
+($\sim 10^{-10}$, well-confirmed by satellite-clock experiments) is
+\begin{align}
+    \left(\frac{\Delta\tau}{\tau}\right)_\text{lattice}
+        &\approx 1.3 \times 10^{-48}
+        \quad (\text{Compton calibration},\ a = \lambda_C),
+        \nonumber\\
+        &\approx 8.6 \times 10^{-62}
+        \quad (\text{GRB-bound},\ a \lesssim 10^{-19}\,\text{m}),
+        \label{eq:p4_numerical}\\
+        &\approx 2.2 \times 10^{-93}
+        \quad (\text{Planck},\ a = \ell_P).
+        \nonumber
+\end{align}
+The relevant length scale is the gravitational scale
+$L_g \equiv \sqrt{c^2/(4\pi G\rho_\oplus)} \approx 4.4 \times 10^{11}\,\text{m}$,
+not Earth's radius: the correction is $(a/L_g)^2 / 6$, and
+$L_g \gg r_\oplus$ pushes the magnitude well below any earlier
+$(a/r_\oplus)^2$ sketch.
 
 \paragraph{Experimental signature.}
-Differential muon-lifetime measurements at controlled gravitational
-potentials, calibrated against theoretical SR predictions, should
-show a residual depending on local clock-density gradients beyond
-the SR factor. The residual scales as $(\nabla\rho_\text{clock})^2$
-and changes sign across mass concentrations.
+The correction changes sign across mass concentrations and tracks
+the local Laplacian of $\rho_\text{clock}$, distinguishing it
+in principle from the standard gravitational redshift (which tracks
+$\phi$ itself).  The magnitudes in
+Eq.~\eqref{eq:p4_numerical}, however, are below any presently
+foreseeable muon-lifetime experiment.
 
 \paragraph{Falsification.}
-Confirmation of the standard SR prediction to fractional precision
-$10^{-23}$ in differential muon-lifetime measurements, with no
-gradient-dependent residual, falsifies the Compton calibration.
+Differential muon-lifetime experiments cannot, at present sensitivities,
+falsify the prediction in either direction: the size of the lattice
+correction is so far below current precision that null results are
+consistent with the prediction.  Falsification would require
+either (i) a five-orders-of-magnitude improvement in differential
+muon-lifetime sensitivity beyond the foreseeable, or (ii) the
+detection of a clock-density-gradient residual much larger than
+Eq.~\eqref{eq:p4_numerical} predicts --- which would falsify the
+modelling assumption (single-session inheritance of the
+$\frac{a^2}{6}\nabla^2$ correction) rather than the framework's
+qualitative claim of a clock-density correction.
 
 % ── 12.6 P5: Arnold Tongue Width — Stark/Lamb Discontinuity ──────────────────
 \subsection{P5: Arnold Tongue Width and the Stark/Lamb Discontinuity}
@@ -334,32 +385,76 @@ but unquantised). An external perturbation displaces the operating
 point in $(\omega, V)$; once it crosses the tongue boundary, the
 spectroscopic line vanishes.
 
-\paragraph{Numerical scale (estimate).}
-The tongue half-width for the hydrogen ground state can be read
-off the harmonic-scan landscape of \texttt{exp\_09} as
-$\Delta\omega_\text{tongue} \sim 0.05\,\omega_e$ at the 3:1
-resonance, an order-of-magnitude estimate from the visible width
-of the 3:1 Arnold tongue in
-Figure~\ref{fig:harmonic_pair}. A rigorous extraction of the tongue
-width from \texttt{exp\_09} data --- the calculation that converts
-the visible band into a sharp number --- is reserved for a follow-on
-analysis. With the estimate above, the corresponding critical
-electric field is
+\paragraph{Numerical scale.}
+We extract the tongue half-width from the high-resolution harmonic
+scan of \texttt{exp\_09c} (data file
+\texttt{exp\_harmonic\_hires\_powermap.npy}) by tracking the fraction
+of spectral power that concentrates at the locked frequency
+$f = 1/3$ as the instruction frequency $\omega$ is swept across
+$\omega_e = \pi/3$.  The full-width-at-half-maximum of the resulting
+$P(\omega)$ profile, with linear interpolation between adjacent
+$\omega$ rows, gives
 \begin{equation}
-    \mathbf{E}_\text{crit}^{(n=1)}
-        \sim \frac{c\,\Delta\omega_\text{tongue}}{2 e\,R_1}
-        \sim 10^9\,\text{V/m}
-        \quad (\text{Compton-calibration upper bound}),
+    \frac{\Delta\omega_\text{tongue}}{\omega_e}
+        = 0.033 \pm 0.020
+    \quad (3{:}1\ \text{resonance}),
+    \label{eq:tongue_width_measured}
+\end{equation}
+where the uncertainty combines the row-to-row $\omega$ quantisation
+($\pi/302$) with the sensitivity to the analysis bandwidth and
+smoothing window in quadrature.  The extraction script is
+\texttt{src/utilities/tongue\_width\_3to1.py}; the central estimate
+agrees with the visible width of the 3:1 tongue in
+Figure~\ref{fig:harmonic_pair} and supersedes the earlier eyeball
+estimate of $\sim 0.05$.  A dedicated longer-baseline scan would
+reduce the analysis-systematic component of the uncertainty.
+
+\paragraph{Critical field from the Peierls substitution.}
+A static external field $\mathbf{E} = E\,\hat{\mathbf{x}}$ enters the
+tick rule through the scalar-potential gauge $\varphi(x) = -E x$ of
+the Peierls coupling derived in
+Section~\ref{subsec:em_matter_side} (the gauge-equivalent vector
+form $A_x(t) = -E\,t$ gives the same physics).  In this gauge the
+local phase advancement at site $x$ becomes
+\begin{equation}
+    \delta\phi(x) = \omega_e + V_\text{Coulomb}(x) + \frac{e E}{\hbar}\,x,
+    \label{eq:stark_detune}
+\end{equation}
+i.e.\ the field detunes the tick rate by $eE\,x/\hbar$, linear in
+position.  Across an orbit of radius $R_1$ the spread of detunings is
+$\bigl(eE/\hbar\bigr)\!\cdot\!2 R_1$.  The 3:1 joint resonance breaks
+when this spread exceeds the tongue full-width
+$2\,\Delta\omega_\text{tongue}$, giving
+\begin{equation}
+    E_\text{crit}^{(n=1)}
+        = \frac{\hbar\,\Delta\omega_\text{tongue}}{e\,R_1}.
     \label{eq:E_crit}
 \end{equation}
-in principle within reach of laser-induced static fields in
-trapped-ion spectroscopy.
-At the GRB-constrained calibration the predicted critical field is
-reduced by $a/\lambda_C \lesssim 10^{-7}$ (the threshold scales as
-$\Delta\omega_\text{tongue}$, which is set by the lattice geometry,
-times $1/R_1$ which scales with $a$). The qualitative signature ---
-a discontinuous threshold rather than smooth Stark broadening ---
-survives at any calibration and is the load-bearing claim.
+(Numerical factors of order unity from orbital averaging are absorbed
+in the order-of-magnitude estimate below.)  Substituting the
+measurement of Eq.~\eqref{eq:tongue_width_measured} with the physical
+hydrogen ground-state parameters $\hbar\omega_e = E_{n=1} = 13.6$\,eV
+and $R_1 = a_0 = 0.529$\,\AA{} gives
+\begin{equation}
+    E_\text{crit}^{(n=1)}
+        = \frac{0.033\,E_{n=1}}{e\,a_0}
+        \approx 8.5 \times 10^{9}\,\text{V/m},
+    \label{eq:E_crit_value}
+\end{equation}
+with the propagated $\pm 0.020$ uncertainty in
+$\Delta\omega_\text{tongue}/\omega_e$ giving a range $3 \times 10^9$
+to $1.4 \times 10^{10}$\,V/m.  The result is calibration-independent
+in the continuum limit: the dimensionless ratio
+$\Delta\omega_\text{tongue}/\omega_e$ is set by the resonance
+structure of the lattice tick rule and survives the limit
+$a/a_0 \to 0$, while $E_{n=1}$ and $a_0$ are the physical
+ground-state observables of hydrogen.
+
+A field of $\sim 10^{10}$\,V/m is in principle within reach of
+laser-induced static fields in trapped-ion spectroscopy.  The
+qualitative signature --- a discontinuous threshold rather than
+smooth Stark broadening --- is the load-bearing claim, but
+Eq.~\eqref{eq:E_crit_value} now sets a specific numerical target.
 
 \paragraph{Experimental signature.}
 Trap a single hydrogen atom in a calibrated DC electric field of
@@ -407,14 +502,13 @@ For a hydrogen atom at distance $r$ from a body of mass $M$:
 \begin{itemize}
     \item \textbf{Clock-density correction:}
     $\Delta\Gamma/\Gamma \sim (GM/c^2 r) \cdot (\Delta\omega_\text{tongue}/\omega_e)$.
-    With $\Delta\omega_\text{tongue}/\omega_e \sim 0.05$ (the
-    estimate from P5) and the gravitational potential of Earth's
-    surface giving $GM/c^2 r \sim 10^{-9}$, the correction is of
-    order $10^{-10}$ for Lyman-$\alpha$ --- comparable to the
-    gravitational redshift but with a different $r$-dependence.
-    This estimate inherits the uncertainty in
-    $\Delta\omega_\text{tongue}$ from P5; a rigorous extraction
-    sharpens both predictions simultaneously.
+    With the measurement
+    $\Delta\omega_\text{tongue}/\omega_e = 0.033 \pm 0.020$ from P5
+    (Eq.~\ref{eq:tongue_width_measured}) and the gravitational
+    potential of Earth's surface giving $GM/c^2 r \sim 10^{-9}$, the
+    correction is of order $3 \times 10^{-11}$ for Lyman-$\alpha$ ---
+    within an order of magnitude of the gravitational redshift but
+    with a different $r$-dependence.
     \item \textbf{Finite-lattice correction:}
     $\Delta\Gamma/\Gamma \sim (a/\lambda_\gamma)^2$, vanishing at
     Planck calibration, of order $10^{-12}$ at Compton calibration
@@ -531,7 +625,7 @@ broadening.
 P1 & Discrete fringe correction at small $N$ & $\sim 10^{-12}$ at gamma-ray $L \sim 1\,\text{m}$ & X-ray Bragg / GRB interferometry \\
 P2 & Quantised time dilation $\delta t = t_\text{tick}$ & $t_\text{tick} \sim 8 \times 10^{-21}\,\text{s}$ & Optical-clock comparison at mm baseline \\
 P3 & Octahedral CMB hexapole + atomic anisotropy & $(\lambda_C/L)^2 \sim 10^{-12}$ atoms; CMB visible & Planck multipole search; oriented clocks \\
-P4 & Decay-rate residual beyond SR $\gamma$ & $\sim 10^{-23}$ for muons in gravity & Differential muon lifetime in space \\
+P4 & Decay-rate residual beyond SR $\gamma$ & $\sim 10^{-48}$ for muons at Earth's surface & Differential muon lifetime (currently unfalsifiable) \\
 P5 & Discontinuous Stark threshold & $\mathbf{E}_\text{crit} \sim 10^9\,\text{V/m}$ for hydrogen $n=1$ & Trapped-ion DC-field spectroscopy \\
 P6 & Emission-rate $r,\lambda$ dependence & $10^{-10}$ in $r$, $10^{-12}$ in $\lambda$ & Spacecraft atomic-line measurements \\
 P7 & Photon group velocity decrease at high $\omega$ & GRB-time-lag scaling as $\omega^2$ & Constrains $a \lesssim 10^{-19}\,\text{m}$ \\

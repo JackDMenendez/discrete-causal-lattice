@@ -47,6 +47,13 @@ The clock-fluid equations reduce to the Einstein field equations in
 the continuum limit; at finite lattice spacing they carry discrete
 corrections to the force law that are computable predictions
 (Section~\ref{sec:gravity}).
+Black-hole thermodynamics --- the Bekenstein-Hawking area--entropy
+law $S = k_B A/(4\ell_P^2)$ and the Hawking temperature
+$T_H = \hbar c^3/(8\pi G M k_B)$ --- follow from queue saturation at
+Planck density via boundary-session counting and the Schwarzschild
+surface gravity, modulo the modelling assumptions stated explicitly
+at the point of derivation
+(Sections~\ref{subsec:saturation},~\ref{subsec:black_holes}).
 
 \item \textbf{The Born rule follows from $\mathcal{A}=1$.}
 \textit{Derived analytically} (Section~\ref{sec:phase}):
@@ -89,7 +96,7 @@ to be a fractal at the level of its most elementary objects.
 
 \subsection*{The unifying chain: topology forces physics}
 
-The five results above share a common structure.
+The six results above share a common structure.
 Each is a consequence of the same chain:
 
 \begin{center}
@@ -183,16 +190,19 @@ Hamiltonian rather than a detuning force on the quantization mechanism.
 
 \subsection*{Falsifiable predictions}
 
-Every result in this paper generates at least one falsifiable prediction
-at experimentally accessible scales.
-The primary predictions are:
+Section~\ref{sec:predictions} develops eight primary falsifiable
+predictions (P1--P8) at experimentally accessible scales, each with
+its Compton-calibration upper bound and its falsification criterion;
+P7 already constrains the lattice spacing from above by GRB
+time-of-flight, $a \lesssim 10^{-19}\,\text{m}$.
+Of these, four illustrate the framework's distinctive testability:
 
 \begin{enumerate}
 
-\item \textbf{Discrete correction to the $1/r^2$ force law}
-(Section~\ref{sec:predictions}).
+\item \textbf{Short-range correction to the $1/r^2$ gravitational
+force law} (Section~\ref{sec:gravity}).
 The lattice path-count derivation produces a correction term that
-departs from $1/r^2$ at separations near the Planck scale.
+departs from $1/r^2$ at separations approaching the lattice spacing.
 The correction is computable from the lattice geometry and contains
 no free parameters after the lattice spacing is fixed.
 
@@ -229,7 +239,7 @@ prediction.
 
 \subsection*{What remains open}
 
-Three gaps are acknowledged explicitly:
+Four gaps are acknowledged explicitly:
 
 \begin{enumerate}
 
@@ -251,10 +261,24 @@ bipartite basis under the $\mathcal{A}=1$ constraint.
 This is a well-posed mathematical problem and the subject of the
 companion paper.
 
-\item \texttt{Exp\_16} (proton mass sweep) and \texttt{exp\_18}
-(quantum Roche limit) are running or planned at time of writing.
-The quantitative thresholds for the three-regime transitions are
-not yet numerically confirmed for all proton masses.
+\item \texttt{Exp\_16} (proton mass sweep) is complete and confirms
+the qualitative three-regime structure: every $\omega_p$ value tested
+in the range $[0.3, \pi/2]$ produces a bound but unquantized state
+(Regime~2), establishing that binding and quantization are distinct
+conditions on the lattice.
+The numerical $\omega_p$ threshold separating Regime~1 (quantized)
+from Regime~2 lies outside the swept range and has not yet been
+localised; \texttt{exp\_18} (quantum Roche limit) is planned and
+will fix the corresponding gradient threshold.
+
+\item The black-hole thermodynamics derivations
+(Sections~\ref{subsec:saturation},~\ref{subsec:black_holes}) rest on
+two stated modelling assumptions: that each saturation-boundary
+session occupies a four-cell patch
+($A_\text{session} = 4\ell_P^2$) and that the boundary inherits the
+Schwarzschild surface gravity $\kappa = c^4/(4GM)$.
+Both are tied to specific follow-on calculations (microstate
+counting and the strong-field clock-fluid limit, respectively).
 
 \end{enumerate}
 

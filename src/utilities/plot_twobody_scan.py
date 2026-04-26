@@ -48,6 +48,8 @@ def main():
                     help='Directory containing .npy files')
     ap.add_argument('--out', default=None,
                     help='Output path (pdf/png). Default: interactive.')
+    ap.add_argument('--light', action='store_true',
+                    help='Render light-on-white theme (printer-friendly).')
     args = ap.parse_args()
 
     try:
@@ -66,68 +68,78 @@ def main():
         print("No data found. Run exp_11 (focused) and exp_12 first.")
         sys.exit(1)
 
+    # ── Theme ─────────────────────────────────────────────────────────────────
+    if args.light:
+        bg, fg, line_fw, line_tb, ref, grid_c = (
+            'white', 'black', '#1f4e8c', '#c0392b', '#0e7490', 'lightgray')
+        legend_face = 'white'
+    else:
+        bg, fg, line_fw, line_tb, ref, grid_c = (
+            '#111111', 'white', 'steelblue', 'tomato', 'cyan', 'white')
+        legend_face = '#222222'
+
     # ── Figure ────────────────────────────────────────────────────────────────
     fig, ax = plt.subplots(figsize=(8, 5))
-    fig.patch.set_facecolor('#111111')
-    ax.set_facecolor('#111111')
-    ax.tick_params(colors='white')
-    ax.xaxis.label.set_color('white')
-    ax.yaxis.label.set_color('white')
-    ax.title.set_color('white')
+    fig.patch.set_facecolor(bg)
+    ax.set_facecolor(bg)
+    ax.tick_params(colors=fg)
+    ax.xaxis.label.set_color(fg)
+    ax.yaxis.label.set_color(fg)
+    ax.title.set_color(fg)
     for spine in ax.spines.values():
-        spine.set_edgecolor('white')
+        spine.set_edgecolor(fg)
 
     if fw is not None:
         k_fw  = fw['k']
         em_fw = fw['ep_mean']
         es_fw = fw['ep_std']
-        ax.plot(k_fw, em_fw, color='steelblue', lw=2.0, zorder=3,
+        ax.plot(k_fw, em_fw, color=line_fw, lw=2.0, zorder=3,
                 label='Fixed Coulomb well (exp\\_11 focused)')
         ax.fill_between(k_fw, em_fw - es_fw, em_fw + es_fw,
-                        color='steelblue', alpha=0.20, zorder=2)
+                        color=line_fw, alpha=0.20, zorder=2)
         idx_fw = int(np.argmin(em_fw))
-        ax.plot(k_fw[idx_fw], em_fw[idx_fw], 'o', color='steelblue',
+        ax.plot(k_fw[idx_fw], em_fw[idx_fw], 'o', color=line_fw,
                 ms=8, zorder=5)
         ax.annotate(f'$k_{{\\min}}$={k_fw[idx_fw]:.4f}\n({100*(K_BOHR-k_fw[idx_fw])/K_BOHR:.1f}% below Bohr)',
                     xy=(k_fw[idx_fw], em_fw[idx_fw]),
                     xytext=(k_fw[idx_fw] - 0.008, em_fw[idx_fw] + 0.06),
-                    color='steelblue', fontsize=8,
-                    arrowprops=dict(arrowstyle='->', color='steelblue', lw=0.8))
+                    color=line_fw, fontsize=8,
+                    arrowprops=dict(arrowstyle='->', color=line_fw, lw=0.8))
 
     if tb is not None:
         k_tb  = tb['k']
         em_tb = tb['ep_mean']
         es_tb = tb['ep_std']
-        ax.plot(k_tb, em_tb, color='tomato', lw=2.0, zorder=3,
+        ax.plot(k_tb, em_tb, color=line_tb, lw=2.0, zorder=3,
                 label='Two-body: proton + electron (exp\\_12)')
         ax.fill_between(k_tb, em_tb - es_tb, em_tb + es_tb,
-                        color='tomato', alpha=0.20, zorder=2)
+                        color=line_tb, alpha=0.20, zorder=2)
         idx_tb = int(np.argmin(em_tb))
-        ax.plot(k_tb[idx_tb], em_tb[idx_tb], 'o', color='tomato',
+        ax.plot(k_tb[idx_tb], em_tb[idx_tb], 'o', color=line_tb,
                 ms=8, zorder=5)
         ax.annotate(f'$k_{{\\min}}$={k_tb[idx_tb]:.4f}\n({100*abs(K_BOHR-k_tb[idx_tb])/K_BOHR:.2f}% below Bohr)',
                     xy=(k_tb[idx_tb], em_tb[idx_tb]),
                     xytext=(k_tb[idx_tb] + 0.003, em_tb[idx_tb] + 0.06),
-                    color='tomato', fontsize=8,
-                    arrowprops=dict(arrowstyle='->', color='tomato', lw=0.8))
+                    color=line_tb, fontsize=8,
+                    arrowprops=dict(arrowstyle='->', color=line_tb, lw=0.8))
 
     # k_Bohr reference line
-    ax.axvline(K_BOHR, color='cyan', lw=1.5, ls='--', alpha=0.9, zorder=4,
+    ax.axvline(K_BOHR, color=ref, lw=1.5, ls='--', alpha=0.9, zorder=4,
                label=f'Bohr $k_1$ = {K_BOHR:.4f}')
     ax.axvspan(K_BOHR - K_STEP/2, K_BOHR + K_STEP/2,
-               alpha=0.12, color='cyan', zorder=1)
+               alpha=0.12, color=ref, zorder=1)
 
-    ax.set_xlabel('k  (electron phase gradient)', fontsize=11, color='white')
-    ax.set_ylabel('Epoch score  (lower = better)', fontsize=11, color='white')
+    ax.set_xlabel('k  (electron phase gradient)', fontsize=11, color=fg)
+    ax.set_ylabel('Epoch score  (lower = better)', fontsize=11, color=fg)
     ax.set_title(
         'Two-Body Hydrogen: Adding a Proton Recovers the Bohr Quantization\n'
         'Fixed-well minimum 7.3\\% below $k_{\\rm Bohr}$; '
         'two-body minimum matches $k_{\\rm Bohr}$ to 0.01\\%',
-        fontsize=10, color='white'
+        fontsize=10, color=fg
     )
     ax.invert_yaxis()
-    ax.legend(fontsize=9, facecolor='#222222', labelcolor='white', framealpha=0.8)
-    ax.grid(True, alpha=0.15, color='white')
+    ax.legend(fontsize=9, facecolor=legend_face, labelcolor=fg, framealpha=0.9)
+    ax.grid(True, alpha=0.20 if args.light else 0.15, color=grid_c)
 
     plt.tight_layout()
 

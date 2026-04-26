@@ -38,6 +38,7 @@ Usage:
 
 import sys, os, argparse
 import numpy as np
+import matplotlib.patheffects as path_effects
 
 _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 
@@ -89,7 +90,7 @@ def load(n, datadir='.'):
 
 # ── Heatmap panel (main paper figure) ────────────────────────────────────────
 
-def plot_heatmap(ax, data, n, k_step):
+def plot_heatmap(ax, data, n, k_step, light=False):
     """
     2D heatmap of P(r, k) with score overlaid on a twin axis.
 
@@ -104,19 +105,38 @@ def plot_heatmap(ax, data, n, k_step):
     k_bohr = n / r_n
     k      = data['k']
 
+    # Theme-dependent palette
+    if light:
+        cmap_name   = 'inferno_r'  # inferno reversed: cream-at-low → dark-at-high
+                                   # so the figure interior reads on white paper
+        c_cross     = '#0e7490'    # teal — visible against light cream + dark blobs
+        c_score     = '#dc2626'    # crimson — strong contrast on cream/dark mix
+        c_score_alt = '#1f4e8c'    # navy
+        c_legend_bg = 'white'
+        c_legend_fg = 'black'
+        c_arrow     = 'black'
+    else:
+        cmap_name   = 'hot'
+        c_cross     = 'cyan'
+        c_score     = 'white'
+        c_score_alt = 'lightblue'
+        c_legend_bg = '#222222'
+        c_legend_fg = 'white'
+        c_arrow     = 'white'
+
     if data['pdf'] is None or data['rbins'] is None:
         # No PDF data — show score curve only
         score = data['score_pdf'] if data['score_pdf'] is not None else data['score_com']
-        ax.plot(k, score, color='white', lw=2.0, label='score')
-        ax.axvline(k_bohr, color='cyan', lw=1.5, ls='--',
+        ax.plot(k, score, color=c_score, lw=2.0, label='score')
+        ax.axvline(k_bohr, color=c_cross, lw=1.5, ls='--',
                    label=f'Bohr $k_{n}$ = {k_bohr:.4f}')
         min_idx = int(np.argmin(score))
-        ax.plot(k[min_idx], score[min_idx], 'o', color='cyan', ms=7, zorder=5)
+        ax.plot(k[min_idx], score[min_idx], 'o', color=c_cross, ms=7, zorder=5)
         ax.annotate(f'min k={k[min_idx]:.4f}',
                     xy=(k[min_idx], score[min_idx]),
                     xytext=(k[min_idx] + 5*k_step, score[min_idx] + 0.01),
-                    color='white', fontsize=8,
-                    arrowprops=dict(arrowstyle='->', color='white', lw=0.8))
+                    color=c_arrow, fontsize=8,
+                    arrowprops=dict(arrowstyle='->', color=c_arrow, lw=0.8))
         ax.set_xlabel('k', fontsize=10)
         ax.set_ylabel('Score  (lower = better)', fontsize=10)
         ax.set_title(f'n={n}  score (PDF data pending — re-run exp_11 --n{n})',
@@ -139,20 +159,21 @@ def plot_heatmap(ax, data, n, k_step):
     r_edges = np.append(rbins - dr/2, rbins[-1] + dr/2)
 
     mesh = ax.pcolormesh(k_edges, r_edges, pdf_norm.T,
-                         cmap='hot', shading='flat',
+                         cmap=cmap_name, shading='flat',
                          vmin=0, vmax=1)
 
     # Bohr crosshair
-    ax.axvline(k_bohr, color='cyan', lw=1.5, ls='--', alpha=0.9,
+    ax.axvline(k_bohr, color=c_cross, lw=1.5, ls='--', alpha=0.95,
                label=f'Bohr $k_{n}$ = {k_bohr:.4f}')
-    ax.axhline(r_n,    color='cyan', lw=1.5, ls='--', alpha=0.9,
+    ax.axhline(r_n,    color=c_cross, lw=1.5, ls='--', alpha=0.95,
                label=f'Bohr $r_{n}$ = {r_n:.1f}')
-    ax.plot(k_bohr, r_n, '+', color='cyan', ms=14, mew=2, zorder=5)
+    ax.plot(k_bohr, r_n, '+', color=c_cross, ms=14, mew=2, zorder=5)
 
+    spot_word = 'Density peak' if light else 'Bright spot'
     ax.set_xlabel('k  (angular momentum per unit radius)', fontsize=10)
     ax.set_ylabel('r  (lattice units)', fontsize=10)
     ax.set_title(f'n={n}  time-averaged $P(r,k)$\n'
-                 f'Bright spot should land on crosshair at '
+                 f'{spot_word} should land on crosshair at '
                  f'($k_{n}$={k_bohr:.4f}, $r_{n}$={r_n:.1f})',
                  fontsize=10)
 
@@ -171,30 +192,37 @@ def plot_heatmap(ax, data, n, k_step):
         score_label = 'score$_{\\rm com}$'
 
     ax2 = ax.twinx()
-    ax2.plot(k, score, color='white', lw=2.0, alpha=0.85,
-             label=score_label, zorder=6)
-    # Epoch std as shaded band
+    score_line = ax2.plot(k, score, color=c_score, lw=3.0, alpha=0.95,
+                          label=score_label, zorder=6)
+    # Outline stroke so the score curve stays legible over bright heatmap streaks
+    score_line[0].set_path_effects([
+        path_effects.Stroke(linewidth=5.0,
+                            foreground='black' if light else 'white'),
+        path_effects.Normal(),
+    ])
+    # Epoch std as shaded band -- subtle so it doesn't mask the heatmap
     if data['score_epoch_mean'] is not None and data['score_epoch_std'] is not None:
         ax2.fill_between(k,
                          score - data['score_epoch_std'],
                          score + data['score_epoch_std'],
-                         color='white', alpha=0.15, zorder=5,
+                         color=c_score, alpha=0.08, zorder=5,
+                         linewidth=0,
                          label='$\\pm$1 epoch std')
     elif data['score_pdf'] is not None:
-        ax2.plot(k, data['score_com'], color='lightblue', lw=1.2,
-                 ls='--', alpha=0.6, label='score$_{\\rm com}$', zorder=5)
+        ax2.plot(k, data['score_com'], color=c_score_alt, lw=1.2,
+                 ls='--', alpha=0.7, label='score$_{\\rm com}$', zorder=5)
 
     # Mark score minimum
     min_idx = int(np.argmin(score))
-    ax2.plot(k[min_idx], score[min_idx], 'o', color='white', ms=7, zorder=7)
+    ax2.plot(k[min_idx], score[min_idx], 'o', color=c_score, ms=7, zorder=7)
     ax2.annotate(f'min k={k[min_idx]:.4f}',
                  xy=(k[min_idx], score[min_idx]),
                  xytext=(k[min_idx] + 5*k_step, score[min_idx] + 0.01),
-                 color='white', fontsize=8,
-                 arrowprops=dict(arrowstyle='->', color='white', lw=0.8))
+                 color=c_arrow, fontsize=8,
+                 arrowprops=dict(arrowstyle='->', color=c_arrow, lw=0.8))
 
-    ax2.set_ylabel('Score  (lower = better)', fontsize=10, color='white')
-    ax2.tick_params(axis='y', colors='white')
+    ax2.set_ylabel('Score  (lower = better)', fontsize=10, color=c_score)
+    ax2.tick_params(axis='y', colors=c_score)
     ax2.invert_yaxis()   # minimum dips toward the bright spot
 
     # Combined legend
@@ -202,7 +230,7 @@ def plot_heatmap(ax, data, n, k_step):
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax2.legend(lines1 + lines2, labels1 + labels2,
                fontsize=8, loc='upper right',
-               facecolor='#222222', labelcolor='white', framealpha=0.7)
+               facecolor=c_legend_bg, labelcolor=c_legend_fg, framealpha=0.85)
 
 
 # ── Classic three-row panels (fallback / --no-heatmap) ───────────────────────
@@ -339,6 +367,10 @@ def main():
                     help='Output file (pdf/png). Default: interactive.')
     ap.add_argument('--datadir',    default=_DATA_DIR,
                     help='Directory containing .npy files (default: ../../data)')
+    ap.add_argument('--light',      action='store_true',
+                    help='Render light-on-white theme (printer-friendly).')
+    ap.add_argument('--vertical',   action='store_true',
+                    help='Stack n-panels vertically (default: side-by-side).')
     args = ap.parse_args()
 
     try:
@@ -365,28 +397,38 @@ def main():
     n_cols  = len(available)
 
     if use_heatmap:
-        fig, axes = plt.subplots(1, n_cols,
-                                 figsize=(8 * n_cols, 6),
+        bg = 'white' if args.light else '#111111'
+        fg = 'black' if args.light else 'white'
+        if args.vertical:
+            n_rows, fig_cols = n_cols, 1
+            figsize = (9, 5.5 * n_cols)
+        else:
+            n_rows, fig_cols = 1, n_cols
+            figsize = (8 * n_cols, 6)
+        fig, axes = plt.subplots(n_rows, fig_cols,
+                                 figsize=figsize,
                                  squeeze=False)
-        fig.patch.set_facecolor('#111111')
+        fig.patch.set_facecolor(bg)
         for ax_row in axes:
             for ax in ax_row:
-                ax.set_facecolor('#111111')
-                ax.tick_params(colors='white')
-                ax.xaxis.label.set_color('white')
-                ax.yaxis.label.set_color('white')
-                ax.title.set_color('white')
+                ax.set_facecolor(bg)
+                ax.tick_params(colors=fg)
+                ax.xaxis.label.set_color(fg)
+                ax.yaxis.label.set_color(fg)
+                ax.title.set_color(fg)
                 for spine in ax.spines.values():
-                    spine.set_edgecolor('white')
+                    spine.set_edgecolor(fg)
 
-        for col, (n, data) in enumerate(available):
-            plot_heatmap(axes[0][col], data, n, k_steps[n])
+        for i, (n, data) in enumerate(available):
+            ax = axes[i][0] if args.vertical else axes[0][i]
+            plot_heatmap(ax, data, n, k_steps[n], light=args.light)
 
+        spot_word = 'Density peak' if args.light else 'Bright spot'
         fig.suptitle(
             'Spontaneous Quantisation — A=1 Bipartite Lattice Selects Bohr $k_n$\n'
-            r'Bright spot at $(k_n,\,r_n)$ means the lattice spontaneously '
-            r'selects the Bohr orbit',
-            fontsize=12, color='white', y=1.01
+            f'{spot_word} at $(k_n,\\,r_n)$ means the lattice spontaneously '
+            'selects the Bohr orbit',
+            fontsize=12, color=fg, y=1.00
         )
     else:
         has_pdf = any(d['pdf'] is not None for _, d in available)
