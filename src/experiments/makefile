@@ -1,3 +1,10 @@
+# Discrete Causal Lattice -- experiments
+# ----------------------------------------------------------------------------
+# Requires GNU Make >= 4.3 (uses `&:` grouped-target syntax below).
+# Run from an MSYS2 UCRT64 shell. The Windows port of GNU Make (3.81) is
+# too old. See ../../makefile for the full requirements note.
+# ----------------------------------------------------------------------------
+
 RELATIVE_PATH:= ../../
 
 include $(RELATIVE_PATH)common.mak
@@ -200,4 +207,7 @@ $(EXP_18_NPY): $(EXP_18_SRC) $(VENV)/touchfile
 clean:
 	@echo "Experiments Clean Complete"
 
-include $(RELATIVE_PATH)targets.mak
+# Defensive: data/ and figures/ are version-controlled and already exist,
+# but create them on demand if missing.
+$(data_dir) $(figures_dir) $(stage_dir):
+	-mkdir -p $@
