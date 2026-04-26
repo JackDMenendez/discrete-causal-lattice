@@ -1,4 +1,151 @@
 
+## v0.95-RC -- Release Candidate (paper) -- 2026-04-26
+
+Promotion from working paper v0.9 to release candidate v0.95-RC.  Builds
+clean at 109 pages; all figures placed in their proper sections; no
+remaining `STUB` entries in the audit table.
+
+### Sharpened numerical predictions (punch list items 1-4)
+
+- **P5 -- Stark threshold tongue width** ($\Delta\omega_\mathrm{tongue}$):
+  measurement script `src/utilities/tongue_width_3to1.py` extracts the
+  FWHM of the 3:1 Arnold tongue from `data/exp_harmonic_hires_powermap.npy`.
+  Result: `Delta_omega_tongue / omega_e = 0.033 +/- 0.020`, replacing
+  the earlier eyeball estimate of ~0.05.
+- **P5 -- Critical Stark field** ($E_\mathrm{crit}^{(n=1)}$):
+  derived from first principles via the Peierls scalar-potential gauge
+  in §9.3.  Dimensional fix: the formula was `c*Delta_omega/(2eR_1)`
+  (dimensionally inconsistent in SI); corrected to
+  `hbar*Delta_omega/(eR_1)`.  Numerical value
+  `8.5 x 10^9 V/m` with range `3 x 10^9` to `1.4 x 10^10 V/m` from
+  the propagated +/-0.020 tongue-width uncertainty.  Replaces the
+  prior incorrect `(a/lambda_C)^7` calibration-suppression claim with
+  a calibration-independent formulation.
+- **P4 -- Muon-lifetime correction prefactor**: derivation now in §12.5
+  under the explicit modelling assumption that the muon's per-tick
+  rate inherits the `(a^2/6) Laplacian` correction from the discrete
+  clock-density update.  Predicts `1.3 x 10^-48` at Compton calibration,
+  which is ~25 orders of magnitude smaller than the prior placeholder
+  estimate.  P4 is reframed as a structurally valid but currently
+  unfalsifiable prediction.
+- **P6 -- Emission-rate clock-density correction**: updated
+  numerical bound to `~3 x 10^-11` at Earth's surface.
+
+### New derivations (modulo stated assumptions)
+
+- **Bekenstein-Hawking entropy** ($S = k_B A/(4\ell_P^2)$):
+  derived in §7.5 via boundary-session counting under the assumption
+  that each saturation-boundary session occupies a four-cell patch
+  ($A_\mathrm{session} = 4\ell_P^2$), corresponding to the
+  RGB/CMY $\times$ R/L spinor degrees of freedom.
+- **Hawking temperature** ($T_H = \hbar c^3/(8\pi G M k_B)$):
+  derived in §4.6 via the Unruh--horizon relation at the saturation
+  boundary, under the assumption that the boundary inherits the
+  Schwarzschild surface gravity $\kappa = c^4/(4 G M)$.  Corrects a
+  pre-existing typo in the Hawking temperature formula (missing
+  $c^2$ in numerator).
+
+### Substrate clarification
+
+- **Two lengths, one convention** (§2.5): added a paragraph defining
+  the two natural distances on the cube edge $\ell_P$ vs.\ body-diagonal
+  $h = \sqrt{3}\ell_P$ -- and declaring that "the lattice spacing $a$"
+  in the paper means the body-diagonal hop distance throughout.
+
+### Photon emission status
+
+- §1 introduction updated to reference `exp_19c_photon_emission`:
+  the joint $\mathcal{A}=1$ + recoil mechanism is implemented and
+  verified to preserve $\mathcal{A}=1$ while stabilising the bound
+  orbit at the Arnold tongue boundary (peak radius 10.28 vs predicted
+  $R_1 = 10.3$, within 0.2%).
+- Audit table: `exp_19c` row updated to `PART` status; description
+  rephrased to match what the experiment actually demonstrated.
+
+### Audit table
+
+All four `STUB` entries promoted to `PART`:
+
+- Event horizon + Hawking T (now derived in §4.6).
+- Bekenstein-Hawking entropy (now derived in §7.5).
+- Photon emission as $\mathcal{A}=1$ necessity (mechanism verified
+  in `exp_19c`, event-rate measurements pending).
+
+### Section structure
+
+- Removed two duplicate `\section{...}` declarations that produced
+  empty stub headers in the table of contents (Emergent Kinematics
+  and The Observer as a Clock now appear once each, not twice).
+- Section count: 16 (previously 18 with the two stub headers).
+
+### Figures
+
+All dark-mode figures re-rendered with light backgrounds for print:
+
+- `exp_harmonic_hires` (light, inferno on white).
+- `dirac_cones_overlay` (light, with graphene K-point inset).
+- `exp_12_twobody_scan` (light, navy + dark red curves).
+- `quantization_scan` (light, vertical-stacked heatmap, inferno_r so
+  density peaks render as dark blobs against cream).
+
+Placement fixes:
+
+- `exp_03_lanterns` moved from end-of-paper float to §10.3
+  (Fringe Formation), with caption rewritten to acknowledge the
+  body-diagonal lattice anisotropy.
+- `exp_00_cone_structure` placed in §3.2 (new figure 4, mass and
+  phase-map effects on the causal cone).
+- `exp_harmonic_hires` (light) + `dirac_cones_overlay` (light)
+  share a page in §13 with cross-references.
+- `quantization_scan` and `exp_12_twobody_scan` placed in §15.4 / §15.5;
+  the latter resolves a previously-undefined `\ref{fig:exp12_twobody}`.
+
+### Title-page and provenance
+
+- Title-page version: `Working Paper -- Version 0.9` -> `Release
+  Candidate -- Version 0.95-RC`.
+- Zenodo DOI badge added below `\maketitle`, replacing the textual
+  DOI link (renderable PNG generated by
+  `src/utilities/zenodo_badge.py`).
+
+### Build system
+
+- Makefile tree consolidated from five (root, paper, src, src/experiments,
+  tests) plus duplicated `make/common.mak` and `make/targets.mak` to
+  two: a root makefile that handles env, tests, paper, promote, clean,
+  and delegates experiments; and `src/experiments/makefile` for
+  individual experiment runs.
+- Documents the GNU Make >= 4.3 requirement (UCRT64 shell) and notes
+  that the Windows Make port (3.81) is too old for the `&:` grouped-target
+  syntax used by the experiments makefile.
+
+### Failed-design note (negative result captured)
+
+- `notes/exp_03b_lanterns_aligned_design.md`: full postmortem on the
+  attempted 45 degree-rotated double-slit design.  The rotation
+  re-aligned the experimental forward axis with V_1 -- the
+  least-productive 2-tick xy-only direction for thin z-grids -- so
+  the wavefront stays in the slit-line region instead of propagating
+  forward.  Original axis-aligned `exp_03_lanterns` is preferred and
+  remains in the paper.
+
+### Items deferred to v1.0
+
+- Full microstate-counting derivation of the Bekenstein-Hawking factor
+  of 1/4 (currently rests on the boundary-cell-grouping assumption).
+- Strong-field clock-fluid derivation that fixes the Schwarzschild
+  surface gravity $\kappa = c^4/(4 G M)$ at the saturation boundary
+  (currently inherited as a modelling assumption).
+- First-principles muon coupling to the scheduler load (currently
+  inherited from the bare $\rho_\mathrm{clock}$ evolution).
+- `exp_19c` event-rate sweep at higher coupling (mechanism verified;
+  discrete emission events at higher rates pending).
+- Tone-consistency read-through across older sections (§3, §6, §7,
+  §11, §14 apart from §14.6).
+
+---
+
+
 ## MAJOR RESULT -- Hydrogen Spectrum Confirmed
 
 Experiment exp_10_v2.py on 197^3 grid (600 ticks each level):

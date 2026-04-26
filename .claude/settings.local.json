@@ -15,7 +15,11 @@
       "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/plot_quantization_scan.py --datadir data --light --vertical --out figures/quantization_scan.png)",
       "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py --quick)",
       "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py)",
-      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py --slits 50 --propagation 80 --ticks 150 --omega 0.40)"
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/exp_03b_lanterns_aligned.py --slits 50 --propagation 80 --ticks 150 --omega 0.40)",
+      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c ' *)",
+      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install pyyaml)",
+      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install --quiet pyyaml)",
+      "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c \"import yaml; print\\('ok', yaml.__version__\\)\")"
     ],
     "additionalDirectories": [
       "c:\\dev\\dcl\\build"
