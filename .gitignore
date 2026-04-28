@@ -72,7 +72,6 @@ cover/
 *.pot
 
 # Django stuff:
-*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -222,7 +221,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 stage/
-!data/*.log
 data/*.err
 .vscode/settings.json
 .claude/settings.json
@@ -231,6 +229,7 @@ data/*.err
 *.bbl
 *.blg
 *.log
+!data/*.log
 *.out
 *.toc
 *.fls
@@ -241,4 +240,3 @@ data/*.err
 *.fdb_latexmk_lualatex
 *.fdb_latexmk_mktexlsr
 *.fdb_latexmk_mktexmf
-*.fdb_latexmk_mktexlsr

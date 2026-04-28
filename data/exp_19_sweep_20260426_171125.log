@@ -1,0 +1,64 @@
+<frozen importlib._bootstrap>:491: Warning: Numpy built with MINGW-W64 on Windows 64 bits is experimental, and only available for 
+testing. You are advised not to use it for production. 
+
+CRASHES ARE TO BE EXPECTED - PLEASE REPORT THEM TO NUMPY DEVELOPERS
+======================================================================
+EXP 19 v9: Photon emission -- Coulomb-driven one-way drain, per-session A=1
+======================================================================
+
+  Claim: BIDIRECTIONAL amplitude exchange between electron and photon session
+  creates a fixed point at r=R1 (the Bohr radius) and drives the two-body
+  orbit onto the n=1 Arnold tongue attractor.
+
+  v8 fix from v7: v7 used spatial masks (r>R1 / r<R1) -- but the photon starts
+  near-zero at the grid center, so the absorb_mask grabbed ~0 photon amplitude
+  at r<R1. Feedback never engaged; electron evaporated into photon at all rates.
+
+  v8 uses the Coulomb potential itself as the coupling -- the interaction vertex.
+  V_field(x) already encodes how far above the ground state the electron is.
+  Neither session needs to know its own position.
+
+  excess(x)    = V_field(x) - V_ground  where V_ground = -strength/(R1+softening)
+  emit_mask    = rate * max(0,  excess) / |V_ground|   [e -> gamma: above R1]
+  absorb_mask  = rate * max(0, -excess) / |V_ground|   [gamma -> e: below R1]
+
+
+  Honest framing:
+    - emission_rate is a free parameter (formal derivation pending)
+    - success requires streak >= 33 (3x best two-session result)
+    - stabilization at multiple emission rates is stronger evidence
+
+  Parameters:
+    OMEGA_E=0.1019  OMEGA_P=1.5708  R1=10.3
+    STRENGTH=30.0  GRID=65^3
+    TICKS_TOTAL=6000
+    EMISSION_RATES=[0.01, 0.05, 0.1, 0.2, 0.5]
+
+Launching 5 parallel workers...
+  rate=0.01  PID=50028
+  rate=0.05  PID=30032
+  rate=0.1  PID=47100
+  rate=0.2  PID=50420
+  rate=0.5  PID=42544
+
+[0s] running=[0.01, 0.05, 0.1, 0.2, 0.5]  done=[]
+
+All done. Total time: 300s
+
+======================================================================
+RESULTS SUMMARY
+======================================================================
+      rate        result   max_streak    T_settle
+  --------------------------------------------------
+    0.0100             ?            ?           ?
+    0.0500             ?            ?           ?
+    0.1000             ?            ?           ?
+    0.2000             ?            ?           ?
+    0.5000             ?            ?           ?
+
+[FAIL] No stabilization across all emission rates.
+  Outer-orbit selective drain is insufficient for orbital stabilization.
+  Next: investigate whether the drain rate magnitude or spatial profile
+  needs adjustment, or whether the photon session architecture is
+  fundamentally wrong.
+

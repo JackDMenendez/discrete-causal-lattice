@@ -1,0 +1,57 @@
+<frozen importlib._bootstrap>:491: Warning: Numpy built with MINGW-W64 on Windows 64 bits is experimental, and only available for 
+testing. You are advised not to use it for production. 
+
+CRASHES ARE TO BE EXPECTED - PLEASE REPORT THEM TO NUMPY DEVELOPERS
+======================================================================
+EXP 19c v10: Photon emission with A=1 recoil mechanism
+======================================================================
+
+  Claim: A=1 requires physical recoil when electron amplitude concentrates
+  too much near the nucleus. Renormalization alone is unphysical - momentum
+  must be transferred.
+
+  Recoil mechanism:
+  - Detect when >20% of electron amplitude is within 2.0 nodes of proton
+  - Apply momentum kick pushing electron away from proton
+  - Transfer equal/opposite momentum to proton (conservation)
+  - Add phase randomization to break electron-proton entanglement
+  - Renormalize both sessions to maintain A=1
+
+  This implements the insight that A=1 enforces both probability AND
+  momentum conservation through physical recoil effects.
+
+  Parameters:
+    OMEGA_E=0.1019  OMEGA_P=1.5708  R1=10.3
+    STRENGTH=30.0  GRID=65^3
+    TICKS_TOTAL=6000
+    EMISSION_RATES=[0.01, 0.05, 0.1, 0.2, 0.5]
+    RECOIL_THRESHOLD=0.2  RECOIL_RADIUS=2.0
+    RECOIL_STRENGTH=0.2  ENTANGLEMENT_BREAK=0.05
+
+Launching 5 parallel workers...
+  rate=0.01  PID=43952
+  rate=0.05  PID=49468
+  rate=0.1  PID=52156
+  rate=0.2  PID=34412
+  rate=0.5  PID=39824
+
+[0s] running=[0.01, 0.05, 0.1, 0.2, 0.5]  done=[]
+
+All done. Total time: 300s
+
+======================================================================
+RESULTS SUMMARY
+======================================================================
+      rate        result   max_streak    T_settle   recoils
+  ----------------------------------------------------------------------
+    0.0100             ?            ?           ?         ?
+    0.0500             ?            ?           ?         ?
+    0.1000             ?            ?           ?         ?
+    0.2000             ?            ?           ?         ?
+    0.5000             ?            ?           ?         ?
+
+[FAIL] No stabilization across all emission rates.
+  Total recoil events: 0
+  Recoil mechanism may be too weak or incorrectly implemented.
+  Try increasing RECOIL_STRENGTH or decreasing RECOIL_THRESHOLD.
+

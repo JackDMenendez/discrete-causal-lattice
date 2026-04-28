@@ -1,0 +1,16 @@
+exp_19c  emission_rate=0.01
+OMEGA_E=0.1019  OMEGA_P=1.5708  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000
+SUCCESS_STREAK=33
+RECOIL_THRESHOLD=0.2  RECOIL_RADIUS=2.0
+RECOIL_STRENGTH=0.2  ENTANGLEMENT_BREAK=0.05
+MODE: Coulomb-driven one-way drain + A=1 recoil mechanism (v10)
+------------------------------------------------------------
+tick=    19  r_peak= 9.876  streak=  1  amp_e=1.0000  amp_g=1.000000  recoils=   0  [53s eta 16792s]
+tick=  2019  r_peak=15.204  streak=  0  amp_e=1.0000  amp_g=1.000000  recoils=   0  [5461s eta 10768s]
+tick=  4019  r_peak=22.408  streak=  0  amp_e=1.0000  amp_g=1.000000  recoils=   0  [10749s eta 5298s]
+result=NOT_SETTLED
+max_streak=9
+T_settle=None
+recoil_events=0

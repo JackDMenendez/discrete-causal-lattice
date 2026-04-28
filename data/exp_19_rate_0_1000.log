@@ -1,0 +1,13 @@
+exp_19  emission_rate=0.1
+OMEGA_E=0.1019  OMEGA_P=1.5708  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000
+SUCCESS_STREAK=33
+MODE: Coulomb-driven one-way drain + per-session electron renorm (v9)
+------------------------------------------------------------
+tick=    49  r_peak=16.112  streak=  0  amp_e=1.0000  amp_g=0.323866  [132s eta 16013s]
+tick=  2049  r_peak=56.827  streak=  0  amp_e=1.0000  amp_g=877.034448  [5502s eta 10609s]
+tick=  4049  r_peak=20.700  streak=  0  amp_e=1.0000  amp_g=0.023902  [10753s eta 5181s]
+result=NOT_SETTLED
+max_streak=3
+T_settle=None
