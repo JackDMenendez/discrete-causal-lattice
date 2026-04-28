@@ -35,21 +35,36 @@ Erik Verlinde.
 
 \bibitem{lazarev2026}
 S.~V. Lazarev.
-\newblock Nmsi: Gravity as an emergent phenomenon from informational structures.
-\newblock {\em Journal of High Energy Physics, Gravitation and Cosmology}, 12:1023--1034, 2026.
-\newblock Non-Metric Space Information theory -- gravity as informational oscillations.
+\newblock Nmsi: Gravity as an emergent phenomenon from informational
+  structures.
+\newblock {\em Journal of High Energy Physics, Gravitation and Cosmology},
+  12:1023--1034, 2026.
+\newblock Non-Metric Space Information theory -- gravity as informational
+  oscillations.
 
 \bibitem{schrodinger1930}
 Erwin Schr{\"o}dinger.
 \newblock About the force-free motion in relativistic quantum mechanics.
-\newblock {\em Sitzungsberichte der Preussischen Akademie der Wissenschaften}, pages 418--428, 1930.
+\newblock {\em Sitzungsberichte der Preussischen Akademie der Wissenschaften},
+  pages 418--428, 1930.
 \newblock Original derivation of Zitterbewegung.
 
 \bibitem{wheeler1990}
 John~A. Wheeler.
 \newblock Information, physics, quantum: The search for links.
-\newblock In Wojciech~H. Zurek, editor, {\em Complexity, Entropy, and the Physics of Information}, Redwood City, CA, 1990. Addison-Wesley.
+\newblock In Wojciech~H. Zurek, editor, {\em Complexity, Entropy, and the
+  Physics of Information}, Redwood City, CA, 1990. Addison-Wesley.
 \newblock The ``It from Bit'' hypothesis.
+
+\bibitem{hawking1975}
+Stephen~W. Hawking.
+\newblock Particle creation by black holes.
+\newblock {\em Communications in Mathematical Physics}, 43(3):199--220, 1975.
+
+\bibitem{kogutsusskind1975}
+John Kogut and Leonard Susskind.
+\newblock Hamiltonian formulation of {W}ilson's lattice gauge theories.
+\newblock {\em Physical Review D}, 11(2):395--408, 1975.
 
 \bibitem{dirac1928}
 Paul A.~M. Dirac.
@@ -78,11 +93,6 @@ Jacob~D. Bekenstein.
 \newblock Black holes and entropy.
 \newblock {\em Physical Review D}, 7(8):2333--2346, 1973.
 
-\bibitem{hawking1975}
-Stephen~W. Hawking.
-\newblock Particle creation by black holes.
-\newblock {\em Communications in Mathematical Physics}, 43(3):199--220, 1975.
-
 \bibitem{payne1971}
 Harold~J. Payne.
 \newblock Models of freeway traffic and control.
@@ -91,19 +101,62 @@ Harold~J. Payne.
 
 \bibitem{lighthill1955}
 Michael~J. Lighthill and Gerald~B. Whitham.
-\newblock On kinematic waves. {II}. a theory of traffic flow on long crowded roads.
+\newblock On kinematic waves. {II}. a theory of traffic flow on long crowded
+  roads.
 \newblock {\em Proceedings of the Royal Society A}, 229(1178):317--345, 1955.
+
+\bibitem{wilson1974}
+Kenneth~G. Wilson.
+\newblock Confinement of quarks.
+\newblock {\em Physical Review D}, 10(8):2445--2459, 1974.
+
+\bibitem{sakharov1967}
+Andrei~D. Sakharov.
+\newblock Vacuum quantum fluctuations in curved space and the theory of
+  gravitation.
+\newblock {\em Soviet Physics Doklady}, 12:1040--1041, 1967.
+\newblock Originally published in Doklady Akademii Nauk SSSR 177:70--71.
+
+\bibitem{feynman1948}
+Richard~P. Feynman.
+\newblock Space-time approach to non-relativistic quantum mechanics.
+\newblock {\em Reviews of Modern Physics}, 20(2):367--387, 1948.
 
 \bibitem{bohr1928}
 Niels Bohr.
 \newblock The quantum postulate and the recent development of atomic theory.
 \newblock {\em Nature}, 121:580--590, 1928.
-\newblock Copenhagen interpretation: complementarity and the measurement postulate.
+\newblock Copenhagen interpretation: complementarity and the measurement
+  postulate.
 
 \bibitem{bell1964}
 John~S. Bell.
 \newblock On the einstein podolsky rosen paradox.
 \newblock {\em Physics}, 1(3):195--200, 1964.
+
+\bibitem{planck2020}
+{Planck Collaboration}.
+\newblock Planck 2018 results. vi. cosmological parameters.
+\newblock {\em Astronomy \& Astrophysics}, 641:A6, 2020.
+
+\bibitem{vasileiou2013}
+V.~Vasileiou, A.~Jacholkowska, F.~Piron, J.~Bolmont, C.~Couturier, J.~Granot,
+  F.~W. Stecker, J.~Cohen-Tanugi, and F.~Longo.
+\newblock Constraints on {L}orentz invariance violation from {F}ermi-{L}arge
+  {A}rea {T}elescope observations of gamma-ray bursts.
+\newblock {\em Physical Review D}, 87(12):122001, 2013.
+
+\bibitem{hofstadter1976}
+Douglas~R. Hofstadter.
+\newblock Energy levels and wave functions of {B}loch electrons in rational and
+  irrational magnetic fields.
+\newblock {\em Physical Review B}, 14(6):2239--2249, 1976.
+
+\bibitem{dean2013}
+C.~R. Dean, L.~Wang, P.~Maher, et~al.
+\newblock Hofstadter's butterfly and the fractal quantum {H}all effect in
+  moir{\'e} superlattices.
+\newblock {\em Nature}, 497:598--602, 2013.
 
 \bibitem{chirikov1979}
 Boris~V. Chirikov.
@@ -112,18 +165,22 @@ Boris~V. Chirikov.
 
 \bibitem{kolmogorov1954}
 Andrei~N. Kolmogorov.
-\newblock On conservation of conditionally periodic motions under small perturbations of the {H}amiltonian.
+\newblock On conservation of conditionally periodic motions under small
+  perturbations of the {H}amiltonian.
 \newblock {\em Doklady Akademii Nauk SSSR}, 98:527--530, 1954.
 
 \bibitem{arnold1963}
 Vladimir~I. Arnold.
-\newblock Proof of a theorem of {A}.~{N}.~{K}olmogorov on the preservation of conditionally periodic motions under a small change in the {H}amiltonian function.
+\newblock Proof of a theorem of {A}.~{N}.~{K}olmogorov on the preservation of
+  conditionally periodic motions under a small change in the {H}amiltonian
+  function.
 \newblock {\em Russian Mathematical Surveys}, 18(5):9--36, 1963.
 
 \bibitem{moser1962}
 J{\"u}rgen Moser.
 \newblock On invariant curves of area-preserving mappings of an annulus.
-\newblock {\em Nachrichten der Akademie der Wissenschaften in G{\"o}ttingen, Mathematisch-Physikalische Klasse}, 1962:1--20, 1962.
+\newblock {\em Nachrichten der Akademie der Wissenschaften in G{\"o}ttingen,
+  Mathematisch-Physikalische Klasse}, 1962:1--20, 1962.
 
 \bibitem{aubry1983}
 Serge Aubry and P.~Y. Le~Daeron.
@@ -132,7 +189,8 @@ Serge Aubry and P.~Y. Le~Daeron.
 
 \bibitem{mather1982}
 John~N. Mather.
-\newblock Existence of quasi-periodic orbits for twist homeomorphisms of the annulus.
+\newblock Existence of quasi-periodic orbits for twist homeomorphisms of the
+  annulus.
 \newblock {\em Topology}, 21(4):457--467, 1982.
 
 \bibitem{mackay1983}
@@ -140,19 +198,9 @@ Robert~S. MacKay and Ian~C. Percival.
 \newblock Converse {KAM}: theory and practice.
 \newblock {\em Communications in Mathematical Physics}, 98(4):469--512, 1985.
 
-\bibitem{hofstadter1976}
-Douglas~R. Hofstadter.
-\newblock Energy levels and wave functions of {B}loch electrons in rational and irrational magnetic fields.
-\newblock {\em Physical Review B}, 14(6):2239--2249, 1976.
-
 \bibitem{avila2009}
 Artur Avila and Svetlana Jitomirskaya.
 \newblock The ten {M}artini problem.
 \newblock {\em Annals of Mathematics}, 170(1):303--342, 2009.
-
-\bibitem{dean2013}
-C.~R. Dean, L.~Wang, P.~Maher, et~al.
-\newblock Hofstadter's butterfly and the fractal quantum {H}all effect in moir{\'e} superlattices.
-\newblock {\em Nature}, 497:598--602, 2013.
 
 \end{thebibliography}

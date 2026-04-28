@@ -82,7 +82,8 @@ GRID      = 65
 #   Full fix: numba JIT on _kinetic_hop (see notes below).
 #   Interim: TICKS_TOTAL=6000 for a ~5.5-hour probe run.  Increase to
 #   18000 once the JIT fix is in place or use a nightly batch.
-TICKS_TOTAL   = 6000    # interim: ~5.5 hrs/worker @3.3s/tick; raise to 18000 after JIT fix
+#   Override at the shell via EXP19_TICKS env var.
+TICKS_TOTAL   = int(os.environ.get('EXP19_TICKS', '6000'))
 CHECK_EVERY   = 50      # ticks between stability checks
 SETTLE_TOL    = 0.15    # r_peak within 15% of R1
 
@@ -455,11 +456,15 @@ def run_parallel():
 
     print(f"Launching {len(EMISSION_RATES)} parallel workers...")
     procs = []
+    err_files = []
     for rate in EMISSION_RATES:
+        label = f"{rate:.4f}".replace('.', '_')
+        err_path = os.path.join(_DATA_DIR, f'exp_19_rate_{label}.err')
+        err_f = open(err_path, 'w')
+        err_files.append(err_f)
         cmd = [sys.executable, '-u', __file__, str(rate)]
-        p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
-                             stderr=subprocess.DEVNULL)
-        print(f"  rate={rate}  PID={p.pid}")
+        p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=err_f)
+        print(f"  rate={rate}  PID={p.pid}  err={err_path}")
         procs.append((rate, p))
 
     print()
@@ -469,7 +474,9 @@ def run_parallel():
         running = [r for r, p in procs if p.poll() is None]
         print(f"[{time.time()-t0:.0f}s] running={running}  done={done}",
               flush=True)
-        time.sleep(300)
+        time.sleep(30)
+    for f in err_files:
+        f.close()
 
     print(f"\nAll done. Total time: {time.time()-t0:.0f}s")
 

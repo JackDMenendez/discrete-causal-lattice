@@ -1,3 +1,65 @@
+<!-- markdownlint-disable MD012 MD022 MD025 MD026 MD032 MD041 -->
+# Changelog
+
+## v0.96-RC -- Release Candidate (paper) -- 2026-04-28
+
+DOI: 10.5281/zenodo.19866911
+
+Targeted correctness pass on the frame-condition derivation, plus a new
+falsifiable prediction (lattice birefringence) and a new dual-hypothesis
+paragraph on what drives the Zitterbewegung rate.
+
+### Frame condition correction
+
+- Previous text asserted $\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T = 3\delta_{ij}$.
+  Direct calculation (verifiable in 5 lines of SymPy) shows the actual
+  matrix has off-diagonal entries $\pm 1$ and eigenvalues $\{4, 4, 1\}$.
+- Affected: abstract, conclusion, §6 isotropy paragraph, §7 1/$r^2$
+  derivation. All four locations now state the corrected geometry.
+- The corrected derivation recovers $\mathrm{SO}(3)$ rotational
+  invariance only on $O_h$-averaged observables; the residual
+  operator-level anisotropy is a uniaxial birefringence with optical
+  axis along $\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.
+
+### New: lattice birefringence prediction (P7 refinement)
+
+- §12.7 (P7 Photon Dispersion) gains a new paragraph "Direction-resolved
+  refinement (lattice birefringence)" adding the direction-dependent
+  component of the existing GRB time-of-flight bound.  Existing analyses
+  integrate over sky direction; the framework predicts direction-resolved
+  binning should reveal that bursts close to $(1,1,-1)$ exhibit less
+  dispersion than perpendicular bursts.
+
+### New: dual-hypothesis Zitterbewegung paragraph
+
+- §6 gains a new paragraph "What drives the oscillation?" identifying
+  two competing hypotheses for the source of the Zitterbewegung rate
+  $\omega$: self-driven (autonomous) versus recoil-driven (kickback
+  from internal virtual-particle emission).  The two are distinguishable
+  in principle by direction-resolved precision-mass measurements aligned
+  with the cosmic optical axis.
+
+### New artifacts
+
+- `figures/frame_matrix_ellipsoid.{png,pdf}` -- 3D rendering of the
+  frame matrix as a quadratic form (sphere vs. tilted ellipsoid).
+- `src/utilities/frame_matrix_visualization.py` -- regeneration script.
+- `data/frame_matrix_ellipsoid.txt` -- numerical output.
+- `release_notes/v0.96-RC.md` -- detailed change log.
+- `notes/frame_condition_isotropy_memo.md`, `notes/lattice_birefringence_prediction.md`,
+  `notes/zitterbewegung_as_recoil.md`, `notes/lorentz_arnold_correspondence.md`,
+  `notes/crystal_rotation_picture.md`, `notes/lie_group_framing.md`,
+  `notes/virtual_sessions_as_gradient_field.md`,
+  `notes/clock_density_uncertainty_and_entropy.md`,
+  `notes/3d_visualization_toolkit.md`,
+  `notes/PAPER_EDIT_QUEUE.md` -- research seeds and edit-queue tracker
+  for v1.0.
+
+### Title page
+
+- Version updated to `v0.96-RC`.
+- New "What changed in v0.96-RC" callout pointing readers to the
+  detailed release notes.
 
 ## v0.95-RC -- Release Candidate (paper) -- 2026-04-26
 
@@ -56,11 +118,12 @@ remaining `STUB` entries in the audit table.
 
 - §1 introduction updated to reference `exp_19c_photon_emission`:
   the joint $\mathcal{A}=1$ + recoil mechanism is implemented and
-  verified to preserve $\mathcal{A}=1$ while stabilising the bound
-  orbit at the Arnold tongue boundary (peak radius 10.28 vs predicted
-  $R_1 = 10.3$, within 0.2%).
-- Audit table: `exp_19c` row updated to `PART` status; description
-  rephrased to match what the experiment actually demonstrated.
+  verified to preserve per-session unitarity over short test runs.
+  A settled multi-rate sweep that resolves the Arnold-tongue lock-in
+  and discrete emission events remains pending.
+- Audit table: `exp_19c` row carries `PART` status; the paper text
+  matches that status (no quantitative `peak radius` claim until a
+  settled sweep is in hand).
 
 ### Audit table
 

@@ -44,6 +44,39 @@ $P_\mathrm{fwd} = P_\mathrm{bwd} = \tfrac{1}{2}\cos^2(\omega/2)$,
 so $v = 0$ and the amplitude oscillates between $\psi_R$ and $\psi_L$
 without net displacement — the lattice realisation of Zitterbewegung~\cite{schrodinger1930}.
 
+\paragraph{What drives the oscillation?}
+The bipartite tick rule produces the $\omega$-rate alternation between
+$\psi_R$ and $\psi_L$, and the rate $\omega$ is what we observe as the
+particle's rest mass via $m = \sin(\omega)/2$.  What \emph{drives} the
+alternation, however, is not derived in this framework.  Two natural
+hypotheses are mathematically equivalent at the level of the
+observables this paper considers:
+\begin{enumerate}
+    \item \emph{Self-driven Zitterbewegung}: the bipartite tick rule
+        produces the alternation autonomously, with $\omega$ a primitive
+        session parameter.
+    \item \emph{Recoil-driven Zitterbewegung}: the alternation is the
+        kickback from emission of virtual sessions by an internal
+        process whose mechanism is below the framework's resolution
+        (analogous to Mössbauer recoil from nuclear photon emission, or
+        to QED electron self-energy from virtual photon dressing).  Under
+        this reading $\omega$ is a measurement of an internal emission
+        rate, not a primitive parameter.
+\end{enumerate}
+The two hypotheses are distinguishable in principle.  Under (1), rest
+masses are isotropic constants of nature.  Under (2), the recoil rate
+depends on the channels available for the emission to project onto, and
+the bipartite RGB/CMY birefringence (Section~\ref{subsec:dirac_limit})
+makes those channels direction-dependent: rest masses should then carry
+a small anisotropy aligned with the lattice optical axis
+$\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.  This is observable
+in principle by direction-resolved precision atomic-clock comparisons.
+We treat the question of which hypothesis is correct as an explicit
+empirical boundary of the framework: the same direction-resolved
+analysis that tests P7 (photon dispersion,
+Section~\ref{subsec:p7_photon_dispersion}) also tests the source of
+$\omega$ itself.
+
 % ── Subsection 2 ─────────────────────────────────────────────────────────────
 \subsection{Phase Gradient as Momentum}
 \label{subsec:momentum_emergence}
@@ -227,38 +260,72 @@ They are cancelled by the CMY sublattice contribution, as shown below.
 % statement is that the full two-sublattice dispersion is isotropic, not
 % that M itself is diagonal. See isotropy paragraph below.
 
-\paragraph{Isotropy: frame condition and octahedral symmetry.}
-The first-order expansion of $\tilde{H}_\text{RGB}$ produces a directional
-gradient $(1,1,-1)\cdot\nabla$ that superficially breaks rotational
-invariance.
-Two complementary arguments restore it.
-
-\emph{Fourier-space argument.}
-The CMY sublattice has $\text{CMY} = -\text{RGB}$, so
-$\tilde{H}_\text{CMY}(\mathbf{k}) = \tilde{H}_\text{RGB}(-\mathbf{k})^*$.
-The dispersion relation of the full two-tick operator near $\mathbf{k}
-= \mathbf{0}$ is
+\paragraph{Isotropy at the operator level: the lattice is birefringent.}
+At the operator level the dispersion is \emph{not} fully isotropic.
+The single-tick spinor propagator, derived from the bipartite tick
+rule, is
 \begin{equation}
-    \omega^2(\mathbf{k}) = m^2 + \frac{a^2}{3}|\mathbf{k}|^2 + O(k^4).
+    T(\mathbf{k}) = \begin{pmatrix}
+        i\sin(\omega/2) & \cos(\omega/2)\,\tilde{H}_\text{RGB}(\mathbf{k}) \\
+        \cos(\omega/2)\,\tilde{H}_\text{CMY}(\mathbf{k}) & i\sin(\omega/2)
+    \end{pmatrix},
+\end{equation}
+with $\tilde{H}_\text{CMY}(\mathbf{k}) = \overline{\tilde{H}_\text{RGB}(\mathbf{k})}$
+because $\text{CMY} = -\text{RGB}$.  The trace
+$\text{tr}\,T = 2i\sin(\omega/2)$ is independent of $\mathbf{k}$, and
+the eigenvalues are
+$\lambda_\pm(\mathbf{k}) = i\sin(\omega/2) \pm \cos(\omega/2)\,
+|\tilde{H}_\text{RGB}(\mathbf{k})|$.
+The entire $\mathbf{k}$-dependence enters through
+$|\tilde{H}_\text{RGB}|^2$, which to second order is
+\begin{equation}
+    |\tilde{H}_\text{RGB}(\mathbf{k})|^2
+        = 1 - \mathbf{k}^T M_\text{eff}\,\mathbf{k} + O(k^4),
+        \quad
+    M_\text{eff} = \tfrac{1}{9}
+    \begin{pmatrix} 8 & -4 & 4 \\ -4 & 8 & 4 \\ 4 & 4 & 8 \end{pmatrix}
+    = -\tfrac{4}{9}\,\mathbb{I} + \tfrac{4}{9}\,M.
+    \label{eq:M_eff}
+\end{equation}
+$M_\text{eff}$ has eigenvalues $\{4/3,\,4/3,\,0\}$, with the zero
+eigenvalue along $\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.
+Direct calculation confirms that for $\mathbf{k}$ along this direction
+all three RGB phase advances are equal, so
+$|\tilde{H}_\text{RGB}|^2 = 1$ \emph{exactly} at all orders in $\mathbf{k}$.
+The lattice therefore exhibits a uniaxial birefringence at the operator
+level: along the optical axis $(1,1,-1)$ the dispersion is flat;
+in the perpendicular plane the dispersion has coefficient $4/3$.
+
+\paragraph{Recovery of $\mathrm{SO}(3)$ at the observable level.}
+The full rotation group $\mathrm{SO}(3)$ is recovered on
+$O_h$-averaged observables.  The $\Tdiamond$ lattice has octahedral
+point symmetry $O_h$ (order 48), and physical observables must be
+$O_h$-invariant.  Averaging the operator-level quadratic form
+$\mathbf{k}^T M_\text{eff}\,\mathbf{k}$ over the discrete rotations
+in $O_h$ gives
+\begin{equation}
+    \langle \mathbf{k}^T M_\text{eff}\,\mathbf{k}\rangle_{O_h}
+        = \tfrac{\mathrm{tr}(M_\text{eff})}{3}\,|\mathbf{k}|^2
+        = \tfrac{8}{9}|\mathbf{k}|^2,
+\end{equation}
+which is isotropic.  The resulting dispersion relation,
+\begin{equation}
+    \omega^2(\mathbf{k}) = m^2 + \frac{a^2}{3}|\mathbf{k}|^2 + O(k^4),
     \label{eq:dispersion}
 \end{equation}
-The first-order term $\tfrac{i}{3}(1,1,-1)\cdot\mathbf{k}$ enters
-the dispersion relation quadratically; cross terms between the RGB and
-CMY contributions cancel, and the frame condition $M_{ij} = 3\delta_{ij}$
-eliminates all off-diagonal contributions.
-The dispersion relation depends only on $|\mathbf{k}|^2$ — it is
-manifestly isotropic.
+holds for $O_h$-averaged observables and recovers full $\mathrm{SO}(3)$
+in the continuum limit.  The directional gradient
+$\tfrac{i}{3}(1,1,-1)\cdot\mathbf{k}$ from the first-order expansion
+averages to zero over $O_h$; the residual anisotropy at second order
+is the birefringence above.
 
-\emph{Symmetry argument.}
-The $\Tdiamond$ lattice has octahedral symmetry $O_h$.
-Physical observables must be $O_h$-invariant, and in the continuum limit
-$O_h$ enlarges to the full rotation group $\mathrm{SO}(3)$.
-The directional gradient $(1,1,-1)\cdot\nabla$ averages to zero over
-$O_h$; the second-order double-hop term produces the isotropic Laplacian
-$\nabla^2$ via the frame condition.
 This is the same mechanism by which staggered fermions in lattice
-QCD~\cite{susskind1977} recover Lorentz invariance in the continuum
-limit from a discretisation that breaks it explicitly at finite $a$.
+QCD~\cite{susskind1977,kogutsusskind1975} recover Lorentz invariance
+in the continuum limit from a discretisation that breaks it at finite
+$a$.  The difference here is that the residual anisotropy is not a
+discretisation artifact to be averaged away; it is a closed-form
+prediction of the framework, observable as direction-dependent photon
+dispersion (Section~\ref{subsec:p7_photon_dispersion}).
 
 \paragraph{The Dirac equation.}
 Taking $a \to 0$ with physical mass $m = \omega/a$ held fixed,

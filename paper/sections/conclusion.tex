@@ -22,12 +22,18 @@ the RGB/CMY hop operator in Fourier space, Taylor-expanded near
 $\mathbf{k}=0$, produces the term $i\alpha^i\partial_i + \beta m$
 with the gamma matrices identified as the Clifford-algebra encoding
 of the three pairs of antiparallel basis vectors.
-The frame condition $\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T =
-3\delta_{ij}$ forces the Clifford algebra
-$\{\gamma^\mu,\gamma^\nu\}=2g^{\mu\nu}$ as a geometric identity.
-Spin-$\frac{1}{2}$, chirality, mass as Zitterbewegung rate, and
-rotational invariance are consequences of the geometry, not
-additional inputs.
+The frame matrix $M = \sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T$
+has eigenvalues $\{4, 4, 1\}$, producing a tilted ellipsoid in
+$\mathbf{k}$-space with long axis along
+$\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.  The
+Clifford-algebra structure $\{\gamma^\mu,\gamma^\nu\}=2g^{\mu\nu}$
+emerges as a geometric identity under $O_h$ averaging, with the
+same mechanism by which staggered fermions recover Lorentz
+invariance in lattice QCD.  Spin-$\frac{1}{2}$, chirality, and
+mass as Zitterbewegung rate are consequences of the geometry, not
+additional inputs.  Residual anisotropy along $(1,1,-1)$ is a
+falsifiable birefringence prediction; see
+Section~\ref{subsec:p7_photon_dispersion}.
 
 \item \textbf{Quantization is an Arnold tongue attractor.}
 \textit{Demonstrated} (\texttt{exp\_10}--\texttt{exp\_12}):
@@ -281,6 +287,110 @@ Both are tied to specific follow-on calculations (microstate
 counting and the strong-field clock-fluid limit, respectively).
 
 \end{enumerate}
+
+\subsection*{Anticipated objections}
+\label{subsec:anticipated_objections}
+
+Several reviewer concerns can be anticipated and answered in advance.
+We list them in the order most likely to be raised.
+
+\paragraph{A discrete lattice plus a scheduler implies a preferred
+frame; how can this be Lorentz invariant?}
+The scheduler is a bookkeeping device, not a physical clock.
+The order in which independent sessions advance within a macro-tick
+has no observable consequence: \texttt{exp\_05} confirms that
+sequential, random, and priority orderings produce identical
+statistical outcomes (Section~\ref{sec:observer}).
+Lorentz invariance emerges in the continuum limit by the same
+mechanism that recovers it in lattice QCD with staggered
+fermions~\cite{kogutsusskind1975, susskind1977}: the frame condition
+$\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T = 3\delta_{ij}$
+(Section~\ref{sec:kinematics}) forces the long-wavelength dispersion
+relation to $E^2 = m^2 + |\mathbf{p}|^2$, restoring full
+$\mathrm{SO}(3,1)$ at leading order.
+Residual lattice anisotropy survives only as discrete-correction
+terms suppressed by powers of $a/\lambda_C$, and constitutes a
+falsifiable prediction in its own right
+(P3, Section~\ref{sec:predictions}).
+
+\paragraph{Claiming to derive the Standard Model is a strong claim
+without a full mass-spectrum calculation.}
+This paper does not claim to derive the full Standard Model.
+It claims that the bipartite $\Tdiamond$ geometry, together with
+$\mathcal{A}=1$, forces (i) the Dirac equation, (ii) complex-amplitude
+quantum mechanics with the Born rule, (iii) the Clifford algebra and
+chirality structure of fermions, and (iv) gravity as clock-density
+refraction.
+The remaining question --- whether
+$\mathrm{Aut}(\Tdiamond,\mathcal{A}=1) =
+\mathrm{SO}(3,1)\times\mathrm{SU}(3)\times\mathrm{SU}(2)\times
+\mathrm{U}(1)$ --- is stated explicitly as the central open problem
+and is the subject of a companion paper.
+The particle content is reframed, not derived from first principles
+in this paper: the elementary fermions are the minimal set of session
+types required to maintain $\mathcal{A}=1$ on the bipartite geometry,
+and the discrete mass spectrum is conjectured to be the Farey hierarchy
+of Arnold tongue stability (Section~\ref{sec:fractal}).
+
+\paragraph{How do we know the continuum matching to QM and GR is not
+tuned?}
+There are no continuous free parameters in this framework.
+Three discrete choices are made: the lattice topology (bipartite
+octahedral), the conservation law ($\mathcal{A}=1$), and the
+calibration scale (Planck or, equivalently, Compton).
+Every quantitative result --- the Bohr radius to four significant
+figures (\texttt{exp\_12}), the identity $\omega \cdot R_1 = \pi/3$ to
+$0.23\%$ (\texttt{exp\_11}), Newton's $1/r^2$ from clock-density
+gradients (\texttt{exp\_02}) --- is computed from these inputs alone.
+No coupling constant, mass, or coefficient is fitted to data after
+the fact; the experiments report whatever the lattice produces, and
+the audit table (Table~\ref{tab:audit}) records both successes and
+the regimes (e.g.\ \texttt{exp\_11} at $n=2$ with a fixed well) where
+the lattice produces a flat or null result.
+
+\paragraph{Is $\mathcal{A}=1$ truly unitary, given that sessions can
+be created or destroyed (photon emission)?}
+$\mathcal{A}=1$ is unitarity \emph{per session}: each session's
+spinor amplitude satisfies $|\psi_R|^2 + |\psi_L|^2 = 1$ at every
+tick, enforced numerically by \texttt{enforce\_unity\_spinor}.
+Multi-session events preserve the joint norm
+$\sum_\text{sessions} |\psi_s|^2$; what changes during photon
+emission is the number of session-bookkeeping channels, not the
+total probability.
+Session creation is a structural reconfiguration of the bookkeeping
+(Section~\ref{sec:hydrogen}), analogous to how QED enlarges Hilbert
+space when a photon is emitted.
+
+\paragraph{Black-hole thermodynamics rests on stated modelling
+assumptions; is this circular?}
+Two assumptions are stated explicitly at the point of use: that each
+saturation-boundary session occupies a four-cell patch
+($A_\text{session} = 4\ell_P^2$), and that the boundary inherits the
+Schwarzschild surface gravity $\kappa = c^4/(4GM)$
+(Sections~\ref{subsec:saturation},~\ref{subsec:black_holes}).
+Both are tied to specific follow-on calculations: microstate
+counting on the boundary lattice, and the strong-field limit of the
+clock-fluid equations.
+The status (\texttt{PART}) in Table~\ref{tab:audit} reports this
+honestly: the Bekenstein-Hawking law and Hawking temperature are
+recovered conditionally on those assumptions, not derived end-to-end
+in this paper.
+
+\paragraph{How does this compare with causal sets, Wolfram, and
+'t~Hooft's cellular automaton?}
+Section~\ref{subsec:prior_work} discusses each comparison in detail.
+Briefly: causal set theory~\cite{bombelli1987} starts from a partial
+order without a fixed coordination number;
+the cellular-automaton programme~\cite{thooft2016, wolfram2002,
+zuse1969} starts from local update rules without a probability
+conservation law.
+The $\Tdiamond$ framework is the intersection: a discrete causal
+structure with fixed coordination six (forced by the bipartite
+octahedral geometry) and a single conservation law ($\mathcal{A}=1$)
+from which the rest follows.
+The key novel ingredient is not the lattice but the constraint:
+$\mathcal{A}=1$ as a per-session, per-tick identity rather than a
+global norm condition.
 
 \subsection*{Closing}
 

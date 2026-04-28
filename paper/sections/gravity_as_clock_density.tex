@@ -129,9 +129,14 @@ neighbouring nodes is
         \approx -a\,(\mathbf{v}\cdot\nabla)\bigl[p_\mathrm{hop}\,\rho\bigr].
     \label{eq:flux}
 \end{equation}
-Summing over all six basis vectors and applying the frame condition
-$\sum_{\mathbf{v}} v_i v_j = 6\delta_{ij}$ (the same identity used in
-the Dirac derivation):
+Summing over all six basis vectors and applying the $O_h$-averaged
+frame condition
+$\langle\sum_{\mathbf{v}} v_i v_j\rangle_{O_h} = 6\delta_{ij}$
+(the operator-level form is the tilted matrix
+$2M = \langle\sum_\mathbf{v} v_i v_j\rangle = 2\sum_\text{RGB} v_i v_j$
+with eigenvalues $\{8,8,2\}$; isotropy is recovered after $O_h$
+averaging, as in the Dirac derivation,
+Section~\ref{sec:kinematics}):
 \begin{equation}
     \mathbf{J} = \tfrac{1}{6}\sum_\mathbf{v} \mathbf{v}\,J_\mathbf{v}
                = -a\,\nabla\!\bigl[p_\mathrm{hop}\,\rho\bigr]
@@ -182,7 +187,7 @@ linearizes to:
     \implies \phi_\mathrm{Newton}(\mathbf{x}) \approx -c^2 \frac{\rho_\mathrm{clock}(\mathbf{x}) - \bar\rho}{\bar\rho}.
 \end{equation}
 Applying the isotropic lattice Laplacian $\nabla^2$
-(frame condition, Eq.~\eqref{eq:frame}) relates the spatial curvature of the potential
+(frame condition, Eq.~\eqref{eq:frame_matrix}) relates the spatial curvature of the potential
 to the local variation in clock density:
 \begin{equation}
     \nabla^2\phi_\mathrm{Newton} = -\frac{c^2}{\bar\rho}\,\nabla^2\rho_\mathrm{clock}

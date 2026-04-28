@@ -45,7 +45,10 @@ RECOIL_STRENGTH = 0.2    # momentum transfer per recoil event (was 0.1)
 ENTANGLEMENT_BREAK = 0.05 # phase randomization to break correlations
 
 # ── Run parameters ────────────────────────────────────────────────────────────
-TICKS_TOTAL   = 100    # reasonable test duration
+# TICKS_TOTAL default is a smoke-test value; for a settled run override via
+# the EXP19C_TICKS environment variable (a multi-thousand value is needed to
+# clear SUCCESS_STREAK = 33 and resolve Arnold-tongue lock-in).
+TICKS_TOTAL   = int(os.environ.get('EXP19C_TICKS', '100'))
 CHECK_EVERY   = 20      # ticks between stability checks
 SETTLE_TOL    = 0.15    # r_peak within 15% of R1
 
@@ -395,11 +398,15 @@ def run_parallel():
 
     print(f"Launching {len(EMISSION_RATES)} parallel workers...")
     procs = []
+    err_files = []
     for rate in EMISSION_RATES:
+        label = f"{rate:.4f}".replace('.', '_')
+        err_path = os.path.join(_DATA_DIR, f'exp_19c_rate_{label}.err')
+        err_f = open(err_path, 'w')
+        err_files.append(err_f)
         cmd = [sys.executable, '-u', __file__, str(rate)]
-        p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
-                             stderr=subprocess.DEVNULL)
-        print(f"  rate={rate}  PID={p.pid}")
+        p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=err_f)
+        print(f"  rate={rate}  PID={p.pid}  err={err_path}")
         procs.append((rate, p))
 
     print()
@@ -409,7 +416,9 @@ def run_parallel():
         running = [r for r, p in procs if p.poll() is None]
         print(f"[{time.time()-t0:.0f}s] running={running}  done={done}",
               flush=True)
-        time.sleep(300)
+        time.sleep(30)
+    for f in err_files:
+        f.close()
 
     print(f"\nAll done. Total time: {time.time()-t0:.0f}s")
 

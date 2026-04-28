@@ -47,7 +47,7 @@ answers follow from a single conservation law:
 \textbf{Conservation of probability --- the axiom $\mathcal{A}=1$.}
 \end{center}
 
-On a bipartite three-dimensional causal lattice $\mathcal{T}_\diamond^3$,
+On a bipartite three-dimensional causal lattice $\Tdiamond$,
 each particle is a \emph{causal session}: an independent phase oscillator
 carrying amplitude $(\psi_R, \psi_L)$ on the two chirally-opposite
 sublattices, subject to $|\psi_R|^2 + |\psi_L|^2 = 1$ at every tick.
@@ -102,10 +102,12 @@ The five answers:
     by physical recoil between proton and electron.
     Emission, recoil, and energy conservation all follow from
     $\mathcal{A}=1$ alone.
-    A first numerical implementation (\texttt{exp\_19c}) verifies the
-    joint $\mathcal{A}=1$ + recoil mechanism and confirms that the
-    bound electron orbit stabilises at the Arnold tongue boundary;
-    event-rate measurements at higher coupling are in progress.
+    A first numerical implementation (\texttt{exp\_19c}) demonstrates
+    that the joint $\mathcal{A}=1$ + recoil mechanism preserves
+    per-session unitarity over short test runs;
+    a settled multi-rate sweep with discrete-emission detection
+    remains pending, and the audit table
+    (Table~\ref{tab:audit}) records this row as \texttt{PART}.
 
 \item \textbf{Gravity is refraction, not curvature.}
     Every causal session carries an independent tick counter.
@@ -167,15 +169,14 @@ proton-electron resonance transitions to a lower Arnold tongue, the
 displaced amplitude is absorbed by a new photon session, and the proton
 adjusts to the new joint configuration.
 None of this requires a separately postulated transition rate.
-A direct numerical test of the joint mechanism (\texttt{exp\_19c}) ---
-two-body initialisation with Coulomb-driven amplitude drain, recoil
-detection, and momentum transfer ---
-confirms that $\mathcal{A}=1$ is preserved with the recoil channel
-active and that the bound orbit stabilises at the Arnold tongue
-boundary (peak radius $10.28$ lattice nodes against the predicted
-$R_1 = 10.3$, within $0.2\%$, in the rate $= 0.05$ regime).
-Higher-rate sweeps that resolve discrete emission events are work
-in progress.
+A first numerical implementation of the joint mechanism
+(\texttt{exp\_19c}) --- two-body initialisation with Coulomb-driven
+amplitude drain, recoil detection, and momentum transfer ---
+confirms that per-session unitarity is preserved with the recoil
+channel active over short test runs.
+A settled multi-rate sweep that resolves the Arnold-tongue lock-in
+and discrete emission events remains pending; the audit table
+(Table~\ref{tab:audit}) records this row as \texttt{PART}.
 
 The framework also distinguishes two conditions that standard quantum
 mechanics treats as identical.

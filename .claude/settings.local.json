@@ -20,10 +20,30 @@
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install pyyaml)",
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -m pip install --quiet pyyaml)",
       "Bash(/c/dev/dcl/.venv-ucrt64/bin/python.exe -c \"import yaml; print\\('ok', yaml.__version__\\)\")",
-      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/zenodo_badge.py)"
+      "Bash(PYTHONIOENCODING=utf-8 /c/dev/dcl/.venv-ucrt64/bin/python.exe src/utilities/zenodo_badge.py)",
+      "Bash(grep -E \"^\\\\\\\\\\\\\\\\label\" paper/sections/*.tex)",
+      "Read(//c/dev/dcl/**)",
+      "Bash(python -c ' *)",
+      "Bash(file paper/sections/*.tex)",
+      "Bash(file sections/*.tex)",
+      "Bash(pdflatex --version)",
+      "Bash(rm -f main.aux main.toc main.out main.log main.bbl main.blg main.fdb_latexmk main.fls main.synctex.gz)",
+      "Bash(pdflatex -interaction=nonstopmode -halt-on-error main.tex)",
+      "Bash(echo \"p2 exit=$?\")",
+      "Bash(git -C /c/dev/dcl status --porcelain paper/sections/primal_topology_substrate.tex paper/sections/harmonic_stability_and_the_golden_ratio_decay_constant.tex paper/sections/born_rule_from_paths.tex)",
+      "Bash(git -C /c/dev/dcl ls-files paper/sections/primal_topology_substrate.tex paper/sections/harmonic_stability_and_the_golden_ratio_decay_constant.tex paper/sections/born_rule_from_paths.tex)",
+      "Bash(git -C /c/dev/dcl mv paper/sections/harmonic_stability_and_the_golden_ratio_decay_constant.tex notes/harmonic_stability_and_the_golden_ratio_decay_constant.tex)",
+      "Bash(git -C /c/dev/dcl rm paper/sections/primal_topology_substrate.tex)",
+      "Bash(git -C /c/dev/dcl status --short)",
+      "Bash(chmod +x build.sh)",
+      "Bash(./build.sh)",
+      "Read(//usr/**)",
+      "Bash(/c/msys64/ucrt64/bin/make.exe --version)"
     ],
     "additionalDirectories": [
-      "c:\\dev\\dcl\\build"
+      "c:\\dev\\dcl\\build",
+      "c:\\dev\\dcl",
+      "\\tmp"
     ]
   }
 }

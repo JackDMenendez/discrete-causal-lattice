@@ -1,0 +1,205 @@
+% ============================================================
+% code_and_data.tex
+% Appendix A: Code and Data
+% ============================================================
+
+\label{sec:code_and_data}
+
+This appendix documents what is required to reproduce the numerical
+results reported in the paper.
+The framework is implemented entirely in Python with a small set of
+mainstream scientific dependencies; no specialised hardware is required
+for any single experiment, although several long-running scans benefit
+from leaving a workstation undisturbed for hours to days.
+
+\subsection*{Repository and archived release}
+
+\begin{itemize}
+\item Source code, paper sources, and data files:
+\href{https://github.com/JackDMenendez/discrete-causal-lattice}%
+{\texttt{https://github.com/JackDMenendez/discrete-causal-lattice}}
+\item Archived release (this version):
+\href{https://doi.org/10.5281/zenodo.19866911}%
+{\texttt{doi:10.5281/zenodo.19866911}}
+\item Citation metadata: \texttt{CITATION.cff} at the repository root.
+\item License: MIT.
+\end{itemize}
+
+\subsection*{Software environment}
+
+Tested on Windows 11 (MSYS2 UCRT64 shell) and Linux. The build
+expects:
+
+\begin{itemize}
+\item Python~3 with the packages pinned in
+\texttt{virtual-env-requirements.txt}
+(\texttt{numpy~2.4.3}, \texttt{scipy~1.17.1},
+\texttt{matplotlib~3.10.8}, \texttt{pandas~3.0.1},
+\texttt{networkx~3.6.1}, \texttt{seaborn~0.13.2}; full list in the
+file).
+\item GNU Make $\geq$ 4.3 (the grouped-target \texttt{\&:} syntax is used).
+\item \texttt{pdflatex} and \texttt{bibtex} (MiKTeX or TeX Live) for
+building this paper.
+\end{itemize}
+
+A clean build proceeds via the top-level \texttt{makefile}:
+
+\begin{quote}
+\texttt{make env}\hfill\textit{create the Python virtualenv}\\
+\texttt{make tests}\hfill\textit{run the \texttt{pytest} suite under
+\texttt{tests/}}\\
+\texttt{make paper}\hfill\textit{compile \texttt{paper/main.tex} (3-pass
+\texttt{pdflatex} + \texttt{bibtex})}
+\end{quote}
+
+\subsection*{Determinism and random-number use}
+
+The framework is deterministic by construction: the tick rule is a
+fixed map on the spinor amplitude, and orbital evolution depends
+only on the initial state and the lattice geometry.
+Random numbers enter in two places only:
+
+\begin{enumerate}
+\item \texttt{src/core/TickScheduler.py} uses
+\texttt{np.random.default\_rng(seed=42)} when an experiment requests
+randomised tick ordering. \texttt{exp\_05} relies on this for the
+shuffle-invariance test; all other experiments use the deterministic
+sequential schedule.
+
+\item \texttt{src/experiments/exp\_04\_decoherence.py} draws random
+phase scrambles via \texttt{np.random.default\_rng(42)} for the
+many-bath ensemble; the per-realisation seed is \texttt{i + 100} for
+the $i$-th member of the ensemble.
+\end{enumerate}
+
+With these seeds fixed at the values committed to the repository,
+every experiment in this paper reproduces bit-for-bit on the pinned
+software stack.
+
+\subsection*{Running the numerical experiments}
+
+Individual experiments are exposed as targets in
+\texttt{src/experiments/makefile}:
+
+\begin{quote}
+\texttt{make -C src/experiments exp\_12}\\
+\texttt{make -C src/experiments exp\_16}
+\end{quote}
+
+Each target depends on the Python script of the same name, runs it
+under the project virtualenv, and writes its log to
+\texttt{data/exp\_NN\_*.txt} and its raw arrays to
+\texttt{data/exp\_NN\_*.npy}. The longer scans
+(\texttt{exp\_11}, \texttt{exp\_18}, \texttt{exp\_20}) have wall-clock
+times of hours to days on consumer hardware; the per-experiment
+documentation in \texttt{src/experiments/*.md} reports the runtime
+observed during preparation of this paper.
+
+\subsection*{Key parameter values}
+
+The numerical experiments share a small set of physical and
+discretisation parameters. Values used to produce the results
+reported in the audit table (Table~\ref{tab:audit}) are summarised
+in Table~\ref{tab:experiment_parameters}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Parameter values for the numerical experiments cited in the
+audit table. Lattice units throughout: distance in nodes, time in
+ticks, $\hbar = c = 1$. \texttt{GRID} is the side length of a cubic
+grid; \texttt{TICKS} is the total simulated time per run.}
+\label{tab:experiment_parameters}
+\begin{tabular}{lllll}
+\hline
+\textbf{Experiment} & \textbf{GRID} & \textbf{TICKS} &
+\textbf{Key parameters} & \textbf{Source} \\
+\hline
+\texttt{exp\_00} & $51^3$ & $20$ &
+$\omega \in \{0,\, 0.5,\, 1.0\}$ &
+\texttt{exp\_00\_causal\_cone.py} \\
+\texttt{exp\_02} & $65^3$ & $4000$ &
+test particle, mass well at centre &
+\texttt{exp\_02\_gravity\_clock\_density.py} \\
+\texttt{exp\_06} & --- & $N \in \{4,\dots,64\}$ &
+exact path-count integers &
+\texttt{exp\_06\_path\_counting.py} \\
+\texttt{exp\_08} & $65^3$ & $1500$ &
+EM vs.\ gravity, Peierls $A\!\cdot\!v$ coupling &
+\texttt{exp\_08\_vacuum\_twist.py} \\
+\texttt{exp\_09} & $65^3$ & $4000$ &
+$f\!\in\!(0,1)$, $\omega\!\in\!(0,2\pi)$ harmonic scan &
+\texttt{exp\_09c\_harmonic\_hires.py} \\
+\texttt{exp\_10} & $65^3$ & $8000$ &
+$\omega = 0.1019$, \texttt{STRENGTH} $= 30.0$ &
+\texttt{exp\_10\_hydrogen\_spectrum.py} \\
+\texttt{exp\_11} & $65^3$ & $8000$ &
+$\omega = 0.1019$, \texttt{STRENGTH} $= 30.0$,
+\texttt{BURN\_IN} $= 500$ &
+\texttt{exp\_11\_quantization\_scan.py} \\
+\texttt{exp\_12} & $65^3$ &
+$1500$ orbit / $2500$ scan &
+$\omega_e = 0.1019$, $\omega_p = \pi/2$,
+\texttt{STRENGTH} $= 30.0$ &
+\texttt{exp\_12\_hydrogen\_twobody.py} \\
+\texttt{exp\_16} & $65^3$ & $20000$ &
+$\omega_p \in [0.3,\, \pi/2]$, \texttt{BURN\_IN} $= 4000$ &
+\texttt{exp\_16\_proton\_mass\_sweep.py} \\
+\hline
+\end{tabular}
+\end{table}
+
+The shared physical constants are: instruction frequency
+$\omega_e = 0.1019$ (electron); proton instruction frequency
+$\omega_p = \pi/2$ (maximum lattice mass); Coulomb strength
+$30.0$; softening $0.5$; reference Bohr radius
+$R_1 = 10.3$ nodes (the value at which $\omega \cdot R_1 = \pi/3$
+saturates within $0.23\%$).
+
+\subsection*{Data products}
+
+Each experiment writes its raw arrays and a human-readable log to
+\texttt{data/} at the repository root. The most consequential output
+files are:
+
+\begin{itemize}
+\item \texttt{data/exp\_06\_path\_counts.npy} --- exact path-count
+integers $P(N,a,b,c)$ underlying the discrete-correction prediction
+P1 (Section~\ref{sec:predictions}).
+\item \texttt{data/exp\_09\_harmonic\_hires.npy} ---
+$(f,\omega)$-resolved spectral power, the source array for the
+harmonic landscape (Figure~\ref{fig:harmonic_pair}).
+\item \texttt{data/exp\_12\_twobody\_scan.npy} --- two-body
+$k$-scan with the live proton, source for the
+$k_\text{min} = 0.0970$ vs.\ $k_\text{Bohr} = 0.0971$ result
+(Section~\ref{sec:hydrogen}, Figure~\ref{fig:exp12_twobody}).
+\item \texttt{data/exp\_16\_proton\_mass\_sweep.npy} --- proton-mass
+sweep establishing the three-regime structure
+(Section~\ref{sec:hydrogen}).
+\end{itemize}
+
+A representative output snippet from \texttt{exp\_12} (full log:
+\texttt{data/exp\_12\_hydrogen\_twobody\_log.txt}):
+
+\begin{quote}\small\ttfamily
+[Test 3] Mini k-scan (8 values, 2500 ticks each)\\
+\hphantom{xx}k\_Bohr\_fixed = 0.09709\\
+\hphantom{xx}\dots\\
+Two-body k\_min = 0.0970\quad vs fixed-well 0.0900\quad vs
+k\_Bohr\_fixed 0.0971
+\end{quote}
+
+This is the four-significant-figure recovery of the Bohr radius
+cited throughout the paper, produced with no parameter tuned to the
+result.
+
+\subsection*{Reproducing this paper}
+
+The LaTeX source compiles from \texttt{paper/main.tex} via
+\texttt{paper/build.cmd} (Windows) or \texttt{paper/build.sh} (POSIX),
+or from the repository root via \texttt{make paper}. The build
+performs three \texttt{pdflatex} passes around one \texttt{bibtex}
+pass to settle cross-references and the bibliography.
+The figures referenced in this paper are committed to
+\texttt{figures/} as PDFs and \texttt{.tex} caption fragments;
+re-running the experiments is not required to rebuild the document.

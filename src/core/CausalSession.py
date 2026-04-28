@@ -203,7 +203,7 @@ class CausalSession:
 
     # ── The Dirac tick ─────────────────────────────────────────────────────────
 
-    def tick(self):
+    def tick(self, normalize: bool = True):
         """
         The bipartite Dirac spinor update cycle.
 
@@ -218,6 +218,18 @@ class CausalSession:
           psi_R     unchanged
 
         A=1 enforced after each tick via joint normalization.
+
+        Parameters
+        ----------
+        normalize : bool, default True
+            If True (the default), enforce_unity_spinor is called after the
+            tick, restoring |psi_R|^2 + |psi_L|^2 = 1 at every node. The
+            standard A=1 contract.
+            If False, normalization is skipped. Required by the photon
+            emission experiments (exp_19, exp_19c) where amplitude is
+            transferred between sessions between consecutive ticks; the
+            caller is responsible for re-establishing the joint constraint
+            across the full multi-session set.
 
         Paper reference: Section 3 (Dirac tick rule, bipartite structure)
         """
@@ -249,8 +261,9 @@ class CausalSession:
             new_psi_R = cos_half * hop_R + 1j * sin_half * self.psi_R
             new_psi_L = cos_half * hop_L + 1j * sin_half * self.psi_L
 
-        # A=1: normalize both components jointly
-        enforce_unity_spinor(new_psi_R, new_psi_L)
+        # A=1: normalize both components jointly (skip iff caller asks).
+        if normalize:
+            enforce_unity_spinor(new_psi_R, new_psi_L)
         self.psi_R = new_psi_R
         self.psi_L = new_psi_L
 

@@ -585,6 +585,41 @@ all current GRB observations. P7 therefore narrows the calibration
 range from above: any working calibration must satisfy
 $\ell_P \le a \lesssim 10^{-19}\,\text{m}$.
 
+\paragraph{Direction-resolved refinement (lattice birefringence).}
+The bipartite RGB/CMY structure produces an anisotropy in the operator-
+level dispersion (Section~\ref{sec:kinematics}, Eq.~\eqref{eq:M_eff}):
+the spinor propagator's eigenvalue magnitude depends on $\mathbf{k}^T
+M_\text{eff}\,\mathbf{k}$, with $M_\text{eff}$ having eigenvalues
+$\{4/3,\,4/3,\,0\}$ and the zero eigenvalue along
+$\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.  Photons
+propagating along this optical axis experience the operator-level
+flat-dispersion regime; photons propagating in the perpendicular
+plane experience the standard quadratic suppression with a
+direction-dependent coefficient.  In standard birefringent-crystal
+language, the lattice is uniaxial.
+
+The refinement is observable as a direction-resolved bound on the
+GRB time-of-flight constraint above.  Existing analyses
+(\cite{vasileiou2013}) integrate over sky direction and yield the
+isotropic bound $|a| \lesssim 7.6\times 10^{-19}\,\mathrm{m}$.  A
+direction-resolved binning of the same data — separating GRBs by
+angle relative to a candidate cosmic optical axis — should reveal
+that bursts close to $(1,1,-1)$ exhibit \emph{less} dispersion than
+perpendicular bursts.  The detection signature is a sharp axial
+contrast: the same source, viewed along different sky directions,
+yields different dispersion residuals.  The non-detection signature
+is a tighter direction-resolved bound on $a$ in every bin.
+
+This is the canonical falsifying signature of lattice birefringence:
+**a single light pulse propagating oblique to the optical axis
+separates into two arrival peaks** at large baselines, because the
+two propagator eigenmodes $\lambda_\pm$ have equal magnitude but
+different phases (hence different group velocities).  At
+cosmological distances and Compton-bound lattice spacings the
+splitting magnitude is order $(a/\lambda_\gamma)^2$ times the
+total time-of-flight, putting it at the edge of current
+GRB and CMB polarisation precision.
+
 % ── 12.9 The Quantum Roche Limit ─────────────────────────────────────────────
 \subsection{P8: The Quantum Roche Limit (Atomic ISCO)}
 \label{subsec:p8_quantum_roche}
