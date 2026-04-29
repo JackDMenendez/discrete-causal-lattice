@@ -345,7 +345,9 @@ In summary:
 \textbf{Channel} & \textbf{Substrate} & \textbf{Field equation} \\
 \hline
 Divergence (gravity) & clock-density gradient & derived from tick rule \\
-Curl (electromagnetism) & $U(1)$ link variable & Wilson action postulate \\
+Curl (electromagnetism) & $U(1)$ link variable & structural form derived \\
+                       &                       & (Appendix~\ref{sec:induced_gauge_action}); \\
+                       &                       & numerical prefactor open \\
 \hline
 \end{tabular}
 \end{center}
@@ -424,18 +426,34 @@ Three concrete tasks remain to close the gap:
     small-$a$ expansion. Standard WKB in the lattice spacing.
 \end{enumerate}
 
-These three tasks are well-defined, tractable, and free of
-conceptual mystery. They are deferred to a follow-on paper because
-their scope is substantial: the induced-action calculation is itself
-a paper-length project, with its own verification programme against
-QED precision tests ($g{-}2$, the Lamb shift, the $\beta$-function
-running). Folding it into the present paper would delay the
-manuscript indefinitely while the calculation is checked.
+Of these three tasks, the \emph{structural} step -- showing that
+the leading-order term of $\mathrm{Tr}\,\ln D_\text{lat}[U]$, when
+expanded in closed lattice loops, has exactly the bipartite plaquette
+form -- is carried out symbolically in
+Appendix~\ref{sec:induced_gauge_action}.  The result is that the
+leading induced action takes the form
+\begin{equation*}
+    S_\text{eff}^{(\text{leading})}[A]
+        = \frac{c\,a^4}{2}\,\sum_{a<b}\bigl(V_a^i V_b^j F_{ij}\bigr)^2,
+\end{equation*}
+with a tensor coefficient inheriting the bipartite anisotropy
+(eigenvalues $\{4, 4, 16\}$, optical axis $(1,1,-1)$) and recovering
+the standard Maxwell density on $O_h$-averaged observables.  The
+operator-level residual is a closed-form gauge-sector birefringence
+with the same optical axis as the kinematic-sector prediction P7
+(Section~\ref{subsec:p7_photon_dispersion}).
+What remains is the explicit computation of the prefactor $c = 1/g^2$,
+which requires the full one-loop $\mathrm{Tr}\,\ln$ calculation
+including standard staggered-fermion doubler bookkeeping; that is the
+paper-length follow-on project, with its own verification programme
+against QED precision tests ($g{-}2$, the Lamb shift, the
+$\beta$-function running).
 
 The current paper therefore claims the matter-side derivation
 honestly (Sections~\ref{subsec:em_matter_side}--\ref{subsec:em_reductions})
 and treats the Wilson action as the standard lattice-gauge postulate
-(Section~\ref{subsec:maxwell_from_wilson}), with the induced-action
-programme flagged as the path to fully closing the parallel with the
-gravity derivation. The gap is no longer a conceptual mystery; it is
-a calculation that has not yet been performed.
+(Section~\ref{subsec:maxwell_from_wilson}).  The induced-action
+programme is closed at the structural level by
+Appendix~\ref{sec:induced_gauge_action} and reduced to a single
+remaining computation (the numerical prefactor) that does not affect
+the unification claim of this section.

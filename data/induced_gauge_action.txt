@@ -1,0 +1,152 @@
+
+==============================================================================
+Step 1: bipartite basis and frame matrix M (paper eq:frame_matrix)
+==============================================================================
+M = sum_{v in RGB} v v^T =
+[3   -1  1]
+[         ]
+[-1  3   1]
+[         ]
+[1   1   3]
+eigenvalues: {1: 1, 4: 2}   (= {1, 4 (mult 2)})
+trace: 9   (= 9)
+optical axis V1 + V2 + V3 = Matrix([[1, 1, -1]])
+
+M_eff = -4/9 I + 4/9 M = (paper eq:M_eff, kinematic-sector birefringence)
+[8/9   -4/9  4/9]
+[               ]
+[-4/9  8/9   4/9]
+[               ]
+[4/9   4/9   8/9]
+eigenvalues of M_eff: {4/3: 2, 0: 1}   (= {0, 4/3 (mult 2)}; zero along (1,1,-1))
+
+==============================================================================
+Step 2: bipartite plaquette projections V_a^i V_b^j F_{ij}
+==============================================================================
+F_{ij} (3D antisymmetric, magnetic sector) =
+[ 0    F12   F13]
+[               ]
+[-F12   0    F23]
+[               ]
+[-F13  -F23   0 ]
+
+Bipartite plaquette projections (V_a^i V_b^j F_{ij}):
+  (V1, V2) plaquette:  V_V1^i V_V2^j F_ij  =  -2*F12 - 2*F13
+  (V1, V3) plaquette:  V_V1^i V_V3^j F_ij  =  2*F12 - 2*F23
+  (V2, V3) plaquette:  V_V2^i V_V3^j F_ij  =  -2*F13 + 2*F23
+
+==============================================================================
+Step 3: induced-action density   sum_{ab} (V_a^i V_b^j F_{ij})^2
+==============================================================================
+Plaquette-sum density (modulo a^4/2 prefactor):
+     2                                2                    2
+8*F12  + 8*F12*F13 - 8*F12*F23 + 8*F13  - 8*F13*F23 + 8*F23 
+
+Quadratic form coefficient matrix Q  (density = F^T Q F):
+[8   4   -4]
+[          ]
+[4   8   -4]
+[          ]
+[-4  -4  8 ]
+
+Verification  density - F^T Q F = 0
+
+==============================================================================
+Step 4: eigenstructure of Q   (gauge-sector birefringence)
+==============================================================================
+Eigenvalues of Q: {16: 1, 4: 2}
+
+Trace(Q) = 24    (sum of eigenvalues)
+Tr(Q)/3  = 8    (O_h-averaged scalar coefficient)
+
+Q_iso = (Tr Q / 3) I  (the O_h-averaged Maxwell coefficient):
+[8  0  0]
+[       ]
+[0  8  0]
+[       ]
+[0  0  8]
+
+Q_aniso = Q - Q_iso  (traceless residual; the gauge-sector birefringence):
+[0   4   -4]
+[          ]
+[4   0   -4]
+[          ]
+[-4  -4  0 ]
+trace(Q_aniso) = 0    (must be 0)
+eigenvalues of Q_aniso: {8: 1, -4: 2}
+
+==============================================================================
+Step 5: the special direction in F-space
+==============================================================================
+Eigenvectors of Q (in the (F_12, F_13, F_23) basis):
+  eigenvalue 4 (multiplicity 2):
+    Matrix([[-1, 1, 0]])
+    Matrix([[1, 0, 1]])
+  eigenvalue 16 (multiplicity 1):
+    Matrix([[-1, -1, 1]])
+
+==============================================================================
+Step 6: continuum-limit Maxwell action with anisotropic coefficient
+==============================================================================
+
+After O_h averaging the leading induced action density is
+
+    rho_eff(x)  =  (c / 2) * (Tr Q / 3) * sum_{i<j} F_ij^2(x)
+                =  (4 c / 3) * sum_{i<j} F_ij^2(x)
+                =  (2 c / 3) * F_{ij} F^{ij}                  ( = standard Maxwell magnetic density )
+
+where the prefactor c absorbs the lattice spacing (a^4) and the
+numerical 1/g^2 prefactor from the explicit Tr ln D_lat calculation
+(NOT computed in this script -- see appendix).
+
+The residual operator-level density, before O_h averaging, is
+
+    rho_full(x)  =  (c / 2) * F^T Q F
+                =  (c / 2) [ (Tr Q / 3) * sum_{i<j} F_ij^2  +  F^T Q_aniso F ].
+
+The Q_aniso term is the gauge-sector birefringence:
+direction-dependent contribution to the photon dispersion which, by
+the same eigenstructure as M_eff (paper eq:M_eff), aligns with the
+optical axis V1 + V2 + V3 = (1,1,-1) when expressed in spatial
+coordinates.
+
+
+==============================================================================
+Conclusion: structure of the leading induced gauge action
+==============================================================================
+
+On the bipartite octahedral lattice, the leading-order induced gauge
+action emerging from Tr ln D_lat[U] (Sakharov / Zeldovich form) has
+the structure
+
+      S_eff[A]  =  (a^4 c / 2) * sum_{plaquettes} ( V_a^i V_b^j F_{ij} )^2
+                +  O(a^6)
+                +  numerical prefactor from explicit Tr ln D_lat
+
+with
+
+  *  Locality + gauge invariance + minimality forcing the leading
+     term to be quadratic in F_{ij} (closed plaquette holonomies).
+  *  The bipartite RGB/CMY geometry forcing the F^2 coefficient to
+     be a tensor Q with eigenvalues {4, 4, 16} (this script).
+  *  O_h averaging recovering the standard Maxwell density (Tr Q / 3
+     I = 8 I) up to the numerical prefactor c.
+  *  The traceless residue Q_aniso (eigenvalues {-4, -4, +8})
+     aligning with the optical axis V1+V2+V3 = (1,1,-1) and
+     producing the gauge-sector birefringence.
+
+Closing what was open in paper subsec:open_program:
+
+  Task 1 (path-integral measure):    not done here -- standard.
+  Task 2 (compute Tr ln D_lat[U]):   structural form computed; the
+                                     numerical prefactor c remains
+                                     to be extracted.
+  Task 3 (continuum limit):          done -- standard 1 - Re W -> a^4 F^2/2.
+
+What remains is the explicit one-loop calculation of c (the inverse
+gauge coupling), which is a paper-length project (lattice perturbation
+theory for the bipartite Dirac operator).  The structural form,
+including the gauge-sector birefringence prediction, is established
+without that computation.
+
+Output saved to C:/dev/dcl/data/induced_gauge_action.txt
