@@ -361,9 +361,14 @@ consequences of the bipartite lattice, not additional postulates:
     the spinor has exactly two components because there are exactly two
     sublattices.
 \item \textbf{The Clifford algebra} $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$
-    holds because the RGB vectors form a tight frame ($\sum_\text{RGB}
-    \mathbf{v}\mathbf{v}^T = 3I$) — a geometric theorem, not an
-    algebraic postulate.
+    holds on $O_h$-averaged observables in the continuum limit.  The
+    operator-level frame matrix
+    $M = \sum_\text{RGB}\mathbf{v}\mathbf{v}^T$
+    (Eq.~\ref{eq:frame_matrix}) has eigenvalues $\{4, 4, 1\}$ rather
+    than the diagonal form, so the operator-level anticommutators are
+    direction-dependent.  Octahedral averaging gives
+    $\langle M\rangle_{O_h} = (\mathrm{tr}\,M/3)\,I = 3I$, recovering
+    the standard Clifford anticommutator in the continuum.
 \item \textbf{Chirality} ($\psi_R$ vs.\ $\psi_L$) arises from the sign
     flip CMY $= -$RGB: left- and right-handed components are geometrically
     distinct sublattices.
@@ -371,7 +376,12 @@ consequences of the bipartite lattice, not additional postulates:
     $m = \sin(\omega/2)/a$ in the continuum limit.  Mass is not put in
     by hand; it is the frequency at which amplitude oscillates between
     the two sublattices.
-\item \textbf{Rotational invariance} is automatic: the dispersion relation
-    $\omega^2(\mathbf{k}) = m^2 + \tfrac{a^2}{3}|\mathbf{k}|^2$ is
-    isotropic by the frame condition, without symmetry averaging.
+\item \textbf{Rotational invariance} holds on $O_h$-averaged
+    observables in the continuum limit.  The dispersion relation
+    $\omega^2(\mathbf{k}) = m^2 + \tfrac{a^2}{3}|\mathbf{k}|^2$ is the
+    $O_h$-averaged form (Eq.~\ref{eq:dispersion}); the residual
+    operator-level anisotropy is the lattice birefringence with
+    optical axis $\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$
+    (Eq.~\ref{eq:M_eff}, P7 in
+    Section~\ref{subsec:p7_photon_dispersion}).
 \end{enumerate}
