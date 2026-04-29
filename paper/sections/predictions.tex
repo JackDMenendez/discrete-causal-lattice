@@ -23,12 +23,14 @@ criteria:
     technology.
 \end{enumerate}
 
-The seven predictions below meet all four criteria. They span
+The nine predictions below meet all four criteria. They span
 precision atomic spectroscopy, optical-clock comparisons,
 high-energy interferometry, anisotropy searches, decay-rate
-measurements in gravitational fields, and photon-dispersion tests at
-short wavelength. Each is connected to a derivation in an earlier
-section of this paper; this section collects them, gives explicit
+measurements in gravitational fields, photon-dispersion tests at
+short wavelength, and the multi-channel concordance of a single
+optical axis (the framework's strongest empirical claim). Each is
+connected to a derivation in an earlier section of this paper or
+the appendices; this section collects them, gives explicit
 numerical scales, and identifies the experimental signatures that
 would either support the framework or falsify it.
 
@@ -647,7 +649,171 @@ the radius where $g = g_\text{crit}$. The signature is a
 \emph{gap} in the atomic spectrum across the Roche radius, not a
 broadening.
 
-% ── 12.10 Summary Table ──────────────────────────────────────────────────────
+% ── 12.10 P9: Multi-channel concordance of the optical axis ─────────────────
+\subsection{P9: Multi-Channel Concordance of the Optical Axis}
+\label{subsec:p9_concordance}
+
+\paragraph{Claim.}
+The kinematic, gauge, gravitational, and (under the recoil-driven
+Zitterbewegung hypothesis of Section~\ref{subsec:bipartite_velocity})
+inertial-mass anisotropies all share a single optical axis
+$\mathbf{V}_1 + \mathbf{V}_2 + \mathbf{V}_3 = (1, 1, -1)$ in lattice
+coordinates.  Independent observational channels probing different
+physical phenomena should yield concordant directions when projected
+onto sky coordinates.  This is the framework's strongest empirical
+claim: one geometric axis, multiple independent witnesses.
+
+\paragraph{Lattice mechanism.}
+Each anisotropy inherits its eigenstructure from the bipartite RGB/CMY
+frame matrix $M$ (Eq.~\ref{eq:frame_matrix}).  The kinematic-sector
+birefringence is governed by $M_\text{eff}$ (Eq.~\ref{eq:M_eff},
+eigenvalues $\{4/3, 4/3, 0\}$, optical axis along $(1,1,-1)$); the
+gauge-sector birefringence by the bipartite plaquette tensor
+$\mathbf{Q}$ (Appendix~\ref{sec:induced_gauge_action}, eigenvalues
+$\{4, 4, 16\}$, same axis after Hodge dualising
+F-space to B-space, Eq.~\ref{eq:optical_axis_recovered});
+gravitational birefringence inherits the same axis through the tilted
+Laplacian of Section~\ref{sec:gravity}; and direction-dependent rest
+mass under recoil-driven Zitterbewegung inherits the axis through the
+same channel structure.  $\mathrm{SO}(3)$ is recovered only on
+$O_h$-averaged observables in all four sectors; the residual
+operator-level anisotropy is the optical axis.
+
+\paragraph{The five observational channels.}
+\begin{enumerate}
+    \item \textbf{Kinematic photon dispersion} (P7,
+        Section~\ref{subsec:p7_photon_dispersion}).  GRB time-of-flight
+        residuals binned by sky direction relative to a candidate
+        cosmic optical axis.  Bursts close to the axis show
+        \emph{less} dispersion than perpendicular bursts.
+    \item \textbf{Vacuum (gauge-sector) birefringence}
+        (Appendix~\ref{sec:induced_gauge_action}).
+        Polarisation rotation of GRB / CMB photons aligned with the
+        same axis.  Constrained at the few-degrees level over Hubble
+        baselines by Planck~\cite{planck2020}; direction-resolved
+        re-binning is the test.
+    \item \textbf{Gravitational birefringence.}  Gravity inherits the
+        same eigenstructure (Section~\ref{sec:gravity}); LIGO/Virgo
+        polarisation-mode timing should split direction-dependently
+        along the same axis.  Existing public data covers it.
+    \item \textbf{Direction-dependent rest mass}
+        (Section~\ref{subsec:bipartite_velocity}, recoil hypothesis).
+        Atomic-clock comparisons in different lab orientations should
+        show systematic offsets correlated with the cosmic projection
+        of $(1,1,-1)$.  At sub-leading scale
+        $\sim (a/\lambda_C)^2 \lesssim 10^{-14}$ at the GRB-bound
+        calibration; at the edge of current optical-clock precision
+        (parts in $10^{17}$).
+    \item \textbf{Anomalous-dispersion anisotropy near atomic
+        resonances} (P3 + Lorentz-oscillator interpretation).  Same
+        atomic-clock geometry, applied at frequencies near
+        spectroscopic resonance lines.
+\end{enumerate}
+
+The concordance prediction is sharp: any single channel detecting a
+preferred direction constrains the others.  All five must agree on
+which way the axis points.
+
+\paragraph{Time-dependence: three scenarios.}
+The framework predicts the axis exists in lattice coordinates but does
+not fix the embedding into observable sky coordinates --- that is set
+by cosmological initial conditions.  Three viable scenarios:
+\begin{itemize}
+    \item \textbf{Uniform embedding.}  Single global axis, fixed at
+        the Big Bang and constant everywhere and forever.  All
+        channels at all epochs agree.
+    \item \textbf{Domain structure.}  The lattice has ``grains'' with
+        different orientations; light passing through different
+        grains sees different effective axes.  Spatially varying but
+        locally time-stationary.
+    \item \textbf{Dynamical embedding.}  The axis at CMB emission
+        ($z \sim 1100$) differs from today.  Observations of different
+        epochs would show the axis at different phases of evolution.
+\end{itemize}
+Two empirical handles distinguish them.  The \emph{fast} handle is
+sidereal modulation in atomic-clock data: as Earth rotates and orbits
+through the cosmic lattice frame, atomic-clock anisotropy should
+modulate at sidereal and annual frequencies if the axis is locally
+stationary.  The \emph{slow} handle is redshift-resolved binning: GRB
+dispersion residuals binned by source redshift would reveal whether
+the axis at $z \sim 2$ matches the axis at $z \sim 0.1$.  A persistent
+offset is the signature of dynamical embedding.
+
+Under the recoil-driven Zitterbewegung reading
+(Section~\ref{subsec:bipartite_velocity}), dynamical embedding is also
+the empirical handle on the question of whether the universe is
+self-contained or driven from outside the lattice: an externally-driven
+system has reason for its embedding to drift, while a self-projecting
+one does not.
+
+\paragraph{Numerical scale.}
+Channel-dependent.  At the GRB-bound calibration
+$a \lesssim 10^{-19}\,\text{m}$:
+\begin{itemize}
+    \item Channels (1)--(2) (kinematic / gauge): photon dispersion
+        anisotropy $\sim (a/\lambda_\gamma)^2$, putting the
+        direction-resolved bound at the edge of current GRB / CMB
+        polarisation precision.
+    \item Channel (3) (gravitational): polarisation-mode timing
+        anisotropy $\sim (a/\lambda_\text{GW})^2$; well below current
+        LIGO/Virgo sensitivity but tightens under future detector
+        improvements.
+    \item Channels (4)--(5) (atomic-clock / Zitterbewegung-recoil):
+        rest-mass anisotropy $\sim (a/\lambda_C)^2 \lesssim 10^{-14}$
+        at the second-order scale; at the edge of current
+        atomic-clock precision (parts in $10^{17}$).
+\end{itemize}
+A signal at the leading $a/\lambda$ rate ($\sim 10^{-7}$) in any
+channel is already excluded by existing isotropic bounds; the
+prediction is at the second-order direction-resolved scale.
+
+\paragraph{Experimental signature.}
+\textbf{Detection:} any two of the five channels finding a preferred
+direction that agree (within sky-localisation precision).  The
+signature is concordance: independent physical phenomena pointing to
+the same axis.  The sharpest version is GRB time-of-flight (channel
+1) plus CMB polarisation rotation (channel 2) plus LIGO/Virgo timing
+splits (channel 3) all converging on a single sky direction.
+
+\textbf{Within-channel structure:}  the kinematic and gauge sectors
+predict \emph{dual} ellipsoid shapes (kinematic prolate, gauge
+oblate; Figure~\ref{fig:induced_action_ellipsoid}) on the same axis,
+so within each channel the sign of the perpendicular-vs-axial contrast
+is itself a sub-prediction.  Mixing up which direction shows
+\emph{more} dispersion versus \emph{more} polarisation rotation is a
+sub-falsification.
+
+\paragraph{Falsification.}
+Three modes, each sharp:
+\begin{itemize}
+    \item \textbf{Inter-channel disagreement.} Two channels detecting
+        a preferred direction that point to different sky locations
+        falsifies the inheritance-from-bipartite-geometry claim.
+        Channels (1)--(5) are predicted to align; if they do not,
+        the framework's unified-anisotropy structure is wrong.
+    \item \textbf{Wrong dual structure.} A channel detecting a
+        direction with the perpendicular-vs-axial sign opposite to
+        what the dual-ellipsoid analysis predicts (kinematic flat
+        along axis vs.\ gauge steep along axis) falsifies the
+        appendix's induced-action structural derivation.
+    \item \textbf{Comprehensive null at predicted sensitivity.} No
+        preferred direction in any of the five channels at the
+        $(a/\lambda)^2$-level sensitivity does not formally falsify
+        the framework, but it tightens $a$ further beyond the current
+        $10^{-19}\,\text{m}$ bound and erodes the framework's
+        empirical falsifiability.  At sufficient null sensitivity the
+        framework becomes consistent with all data but unobservably so
+        --- the same status as a Planck-calibrated theory.
+\end{itemize}
+
+P9 is therefore best read as the meta-prediction that ties the
+others.  P3, P7, the gauge-sector birefringence in
+Appendix~\ref{sec:induced_gauge_action}, and the recoil-driven
+Zitterbewegung anisotropy of Section~\ref{subsec:bipartite_velocity}
+are not independent claims; they are five views of the same single
+geometric axis.
+
+% ── 12.11 Summary Table ──────────────────────────────────────────────────────
 \subsection{Summary Table of Predictions}
 \label{subsec:predictions_summary}
 
@@ -665,6 +831,7 @@ P5 & Discontinuous Stark threshold & $\mathbf{E}_\text{crit} \sim 10^9\,\text{V/
 P6 & Emission-rate $r,\lambda$ dependence & $10^{-10}$ in $r$, $10^{-12}$ in $\lambda$ & Spacecraft atomic-line measurements \\
 P7 & Photon group velocity decrease at high $\omega$ & GRB-time-lag scaling as $\omega^2$ & Constrains $a \lesssim 10^{-19}\,\text{m}$ \\
 P8 & Atomic spectrum gap inside Roche radius & gradient $g_\text{crit}$ for hydrogen & Neutron-star photosphere spectroscopy \\
+P9 & Concordance of optical axis $(1,1,-1)$ across kinematic, gauge, gravitational, and atomic channels & inter-channel direction agreement at $(a/\lambda)^2$ scale & GRB / CMB / LIGO / atomic-clock direction-resolved binning \\
 \hline
 \end{tabular}
 \end{center}
@@ -700,7 +867,7 @@ require either:
     sections (the Dirac equation in §6, Newton's gravity in §7,
     Maxwell's equations in §9) does not hold. None of these has
     been challenged to date.
-    \item Confirming \emph{all} eight predictions to better than
+    \item Confirming \emph{all} nine predictions to better than
     the predicted precision, with no positive deviation from
     standard physics. This would force the lattice spacing to be
     smaller than the Planck length, at which point the framework's
