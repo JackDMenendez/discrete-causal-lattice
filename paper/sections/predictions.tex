@@ -217,12 +217,19 @@ sub-lattice scales. Physical observables sensitive to lattice-scale
 geometry should show a directional dependence.
 
 \paragraph{Lattice mechanism.}
-The frame condition $\sum_\mathbf{v} v_i v_j = 6\delta_{ij}$ used in
-the Dirac derivation (Section~\ref{subsec:dirac_limit}) restores
-isotropy in the continuum limit. At finite lattice spacing it is
-only approximately isotropic: directional terms scale as $a^2$
-relative to the leading isotropic term, and survive in observables
-that probe scales near $a$.
+The bipartite frame matrix $M$ (Eq.~\ref{eq:frame_matrix},
+eigenvalues $\{4, 4, 1\}$) is anisotropic at the operator level, but
+its $O_h$-averaged form $\langle M \rangle_{O_h} = 3I$ (and the
+all-vectors version $\langle 2M \rangle_{O_h} = 6I$ used in
+Section~\ref{sec:gravity}) restores isotropy in the continuum limit.
+At finite lattice spacing the operator-level anisotropy survives as
+discrete-correction terms suppressed by powers of $a^2$, plus a
+closed-form residual along the optical axis
+$\hat{\mathbf{n}}_* = (1, 1, -1)/\sqrt{3}$
+(Eq.~\ref{eq:optical_axis}) --- the lattice birefringence prediction
+made explicit in P7's direction-resolved refinement and elevated to
+its own meta-prediction in P9
+(Section~\ref{subsec:p9_concordance}).
 
 \paragraph{Numerical scale (upper bound at Compton calibration).}
 The leading anisotropy is at order $(a/\lambda)^2$ for any

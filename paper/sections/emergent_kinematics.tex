@@ -288,7 +288,14 @@ $|\tilde{H}_\text{RGB}|^2$, which to second order is
     \label{eq:M_eff}
 \end{equation}
 $M_\text{eff}$ has eigenvalues $\{4/3,\,4/3,\,0\}$, with the zero
-eigenvalue along $\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.
+eigenvalue along the lattice's \emph{optical axis}
+\begin{equation}
+    \hat{\mathbf{n}}_*
+        = \frac{\mathbf{V}_1 + \mathbf{V}_2 + \mathbf{V}_3}
+               {|\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3|}
+        = \frac{(1,\, 1,\, -1)}{\sqrt{3}}.
+    \label{eq:optical_axis}
+\end{equation}
 Direct calculation confirms that for $\mathbf{k}$ along this direction
 all three RGB phase advances are equal, so
 $|\tilde{H}_\text{RGB}|^2 = 1$ \emph{exactly} at all orders in $\mathbf{k}$.
