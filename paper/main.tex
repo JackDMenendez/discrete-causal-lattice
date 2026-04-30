@@ -9,7 +9,7 @@
 %% Page geometry (also set here as fallback in case packages.tex path fails)
 \geometry{top=1in, bottom=1in, left=1in, right=1in}
 
-\title{\textbf{Release Candidate -- Version 0.96-RC}\\[0.5em]
+\title{\textbf{Release Candidate -- Version 0.97-RC}\\[0.5em]
        Geometry First:\\
        Quantum Mechanics, Gravity, and the Origin of the Standard Model\\
        from a Single Conservation Law}
@@ -23,40 +23,71 @@
 \maketitle
 
 \noindent
-\href{https://doi.org/10.5281/zenodo.19866911}%
+\href{https://doi.org/10.5281/zenodo.19906889}%
      {\includegraphics[height=14pt]{figures/zenodo_doi_badge}}\quad
 \href{https://github.com/JackDMenendez/discrete-causal-lattice}{GitHub: JackDMenendez/discrete-causal-lattice}
 
 \noindent\textbf{Disclaimer:} This is a working paper, and the content herein is subject to change. The author welcomes feedback and constructive criticism. Please reach out via email or social media with any comments or questions.
 
 \bigskip
-\noindent\textbf{What changed in v0.96-RC (since v0.95-RC).}
-A correctness pass on the frame-condition derivation, prompted by a
-SymPy verification, revised the central isotropy claim of the paper.
-The previous text asserted
-$\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T = 3\delta_{ij}$;
-direct calculation shows the actual frame matrix is
-$\begin{pmatrix} 3 & -1 & 1 \\ -1 & 3 & 1 \\ 1 & 1 & 3 \end{pmatrix}$
-with eigenvalues $\{4, 4, 1\}$.  The corrected derivation recovers
-$\mathrm{SO}(3)$ rotational invariance only on $O_h$-averaged
-observables; the residual operator-level anisotropy is a
-\emph{lattice birefringence} with closed-form coefficients and an
-optical axis along $\mathbf{V}_1+\mathbf{V}_2+\mathbf{V}_3 = (1,1,-1)$.
-This is a sharp, falsifiable prediction strengthening the framework's
-falsifiability profile, not a weakening of its claims.
+\noindent\textbf{What changed in v0.97-RC (since v0.96-RC).}
+v0.97-RC is a structural enrichment release.  Where v0.96-RC corrected
+a wrong claim and surfaced the lattice-birefringence prediction,
+v0.97-RC builds on that foundation with three sets of additions:
 
-The affected sections are: the abstract bullet (i), the conclusion's
-first structural claim, the isotropy paragraph in
-Section~\ref{sec:kinematics}, the 1/$r^2$ derivation in
-Section~\ref{sec:gravity}, and the photon-dispersion prediction P7
-in Section~\ref{subsec:p7_photon_dispersion} (which now includes a
-direction-resolved refinement).  Section~\ref{sec:kinematics} also
-gains a new "what drives the oscillation" paragraph identifying
-two competing hypotheses for the source of the Zitterbewegung rate
-$\omega$, distinguishable in principle by direction-resolved
-precision-mass measurements.
+\begin{itemize}
+\item \textbf{New Appendix~\ref{sec:induced_gauge_action} (Induced
+    Gauge Action).}  Symbolic derivation of the structural form of
+    $-\mathrm{Tr}\,\ln D_\text{lat}[U]$ on the bipartite octahedral
+    lattice.  The leading term has the Maxwell form on $O_h$-averaged
+    observables, with an operator-level residual ---
+    \emph{gauge-sector birefringence} --- aligning along the same
+    optical axis $(1,1,-1)$ as the kinematic-sector prediction.  This
+    closes the structural step of the §9.7 open program; only the
+    numerical $1/g^2$ prefactor remains for a follow-on paper.
+\item \textbf{New P9 (Multi-Channel Concordance,
+    Section~\ref{subsec:p9_concordance}).}  Elevates the framework's
+    strongest empirical claim into its own prediction: the kinematic,
+    gauge, gravitational, and (under the recoil-driven Zitterbewegung
+    hypothesis) inertial-mass anisotropies all share a single optical
+    axis.  Five independent observation channels (GRB time-of-flight,
+    CMB polarisation rotation, LIGO/Virgo polarisation-mode timing,
+    atomic-clock comparisons, anomalous-dispersion anisotropy) are
+    predicted to agree.  Inter-channel disagreement falsifies the
+    inheritance-from-bipartite-geometry claim.  Three time-dependence
+    scenarios (uniform, domain, dynamical embedding) are
+    distinguishable by sidereal modulation and redshift-resolved
+    binning.
+\item \textbf{Three sets of paragraph adds tightening the
+    substrate-level unification.}  §7.2/§9.1/§9.6: the topological
+    potential and the gauge field are both \emph{virtual-session
+    clouds}, distinguished only by the sublattice signature of the
+    source's internal flow.  §13.3/§15.7: the Arnold tongues are the
+    lattice realisation of the classical Lorentz oscillator's
+    resonance set.  §6/§14/Conclusion: Lie-theoretic restatement of
+    the lattice as a discrete subgroup of $SE(3)$ carrying $SU(2)$
+    representations, with the central conjecture sharpened from
+    ``open question'' to ``precise finite-dimensional Lie-algebra
+    calculation.''
+\item \textbf{Plato closing question} in the Conclusion: the
+    projection-vs-film question is rendered empirical via P9's
+    time-dependence sub-prediction.
+\item \textbf{New Figure~\ref{fig:induced_action_ellipsoid}}: dual
+    rendering of the kinematic frame matrix $M$ (prolate ellipsoid in
+    $\mathbf{k}$-space) and the gauge plaquette tensor $\mathbf{Q}$
+    (oblate ellipsoid in $\mathbf{B}$-space) sharing the same optical
+    axis $(1,1,-1)$.
+\end{itemize}
 
-A more detailed change log lives in \texttt{release\_notes/v0.96-RC.md}
+A correctness sweep also eliminated four residual sites that v0.96-RC
+missed (in introduction, conclusion, P3, and phase\_propagation), and
+added a canonical \texttt{eq:optical\_axis} label cross-referenced
+across the paper.  The audit table was updated with five new rows
+(kinematic birefringence, gauge-sector birefringence, induced gauge
+action, Zitterbewegung-source dual hypothesis, P9 concordance) plus
+\texttt{exp\_16}/\texttt{exp\_19c} status reword.
+
+A more detailed change log lives in \texttt{release\_notes/v0.97-RC.md}
 in the project repository.  Earlier versions remain available at the
 Zenodo deposit's prior DOIs.
 

@@ -1,6 +1,113 @@
 <!-- markdownlint-disable MD012 MD022 MD025 MD026 MD032 MD041 -->
 # Changelog
 
+## v0.97-RC -- Release Candidate (paper) -- 2026-04-29
+
+DOI: 10.5281/zenodo.19906889
+
+Structural enrichment release.  Builds on v0.96-RC with a new appendix
+on the induced gauge action (Sakharov / Zeldovich form), a new
+multi-channel concordance prediction (P9), and three sets of paragraph
+adds tightening the substrate-level unification.
+
+### Added
+
+- `paper/sections/induced_gauge_action.tex` -- Appendix B: structural
+  derivation of $-\mathrm{Tr}\,\ln D_\text{lat}[U]$ on the bipartite
+  octahedral lattice.  Closes the §9.7 open program at the structural
+  level; only the numerical $1/g^2$ prefactor remains.
+- `paper/sections/predictions.tex` §12.10 -- new P9 (Multi-Channel
+  Concordance of the Optical Axis): the framework's strongest
+  empirical claim.  Five independent observation channels predicted to
+  agree on a single optical axis $(1,1,-1)$.  Three time-dependence
+  scenarios (uniform, domain, dynamical embedding) distinguishable by
+  sidereal modulation (atomic clocks) and redshift-resolved binning
+  (GRBs).
+- `figures/induced_action_ellipsoid.{png,pdf}` -- dual-anisotropy 3D
+  rendering of the kinematic frame matrix ($M$, prolate, long axis
+  along $(1,1,-1)$) and the gauge plaquette tensor
+  ($\mathbf{Q}$, oblate, short axis along $(1,1,-1)$) sharing the
+  same optical axis.  Generation script:
+  `src/utilities/induced_action_ellipsoid.py`.  Numeric output:
+  `data/induced_action_ellipsoid.txt`.
+- `src/utilities/induced_gauge_action.py` -- SymPy script computing
+  the bipartite plaquette tensor $\mathbf{Q}$ (eigenvalues
+  $\{4, 4, 16\}$); reproduces all numerical claims of Appendix B.
+  Output: `data/induced_gauge_action.txt`.
+- §7.2 / §9.1 / §9.6: virtual-session-cloud microscopic mechanism for
+  gravity and EM (paragraph adds).  Both forces are virtual-session
+  populations, distinguished only by the sublattice signature of the
+  source's internal flow.
+- §13.3 / §15.7: Lorentz oscillator identification of the Arnold
+  tongues (paragraph adds).  Spectroscopic absorption / emission
+  lines = Arnold-tongue Farey hierarchy restricted to bound-electron
+  rates.
+- §6 / §14 / Conclusion: Lie-theoretic restatement (paragraph adds).
+  The bipartite tick rule as a unitary representation of
+  $\Gamma \times U(1)$ on $SU(2)$-spinor fields over a discrete
+  subgroup $\Gamma \subset SE(3)$; the central conjecture sharpened
+  from open question to precise finite-dimensional Lie-algebra
+  calculation.
+- Conclusion: Plato closing question -- the projection-vs-film
+  question made empirical via P9's time-dependence sub-prediction.
+- `notes/platos_cave_and_the_projection.md`,
+  `notes/lattice_as_inference_engine.md` -- two interpretive notes
+  (philosophical / forward research seeds; not for paper inclusion).
+
+### Changed
+
+- `paper/sections/predictions.tex`: intro updated from "seven
+  predictions" to "nine predictions"; summary table extended with
+  P9 row; "all eight" -> "all nine" in the falsify-as-a-whole
+  paragraph.
+- `paper/sections/conclusion.tex`: "eight primary falsifiable
+  predictions" -> "nine primary falsifiable predictions".
+- `paper/sections/audit_table.tex`: five new rows (kinematic
+  birefringence, gauge-sector birefringence, induced gauge action,
+  Zitterbewegung-source dual hypothesis, P9 concordance); reworded
+  Spin-1/2 Continuum Limit cell ("$O_h$-averaged frame condition");
+  updated `exp_16` to PART with reworded description (binding vs.
+  quantization distinguished); updated `exp_19c` description to
+  reflect 2026-04-26 sweep failure and v5 phase-rotation drain as
+  the next attempt.
+- `paper/sections/emergent_kinematics.tex`: new
+  `\label{eq:optical_axis}` defining
+  $\hat{\mathbf{n}}_* = (1, 1, -1)/\sqrt{3}$.  Structural-consequences
+  enumeration corrected (residual obsolete claims from pre-v0.96-RC
+  language eliminated).
+- §9.7 (vacuum_twist_field_equations): rewritten to point to
+  Appendix B and narrow remaining work to the numerical $1/g^2$
+  prefactor.
+
+### Fixed
+
+Four residual obsolete-claim sites that v0.96-RC missed:
+
+- `paper/sections/conclusion.tex:307` (Anticipated Objections,
+  Lorentz-invariance response): reworded
+  "$\sum_\text{RGB}\mathbf{v}_i\mathbf{v}_j^T = 3\delta_{ij}$" to the
+  $O_h$-averaged form with explicit eigenvalue $\{4, 4, 1\}$
+  statement.
+- `paper/sections/introduction.tex:209` (Relation to prior discrete
+  spacetime programmes): same correction.
+- `paper/sections/predictions.tex:220` (P3 Lattice mechanism):
+  "$\sum_\mathbf{v} v_i v_j = 6\delta_{ij}$" -> $O_h$-averaged form.
+- `paper/sections/phase_propagation.tex:188` (Schrödinger continuum
+  derivation): same correction.
+
+No remaining grep matches for the false form anywhere in the paper.
+
+### Build artifacts
+
+- Paper PDF: 132 pages (was 118 in v0.96-RC).
+- Bibliography: 0 errors, 0 undefined references.
+
+### Reproducibility
+
+Five-line SymPy verifications reproduce every numerical claim in
+Appendix B and the new optical-axis identifications.  All code in
+`src/utilities/` is tracked.
+
 ## v0.96-RC -- Release Candidate (paper) -- 2026-04-28
 
 DOI: 10.5281/zenodo.19866911

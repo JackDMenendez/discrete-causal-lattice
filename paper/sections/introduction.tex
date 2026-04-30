@@ -2,7 +2,7 @@
 % introduction.tex
 % ============================================================
 
-{\small\textbf{Release Candidate Status (v0.95-RC):} This is a release candidate of an ongoing research program. The core framework, the principal derivations, and the experimental results presented here are validated; the numerical predictions in Section~\ref{sec:predictions} have been sharpened against current data with explicit modelling assumptions stated where they enter. Several follow-on calculations are flagged in the conclusion. Comments and feedback are welcome ahead of the v1.0 release.\\[1em]}
+{\small\textbf{Release Candidate Status (v0.97-RC):} This is a release candidate of an ongoing research program. The core framework, the principal derivations, and the experimental results presented here are validated; the numerical predictions in Section~\ref{sec:predictions} have been sharpened against current data with explicit modelling assumptions stated where they enter. Several follow-on calculations are flagged in the conclusion. Comments and feedback are welcome ahead of the v1.0 release.\\[1em]}
 
 Quantum mechanics and general relativity are the two most precisely
 verified theories in the history of science.
@@ -90,8 +90,12 @@ The five answers:
     gamma matrices identified as the geometric encoding of three pairs
     of antiparallel basis vectors.
     The Clifford algebra $\{\gamma^\mu,\gamma^\nu\} = 2g^{\mu\nu}$ holds
-    because the basis vectors form a tight frame --- a geometric theorem,
-    not an algebraic postulate.
+    on $O_h$-averaged observables (the bipartite frame matrix has
+    eigenvalues $\{4, 4, 1\}$ and is anisotropic at the operator level;
+    its $O_h$-averaged form is diagonal and reproduces the standard
+    anticommutator).  The residual operator-level anisotropy along the
+    optical axis $(1,1,-1)$ is itself a falsifiable lattice-birefringence
+    prediction (P7, P9 in Section~\ref{sec:predictions}).
 
 \item \textbf{Photon emission is a conservation-law necessity.}
     The Coulomb interaction is a probability \emph{source} --- it injects
@@ -132,6 +136,27 @@ The five answers:
     discrete corrections to the $1/r^2$ law that are computable and
     falsifiable.
 \end{enumerate}
+
+\medskip
+
+Two further structural results round out the framework.  First, the
+electromagnetic gauge action --- which Section~\ref{sec:vacuum_twist}
+postulates following the standard lattice-gauge prescription of
+Wilson --- can be \emph{induced} from $-\mathrm{Tr}\,\ln D_\text{lat}[U]$ by
+integrating out matter (Sakharov / Zeldovich).
+Appendix~\ref{sec:induced_gauge_action} carries out the structural
+step symbolically: the leading-order term has the Maxwell form on
+$O_h$-averaged observables, with a closed-form gauge-sector
+birefringence as the operator-level residual.  Only the numerical
+$1/g^2$ prefactor remains.  Second, the kinematic, gauge, gravitational,
+and (under the recoil-driven Zitterbewegung reading,
+Section~\ref{subsec:bipartite_velocity}) inertial-mass anisotropies all
+share a single optical axis $(1,1,-1)$.  The predicted concordance
+across five independent observation channels is the framework's
+strongest empirical claim (P9, Section~\ref{subsec:p9_concordance});
+inter-channel disagreement falsifies the inheritance-from-bipartite-geometry
+claim, while concordance pins down the cosmological orientation of the
+lattice.
 
 \medskip
 
