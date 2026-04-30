@@ -1,6 +1,6 @@
 % ============================================================
 % audit_table.tex
-% Updated 2026-04-04
+% Updated 2026-04-29 (post v0.96-RC + Appendix B + P9 concordance)
 % ============================================================
 
 \begin{table}[htbp]
@@ -47,6 +47,17 @@ Equivalence principle
     & $m_g = m_i$ structural identity
     & \texttt{exp\_01}, \texttt{exp\_02}
     & \texttt{PASS} \\
+Lattice birefringence (kinematic)
+    & $M_\text{eff}$ eigenvalues $\{4/3, 4/3, 0\}$;
+      flat dispersion along $(1,1,-1)$
+    & Direction-resolved photon dispersion (P7 refinement)
+    & Derived analytically (§\ref{subsec:dirac_limit}, eq:M\_eff)
+    & \texttt{STUB} \\
+Zitterbewegung source (dual hypothesis)
+    & Bipartite $\omega$-rate alternation: self-driven vs.\ recoil-driven
+    & Direction-dependent rest mass under recoil hypothesis (P9)
+    & Derived analytically (§\ref{subsec:bipartite_velocity})
+    & \texttt{STUB} \\
 \hline
 % ── Quantum phenomena ─────────────────────────────────────────────────────────
 Quantum interference
@@ -123,8 +134,24 @@ Photon emission as $\mathcal{A}=1$ necessity
     & Joint $\mathcal{A}=1$ + momentum-transfer recoil at orbit;
       tongue-jump mandates third session
     & Spontaneous emission without separate field quantization
-    & \texttt{exp\_19c} (§\ref{subsec:emission})
+    & \texttt{exp\_19c} v3 sweeps 2026-04-26 showed 0 recoils
+      across rates $0.01$--$0.5$; v5 phase-rotation drain
+      ($\mathcal{A}=1$-compatible) is the next attempt
     & \texttt{PART} \\
+Induced gauge action (Sakharov form)
+    & $-\mathrm{Tr}\ln D_\text{lat}[U]$;
+      bipartite plaquette sum dominates at leading order
+    & Maxwell density on $O_h$-averaged observables;
+      structural form derived (numerical $1/g^2$ open)
+    & Derived analytically (Appendix~\ref{sec:induced_gauge_action})
+    & \texttt{PART} \\
+Gauge-sector birefringence
+    & Plaquette-sum tensor $\mathbf{Q}$ eigenvalues $\{4, 4, 16\}$;
+      oblate ellipsoid in $\mathbf{B}$-space
+    & Direction-dependent photon kinetic term;
+      same optical axis $(1,1,-1)$ as kinematic sector (P9)
+    & Derived analytically (Appendix~\ref{sec:induced_gauge_action})
+    & \texttt{STUB} \\
 \hline
 % ── Hydrogen and atomic physics ───────────────────────────────────────────────
 Hydrogen $E_n \sim -1/n^2$
@@ -158,10 +185,23 @@ Two-electron helium
     & \texttt{exp\_14}
     & \texttt{PASS} \\
 Proton mass lower bound
-    & Minimum $\Omega_P$ for stable two-body orbit
-    & Why proton mass has its value
+    & Minimum $\Omega_P$ for quantization;
+      binding $\neq$ quantization
+    & All swept $\Omega_P$ produce Regime~2 (bound, unquantized);
+      threshold lies above swept range
     & \texttt{exp\_16}
-    & \texttt{PROG} \\
+    & \texttt{PART} \\
+\hline
+% ── Falsifiability framework ─────────────────────────────────────────────────
+Multi-channel concordance (P9)
+    & Single optical axis $(1,1,-1)$ inherited by kinematic, gauge,
+      gravitational, and recoil-mass sectors
+    & Five-channel direction agreement $(a/\lambda)^2$;
+      time-dependence variants distinguish self-projecting from
+      externally-driven embedding
+    & Derived analytically (§\ref{subsec:p9_concordance});
+      direction-resolved GRB / CMB / LIGO / atomic-clock data
+    & \texttt{STUB} \\
 \hline
 \end{tabular}
 \end{adjustbox}
