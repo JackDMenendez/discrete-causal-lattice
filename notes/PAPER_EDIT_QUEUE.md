@@ -132,5 +132,14 @@ Listing in dependency order — earlier items unblock later ones:
 6. **Final figure rendering** (3D toolkit deliverables). Highly variable depending on tooling depth.
 7. **Bibliography update**. ~1 hour, can be done last.
 8. **Notation + optical-axis label sweep** (PAPER-LEVEL CHECKS 1, 2). ~30 minutes once §12 settles.
+9. **Consider shortening the paper by moving content to appendices.** Paper is at 131 pages as of `c642848` (2026-04-29) and growing. Candidate moves to evaluate:
+   - **§14.6 "Music, Hofstadter, and the Temperament Problem"** (~50 lines) — interpretive flavour subsection; could become Appendix C without weakening the argument.
+   - **§7 step-by-step Newton derivation** (Step 1: Force from phase mismatch through Step 3: 1/r² force from Poisson) — could move computational details to an appendix and keep a 1-paragraph sketch in main text. Risk: §7 is the gravity end-to-end derivation; cutting it weakens the main thrust.
+   - **§15 Two-Body Hydrogen Four Significant Figures** detailed numerics — could move the detailed numerical comparison to App C; keep the headline result in main text.
+   - **§13.7 "Music, Hofstadter, and the Temperament Problem"** — already flagged; flavour content that could pair with §14.6 in a single "Mathematical context" appendix.
+   - **App A "Code and Data"** is already an appendix; that's fine.
+   - **App B "Induced Gauge Action"** is already an appendix.
+   - Detailed exp_09c tongue-width measurement procedure (currently in §13.5 P5 derivation) — could become App D leaving the bottom-line measurement in main.
+   The right time to do this is after the structural enrichments land but before final proofreading. The structural enrichments themselves add to length; the appendix-shortening pass should come *after* them so we can see what content is actually load-bearing in the main narrative.
 
-Updated estimate: 2–3 focused days for v1.0-ready text (correctness fixes plus the high-leverage audit-table and §12 predictions edits unlock the rest), before any external proofread.
+Updated estimate: 2–3 focused days for v1.0-ready text (correctness fixes plus the high-leverage audit-table and §12 predictions edits unlock the rest), plus an additional half-day for the appendix-shortening pass before final proofread.
