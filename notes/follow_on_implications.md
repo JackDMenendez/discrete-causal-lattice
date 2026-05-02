@@ -419,6 +419,68 @@ independent and could be drafted in parallel.
 
 ---
 
+## 14. Balanced Equations and Birefringent Channels on the A=1 Lattice
+
+**The idea:** Express the bipartite A=1 lattice's dynamics as a system
+of balanced master equations at the *site/fluid* resolution. Three
+coupled pieces: (i) a discrete continuity equation for the site density
+$\dot{\rho}_i = \sum_{j \in \mathcal{N}(i)}(\Pi_{j\to i} - \Pi_{i\to j})$;
+(ii) a force-channel decomposition of the probability gradient
+$\nabla_{(f)}\rho$ for $f \in \{G, C, W, S\}$ with the flux driven by
+$\mathbf{J}_{i\to j} = \sum_f \alpha_{(f)}\nabla_{(f)}\rho \cdot \hat{e}_{i\to j}$;
+(iii) a master equation for inter-site entanglement
+$\dot{\mathcal{E}}_{i,j} = \mathcal{C}_{i,j} - \gamma_{i,j}\mathcal{E}_{i,j} + \sum_k(\Pi_{k\to(i,j)} - \Pi_{(i,j)\to k})$.
+A diagrammatic cascade $\rho \to \nabla\rho \to \mathbf{J} \to \Pi \to \mathcal{E}$
+ties the fluid-level picture to the operational level. The P9
+birefringence prediction appears as a bipartite split of $\nabla\rho$
+into two modes along the optical axis $(1,1,-1)$.
+
+**Distinct from #13.** #13 (operation algebra / path algebra) sits at
+the *session-and-tick* level: tag balance across operations, conservation
+laws as combinatorial path-algebra invariants. #14 sits one resolution
+above that, at site-level master equations and fluxes. Complementary,
+not redundant.
+
+**The earn-your-keep test.** $\dot{X}_i = \mathrm{In}(i) - \mathrm{Out}(i)$
+holds for every probabilistic cellular automaton on a graph. The
+paper has to show what *bipartite-A=1* adds that generic
+Markov-on-lattice does not — likely candidates: chirality alternation
+makes the transition kernel non-self-adjoint in a specific way; joint
+A=1 across $\mathcal{E}_{i,j}$ pairs imposes a non-local constraint
+that breaks single-site Markov locality.
+
+**Open questions before publication:**
+
+- Operational definition of $\mathcal{E}_{i,j}$ (concurrence /
+  CHSH-violation amount / spectral overlap? — see also #6 entanglement
+  paper). Without it the master equation is a shape, not a law.
+- The $\nabla_W\rho$, $\nabla_S\rho$ symbols presuppose weak/strong
+  derivations the framework does not yet have. Either earn those
+  derivations first, or mark them STUB-via-symbol when used.
+- Birefringence Mode A / Mode B in the diagram should be labelled as
+  ordinary / extraordinary modes along the $(1,1,-1)$ optical axis to
+  connect to P9 explicitly.
+
+**Written up in (draft material):**
+
+- `paper/sections/balanced_equations/balanced_lattice_table_of_symbols.tex`
+  — lattice geometry, state variables, balance operators, conservation
+- `paper/sections/balanced_equations/lattice_probability_symbols.tex`
+  — force-channel probability-gradient notation
+- `paper/sections/balanced_equations/some_equations.tex` — entanglement
+  master equation, continuity equation, TikZ cascade map
+- `paper/sections/balanced_equations/TiKZ_diagram_birefringence.tex`
+  — birefringent split diagram
+
+**Priority:** Back-pocket alongside #13. Best published after #13
+establishes the path-algebra layer it sits above, and after the
+weak/strong sectors of the main paper have made it past STUB. If P9
+gets early observational corroboration (atomic-clock or GRB
+birefringence detection), the birefringent-channel diagram could be
+extracted and published on its own ahead of the rest.
+
+---
+
 ## Priority Order for Follow-On Papers
 
 1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
@@ -433,3 +495,4 @@ independent and could be drafted in parallel.
 6. **Entanglement / CHSH** (#6) — foundational but needs careful experiment design
 7. **Vacuum birefringence** (#11) — medium priority; Euler-Heisenberg calibration is the gate; first quantitative QED test if it passes
 8. **Operation algebra** (#13) — back-pocket; foundational mathematical scaffolding for the framework's "single conservation law" claim; best published alongside or after exp_20 results to lend the central claim formal proof structure
+9. **Balanced equations and birefringent channels** (#14) — back-pocket; site-level master equations + force-channel gradients + entanglement evolution + birefringence diagram; sits one resolution above #13; the birefringent-channel diagram could be extracted early if P9 gets observational corroboration

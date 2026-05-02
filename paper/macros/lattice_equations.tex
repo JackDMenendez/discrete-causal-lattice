@@ -1,0 +1,72 @@
+% ============================================================
+%  Unified Macro Package for Probability, Gradients, Transfer,
+%  and Entanglement Operators
+% ============================================================
+
+% ---------- Basic Probability Fields ----------
+\newcommand{\rhoi}{\rho_i}
+\newcommand{\rhof}{\rho(x)}
+\newcommand{\grad}{\nabla \rho}
+\newcommand{\gradnorm}{\hat{\nabla}\rho}
+\newcommand{\logpot}{\varphi}
+\newcommand{\gradlog}{\nabla\varphi}
+
+% ---------- Force-Specific Probability Gradients ----------
+\newcommand{\gradG}{\nabla_G \rho}
+\newcommand{\gradC}{\nabla_C \rho}
+\newcommand{\gradW}{\nabla_W \rho}
+\newcommand{\gradS}{\nabla_S \rho}
+
+% Normalized versions
+\newcommand{\gradGnorm}{\hat{\nabla}_G \rho}
+\newcommand{\gradCnorm}{\hat{\nabla}_C \rho}
+\newcommand{\gradWnorm}{\hat{\nabla}_W \rho}
+\newcommand{\gradSnorm}{\hat{\nabla}_S \rho}
+
+% Unified channel gradient
+\newcommand{\gradF}[1]{\nabla_{(#1)} \rho}
+\newcommand{\gradFnorm}[1]{\hat{\nabla}_{(#1)} \rho}
+
+% ---------- Probability Transfer & Flux ----------
+\newcommand{\Pij}{\Pi_{i\to j}}
+\newcommand{\Pji}{\Pi_{j\to i}}
+\newcommand{\Pik}{\Pi_{i\to k}}
+\newcommand{\Pki}{\Pi_{k\to i}}
+
+\newcommand{\Pijrate}{\dot{\Pi}_{i\to j}}
+\newcommand{\Pkirate}{\dot{\Pi}_{k\to i}}
+
+\newcommand{\Jij}{\mathbf{J}_{i\to j}}
+
+% Excess transfer
+\newcommand{\dPij}{\Delta\Pi_{i\to j}}
+\newcommand{\Peqij}{\Pi^{\mathrm{eq}}_{i\to j}}
+\newcommand{\Xiij}{\Xi_{i\to j}}
+
+% Channel-specific transfer
+\newcommand{\Pfij}[1]{\Pi_{(#1), i\to j}}
+\newcommand{\dPfij}[1]{\Delta\Pi_{(#1), i\to j}}
+
+% ---------- Entanglement Operators ----------
+\newcommand{\Eij}{\mathcal{E}_{i,j}}
+\newcommand{\Eijrate}{\dot{\mathcal{E}}_{i,j}}
+\newcommand{\Eijplus}{\dot{\mathcal{E}}_{i,j}^{(+)}}
+\newcommand{\Eijminus}{\dot{\mathcal{E}}_{i,j}^{(-)}}
+
+\newcommand{\Cij}{\mathcal{C}_{i,j}}   % creation
+\newcommand{\Dij}{\mathcal{D}_{i,j}}   % decay/emission
+
+\newcommand{\Cchan}[1]{\mathcal{C}_{(#1)}} % channel creation
+\newcommand{\Dchan}[1]{\mathcal{D}_{(#1)}} % channel decay
+
+% Decoherence / emission coefficients
+\newcommand{\gammaij}{\gamma_{i,j}}
+\newcommand{\etij}{\eta_{i,j}}
+
+% ---------- Entanglement Transfer ----------
+\newcommand{\PktoE}{\Pi_{k\to(i,j)}}
+\newcommand{\EtoPk}{\Pi_{(i,j)\to k}}
+
+% ---------- Convenience Shortcuts ----------
+\newcommand{\Nof}[1]{\mathcal{N}(#1)} % neighborhood
+\newcommand{\unitij}{\hat{e}_{i\to j}} % unit direction vector

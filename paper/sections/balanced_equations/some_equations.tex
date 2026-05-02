@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+
+% -------------------------------------------------
+% Packages
+% -------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+\title{Unified Balance Equations and Interaction Diagram}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+% 1. Unified Entanglement-Balance Equation
+% ============================================================
+
+\section*{1. Unified Entanglement-Balance Equation}
+
+We define the entanglement variable $\mathcal{E}_{i,j}$ between lattice sites $i$ and $j$.
+Its time evolution is governed by creation, loss, and probability-mediated transfer:
+
+
+
+\[
+\dot{\mathcal{E}}_{i,j}
+=
+\underbrace{\mathcal{C}_{i,j}}_{\text{creation}}
+-
+\underbrace{\mathcal{D}_{i,j}}_{\text{loss}}
++
+\underbrace{
+\sum_{k}
+\left(
+\Pi_{k\to (i,j)} - \Pi_{(i,j)\to k}
+\right)
+}_{\text{entanglement transfer}}
+\]
+
+
+
+Expanded in terms of explicit rates:
+
+
+
+\[
+\dot{\mathcal{E}}_{i,j}
+=
+\dot{\mathcal{E}}_{i,j}^{(+)}
+-
+\dot{\mathcal{E}}_{i,j}^{(-)}
++
+\sum_{k}
+\left(
+\dot{\Pi}_{k\to (i,j)} - \dot{\Pi}_{(i,j)\to k}
+\right)
+\]
+
+
+
+Including decoherence or emission:
+
+
+
+\[
+\dot{\mathcal{E}}_{i,j}
+=
+\mathcal{C}_{i,j}
+-
+\gamma_{i,j}\,\mathcal{E}_{i,j}
++
+\sum_{k}
+\left(
+\Pi_{k\to (i,j)} - \Pi_{(i,j)\to k}
+\right)
+\]
+
+
+
+% ============================================================
+% 2. Probability-Flux Continuity Equation
+% ============================================================
+
+\section*{2. Probability-Flux Continuity Equation}
+
+Let $\rho_i$ denote the probability density at lattice site $i$.
+Local conservation of probability yields the discrete continuity equation:
+
+
+
+\[
+\dot{\rho}_i
+=
+\sum_{j \in \mathcal{N}(i)}
+\left(
+\Pi_{j\to i} - \Pi_{i\to j}
+\right)
+\]
+
+
+
+In flux form:
+
+
+
+\[
+\dot{\rho}_i
+=
+-\sum_{j \in \mathcal{N}(i)} \mathbf{J}_{i\to j}
+\]
+
+
+
+Where the probability current may be driven by force-channel gradients:
+
+
+
+\[
+\mathbf{J}_{i\to j}
+=
+\sum_{f \in \{G,C,W,S\}}
+\alpha_{(f)}\,
+\nabla_{(f)} \rho \cdot \hat{e}_{i\to j}
+\]
+
+
+
+% ============================================================
+% 3. Diagrammatic Map (TikZ)
+% ============================================================
+
+\section*{3. Diagrammatic Map}
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    box/.style={draw, rounded corners, align=center, padding=6pt},
+    arrow/.style={-{Latex[length=3mm]}, thick}
+]
+
+% Probability density
+\node[box] (rho) {Probability Density \\ $\rho(x)$};
+
+% Gradients
+\node[box, below left=1.5cm and 2.5cm of rho] (gradG) {$\nabla_G \rho$ \\ Gravity};
+\node[box, below=1.5cm of rho] (gradC) {$\nabla_C \rho$ \\ Coulomb};
+\node[box, below right=1.5cm and 2.5cm of rho] (gradWS) {$\nabla_W \rho,\, \nabla_S \rho$ \\ Weak / Strong};
+
+% Fluxes
+\node[box, below=1.8cm of gradC] (flux) {Probability Flux \\ $\mathbf{J}_{i\to j}$};
+
+% Transfer
+\node[box, below=1.8cm of flux] (transfer) {Probability Transfer \\ $\Pi_{i\to j}$};
+
+% Entanglement
+\node[box, below=1.8cm of transfer] (ent) {Entanglement Channel \\ $\mathcal{E}_{i,j}$};
+
+% Creation / Loss / Transfer
+\node[box, below left=1.5cm and 2.5cm of ent] (create) {Creation \\ $\mathcal{C}_{i,j}$};
+\node[box, below=1.5cm of ent] (loss) {Loss / Emission \\ $\mathcal{D}_{i,j}$};
+\node[box, below right=1.5cm and 2.5cm of ent] (etrans) {Transfer \\ $\Pi_{k\to(i,j)}$};
+
+% Arrows from rho to gradients
+\draw[arrow] (rho) -- (gradG);
+\draw[arrow] (rho) -- (gradC);
+\draw[arrow] (rho) -- (gradWS);
+
+% Arrows from gradients to flux
+\draw[arrow] (gradG) -- (flux);
+\draw[arrow] (gradC) -- (flux);
+\draw[arrow] (gradWS) -- (flux);
+
+% Flux to transfer
+\draw[arrow] (flux) -- (transfer);
+
+% Transfer to entanglement
+\draw[arrow] (transfer) -- (ent);
+
+% Entanglement to its components
+\draw[arrow] (ent) -- (create);
+\draw[arrow] (ent) -- (loss);
+\draw[arrow] (ent) -- (etrans);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

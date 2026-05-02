@@ -1,0 +1,102 @@
+% ============================
+% Symbol Table for Balanced Lattice Equations
+% ============================
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.25}
+
+% ---------- 1. Lattice Geometry ----------
+\begin{tabular}{lll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Notes} \\
+\hline
+$\mathcal{L}$ & Lattice (set of sites) & Possibly bipartite: $\mathcal{L}=A\cup B$ \\
+$i,j$ & Individual lattice sites & Indices in $\mathcal{L}$ \\
+$\langle i,j\rangle$ & Neighbor relation & $i$ adjacent to $j$ \\
+$\mathcal{N}(i)$ & Neighborhood of site $i$ & Degree $d_i = |\mathcal{N}(i)|$ \\
+$d_i$ & Degree of site $i$ & Used for normalized flux \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+% ---------- 2. State Variables ----------
+\begin{tabular}{lll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Notes} \\
+\hline
+$X_i(t)$ & State at site $i$ & Spin, occupancy, discrete state \\
+$p_i^{(k)}(t)$ & Probability site $i$ is in state $k$ & Stochastic models \\
+$\rho(t)$ & Global density & $\rho = \frac{1}{|\mathcal{L}|}\sum_i X_i$ \\
+$\mathbf{X}(t)$ & Full lattice configuration & Vector in state space \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+% ---------- 3. Transition & Balance Operators ----------
+\begin{tabular}{lll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Notes} \\
+\hline
+$T_{i\to j}$ & Transition event from $i$ to $j$ & Raw transition \\
+$\lambda_{i\to j}$ & Transition rate & Continuous-time Markov \\
+$\Phi_{i\to j}(t)$ & Flux from $i$ to $j$ & Core of balance equations \\
+$\mathrm{In}(i)$ & Total inflow to site $i$ & $\sum_{j\in\mathcal{N}(i)} \Phi_{j\to i}$ \\
+$\mathrm{Out}(i)$ & Total outflow from site $i$ & $\sum_{j\in\mathcal{N}(i)} \Phi_{i\to j}$ \\
+$\Delta_i$ & Net balance at site $i$ & $\mathrm{In}(i)-\mathrm{Out}(i)$ \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+% ---------- 4. Balanced Lattice Equation Core ----------
+\begin{tabular}{ll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+$\dot{X}_i(t)$ & Time derivative of state at site $i$ \\
+$\mathcal{B}_i[X]$ & Balance operator at site $i$ \\
+$\mathcal{T}_i[X]$ & Transition operator acting on neighbors \\
+$\mathcal{F}_i[X]$ & Local update rule \\
+\hline
+\end{tabular}
+
+
+
+\[
+\dot{X}_i(t) = \mathrm{In}(i) - \mathrm{Out}(i)
+\]
+
+
+
+\vspace{1em}
+
+% ---------- 5. Bipartite-Specific ----------
+\begin{tabular}{ll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+$A,B$ & Two partitions of the bipartite lattice \\
+$X_i \in \{1,\dots,N\}$ & Discrete state space \\
+$\Gamma_{a\to b}$ & Transition kernel from $A$ to $B$ \\
+$\Gamma_{b\to a}$ & Transition kernel from $B$ to $A$ \\
+$\Omega$ & Set of allowed transitions \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+% ---------- 6. Conservation ----------
+\begin{tabular}{ll}
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+$\sum_k p_i^{(k)} = 1$ & Local probability conservation \\
+$\sum_i X_i(t) = \text{constant}$ & Global conserved quantity \\
+$\sum_j \Phi_{i\to j} = \sum_j \Phi_{j\to i}$ & Balanced flux condition \\
+\hline
+\end{tabular}
+
+\end{table}
