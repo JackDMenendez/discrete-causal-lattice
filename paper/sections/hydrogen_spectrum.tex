@@ -294,22 +294,36 @@ The proton centre-of-mass shifts to the new joint configuration; this
 shift is the recoil, and it is what keeps the post-transition orbit
 inside the lower tongue.
 
-\paragraph{Numerical demonstration (\texttt{exp\_19c}).}
-\texttt{exp\_19c} implements $\mathcal{A}=1$-preserving emission as a
-phase-rotation drain coupled to a recoil mechanism that transfers
-momentum between sessions when amplitude concentrates near the proton.
-Across all tested emission rates the per-session amplitudes remain at
-unity to machine precision (\texttt{amp\_e}=$1.0000$, \texttt{amp\_p}=$1.0000$,
-\texttt{amp\_$\gamma$}=$1.0000$), confirming that the dissipative
-process can proceed without violating the conservation law it derives
-from.
-The orbital response sits at the Arnold tongue boundary
-($r_\text{peak} \approx R_1$ to within $0.2\%$), consistent with the
-prediction that stable orbits occupy tongue \emph{boundaries} rather
-than mathematical resonance centres.
-This is the explicit numerical demonstration that emission and
-$\mathcal{A}=1$ are compatible only when the third (photon) session
-is present and the recoil channel is open.
+\paragraph{Status of the numerical implementation (\texttt{exp\_19c}).}
+A first implementation (\texttt{exp\_19c}, v10) initialises the two-body
+system on the \texttt{exp\_12} foundation, applies a Coulomb-driven
+amplitude drain
+$\psi_e \mathrel{-}\!= m\psi_e,\ \psi_\gamma \mathrel{+}\!= m\psi_e$
+from electron to photon, and provides for a momentum-transfer recoil
+channel between proton and electron.  Across the swept emission rates
+$m \in \{0.01, 0.05, 0.10, 0.20, 0.50\}$ over $6000$ ticks per rate,
+per-session amplitudes are preserved to machine precision but no
+orbital lock-in is observed: the streak counter never approaches the
+success threshold, and the recoil channel registers zero events across
+all rates.  The audit table (Table~\ref{tab:audit}) records this row
+as \texttt{PART}.  Two structural reasons are visible.  First, the
+as-written drain is not joint-amplitude conserving: with $\psi_\gamma$
+initially empty,
+\begin{equation*}
+  \lVert\psi_e'\rVert^2 + \lVert\psi_\gamma'\rVert^2
+    \;=\; (1 - 2m + 2m^2)\,\lVert\psi_e\rVert^2,
+\end{equation*}
+which equals $\lVert\psi_e\rVert^2$ only at $m \in \{0, 1\}$.  The
+corrected unitary form is the pointwise beam splitter
+$\psi_e \mathrel{*}\!= \cos\theta,\ \psi_\gamma \mathrel{+}\!= \sin\theta\,\psi_e$,
+for which $\cos^2\theta + \sin^2\theta = 1$ enforces joint
+$\mathcal{A}=1$ by construction.  Second, per-session amplitude
+renormalisation applied to both electron and photon every tick masks
+the non-conservation by resetting each session's norm independently to
+one.  A controlled three-arm operator comparison (\texttt{exp\_20},
+planned) replacing the as-written drain with the unitary beam splitter
+and per-session normalisation with joint enforcement is the next
+implementation step.
 
 \paragraph{Three threads unified.}
 The three-session emission event ties together three results that

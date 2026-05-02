@@ -101,17 +101,24 @@ The five answers:
     The Coulomb interaction is a probability \emph{source} --- it injects
     amplitude into the electron session from outside.
     $\mathcal{A}=1$ cannot accommodate this within a single session;
-    it mandates creation of a new photon session at orbital lock-in,
-    and momentum conservation requires the transfer to be accompanied
-    by physical recoil between proton and electron.
+    it mandates creation of a new photon session at orbital lock-in.
+    Joint momentum conservation across the three-session event,
+    \begin{equation*}
+      \mathbf{p}_e + \mathbf{p}_p \;=\; \mathbf{p}_e' + \mathbf{p}_p' + \mathbf{p}_\gamma,
+    \end{equation*}
+    requires the photon's outgoing momentum $\mathbf{p}_\gamma$ to be
+    compensated by an opposite shift in the bound-state momentum,
+    $\Delta\mathbf{p}_\text{atom} = -\mathbf{p}_\gamma$ --- the photon
+    recoil observed routinely in atomic spectroscopy and
+    M\"ossbauer-line measurements.
     Emission, recoil, and energy conservation all follow from
     $\mathcal{A}=1$ alone.
-    A first numerical implementation (\texttt{exp\_19c}) demonstrates
-    that the joint $\mathcal{A}=1$ + recoil mechanism preserves
-    per-session unitarity over short test runs;
-    a settled multi-rate sweep with discrete-emission detection
-    remains pending, and the audit table
-    (Table~\ref{tab:audit}) records this row as \texttt{PART}.
+    A first numerical implementation (\texttt{exp\_19c}) preserves
+    per-session unitarity at all swept emission rates but does not yet
+    exhibit settled orbital lock-in; the audit table
+    (Table~\ref{tab:audit}) records this row as \texttt{PART}, and a
+    controlled three-arm operator comparison (\texttt{exp\_20}) is the
+    next implementation step.
 
 \item \textbf{Gravity is refraction, not curvature.}
     Every causal session carries an independent tick counter.
@@ -136,6 +143,29 @@ The five answers:
     discrete corrections to the $1/r^2$ law that are computable and
     falsifiable.
 \end{enumerate}
+
+\medskip
+
+\paragraph{One law at three resolutions.}
+The five answers above are not five conservation laws, nor even three
+(probability, momentum, energy).  They are three structural resolutions
+of a single constraint.  Per session,
+$\int |\psi_i|^2\,dx = 1$ is enforced at every tick.  As a joint field
+density across all sessions in a bundle,
+$\mathcal{A}_\text{joint}(x) = \sum_i |\psi_i(x)|^2$ is the conserved
+quantity whose redistribution between sessions implements emission and
+annihilation events.  The clock fluid density that sources gravity is
+$\mathcal{A}_\text{joint}(x)$ weighted pointwise by per-session
+instruction frequency,
+\begin{equation*}
+  \rho_\phi(x) \;=\; \sum_i \omega_i\,|\psi_i(x)|^2.
+\end{equation*}
+Local clock-fluid continuity
+$\partial_t \rho_\phi + \nabla\!\cdot\!\mathbf{j}_\phi = 0$ is therefore
+the same conservation law expressed at field-density resolution with
+mass weights, and energy conservation is its $\omega$-weighted spatial
+integral.  Probability conservation, mass-energy conservation, and
+gravity all share one structural origin.
 
 \medskip
 
@@ -193,15 +223,16 @@ Photon emission then follows as a three-session event: the joint
 proton-electron resonance transitions to a lower Arnold tongue, the
 displaced amplitude is absorbed by a new photon session, and the proton
 adjusts to the new joint configuration.
-None of this requires a separately postulated transition rate.
-A first numerical implementation of the joint mechanism
-(\texttt{exp\_19c}) --- two-body initialisation with Coulomb-driven
-amplitude drain, recoil detection, and momentum transfer ---
-confirms that per-session unitarity is preserved with the recoil
-channel active over short test runs.
-A settled multi-rate sweep that resolves the Arnold-tongue lock-in
-and discrete emission events remains pending; the audit table
-(Table~\ref{tab:audit}) records this row as \texttt{PART}.
+The bound-state recoil
+$\Delta\mathbf{p}_\text{atom} = -\mathbf{p}_\gamma$ is mandated by
+joint momentum conservation, not added as a separate postulate.
+A first numerical implementation
+(\texttt{exp\_19c}, two-body initialisation with Coulomb-driven
+amplitude drain) preserves per-session unitarity at all swept emission
+rates but does not exhibit settled orbital lock-in; the audit table
+(Table~\ref{tab:audit}) records this row as \texttt{PART}, and a
+controlled three-arm operator comparison (\texttt{exp\_20}) is the
+next implementation step.
 
 The framework also distinguishes two conditions that standard quantum
 mechanics treats as identical.
