@@ -3,8 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
-# external workspace folders
-.external
+# external workspace folders (Windows symlinks to sibling repos)
+.external/
+external/
 .scratchpad
 # C extensions
 *.so
