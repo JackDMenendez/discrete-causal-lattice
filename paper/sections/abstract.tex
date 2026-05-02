@@ -32,15 +32,20 @@ discrete correction at short range;
 \textbf{(v)} photon emission as a structural consequence of $\mathcal{A}=1$:
 the Coulomb interaction is a probability source that a single session cannot
 accommodate, mandating creation of a new photon session at orbit lock-in;
-partial numerical verification (\texttt{exp\_19c}), with a full multi-rate
-scan pending;
+a first numerical implementation (\texttt{exp\_19c}) preserves per-session
+unitarity at all swept emission rates but does not yet exhibit settled
+orbital lock-in (Table~\ref{tab:audit}, \texttt{PART}), and a controlled
+three-arm operator comparison (\texttt{exp\_20}) is the next implementation
+step;
 \textbf{(vi)} the structural form of the induced gauge action
-(Sakharov / Zeldovich, Appendix~\ref{sec:induced_gauge_action}),
-recovering Maxwell on $O_h$-averaged observables with a closed-form
-\emph{gauge-sector birefringence} sharing the same optical axis
-$(1,1,-1)$ as the kinematic-sector prediction; the predicted concordance
-of kinematic, gauge, gravitational, and atomic-clock channels along this
-single axis is the framework's strongest empirical claim
+(Sakharov / Zeldovich, Appendix~\ref{sec:induced_gauge_action}), whose
+leading-order term has the Maxwell form on $O_h$-averaged observables
+together with a closed-form \emph{gauge-sector birefringence} sharing
+the same optical axis $(1,1,-1)$ as the kinematic-sector prediction
+(numerical $1/g^2$ prefactor and the empirical test of the birefringence
+remain open); the predicted concordance of kinematic, gauge,
+gravitational, and atomic-clock channels along this single axis is the
+framework's strongest \emph{falsifiable} prediction
 (P9, Section~\ref{subsec:p9_concordance}).
 
 Energy conservation and momentum conservation are not independent inputs ---
@@ -49,12 +54,13 @@ The gauge structure of the Standard Model is reframed as the minimal set of
 session types required to maintain $\mathcal{A}=1$ on the bipartite lattice
 geometry.
 
-The numerically tractable results are verified by a suite of more
-than fifteen experiments with no free parameters beyond the
-Planck-scale calibration of the lattice spacing; the framework's
-remaining derivations --- black-hole thermodynamics among them --- are
-established analytically under explicitly stated modelling
-assumptions and flagged as such where they appear.
+The numerically tractable results are verified or partially verified
+by a suite of more than fifteen experiments with no free parameters
+beyond the Planck-scale calibration of the lattice spacing
+(Table~\ref{tab:audit} records the status of each claim);
+the framework's remaining derivations --- black-hole thermodynamics
+among them --- are established analytically under explicitly stated
+modelling assumptions and flagged as such where they appear.
 
 The particle content of the Standard Model is the catalogue of probability
 imbalances the bipartite lattice geometry generates and the session types
