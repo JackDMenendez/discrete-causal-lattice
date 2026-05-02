@@ -453,9 +453,8 @@ Complete documentation created for all 20 experiments in `src/experiments/`:
 - **exp_16_proton_mass.md** - Proton mass sweep (binding ≠ quantization)
 - **exp_17_pair_annihilation.md** - Pair annihilation efficiency
 - **exp_18_tidal_ionization.md** - Tidal ionization / quantum Roche limit
-- **exp_19_photon_emission.md** - Photon emission from A=1 constraint
-- **exp_19c_A1_conservation.md** - A=1 conservation in photon emission
-- **exp_19c_photon_emission.md** - Phase-rotation drain implementation
+- **exp_19_photon_emission.md** - Photon emission from A=1 constraint (v5 phase-rotation drain)
+- **exp_19c_photon_emission.md** - Coulomb-driven drain + A=1 recoil mechanism (recoil currently stubbed; PART per audit table)
 
 ### Paper Completion Roadmap
 **PAPER_COMPLETION_TODO_PRINTABLE.md** contains comprehensive 15-task roadmap:

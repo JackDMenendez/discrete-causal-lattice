@@ -368,6 +368,57 @@ geometry.
 
 ---
 
+## 13. Operation Algebra of the Discrete Causal Lattice
+
+**The idea:** The lattice has a *tag-balance* algebra of operations
+analogous to balanced nuclear-chemistry equations: rows are elementary
+operations (tick, drain, phase rotation, emission, annihilation), columns
+are conserved tags ($\mathcal{A}_\text{joint}$, $\mathcal{A}_\text{session}$,
+$N$, $\pi$, $\chi$, $p$). The natural inner home is the **phase-weighted
+path algebra of the bipartite octahedral graph** — a real associative
+algebra in the strict sense. Single-session conservation laws become
+combinatorial invariants of path multiplication; multi-session structure
+needs a Fock layer on top (creation/annihilation operators that change
+the number of path-algebra factors).
+
+**Why it earns its keep:**
+
+- **Two open questions reduce to finite computations.** Chirality $\chi$
+  conservation becomes a $\mathbb{Z}_2$-grading question on the path
+  algebra (checkable directly). Arnold-tongue lock-in $(p, q)$ becomes
+  a homotopy-class statement: if $(p, q)$ are generators of $H_1$ of
+  the orbit graph, **quantization is a topological invariant of the
+  lattice, not a dynamical accident**.
+- **The "single conservation law" claim gets a sharper form.** Three
+  structural levels: per-session unitarity (axiom) → joint amplitude
+  density $\mathcal{A}_\text{joint}(x)$ (algebra tag) → clock fluid
+  continuity $\rho_\phi = \omega$-weighted $\mathcal{A}_\text{joint}$
+  (gives gravity). Energy conservation is the $\omega$-weighted spatial
+  integral. Three faces of one constraint, not three independent laws.
+- **Concrete bug-finding power.** The drain in `exp_19c` —
+  $\psi_e \mathrel{-}= m\psi_e;\ \psi_\gamma \mathrel{+}= m\psi_e$ — is
+  non-unitary at $O(m)$ per tick: $(1 - 2m + 2m^2)\lVert\psi_e\rVert^2 \neq \lVert\psi_e\rVert^2$
+  except at $m \in \{0, 1\}$. The corrected pointwise beam splitter
+  $\psi_e \mathrel{*}= \cos\theta;\ \psi_\gamma \mathrel{+}= \sin\theta\,\psi_e$
+  is unitary by construction. The algebraic framing makes
+  `enforce_unity_spinor` (which masks the bug) visible as a violation
+  of joint amplitude conservation rather than a benign normalisation.
+
+**Status:** Back-pocket. Kept in reserve while the main paper focuses
+on Geometry First. The arithmetic-level results (drain non-unitarity,
+clock-fluid identification) belong in the main paper as short
+observations; the full algebraic apparatus is the follow-on.
+
+**Written up in:** notes/lattice_operation_algebra.md (tag-balance
+table reference); notes/exp_20_emission_operator_and_clock_fluid.md
+(exp_20 design + clock-fluid connection + path-algebra reformulation).
+
+**Dependencies:** exp_20 results (arms A/B/C comparison) provide the
+empirical motivation; the path-algebra construction is largely
+independent and could be drafted in parallel.
+
+---
+
 ## Priority Order for Follow-On Papers
 
 1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
@@ -381,3 +432,4 @@ geometry.
 5. **Asymptotic freedom** (#4) — requires CompositeCausalSession implementation
 6. **Entanglement / CHSH** (#6) — foundational but needs careful experiment design
 7. **Vacuum birefringence** (#11) — medium priority; Euler-Heisenberg calibration is the gate; first quantitative QED test if it passes
+8. **Operation algebra** (#13) — back-pocket; foundational mathematical scaffolding for the framework's "single conservation law" claim; best published alongside or after exp_20 results to lend the central claim formal proof structure
