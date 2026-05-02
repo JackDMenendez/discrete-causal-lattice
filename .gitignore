@@ -22,7 +22,9 @@ lpt2
 lpt3
 # Distribution / packaging
 .Python
-.claude/
+.claude/*
+!.claude/agents/
+!.claude/agents/**
 build/
 .vscode/
 develop-eggs/
@@ -153,6 +155,8 @@ celerybeat.pid
 .env
 .envrc
 .venv
+# win-cross-dev-env python virtual environment
+.venv*
 env/
 venv/
 ENV/
