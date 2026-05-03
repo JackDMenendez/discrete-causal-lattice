@@ -463,14 +463,26 @@ that breaks single-site Markov locality.
 
 **Written up in (draft material):**
 
-- `paper/sections/balanced_equations/balanced_lattice_table_of_symbols.tex`
-  — lattice geometry, state variables, balance operators, conservation
-- `paper/sections/balanced_equations/lattice_probability_symbols.tex`
-  — force-channel probability-gradient notation
-- `paper/sections/balanced_equations/some_equations.tex` — entanglement
-  master equation, continuity equation, TikZ cascade map
-- `paper/sections/balanced_equations/TiKZ_diagram_birefringence.tex`
-  — birefringent split diagram
+Draft material has migrated out of dcl into a separate private
+repository, accessible from this workspace via the Windows symlink
+`external/research` -> `/c/dev/physics-research`. dcl no longer
+carries the LaTeX or macro files; this index entry is the only
+remaining cross-reference.
+
+Current draft locations (in the external repo):
+
+- `external/research/dcl/` — LaTeX drafts originally seeded from
+  `paper/sections/balanced_equations/` (symbol tables, balance
+  equations, cascade diagram, birefringent split diagram) plus the
+  `lattice_equations.tex` macro pack
+- `external/research/Notes/balanced_equations/` — symbol-source CSVs
+  and the ASCII `Diagrammatic_Map.md`
+- Subsequent additions (Lagrangian, Euler-Lagrange equations,
+  metric-tensor interpretation of the birefringent modes, etc.)
+  live alongside in the same repo
+
+The migration was a one-time move; future #14 work happens in the
+external repo, not in dcl.
 
 **Priority:** Back-pocket alongside #13. Best published after #13
 establishes the path-algebra layer it sits above, and after the
