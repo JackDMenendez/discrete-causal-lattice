@@ -135,8 +135,26 @@ Photon emission as $\mathcal{A}=1$ necessity
       tongue-jump mandates third session
     & Spontaneous emission without separate field quantization
     & \texttt{exp\_19c} v10 sweeps 2026-04-26 showed 0 recoils
-      across rates $0.01$--$0.5$; v5 phase-rotation drain
-      ($\mathcal{A}=1$-compatible) is the next attempt
+      across rates $0.01$--$0.5$; \texttt{exp\_20} 2026-05-02
+      three-arm comparison (drain, unitary beam splitter, phase
+      rotation) did not yet exhibit orbital lock-in -- baseline
+      two-body instability dominates (\texttt{exp\_12b}); next
+      attempt awaits resolution of the long-horizon stability
+      question
+    & \texttt{PART} \\
+Emission-operator joint $\mathcal{A}=1$ conservation
+    & Pointwise unitary 2-mode rotation between electron and photon
+      sessions with joint amplitude enforced
+    & QED postulates a separately quantised electromagnetic field
+    & \texttt{exp\_20} 2026-05-02 sweep at $\text{GRID}=65^3$,
+      rate $=0.05$, 6000 ticks per arm.  Joint $\mathcal{A}=1$
+      preserved to machine precision ($8.9\!\times\!10^{-16}$) by
+      arm B (beam splitter); arm A (the as-written drain in
+      \texttt{exp\_19c}) violates by $1.0$; arm C (phase rotation)
+      trivial.  Phase-dependent non-monotonic transfer in arm B is
+      an unanticipated refinement of the operation-algebra
+      prediction (see \texttt{notes/lattice\_operation\_algebra.md}
+      row~6 caveat)
     & \texttt{PART} \\
 Induced gauge action (Sakharov form)
     & $-\mathrm{Tr}\ln D_\text{lat}[U]$;
@@ -169,6 +187,16 @@ Two-body hydrogen (4 sig.\ figs.)
     & $k_\text{min} = 0.0970$ vs.\ $k_\text{Bohr} = 0.0971$
     & \texttt{exp\_12}
     & \texttt{PASS} \\
+Two-body long-horizon stability
+    & Bare \texttt{exp\_12} chassis run for 6000 ticks (no emission)
+    & Standard QM treats Bohr orbits as stationary
+    & \texttt{exp\_12b} 2026-05-02 single run at $\text{GRID}=65^3$;
+      $r_\text{peak}$ escapes from $\sim R_1$ to grid edge ($\sim 83$)
+      by tick $\sim 2000$; $\mathcal{A}=1$ preserved at machine
+      precision ($8.9\!\times\!10^{-16}$).  Refines but does not
+      invalidate \texttt{exp\_12}'s 4-sig-fig PASS, which is scored
+      on a shorter $k$-scan resonance peak
+    & \texttt{PART} \\
 Bound state requires active proton
     & Static well collapses; live proton explores well
     & Proton as symmetry-breaking session
