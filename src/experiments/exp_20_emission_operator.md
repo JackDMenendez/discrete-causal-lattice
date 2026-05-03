@@ -241,20 +241,125 @@ The diagnostics already discriminate the three arms cleanly at 20 ticks.
 The settled-orbit-lock-in question requires the full 6000-tick run (or
 longer); the smoke test only verifies wiring and unitarity claims.
 
+## Full-sweep results (2026-05-02, GRID=65³, 6000 ticks/arm at rate=0.05)
+
+Three parallel workers, total wall-clock 7140 s ≈ 119 min.  Final-state
+summary:
+
+| Arm | result | max_streak | amp_e | amp_g | A_joint_drift_max | rho_phi_drift_max |
+|---|---|---:|---:|---:|---|---|
+| A (control) | NOT_SETTLED | 5 | 1.0000 | 1.000000 | 1.0e+00 | 7.6e-02 |
+| B (treatment) | NOT_SETTLED | 4 | 0.9945 | 0.005506 | **8.9e-16** | 2.5e-02 |
+| C (alternative) | NOT_SETTLED | 8 | 1.0000 | 0.000000 | 1.0e-12 | 7.7e-14 |
+
+### Key findings
+
+**Joint $\mathcal{A}=1$ confirmed.**  Arm B preserved
+$\sum_i \lVert\psi_i\rVert^2$ to $8.9\times 10^{-16}$ (machine precision)
+across the entire 6000 ticks.  This is the operation algebra's central
+prediction validated experimentally: a pointwise unitary 2-mode rotation
+plus joint-amplitude enforcement is exactly compatible with the lattice's
+single conservation law.  The drain-non-unitarity arithmetic
+$(1-2m+2m^2)$ from row 5 is also confirmed in arm A, which produces an
+$\mathcal{A}_\text{joint}$ drift of exactly $1.0$ from the photon
+inflation that follows the very first emission tick.
+
+**Orbital settling not achieved at this rate.**  All three arms hit
+NOT_SETTLED with `max_streak` $\leq 8$, well below the
+SUCCESS_STREAK $= 33$ threshold.  See `exp_12b` (no-emission baseline)
+for the controlled diagnosis: the bare two-body system also escapes
+to grid edge by tick 2019, so the orbital instability seen here is
+inherited from baseline, not caused by the emission operator.
+
+**Phase-dependent transfer in arm B.**  The beam splitter is *not* a
+one-way pump.  At tick 19 the photon held `amp_g=0.0055` and the orbit
+was at $r_\text{peak}=9.88$ (near $R_1$).  By tick 2019 the photon had
+grown to `amp_g=0.236` while the orbit had escaped to
+$r_\text{peak}=53.12$.  By tick 4019 the photon had *receded* back to
+`amp_g=0.0051` and the orbit was at $r_\text{peak}=16.05$.  Joint
+$\mathcal{A}=1$ stayed exact throughout.
+
+This non-monotonicity is a refinement the operation algebra did not
+predict.  The beam splitter acts coherently on both sessions
+(`psi_gamma += sin(theta)*psi_e`); the cross term
+$2\,\mathrm{Re}(\sin\theta\cdot\psi_e\psi_\gamma^*)$ flips sign as the
+relative phase between $\psi_e$ and $\psi_\gamma$ rotates.  When the
+phase is constructive, amplitude pumps electron $\to$ photon; when
+destructive, it drains photon $\to$ electron.  This is genuine
+two-mode coherent dynamics, not the naive one-way amplitude bookkeeping
+the algebra table suggests.  Worth flagging for the follow-on paper #13.
+
+**Arm C confirmed inert.**  `amp_g` stayed at $0.000$ throughout.  Phase
+rotation alone transfers no observable amplitude, as predicted.  Arm C
+is a useful null control.
+
+### What this falsifies / confirms
+
+- **Confirmed**: joint $\mathcal{A}=1$ is the correct conservation
+  framework; the unitary 2-mode rotation operator preserves it
+  exactly.
+- **Confirmed**: the as-written `exp_19c` drain is non-unitary at
+  rate $m \in (0, 1)$, exactly as the row-5 arithmetic predicts.
+- **Confirmed**: phase-rotation drain transfers no amplitude (arm C).
+- **Not confirmed (but not falsified)**: that the unitary beam splitter
+  alone settles the orbit at $R_1$.  The orbital instability comes from
+  the bare two-body baseline (`exp_12b`), not from the emission
+  operator.
+- **New (unanticipated)**: the beam splitter's amplitude transfer is
+  phase-dependent and non-monotonic.  The pure 2-mode-rotation picture
+  in `notes/lattice_operation_algebra.md` row 6 needs a coherence
+  caveat.
+
+## Proposed audit-table row (pending dcl-claim-auditor validation)
+
+```latex
+Emission-operator joint $\mathcal{A}=1$ conservation
+    & Pointwise unitary 2-mode rotation between electron and photon
+      sessions; joint amplitude enforced
+    & QED postulates a separately quantised electromagnetic field
+    & \texttt{exp\_20} 2026-05-02 sweep at $\text{GRID}=65^3$,
+      rate $= 0.05$, 6000 ticks per arm.  Joint $\mathcal{A}=1$
+      preserved at machine precision ($8.9\times 10^{-16}$) by arm B
+      (beam splitter); arm A (the as-written drain in \texttt{exp\_19c})
+      violates by $1.0$; arm C (phase rotation) trivial.  Orbital
+      settling not yet achievable due to baseline two-body instability
+      established in \texttt{exp\_12b} (separate row).  Phase-dependent
+      non-monotonic amplitude transfer in arm B is an unanticipated
+      refinement of the operation-algebra prediction (see
+      \texttt{notes/lattice\_operation\_algebra.md}, row~6 caveat).
+    & \texttt{PART} \\
+```
+
+This row is *additive* — it does not modify the existing
+"Photon emission as $\mathcal{A}=1$ necessity" row, which scores a
+broader claim including orbital settling and recoil.  The new row
+captures the conservation-law part separately, which `exp_20` cleanly
+confirms.
+
 ## Status
 
-- **Implementation**: complete, smoke-tested ✓
-- **Full 6000-tick sweep**: pending (recommended next step; ~100 min/arm in parallel)
-- **Audit-table update**: pending until a settled run is in hand
-- **Documentation**: this file
-- **Predecessor crossover**: leaves `exp_19c` untouched -- this is a new file, not a modification
+- **Implementation**: complete ✓
+- **Full 6000-tick sweep**: complete ✓ (2026-05-02; data in
+  `data/exp_20_arm_*.{log,npy}`)
+- **Result**: NOT_SETTLED orbit on all three arms; joint
+  $\mathcal{A}=1$ confirmed by arm B at machine precision
+- **Audit-table row**: drafted above; pending dcl-claim-auditor
+  validation and commit (deferred to a future session restart so the
+  auditor agent loads from `.claude/agents/`)
+- **Predecessor crossover**: leaves `exp_19c` untouched
 
 ## Relation to other experiments
 
 - **vs `exp_12`**: same two-body initialisation; adds emission channel.
-- **vs `exp_19c`**: arm A is the exp_19c reproduction (its current operator); arm B is the proposed correction.
+- **vs `exp_12b`** (no-emission baseline): explains the orbital escape
+  in arms A/B/C as inherited from baseline, not caused by emission.
+- **vs `exp_19c`**: arm A is the `exp_19c` reproduction (its current
+  operator); arm B is the algebra-proposed correction.
 - **vs `exp_19` v5**: arm C is the v5 phase-rotation drain reproduction.
-- **Future audit-table impact**: if arm B settles, the row "Photon emission as $\mathcal{A}=1$ necessity" can move from `PART` to `PASS` -- but only on settled-orbit data, not on the smoke test.
+- **Future audit-table impact**: the existing
+  "Photon emission as $\mathcal{A}=1$ necessity" row remains `PART`;
+  the proposed new row above captures the conservation-law confirmation
+  separately.
 
 ## References
 

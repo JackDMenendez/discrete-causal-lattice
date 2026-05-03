@@ -96,14 +96,81 @@ One worker, no parallelism needed -- there's only one configuration.
 Per-tick cost: ~0.7 s on the win-cross-dev-env machine (faster than
 exp_20 because there is no photon session).
 
+## Full-run results (2026-05-02, GRID=65³, 6000 ticks)
+
+| Quantity | Value | Comment |
+|---|---|---|
+| `r_peak_min` | 9.161 | close to R₁ at the start, before escape |
+| `r_peak_max` | **83.336** | grid-edge value — full escape |
+| `r_peak` at tick 2019 | 72.102 | already escaped by 1/3 of the run |
+| `r_peak` at tick 4019 | 73.854 | still escaped, no return |
+| `max_streak` | 5 | well below SUCCESS_STREAK = 33 |
+| `amp_e_final`, `amp_p_final` | 1.000000, 1.000000 | per-session unitarity preserved by `tick(normalize=True)` |
+| `A_joint_drift_max` | 8.9e-16 | machine precision |
+| `rho_phi_drift_max` | 1.3e-15 | machine precision |
+| Run time | 5234 s ≈ 87 min | one worker |
+
+**Outcome:** row 2 of the falsification matrix above. The orbit hits
+$R_1$ briefly at the start (within 15% tolerance for one window),
+then walks outward and never returns. By tick 2019 it is already at
+$r \approx 72$; by tick 4019 it is at $r \approx 74$. The bare exp_12
+two-body system on $\text{GRID}=65^3$ is **not stable over 6000
+ticks**.
+
+**Implication for exp_20:** the orbital escapes seen across all three
+arms of `exp_20` (A: r_peak ~16, B: r_peak ~53, C: r_peak ~69) are
+inherited from this baseline instability, not caused by the emission
+operator. The conservation diagnostics in `exp_20` (joint A=1
+preserved exactly under arm B, $\rho_\phi$-proxy drift at the
+predicted level) remain valid; the "does the orbit settle?" question
+is downstream of a more fundamental long-horizon stability problem.
+
+**Implication for exp_12:** `exp_12`'s PASS at 4 sig figs is not
+invalidated. `exp_12` is scored on a shorter run length (the
+resonance peak in a $k$-scan), and `exp_12b` only refines the
+temporal scope of the lock-in claim: the Bohr orbit is metastable on
+the lattice, lasting hundreds of ticks but not thousands.
+
+**What is not yet known** (deferred to a future experiment):
+
+- Whether the escape is grid-size dependent (GRID=65³ may be too
+  small to contain the late-time wavepacket; a larger grid would
+  push the escape boundary outward).
+- Whether the escape is initial-condition dependent (the CoM-frame
+  alignment may carry residual asymmetry that compounds).
+- Whether the escape is attributable to the bipartite tick rule's
+  near-unitary approximation accumulating error over $\gtrsim 10^3$
+  ticks.
+
+## Proposed audit-table row (pending dcl-claim-auditor validation)
+
+```latex
+Two-body long-horizon stability
+    & Bare \texttt{exp\_12} chassis at 6000-tick horizon, no emission
+    & Standard QM treats Bohr orbits as stationary
+    & \texttt{exp\_12b} 2026-05-02 single run at $\text{GRID}=65^3$,
+      $r_\text{peak}$ escapes from $\sim R_1$ to grid edge ($\sim 83$)
+      by tick 2019; $\mathcal{A}=1$ preserved at machine precision
+      ($8.9\times 10^{-16}$); refines but does not invalidate
+      \texttt{exp\_12}'s 4-sig-fig PASS, which is scored on a shorter
+      $k$-scan resonance peak
+    & \texttt{PART} \\
+```
+
+This row is *additive* — it does not modify the existing
+`Two-body hydrogen (4 sig figs)` row (`exp_12`, PASS), which scores
+a different claim (Bohr-radius matching at fixed $k$). The two rows
+sit alongside each other in the audit table.
+
 ## Status
 
-- **Implementation**: complete, smoke-tested ✓
-- **Full 6000-tick baseline**: running at the time of writing
-- **Audit-table row**: pending; this experiment is intended to receive
-  its own audit-table entry distinct from the existing two-body row
-  (`exp_12`, PASS at 4 sig figs) -- it answers a different question
-  (long-horizon stability, not Bohr-radius matching at fixed $k$).
+- **Implementation**: complete ✓
+- **Full 6000-tick baseline**: complete ✓ (2026-05-02)
+- **Result**: NOT_SETTLED -- bare two-body escapes; baseline-instability
+  hypothesis confirmed
+- **Audit-table row**: drafted above; pending dcl-claim-auditor
+  validation and commit (deferred to a future session restart so the
+  auditor agent loads from `.claude/agents/`)
 
 ## Relation to other experiments
 

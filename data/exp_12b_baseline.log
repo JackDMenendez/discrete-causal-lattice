@@ -1,0 +1,20 @@
+exp_12b  long-duration two-body baseline (no emission)
+OMEGA_E=0.1019  OMEGA_P=1.5708  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000  CHECK_EVERY=20
+SUCCESS_STREAK=33  SETTLE_TOL=0.15
+------------------------------------------------------------
+tick=    19  r_peak= 9.877  streak=  1  amp_e=1.0000  amp_p=1.0000  A_drift=4.44e-16  rho_drift=6.66e-16  [13s eta 3922s]
+tick=  2019  r_peak=72.102  streak=  0  amp_e=1.0000  amp_p=1.0000  A_drift=0.00e+00  rho_drift=2.22e-16  [1489s eta 2933s]
+tick=  4019  r_peak=73.854  streak=  0  amp_e=1.0000  amp_p=1.0000  A_drift=0.00e+00  rho_drift=0.00e+00  [3026s eta 1491s]
+result=NOT_SETTLED
+max_streak=5
+T_settle=None
+r_peak_min=9.161
+r_peak_max=83.336
+amp_e_final=1.000000
+amp_p_final=1.000000
+A_joint_initial=2.000000
+rho_phi_initial=1.672696
+A_joint_drift_max=8.8818e-16
+rho_phi_drift_max=1.3323e-15
