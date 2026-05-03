@@ -1,0 +1,20 @@
+exp_20  arm=C  emission_rate=0.05
+  description: alternative: row-7 phase-rotation drain (exp_19 v5)
+OMEGA_E=0.1019  OMEGA_P=1.5708  OMEGA_G=0.0764  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000  CHECK_EVERY=20
+SUCCESS_STREAK=33  SETTLE_TOL=0.15
+------------------------------------------------------------
+arm=C tick=    19  r_peak= 9.876  streak=  1  amp_e=1.0000  amp_p=1.0000  amp_g=0.000000  A_drift=9.79e-13  rho_drift=7.48e-14  [23s eta 6773s]
+arm=C tick=  2019  r_peak=17.435  streak=  0  amp_e=1.0000  amp_p=1.0000  amp_g=0.000000  A_drift=1.00e-12  rho_drift=7.64e-14  [2245s eta 4424s]
+arm=C tick=  4019  r_peak=69.096  streak=  0  amp_e=1.0000  amp_p=1.0000  amp_g=0.000000  A_drift=1.00e-12  rho_drift=7.62e-14  [4659s eta 2295s]
+result=NOT_SETTLED
+max_streak=8
+T_settle=None
+amp_e=1.000000
+amp_p=1.000000
+amp_g=0.000000
+A_joint_initial=2.000000
+rho_phi_initial=1.672696
+A_joint_drift_max=1.0008e-12
+rho_phi_drift_max=7.7272e-14

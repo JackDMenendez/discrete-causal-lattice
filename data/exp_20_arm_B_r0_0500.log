@@ -1,0 +1,20 @@
+exp_20  arm=B  emission_rate=0.05
+  description: treatment: row-6 beam splitter, no per-session enforce on e/gamma
+OMEGA_E=0.1019  OMEGA_P=1.5708  OMEGA_G=0.0764  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000  CHECK_EVERY=20
+SUCCESS_STREAK=33  SETTLE_TOL=0.15
+------------------------------------------------------------
+arm=B tick=    19  r_peak= 9.877  streak=  1  amp_e=0.9945  amp_p=1.0000  amp_g=0.005506  A_drift=0.00e+00  rho_drift=1.40e-04  [23s eta 6848s]
+arm=B tick=  2019  r_peak=53.117  streak=  0  amp_e=0.7639  amp_p=1.0000  amp_g=0.236063  A_drift=0.00e+00  rho_drift=6.01e-03  [2148s eta 4232s]
+arm=B tick=  4019  r_peak=16.048  streak=  0  amp_e=0.9949  amp_p=1.0000  amp_g=0.005117  A_drift=0.00e+00  rho_drift=1.30e-04  [4454s eta 2194s]
+result=NOT_SETTLED
+max_streak=4
+T_settle=None
+amp_e=0.000000
+amp_p=1.000000
+amp_g=1.000000
+A_joint_initial=2.000000
+rho_phi_initial=1.672696
+A_joint_drift_max=8.8818e-16
+rho_phi_drift_max=2.5475e-02

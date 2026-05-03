@@ -1,0 +1,20 @@
+exp_20  arm=A  emission_rate=0.05
+  description: control: row-5 drain + per-session enforce (exp_19c)
+OMEGA_E=0.1019  OMEGA_P=1.5708  OMEGA_G=0.0764  R1=10.3
+STRENGTH=30.0  GRID=65^3
+TICKS_TOTAL=6000  CHECK_EVERY=20
+SUCCESS_STREAK=33  SETTLE_TOL=0.15
+------------------------------------------------------------
+arm=A tick=    19  r_peak= 9.871  streak=  1  amp_e=1.0000  amp_p=1.0000  amp_g=1.000000  A_drift=1.00e+00  rho_drift=7.64e-02  [23s eta 6877s]
+arm=A tick=  2019  r_peak=16.473  streak=  0  amp_e=1.0000  amp_p=1.0000  amp_g=1.000000  A_drift=1.00e+00  rho_drift=7.64e-02  [2273s eta 4478s]
+arm=A tick=  4019  r_peak=15.194  streak=  0  amp_e=1.0000  amp_p=1.0000  amp_g=1.000000  A_drift=1.00e+00  rho_drift=7.64e-02  [4702s eta 2316s]
+result=NOT_SETTLED
+max_streak=5
+T_settle=None
+amp_e=1.000000
+amp_p=1.000000
+amp_g=1.000000
+A_joint_initial=2.000000
+rho_phi_initial=1.672696
+A_joint_drift_max=1.0000e+00
+rho_phi_drift_max=7.6425e-02
