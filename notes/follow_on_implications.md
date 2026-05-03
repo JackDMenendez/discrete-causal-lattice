@@ -84,7 +84,7 @@ freedom) or increases (anti-QCD). Either outcome is publishable.
 
 **Requires:** exp_13 (CompositeCausalSession) → exp_14 (α_eff vs distance)
 
-**Written up in:** notes/color_and_emergent_forces.md
+**Written up in:** external/research/Notes/color_and_emergent_forces.md (migrated from dcl 2026-05-02)
 
 ---
 
@@ -113,7 +113,7 @@ SU(2) spinor with joint A=1 normalisation may give quantum correlations
 **Experiment:** exp_15 (repurposed) — measure cross-spectrum of two
 separated post-interaction sessions, compute CHSH inequality.
 
-**Written up in:** notes/entanglement_as_shared_cone_harmonic.md
+**Written up in:** external/research/Notes/entanglement_as_shared_cone_harmonic.md (migrated from dcl 2026-05-02)
 
 ---
 
@@ -364,7 +364,7 @@ than one initialised in an arbitrary basis. Prediction: RGB/CMY-aligned
 qubits decohere more slowly because they respect the bipartite lattice
 geometry.
 
-**Written up in:** notes/cone_modification_classes.md
+**Written up in:** external/research/Notes/cone_modification_classes.md (migrated from dcl 2026-05-02)
 
 ---
 
