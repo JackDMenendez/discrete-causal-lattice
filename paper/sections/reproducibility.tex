@@ -1,0 +1,137 @@
+% ============================================================
+% reproducibility.tex
+% Appendix C: Reproducibility Quickstart
+% ============================================================
+
+\label{sec:reproducibility}
+
+This compact appendix lets a reviewer verify a working build of the
+numerical machinery in under a minute, without reading
+Appendix~\ref{sec:code_and_data}'s full technical detail.  All paths
+and commands assume the repository root as the working directory.
+
+\subsection*{C.1 Snapshot}
+
+\begin{itemize}\setlength{\itemsep}{0.2em}
+\item \textbf{Repository:}
+\href{https://github.com/JackDMenendez/discrete-causal-lattice}%
+{\texttt{github.com/JackDMenendez/discrete-causal-lattice}}
+\item \textbf{Tag for this paper:} \texttt{v0.98-RC}
+\item \textbf{Zenodo DOI:}
+\href{https://doi.org/10.5281/zenodo.20017133}%
+{\texttt{10.5281/zenodo.20017133}}
+(commit hash recorded in the Zenodo deposit metadata)
+\item \textbf{License:} MIT
+\item \textbf{Contact:} \texttt{jackdmenendez@gmail.com}
+\end{itemize}
+
+\subsection*{C.2 Minimum environment}
+
+\begin{itemize}\setlength{\itemsep}{0.2em}
+\item Python~3.14.4, \texttt{numpy~2.4.3}, \texttt{scipy~1.17.1}
+\item Tested on Windows~11 (MSYS2 UCRT64) and Linux
+\item No GPU; consumer-grade CPU sufficient
+\item Full pinned dependencies and toolchain notes in
+Appendix~\ref{sec:code_and_data}
+\end{itemize}
+
+\subsection*{C.3 Hardware and observed runtimes}
+
+Wall-clock times measured during preparation of this paper on a
+single consumer CPU (8-core, 16-thread, no GPU acceleration):
+
+\begin{itemize}\setlength{\itemsep}{0.2em}
+\item \texttt{exp\_12b} smoke test (TICKS=20, 65$^3$ grid): $\sim 14$ s.
+\item \texttt{exp\_12b} full baseline (TICKS=6000, 65$^3$ grid):
+$\sim 87$ min, single worker.
+\item \texttt{exp\_20} three-arm full sweep (TICKS=6000 per arm,
+65$^3$ grid): $\sim 119$ min wall-clock with three parallel workers.
+\item \texttt{exp\_19c} v10 sweep (TICKS=6000 per rate, 65$^3$ grid,
+five rates): $\sim 5$~h per worker, five parallel workers.
+\end{itemize}
+
+\subsection*{C.4 Three canonical entry points}
+
+The three experiments most directly load-bearing for the audit-table
+claims are runnable with single commands.  In each case
+\texttt{TICKS=20} is the smoke-test mode (verifies the wiring in
+seconds); the production runs reproduce the full numbers cited in
+the paper.
+
+\begin{quote}\small\ttfamily
+\# Two-body Bohr radius (k\_min = 0.0970 vs k\_Bohr = 0.0971)\\
+make -C src/experiments exp\_12\\[0.5em]
+\# Three-arm emission operator comparison (joint A=1 verification)\\
+EXP20\_TICKS=6000 python src/experiments/\\
+\hphantom{xxxx}exp\_20\_emission\_operator.py\\[0.5em]
+\# Long-duration two-body baseline (no emission)\\
+EXP12B\_TICKS=6000 python src/experiments/\\
+\hphantom{xxxx}exp\_12b\_twobody\_long\_baseline.py
+\end{quote}
+
+\subsection*{C.5 Minimal verification snippet}
+
+The fastest end-to-end check.  Runs \texttt{exp\_12b} for 20 ticks
+(approximately 14~s on the reference hardware) and prints two
+scalars that a clean checkout must reproduce.
+
+\begin{quote}\small\ttfamily
+\# verify\_install.py --- run from repository root\\
+import os, subprocess, numpy as np\\
+os.environ['EXP12B\_TICKS'] = '20'\\
+subprocess.check\_call([\\
+\hphantom{xx}'python', 'src/experiments/exp\_12b\_twobody\_long\_baseline.py'\\
+])\\[0.3em]
+arr = np.load('data/exp\_12b\_baseline.npy')\\
+\# index layout: [settled, max\_streak, T\_settle, amp\_e, amp\_p,\\
+\#                A\_drift\_max, rho\_drift\_max, r\_peak\_min, r\_peak\_max]\\
+r\_peak\_min = arr[7]; A\_drift = arr[5]\\
+print(f"r\_peak\_min = \{r\_peak\_min:.3f\}\hphantom{x}expected $\approx$ 9.877")\\
+print(f"A\_drift\hphantom{xxxxx} = \{A\_drift:.2e\}\hphantom{xx}expected $\approx$ 4.4e-16")
+\end{quote}
+
+\noindent\textbf{Reference output} (bit-exact on the reference
+software stack; deterministic by construction --- the framework
+uses no RNG for any of these three experiments):
+
+\begin{quote}\small\ttfamily
+r\_peak\_min = 9.877\hphantom{x}expected $\approx$ 9.877\\
+A\_drift\hphantom{xxxxx} = 4.44e-16\hphantom{x}expected $\approx$ 4.4e-16
+\end{quote}
+
+If both scalars match within $\sim 1\%$ of the reference values, the
+numerical machinery reproduces.  $\mathcal{A}$-drift at machine
+precision ($\lesssim 10^{-15}$) is the structural correctness check:
+the bipartite tick rule preserves $\sum_i \lVert\psi_i\rVert^2$
+exactly under \texttt{tick(normalize=True)}, so any larger drift
+indicates an environment problem (numerical-precision flag,
+incompatible \texttt{numpy} build, etc.).
+
+\subsection*{C.6 If the snippet fails}
+
+\begin{itemize}\setlength{\itemsep}{0.2em}
+\item \textbf{\texttt{r\_peak\_min} differs by more than $\sim 5\%$:}
+verify the Coulomb constants (\texttt{STRENGTH=30.0},
+\texttt{SOFTENING=0.5}) and that
+\texttt{src/experiments/exp\_12b\_twobody\_long\_baseline.py}
+imports a clean \texttt{src/core} module set; a stale
+\texttt{\_\_pycache\_\_/} can also matter.
+\item \textbf{\texttt{A\_drift} larger than $\sim 10^{-12}$:}
+indicates a different floating-point environment than the reference
+stack; check \texttt{numpy} build flags and BLAS backend.
+\item \textbf{Import error / module not found:} re-run \texttt{make
+env} or check that the project virtualenv is activated; the script
+imports \texttt{src.core.\{OctahedralLattice, CausalSession,
+enforce\_unity\_spinor\}}.
+\item For full troubleshooting, see Appendix~\ref{sec:code_and_data}.
+\end{itemize}
+
+\subsection*{C.7 Beyond the smoke test}
+
+The full audit-table evidence cited in this paper requires the
+production runs in §C.4, not the 20-tick smoke test.  Wall-clock
+budgets are given in §C.3.  Each experiment writes its own
+\texttt{.log} (per-window progress) and \texttt{.npy} (summary array)
+under \texttt{data/}; the per-experiment documentation in
+\texttt{src/experiments/*.md} states the expected results, runtime,
+and any non-default flags.

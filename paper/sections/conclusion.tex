@@ -70,18 +70,21 @@ the matter current is the standard Dirac current
 $\bar\psi\gamma^\mu\psi$.  The standard Wilson action gives Maxwell's
 equations in the continuum limit.  Appendix~B additionally derives
 the \emph{structural form} of the induced gauge action
-$-\mathrm{Tr}\,\ln D_\text{lat}[U]$ on the bipartite lattice: the
-leading plaquette-sum has the Maxwell form on $O_h$-averaged
-observables, with a closed-form gauge-sector birefringence
-(operator-level eigenvalues $\{4, 4, 16\}$, same optical axis
-$(1,1,-1)$ as the kinematic-sector prediction) as the residual
-signature.  Substrate-level unification: gravity (divergence channel)
-and electromagnetism (curl channel) are populations of the same
-virtual-session cloud mechanism, distinguished only by the sublattice
-signature of the source's internal flow
+$-\mathrm{Tr}\,\ln D_\text{lat}[U]$ on the bipartite lattice (audit
+table: \texttt{PART}, numerical $1/g^2$ prefactor open): the leading
+plaquette-sum has the Maxwell form on $O_h$-averaged observables,
+with a closed-form gauge-sector birefringence (operator-level
+eigenvalues $\{4, 4, 16\}$, same optical axis $(1,1,-1)$ as the
+kinematic-sector prediction) as a falsifiable residual signature
+(audit table: \texttt{STUB}, empirical test open).  Substrate-level
+unification: gravity (divergence channel) and electromagnetism (curl
+channel) are populations of the same virtual-session cloud mechanism,
+distinguished only by the sublattice signature of the source's
+internal flow
 (Sections~\ref{subsec:two_channels},~\ref{subsec:refraction}).
-Only the numerical $1/g^2$ prefactor of the induced action remains as
-a paper-length follow-on calculation.
+The numerical $1/g^2$ prefactor of the induced action and the
+empirical test of the gauge-sector birefringence both remain as
+paper-length follow-on calculations.
 
 \item \textbf{The Born rule follows from $\mathcal{A}=1$.}
 \textit{Derived analytically} (Section~\ref{sec:phase}):
@@ -92,16 +95,23 @@ bipartite structure identifies $|\psi|^2$ as the unique probability
 measure; no measurement axiom is needed.
 
 \item \textbf{Photon emission is a structural necessity.}
-\textit{Derived analytically, partial numerical verification}
-(Section~\ref{sec:hydrogen}, \texttt{exp\_10}):
+\textit{Derived analytically; partial numerical verification}
+(Section~\ref{sec:hydrogen}, \texttt{exp\_19c} and \texttt{exp\_20};
+audit table: \texttt{PART} for both ``Photon emission as
+$\mathcal{A}=1$ necessity'' and ``Emission-operator joint
+$\mathcal{A}=1$ conservation''):
 the Coulomb interaction is a probability source that a single session
 cannot absorb without violating $\mathcal{A}=1$; a new session (the
 photon) is mandated.
-Spontaneous decay from $n{=}2$ to $n{=}1$ emerges from the lattice
-dynamics without any separately postulated transition rate.
+\texttt{exp\_20}'s unitary beam-splitter operator preserves joint
+$\mathcal{A}=1$ to machine precision, but neither implementation has
+yet exhibited a settled $n{=}2$ to $n{=}1$ transition --- the
+inherited two-body baseline instability seen in \texttt{exp\_12b}
+must be resolved first.
 
 \item \textbf{The universe is a fractal.}
-\textit{Derived analytically} (Section~\ref{sec:fractal}):
+\textit{Derived analytically; falsifiable consequences \texttt{STUB}}
+(Section~\ref{sec:fractal}):
 the $\mathcal{A}=1$ unity constraint forces the tick rule to be a
 symplectic map on the phase torus $\mathbb{T}^2$.
 By the KAM theorem~\cite{kolmogorov1954, arnold1963, moser1962},
@@ -109,16 +119,19 @@ the set of stable orbits of any symplectic map is a Cantor set ---
 closed, nowhere dense, of Hausdorff dimension $D_H < 1$.
 The Arnold tongues visible in the harmonic landscape
 (Figure~\ref{fig:harmonic_pair}) are the rational-frequency islands of
-this Cantor set; the particles we observe are exactly those islands.
-The Hausdorff dimension $D_H \approx 0.870$ is a parameter-free
-prediction measurable from the harmonic landscape by box-counting
-the tongue boundaries.
-The discrete mass spectrum of the Standard Model is the Farey sequence
-of this fractal, ordered by tongue width (stability).
-The fractal is not an emergent large-scale pattern but the
-fundamental structure of the space of stable dynamical states:
-probability conservation on a bipartite lattice forces the universe
-to be a fractal at the level of its most elementary objects.
+this Cantor set; the particles we observe are conjectured to be
+exactly those islands.
+The Hausdorff dimension estimate $D_H \approx 0.870$ extracted from
+$\Tdiamond$ tongue-width statistics is a parameter-free, falsifiable
+prediction; the box-counting test of the lattice's harmonic landscape
+and the proposed Farey-sequence ordering of the Standard Model mass
+spectrum (ordered by tongue width / stability) both remain
+\texttt{STUB} pending experimental and numerical validation.
+Under this conjecture, the fractal is not an emergent large-scale
+pattern but the fundamental structure of the space of stable
+dynamical states: probability conservation on a bipartite lattice
+would then force the universe to be a fractal at the level of its
+most elementary objects.
 
 \end{enumerate}
 
@@ -296,7 +309,9 @@ multiple independent witnesses.
 
 \subsection*{What remains open}
 
-Four gaps are acknowledged explicitly:
+The remaining gaps are acknowledged explicitly.  They are scoped
+follow-on calculations, not pending bug fixes; each has a documented
+analytical or experimental path forward.
 
 \begin{enumerate}
 
@@ -326,7 +341,10 @@ conditions on the lattice.
 The numerical $\omega_p$ threshold separating Regime~1 (quantized)
 from Regime~2 lies outside the swept range and has not yet been
 localised; \texttt{exp\_18} (quantum Roche limit) is planned and
-will fix the corresponding gradient threshold.
+will fix the corresponding gradient threshold.  Its measurement
+requires a confirmed Arnold-tongue lock-in as a stable base state,
+and is therefore tied to the long-horizon stability question
+(item~\ref*{item:long_horizon_stability} below).
 
 \item The black-hole thermodynamics derivations
 (Sections~\ref{subsec:saturation},~\ref{subsec:black_holes}) rest on
@@ -336,6 +354,38 @@ session occupies a four-cell patch
 Schwarzschild surface gravity $\kappa = c^4/(4GM)$.
 Both are tied to specific follow-on calculations (microstate
 counting and the strong-field clock-fluid limit, respectively).
+
+\item \label{item:long_horizon_stability}
+Long-horizon two-body stability.  The bare \texttt{exp\_12} setup,
+extended to a 6000-tick horizon at $\text{GRID} = 65^3$
+(\texttt{exp\_12b}), shows the orbital peak escaping from $R_1$ to
+the grid edge by tick $\sim 2000$ and not returning.  The escape is
+independent of the emission operator (\texttt{exp\_20} arms A, B,
+and C all inherit it), so the orbital instability seen across the
+emission experiments traces to the bare two-body dynamics rather
+than to the emission rule.  Whether the escape is grid-size
+dependent, an artifact of CoM-frame initial-condition residual, or
+the bipartite tick rule's near-unitary approximation accumulating
+over $\gtrsim 10^3$ ticks is the next experimental question.  This
+refines but does not invalidate \texttt{exp\_12}'s 4-sig.-fig.\
+PASS, which is scored on a shorter $k$-scan resonance peak.
+
+\item The numerical prefactor $c = 1/g^2$ for the induced gauge
+action (Appendix~\ref{sec:induced_gauge_action}) requires the
+explicit one-loop $-\mathrm{Tr}\,\ln D_\text{lat}[U]$ calculation in
+standard staggered-fermion machinery.  The structural form, the
+bipartite plaquette tensor $\mathbf{Q}$ with eigenvalues
+$\{4, 4, 16\}$, and the closed-form gauge-sector birefringence are
+all in hand; only the prefactor remains.
+
+\item Empirical test of the gauge-sector birefringence prediction.
+Appendix~\ref{sec:induced_gauge_action} derives the closed-form
+operator-level birefringence (eigenvalues $\{4, 4, 16\}$ on the
+$(1,1,-1)$ optical axis) as a falsifiable prediction.  The
+empirical confrontation against current GRB / CMB / atomic-clock
+bounds is the multi-channel concordance program (P9,
+Section~\ref{subsec:p9_concordance}); the analytical prediction
+stands, and the empirical confrontation is the next phase.
 
 \end{enumerate}
 

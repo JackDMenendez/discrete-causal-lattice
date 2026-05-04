@@ -9,7 +9,10 @@ On a bipartite three-dimensional causal lattice $\Tdiamond$,
 each particle is represented as a causal session: an independent phase oscillator
 that propagates amplitude across the lattice subject to $|\psi_R|^2 +
 |\psi_L|^2 = 1$ at every tick.
-No Hamiltonian, no Hilbert space, and no measurement postulate are assumed.
+No Hamiltonian and no measurement postulate are assumed; a
+Hilbert-space structure with unitary evolution emerges from the
+U(1) oscillator and the per-session amplitude constraint rather
+than being postulated a priori.
 
 From this single constraint we derive:
 \textbf{(i)} the Dirac equation in the continuum limit $a\to 0$, with the
@@ -33,10 +36,13 @@ discrete correction at short range;
 the Coulomb interaction is a probability source that a single session cannot
 accommodate, mandating creation of a new photon session at orbit lock-in;
 a first numerical implementation (\texttt{exp\_19c}) preserves per-session
-unitarity at all swept emission rates but does not yet exhibit settled
-orbital lock-in (Table~\ref{tab:audit}, \texttt{PART}), and a controlled
-three-arm operator comparison (\texttt{exp\_20}) is the next implementation
-step;
+unitarity at all swept emission rates, and a controlled three-arm operator
+comparison (\texttt{exp\_20}) confirms a pointwise unitary beam splitter
+as the joint-$\mathcal{A}=1$-preserving emission operator (joint
+$\mathcal{A}=1$ preserved to machine precision $8.9\!\times\!10^{-16}$);
+orbital settling remains open, traced to a long-horizon two-body baseline
+instability isolated in \texttt{exp\_12b} (Table~\ref{tab:audit};
+both rows \texttt{PART});
 \textbf{(vi)} the structural form of the induced gauge action
 (Sakharov / Zeldovich, Appendix~\ref{sec:induced_gauge_action}), whose
 leading-order term has the Maxwell form on $O_h$-averaged observables
@@ -50,9 +56,6 @@ framework's strongest \emph{falsifiable} prediction
 
 Energy conservation and momentum conservation are not independent inputs ---
 they are consequences of $\mathcal{A}=1$ applied to closed session sets.
-The gauge structure of the Standard Model is reframed as the minimal set of
-session types required to maintain $\mathcal{A}=1$ on the bipartite lattice
-geometry.
 
 The numerically tractable results are verified or partially verified
 by a suite of more than fifteen experiments with no free parameters
@@ -62,8 +65,13 @@ the framework's remaining derivations --- black-hole thermodynamics
 among them --- are established analytically under explicitly stated
 modelling assumptions and flagged as such where they appear.
 
-The particle content of the Standard Model is the catalogue of probability
-imbalances the bipartite lattice geometry generates and the session types
-$\mathcal{A}=1$ requires to resolve them.
-The Standard Model is not a theory --- it is an accounting system.
-$\mathcal{A}=1$ is the account.
+The framework suggests a structural reinterpretation of the
+Standard Model's gauge degrees of freedom as the minimal accounting
+required to maintain $\mathcal{A}=1$ on the bipartite lattice
+geometry: the particle content is reframed as the catalogue of
+probability imbalances the lattice generates and the session types
+required to resolve them.  Whether the full Standard Model gauge
+group $\mathrm{SU}(3)\!\times\!\mathrm{SU}(2)\!\times\!\mathrm{U}(1)$
+is the automorphism group of $(\Tdiamond, \mathcal{A}=1)$ is a
+well-posed finite-dimensional Lie-algebra question, deferred to a
+companion paper.

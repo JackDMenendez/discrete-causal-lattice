@@ -320,10 +320,28 @@ for which $\cos^2\theta + \sin^2\theta = 1$ enforces joint
 $\mathcal{A}=1$ by construction.  Second, per-session amplitude
 renormalisation applied to both electron and photon every tick masks
 the non-conservation by resetting each session's norm independently to
-one.  A controlled three-arm operator comparison (\texttt{exp\_20},
-planned) replacing the as-written drain with the unitary beam splitter
-and per-session normalisation with joint enforcement is the next
-implementation step.
+one.  The controlled three-arm operator comparison (\texttt{exp\_20})
+replacing the as-written drain with the unitary beam splitter and
+per-session normalisation with joint enforcement was carried out and
+confirms the operation-algebra prediction at the conservation level:
+joint $\mathcal{A}=1$ is preserved to machine precision
+($8.9\!\times\!10^{-16}$) under the beam-splitter operator, while the
+as-written drain reproduces the row-5 non-unitarity arithmetic
+exactly (joint amplitude drift $1.0$ from photon inflation at the
+first emission tick).  Orbital lock-in was nevertheless not
+achieved, but the controlled no-emission baseline \texttt{exp\_12b}
+(Table~\ref{tab:audit}, ``Two-body long-horizon stability'') shows
+the bare two-body system itself escapes to grid edge by tick $\sim
+2000$ at $\text{GRID} = 65^3$; the orbital escape across all three
+arms of \texttt{exp\_20} is therefore inherited from the baseline,
+not caused by the emission operator.  Resolving the long-horizon
+two-body stability question is the prerequisite for a settled
+emission run.  An unanticipated phase-dependent non-monotonic
+amplitude transfer in arm B (the cross-term
+$2\,\mathrm{Re}(\sin\theta\,\psi_e \psi_\gamma^*)$ flips sign as the
+relative phase rotates) is a refinement to row~6 of the
+operation-algebra table that the follow-on calculation should
+address.
 
 \paragraph{Three threads unified.}
 The three-session emission event ties together three results that

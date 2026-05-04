@@ -1,5 +1,104 @@
-<!-- markdownlint-disable MD012 MD022 MD025 MD026 MD032 MD041 -->
+<!-- markdownlint-disable MD012 MD022 MD024 MD025 MD026 MD032 MD041 -->
 # Changelog
+
+## v0.98-RC -- Beta release (paper) -- 2026-05-03
+
+DOI: 10.5281/zenodo.20017133  *(placeholder; replace with Zenodo-issued DOI before commit)*
+
+Experimental-progress and reconciliation release.  Two new
+experiments ran for the first time (`exp_20` three-arm emission-
+operator comparison; `exp_12b` long-duration two-body baseline).
+Two new audit-table rows added (both `PART`, both additive).  The
+paper text was systematically aligned with the audit-table authority
+via a new automated consistency-check tool introduced this release.
+
+### Why "Beta" and not "RC"
+
+`exp_20` confirms the operation algebra's joint-`A=1` conservation
+prediction at machine precision under the unitary beam splitter,
+but `exp_12b` reveals that the bare two-body system is itself
+unstable on the 6000-tick horizon at GRID=65³.  That's a new open
+question that the paper does not yet answer; the "Beta" tag signals
+a release for review with explicit open work, not a candidate for
+v1.0.
+
+### Added
+
+- `src/experiments/exp_20_emission_operator.{py,md}` -- three-arm
+  controlled comparison of photon-emission operators.  Joint `A=1`
+  preserved to `8.9e-16` under the beam splitter (arm B);
+  as-written drain (arm A, `exp_19c` reproduction) violates by
+  `1.0`; phase rotation (arm C) trivial.  Phase-dependent
+  non-monotonic transfer in arm B is a new caveat to row 6 of the
+  operation-algebra table.
+- `src/experiments/exp_12b_twobody_long_baseline.{py,md}` --
+  bare-two-body baseline at 6000 ticks.  `r_peak` escapes from `R_1`
+  to grid edge by tick `~2000`.  `A=1` preserved at machine
+  precision throughout.
+- `data/exp_20_arm_*.{log,npy}` -- `exp_20` full-sweep data.
+- `data/exp_12b_baseline.{log,npy}` -- `exp_12b` full-baseline data.
+- `paper/sections/audit_table.tex` -- two new rows, both `PART`:
+  "Two-body long-horizon stability" and "Emission-operator joint
+  `A=1` conservation".
+- `paper/sections/introduction.tex` -- new "One law at three
+  resolutions" paragraph identifying `rho_phi(x)` as the
+  ω-weighted `A_joint(x)`.
+- `notes/lattice_operation_algebra.md` -- tag-balance table inspired
+  by balanced nuclear-chemistry equations; scaffolding for
+  follow-on paper #13.
+- `notes/exp_20_emission_operator_and_clock_fluid.md` -- design
+  rationale, three-resolution stack, path-algebra reformulation.
+- `notes/follow_on_implications.md` -- entries for follow-on papers
+  #13 (Operation Algebra) and #14 (Balanced Equations and
+  Birefringent Channels).
+- `.claude/agents/dcl-claim-auditor.md` -- custom consistency-check tool that
+  audits paper prose against the audit-table authority.
+
+### Changed
+
+- `paper/sections/abstract.tex` -- items (v) and (vi) reconciled
+  with audit-table `PART` statuses.  "Demonstrated" / "partial
+  numerical verification" / "recovering Maxwell" / "strongest
+  empirical claim" softened to honest equivalents.
+- `paper/sections/introduction.tex` -- two `exp_19c` mentions
+  reconciled; recoil equation
+  `p_e + p_p = p_e' + p_p' + p_gamma` and bound-state form
+  `Delta p_atom = -p_gamma` made explicit.  Beta status callout
+  replaces RC callout.
+- `paper/sections/hydrogen_spectrum.tex` -- `exp_19c` numerical
+  demonstration paragraph rewritten with row-5 non-unitarity
+  arithmetic and `exp_20` as next step.
+- `paper/sections/vacuum_twist_field_equations.tex` -- `exp_19c`
+  callout softened from "demonstrated" to "implemented (currently
+  PART per the audit table)".
+- `paper/sections/audit_table.tex` -- existing "Photon emission as
+  `A=1` necessity" row evidence column refreshed to reflect
+  `exp_20`'s test of the next-attempt mechanism.
+- `paper/main.tex` -- title bumped to v0.98-RC; "What changed"
+  block rewritten for this release.
+- `CHANGELOG.md` -- this entry.
+- `.gitignore` -- targeted exception `!.claude/agents/` added so
+  custom consistency-check tools travel with the repo; `external/` (no dot)
+  added to ignore list.
+- `notes/follow_on_implications.md` -- "Written up in" entries for
+  follow-ons #4, #6, #12, #14 updated to reference
+  `external/research/Notes/...` paths after the migration.
+
+### Migrated to external/research
+
+Eight notes left dcl this release: 7 cluster-A speculative /
+follow-on notes (color_and_emergent_forces, cone_modification_*,
+cone_interference_and_particle_zoo, cone_as_information_structure,
+entanglement_as_shared_cone_harmonic, lattice_as_inference_engine)
+plus the unbuilt-experiment design `exp_03b_lanterns_aligned_design`
+(deleted, not migrated).  dcl `notes/` went from 61 to 53 files.
+
+### By the numbers
+
+- Pages: 133 (was 132 in v0.97-RC; +1)
+- Build: 0 errors, 0 undefined references, 0 missing citations
+- New experiments: 2; new audit rows: 2; new paper paragraphs: 1
+
 
 ## v0.97-RC -- Release Candidate (paper) -- 2026-04-29
 

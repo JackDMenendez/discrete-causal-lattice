@@ -9,13 +9,14 @@
 %% Page geometry (also set here as fallback in case packages.tex path fails)
 \geometry{top=1in, bottom=1in, left=1in, right=1in}
 
-\title{\textbf{Release Candidate -- Version 0.97-RC}\\[0.5em]
+\title{\textbf{Beta -- Version 0.98-RC}\\[0.5em]
        Geometry First:\\
        Quantum Mechanics, Gravity, and the Origin of the Standard Model\\
        from a Single Conservation Law}
 \author{Jack Menendez\\
         \small Eugene, OR\\
-        \small ORCID: 0009-0003-1166-307X}
+        \small ORCID: \href{https://orcid.org/0009-0003-1166-307X}{0009-0003-1166-307X}\\
+        \small \href{mailto:jackdmenendez@gmail.com}{jackdmenendez@gmail.com}}
 \date{\today}
 
 \begin{document}
@@ -23,73 +24,109 @@
 \maketitle
 
 \noindent
-\href{https://doi.org/10.5281/zenodo.19906889}%
-     {\includegraphics[height=14pt]{figures/zenodo_doi_badge}}\quad
+\href{https://doi.org/10.5281/zenodo.20017133}%
+     {\texttt{Zenodo DOI: 10.5281/zenodo.20017133}}\quad
 \href{https://github.com/JackDMenendez/discrete-causal-lattice}{GitHub: JackDMenendez/discrete-causal-lattice}
 
 \noindent\textbf{Disclaimer:} This is a working paper, and the content herein is subject to change. The author welcomes feedback and constructive criticism. Please reach out via email or social media with any comments or questions.
 
+\medskip
+\noindent\textbf{License.}  Paper text and figures: Creative Commons
+Attribution 4.0 (CC BY 4.0).  Source code in the companion
+repository: MIT License.
+
+\medskip
+\noindent\textbf{Data availability.}  All numerical experiments,
+data files, and the LaTeX source for this paper are publicly
+available at
+\href{https://github.com/JackDMenendez/discrete-causal-lattice}%
+     {\texttt{github.com/JackDMenendez/discrete-causal-lattice}}.
+The exact commit corresponding to this release is the v0.98-RC tag,
+archived at
+\href{https://doi.org/10.5281/zenodo.20017133}%
+     {\texttt{doi:10.5281/zenodo.20017133}}.
+A compact reproducibility quickstart, including a 10-line minimal
+verification snippet, is in
+Appendix~\ref{sec:reproducibility}.
+
+\medskip
+\noindent\textbf{Keywords.}  discrete spacetime; bipartite causal
+lattice; single conservation law; emergent quantum mechanics;
+clock-fluid gravity; Arnold-tongue quantization; induced gauge
+action; lattice birefringence.
+
 \bigskip
-\noindent\textbf{What changed in v0.97-RC (since v0.96-RC).}
-v0.97-RC is a structural enrichment release.  Where v0.96-RC corrected
-a wrong claim and surfaced the lattice-birefringence prediction,
-v0.97-RC builds on that foundation with three sets of additions:
+\noindent\textbf{What changed in v0.98-RC (since v0.97-RC).}
+v0.98-RC is an experimental-progress and content-alignment release.
+Two new experiments completed their first runs; two new entries were
+added to the audit table (Table~\ref{tab:audit}, both \texttt{PART});
+and the paper text was systematically reconciled with the audit-table
+statuses, with the help of an automated consistency-check pass
+introduced in this release:
 
 \begin{itemize}
-\item \textbf{New Appendix~\ref{sec:induced_gauge_action} (Induced
-    Gauge Action).}  Symbolic derivation of the structural form of
-    $-\mathrm{Tr}\,\ln D_\text{lat}[U]$ on the bipartite octahedral
-    lattice.  The leading term has the Maxwell form on $O_h$-averaged
-    observables, with an operator-level residual ---
-    \emph{gauge-sector birefringence} --- aligning along the same
-    optical axis $(1,1,-1)$ as the kinematic-sector prediction.  This
-    closes the structural step of the §9.7 open program; only the
-    numerical $1/g^2$ prefactor remains for a follow-on paper.
-\item \textbf{New P9 (Multi-Channel Concordance,
-    Section~\ref{subsec:p9_concordance}).}  Elevates the framework's
-    strongest empirical claim into its own prediction: the kinematic,
-    gauge, gravitational, and (under the recoil-driven Zitterbewegung
-    hypothesis) inertial-mass anisotropies all share a single optical
-    axis.  Five independent observation channels (GRB time-of-flight,
-    CMB polarisation rotation, LIGO/Virgo polarisation-mode timing,
-    atomic-clock comparisons, anomalous-dispersion anisotropy) are
-    predicted to agree.  Inter-channel disagreement falsifies the
-    inheritance-from-bipartite-geometry claim.  Three time-dependence
-    scenarios (uniform, domain, dynamical embedding) are
-    distinguishable by sidereal modulation and redshift-resolved
-    binning.
-\item \textbf{Three sets of paragraph adds tightening the
-    substrate-level unification.}  §7.2/§9.1/§9.6: the topological
-    potential and the gauge field are both \emph{virtual-session
-    clouds}, distinguished only by the sublattice signature of the
-    source's internal flow.  §13.3/§15.7: the Arnold tongues are the
-    lattice realisation of the classical Lorentz oscillator's
-    resonance set.  §6/§14/Conclusion: Lie-theoretic restatement of
-    the lattice as a discrete subgroup of $SE(3)$ carrying $SU(2)$
-    representations, with the central conjecture sharpened from
-    ``open question'' to ``precise finite-dimensional Lie-algebra
-    calculation.''
-\item \textbf{Plato closing question} in the Conclusion: the
-    projection-vs-film question is rendered empirical via P9's
-    time-dependence sub-prediction.
-\item \textbf{New Figure~\ref{fig:induced_action_ellipsoid}}: dual
-    rendering of the kinematic frame matrix $M$ (prolate ellipsoid in
-    $\mathbf{k}$-space) and the gauge plaquette tensor $\mathbf{Q}$
-    (oblate ellipsoid in $\mathbf{B}$-space) sharing the same optical
-    axis $(1,1,-1)$.
+\item \textbf{\texttt{exp\_20} --- three-arm emission-operator
+    comparison.}  First experiment to test whether a unitary 2-mode
+    rotation (beam splitter, row 6 of the operation algebra) is the
+    correct emission operator for the lattice's joint $\mathcal{A}=1$
+    conservation, compared directly against the as-written drain in
+    \texttt{exp\_19c} (arm A) and the phase-rotation drain (arm C).
+    Joint $\mathcal{A}=1$ preserved to machine precision
+    ($8.9\!\times\!10^{-16}$) under the beam splitter; the
+    \texttt{exp\_19c} drain reproduces the row-5 non-unitarity
+    arithmetic exactly.  Phase-dependent non-monotonic transfer in
+    arm B is an unanticipated refinement to the operation-algebra
+    table that a follow-on calculation will need to address.
+    Orbital settling not achieved at the swept rate; see next item.
+\item \textbf{\texttt{exp\_12b} --- long-duration two-body baseline
+    (no emission).}  The bare \texttt{exp\_12} setup, run for 6000 ticks.
+    $r_\text{peak}$ escapes from $R_1$ to grid edge ($\sim 83$) by
+    tick $\sim 2000$ and never returns.  $\mathcal{A}=1$ preserved at
+    machine precision throughout.  The orbital escape seen across all
+    three arms of \texttt{exp\_20} is inherited from this baseline,
+    not caused by the emission operator.  Refines but does not
+    invalidate \texttt{exp\_12}'s 4-sig-fig PASS, which is scored on
+    a shorter $k$-scan resonance peak.
+\item \textbf{Two new entries in the audit table} (both
+    \texttt{PART}, both additive --- no existing entries downgraded):
+    ``Two-body long-horizon stability'' (the \texttt{exp\_12b}
+    finding) and ``Emission-operator joint $\mathcal{A}=1$
+    conservation'' (the \texttt{exp\_20} arm B finding).  The
+    evidence column for the existing entry ``Photon emission as
+    $\mathcal{A}=1$ necessity'' was updated to reflect the
+    \texttt{exp\_20} results; that entry remains \texttt{PART}.
+\item \textbf{Paper-text reconciliation.}  Four sites with
+    pre-\texttt{exp\_20} \texttt{exp\_19c} overstatement aligned with
+    the audit-table: \texttt{abstract.tex} items (v) and (vi),
+    \texttt{introduction.tex} ($\times 2$ mentions),
+    \texttt{hydrogen\_spectrum.tex}, and
+    \texttt{vacuum\_twist\_field\_equations.tex}.  The row-5
+    amplitude-drain non-unitarity arithmetic
+    $(1 - 2m + 2m^2)\lVert\psi_e\rVert^2$ is now explicitly cited in
+    the hydrogen-spectrum write-up of \texttt{exp\_19c}.
+\item \textbf{New introduction paragraph: ``One law at three
+    resolutions.''}  Identifies the clock fluid density
+    $\rho_\phi(x) = \sum_i \omega_i\,|\psi_i(x)|^2$ as the
+    $\omega$-weighted form of the joint amplitude density
+    $\mathcal{A}_\text{joint}(x) = \sum_i |\psi_i(x)|^2$.  Probability
+    conservation, mass-energy conservation, and gravity all share one
+    structural origin --- sharpens the framework's ``single
+    conservation law'' claim from assertion to identification.
 \end{itemize}
 
-A correctness sweep also eliminated four residual sites that v0.96-RC
-missed (in introduction, conclusion, P3, and phase\_propagation), and
-added a canonical \texttt{eq:optical\_axis} label cross-referenced
-across the paper.  The audit table was updated with five new rows
-(kinematic birefringence, gauge-sector birefringence, induced gauge
-action, Zitterbewegung-source dual hypothesis, P9 concordance) plus
-\texttt{exp\_16}/\texttt{exp\_19c} status reword.
+An automated consistency-check tool
+(committed at \texttt{.claude/agents/dcl-claim-auditor.md}) was added
+to compare paper prose against the audit-table statuses; during this
+release cycle it identified two further overstatements in the abstract
+that the manual sweep had missed.  Eight follow-on or speculative
+notes were moved out of the project repository into a separate
+private archive, leaving \texttt{notes/} at 53 files (down from 61),
+each tied to a main-paper claim or an active experiment.
 
-A more detailed change log lives in \texttt{release\_notes/v0.97-RC.md}
-in the project repository.  Earlier versions remain available at the
-Zenodo deposit's prior DOIs.
+A more detailed change log lives in
+\texttt{release\_notes/v0.98-RC.md} in the project repository.
+Earlier versions remain available at the Zenodo deposit's prior
+DOIs.
 
 \begin{abstract}
     \input{sections/abstract}
@@ -168,6 +205,9 @@ Zenodo deposit's prior DOIs.
 
 \section{The Induced Gauge Action}
 \input{sections/induced_gauge_action}
+
+\section{Reproducibility Quickstart}
+\input{sections/reproducibility}
 
 %% ============================================================
 \bibliographystyle{unsrt}

@@ -71,6 +71,11 @@ Paul A.~M. Dirac.
 \newblock The quantum theory of the electron.
 \newblock {\em Proceedings of the Royal Society A}, 117(778):610--624, 1928.
 
+\bibitem{mossbauer1958}
+R.~L. M\"ossbauer.
+\newblock Kernresonanzfluoreszenz von gammastrahlung in {I}r$^{191}$.
+\newblock {\em Zeitschrift f\"ur Physik}, 151(2):124--143, 1958.
+
 \bibitem{debroglie1924}
 Louis de~Broglie.
 \newblock Recherches sur la th{\'e}orie des quanta.
@@ -146,6 +151,28 @@ V.~Vasileiou, A.~Jacholkowska, F.~Piron, J.~Bolmont, C.~Couturier, J.~Granot,
   {A}rea {T}elescope observations of gamma-ray bursts.
 \newblock {\em Physical Review D}, 87(12):122001, 2013.
 
+\bibitem{eskilt2022}
+J.~R. Eskilt.
+\newblock Frequency-dependent constraints on cosmic birefringence from the
+  {LFI} and {HFI} {P}lanck data release 4.
+\newblock {\em Astronomy \& Astrophysics}, 662:A10, 2022.
+\newblock Reports a $3\sigma$ measurement of the cosmic-microwave-background
+  polarisation rotation angle $\beta = 0.342^{+0.094}_{-0.091}$ deg, consistent
+  with cosmic birefringence.
+
+\bibitem{will2014}
+Clifford~M. Will.
+\newblock The confrontation between general relativity and experiment.
+\newblock {\em Living Reviews in Relativity}, 17:4, 2014.
+
+\bibitem{sanner2019}
+C.~Sanner, N.~Huntemann, R.~Lange, C.~Tamm, E.~Peik, M.~S. Safronova, and S.~G.
+  Porsev.
+\newblock Optical clock comparison for {L}orentz symmetry testing.
+\newblock {\em Nature}, 567(7747):204--208, 2019.
+\newblock Yb$^+$ ion clock comparison constrains anisotropy of the electron's
+  spatial dispersion at parts in $10^{19}$.
+
 \bibitem{hofstadter1976}
 Douglas~R. Hofstadter.
 \newblock Energy levels and wave functions of {B}loch electrons in rational and
@@ -157,6 +184,15 @@ C.~R. Dean, L.~Wang, P.~Maher, et~al.
 \newblock Hofstadter's butterfly and the fractal quantum {H}all effect in
   moir{\'e} superlattices.
 \newblock {\em Nature}, 497:598--602, 2013.
+
+\bibitem{lorentz1909}
+H.~A. Lorentz.
+\newblock {\em The Theory of Electrons and Its Applications to the Phenomena of
+  Light and Radiant Heat}.
+\newblock B. G. Teubner, Leipzig, 1909.
+\newblock Course of lectures delivered at Columbia University, New York,
+  March--April 1906. The classical Lorentz-oscillator model of atomic
+  dispersion and absorption is developed in Chapters I--II.
 
 \bibitem{chirikov1979}
 Boris~V. Chirikov.
