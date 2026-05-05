@@ -148,12 +148,137 @@ The launcher prints a four-row summary table at the end:
    113    ...            ...        ...
 ```
 
+## Full-sweep results (2026-05-05, four-grid parallel run)
+
+Total wall clock: 8190 s ≈ 2 h 16 min (113³ was the long pole at
+8187 s; 65³, 81³, 97³ finished at 2115 s, 3723 s, 5648 s).  All
+runs completed cleanly with $n=15$ post-burn-in samples per $k$
+trial.
+
+### Per-$k$ time-averaged $r_\text{peak}$, with $r_\text{std}$ in parentheses
+
+| $k$ | 65³ | 81³ | 97³ | 113³ |
+|---:|---:|---:|---:|---:|
+| 0.0850 | 11.35 (1.69) | 29.10 (17.33) | 30.28 (21.13) | 28.41 (19.49) |
+| 0.0900 | 14.69 (10.18) | 20.62 (13.66) | 18.76 (15.37) | 27.39 (19.72) |
+| 0.0920 | 11.70 (1.03) | 20.16 (12.54) | 12.86 (7.92)  | 16.40 (13.27) |
+| 0.0940 | 11.59 (1.64) | 29.74 (17.08) | 25.13 (17.84) | 31.47 (22.93) |
+| 0.0960 | 10.68 (1.63) | 23.21 (15.88) | 26.59 (17.90) | 35.10 (23.50) |
+| **0.0971** | **10.48 (1.98)** | 25.77 (14.15) | 31.68 (20.11) | 33.23 (21.87) |
+| 0.0990 | 11.00 (1.35) | 26.97 (16.66) | 20.71 (15.65) | 27.16 (21.18) |
+| 0.1010 | 11.03 (1.47) | 29.71 (14.50) | 18.40 (14.37) | 34.94 (20.27) |
+| 0.1030 | 10.46 (1.62) | 27.03 (17.69) | 30.84 (18.63) | 28.95 (18.53) |
+| 0.1060 | 11.65 (1.64) | 31.15 (21.48) | 25.29 (19.17) | 25.08 (19.76) |
+
+### Per-grid $k_\min$ (argmin $|r_\text{peak} - R_1|$)
+
+| Grid | $k_\min$ | $r$ at $k_\min$ | $|r - R_1|$ | Comment |
+|---|---:|---:|---:|---|
+| 65³  | 0.1030 | 10.46 |  0.16 | Trough across $[0.096, 0.103]$ flat at $r \approx 10.5$; resonance observable |
+| 81³  | 0.0920 | 20.16 |  9.86 | All $k$ escaped; argmin is just lower-noise |
+| 97³  | 0.0920 | 12.86 |  2.56 | All other $k$ escaped to $r \in [18, 32]$ |
+| 113³ | 0.0920 | 16.40 |  6.10 | All $k$ escaped; argmin is just lower-noise |
+
+### Reading the table
+
+The two regimes are sharply separated:
+
+- **65³ (orbit confined):** $r_\text{mean}$ stays in $[10.46, 14.69]$
+  across the full $k$ window; $r_\text{std}$ is mostly $1$–$2$.  The
+  trough across $k \in [0.096, 0.103]$ sits at $r \approx 10.5$,
+  essentially flat.  At $k = 0.0971 = k_\text{Bohr}$, $r = 10.48$
+  (Δ=0.18 from $R_1$).  The lock-in resonance is observable at this
+  resolution and is consistent with the Bohr condition.
+- **81³, 97³, 113³ (orbit escapes):** $r_\text{mean}$ is in
+  $[16, 35]$ with $r_\text{std}$ in $[8, 23]$ on every $k$.  The
+  argmin is the smallest-noise outlier, not a resonance peak.  The
+  orbit has escaped on every trial.
+
+The cause of the second regime is now explainable: `exp_12c` showed
+that on grids $\geq 81^3$ the orbit escapes around tick $\sim 140$.
+The present measurement window (tick 50–199) extends 60+ ticks past
+that escape onset, so the $r_\text{mean}$ on those grids averages
+predominantly post-escape positions and the resonance signature, if
+any, is buried in the post-escape noise.
+
+### Outcome (against the falsification matrix)
+
+The four predicted outcomes don't fit cleanly: the data are split.
+The right reading is **row 4** of the matrix — *"$r_\text{peak}$ at
+$k_\min$ is far from $R_1$ on all grids"* — but only because the
+measurement window was too long for the larger grids.  The
+underlying observable physics is:
+
+- **The 65³ result confirms** that the resonance signature exists and
+  is consistent with $k_\text{Bohr}$ within the resolution of a
+  200-tick measurement.  This is *one* grid's evidence and is
+  insufficient on its own to call the lock-in grid-independent.
+- **The $\geq 81^3$ runs are inconclusive** because the present
+  scoring window is dominated by the post-escape regime.  A
+  follow-up run with a tight measurement window inside the
+  stable-orbit phase (e.g.\ tick 30–120, ahead of the tick-140
+  escape onset) is required to test grid-independence on those
+  larger grids.
+
+### Implication for `exp_12`'s PASS
+
+`exp_12`'s 4-sig-fig PASS is scored on a different metric — the
+inverse-sharpness of the electron PDF in the proton frame as a
+function of $k$ — and on a different run length.  This experiment
+does not directly test that scoring; it tests the simpler proxy
+$|r_\text{peak} - R_1|$ over a 200-tick window.  Within that proxy:
+
+- On 65³, the resonance is observable; the 4-sig-fig claim from
+  `exp_12` is *not contradicted* by `exp_12d`.
+- On larger grids, this experiment is silent until a follow-up
+  shortens the measurement window.
+
+The `exp_12` row in the audit table remains PASS at 4 sig figs on
+$\text{GRID} = 65^3$ as originally scored.  No downgrade is
+warranted on the present evidence; equally, no upgrade to "validated
+across grids" is warranted.
+
+### What is not yet known
+
+- Does the resonance peak appear at $k_\text{Bohr}$ on $\geq 81^3$
+  when measured inside a tight pre-escape window (tick 30–120)?  A
+  follow-up `exp_12d-tight` would answer this.
+- Does the resonance shape sharpen on smaller measurement windows
+  on 65³, or stay flat?  The current $r_\text{mean}$ is essentially
+  flat across $k \in [0.096, 0.103]$ at $r \approx 10.5$ — the
+  trough lacks resolving power for a precise $k_\min$.
+
+## Proposed audit-table row (pending dcl-claim-auditor validation)
+
+```latex
+Lock-in resonance grid-stability
+    & \texttt{exp\_12} chassis on $\text{GRID} \in \{65, 81, 97,
+      113\}^3$, 200-tick scoring window
+    & Standard QM has no lattice substrate to vary
+    & \texttt{exp\_12d} 2026-05-05 four-grid sweep:
+      on $65^3$ the orbit stays at $r \approx 10.5$ across
+      $k \in [0.096, 0.103]$ (Δ$\leq 0.18$ from $R_1$ at
+      $k_\text{Bohr}$); on $\geq 81^3$ the orbit escapes within the
+      scoring window and the resonance is unresolved;
+      $r_\text{std}$ ratio between regimes $\sim 10\times$
+    & \texttt{PART} \\
+```
+
+This row is *additive* — it does not modify the existing
+`Two-body hydrogen (4 sig figs)` row (`exp_12`, PASS at 65³).  The
+two rows sit alongside each other in the audit table.
+
 ## Status
 
 - **Implementation**: complete ✓
-- **Smoke test**: pending
-- **Full sweep**: pending
-- **Audit-table row**: deferred until results are in
+- **Smoke test**: complete ✓ (2026-05-05, 20-tick / 65³ / 10 $k$, ~2.2 min)
+- **Full sweep**: complete ✓ (2026-05-05, 200-tick / 4 grids / 10 $k$, 2 h 16 min)
+- **Result**: split — 65³ resonance observable & consistent with
+  $k_\text{Bohr}$; $\geq 81^3$ inconclusive due to in-window escape
+- **Audit-table row**: drafted above; pending dcl-claim-auditor
+  validation and commit
+- **Follow-up**: `exp_12d-tight` with measurement window 30–120 to
+  test resonance on grids that escape after tick 140
 
 ## Relation to other experiments
 
