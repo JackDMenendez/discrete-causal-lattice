@@ -155,18 +155,131 @@ Three init functions and three modes; reuses no machinery from
 launcher (one mode at a time) or single-worker mode for targeted
 re-runs.
 
+## Full-run results (2026-05-04 to 2026-05-05, 6000 ticks per worker)
+
+### Mode `init` (3 workers at 65³, ~3.1 h wall-clock)
+
+| Variant | $r_\text{peak,min}$ | $r_\text{peak,max}$ | escape_tick | max_streak |
+|---|---|---|---|---|
+| `baseline` | 9.161 | 83.336 | 1919 | 5 |
+| `zero_p_subtracted` | 7.979 | 78.833 | 299 | 5 |
+| `sym_pair` | 7.428 | 77.813 | 1879 | 3 |
+
+**Cause 2 (CoM-frame initial-condition residual) is ruled out.**
+`baseline` and `sym_pair` (which has joint $\langle\mathbf{p}\rangle = 0$
+by construction) escape at very similar times, so the escape is
+intrinsic to the dynamics rather than driven by an
+initial-condition residual.
+
+The `zero_p_subtracted` variant escapes much earlier (tick 299) —
+the uniform phase ramp applied to cancel the residual joint
+momentum *destabilised* the orbit instead of fixing it.  Negative
+result, but informative: it tells us the baseline init is more
+delicately tuned than it looks, and arbitrary CoM-frame "fixes"
+can make things worse.
+
+### Mode `drift` (single instrumented worker at 65³, ~3.3 h wall-clock)
+
+| Quantity | Value |
+|---|---|
+| Mean per-tick CoM drift (each component) | $+1$–$3 \times 10^{-3}$ nodes |
+| Std per-tick CoM drift (each component) | $\sim 0.5$ nodes |
+| Cumulative mean drift over 6000 ticks | $(+17.0, +7.0, +15.6)$ ≈ 24 nodes magnitude |
+| Random-walk std after 6000 ticks (each component) | $\sqrt{6000} \times 0.5 \approx 39$ nodes |
+| Mean per-tick amplitude drift, electron | $+1.9 \times 10^{-20}$ |
+| Std per-tick amplitude drift, electron | $2.9 \times 10^{-16}$ (machine precision) |
+
+**Cause 3 (systematic tick-rule outward bias) is NOT confirmed in
+its strongest form.**  The per-tick mean drift is ~250× smaller
+than the per-tick std — the CoM motion is dominated by stochastic
+fluctuation.  There is a small systematic bias of order
+$10^{-3}$ nodes/tick, but it does not dominate the dynamics.
+
+Amplitude conservation is exact at machine precision.
+`tick(normalize=True)` is doing its job perfectly.
+
+### Mode `grid` (4 workers, ~8.3 h wall-clock; the 113³ worker dominates)
+
+| Grid | $r_\text{peak}$ at tick 19 | escape_tick | $r_\text{peak}$ at tick 2019 | $r_\text{peak,max}$ |
+|---|---|---|---|---|
+| 65³  | 9.877  | **1919** | 72.1  | 83.3  |
+| 81³  | 10.368 | **159**  | 68.6  | 96.5  |
+| 97³  | 10.208 | **139**  | 61.5  | 115.7 |
+| 113³ | 10.524 | **139**  | 63.9  | 141.6 |
+
+**Cause 1 confirmed — but in the OPPOSITE direction from prediction.**
+Larger grids escape *faster*, not slower.  All four grids start
+with $r_\text{peak}$ near $R_1 \approx 10$ at tick 19.  The 65³
+orbit holds for ~1900 ticks; the 81³ and larger orbits cross the
+$r_\text{peak} > 30$ threshold within ~140 ticks.
+
+This inverts the diagnosis given in `exp_12b`'s writeup.  The
+correct interpretation is:
+
+> *The 65³ "stable for ~2000 ticks" result was a finite-volume
+> stabilisation artefact.  Whatever boundary conditions the
+> bipartite octahedral lattice uses, they reflect or wrap outgoing
+> flow back into the well, holding the wave packet's $r_\text{peak}$
+> near $R_1$ on the small grid.  Once the box is large enough
+> ($\ge 81^3$) for the boundary effects to stop reaching the orbit
+> centre, the true bare-two-body orbital lifetime emerges:*
+> ***~140 ticks***, *not ~2000 ticks.*
+
+The dephasing is unitary throughout — $\mathcal{A}=1$ preserved
+at machine precision (~$10^{-15}$) on all grids.
+
+## Implications
+
+1. **The bare two-body Bohr orbit on the bipartite lattice is
+   short-lived in the chosen calibration window** (~140 ticks at
+   $\ge 81^3$).  The framework's bound-state mechanism is real
+   (the wave packet does sit near $R_1$ for that window), but
+   the orbital lifetime is much shorter than `exp_12b` made it
+   appear.
+
+2. **`exp_12`'s 4-sig-fig PASS for $k_\text{min}$ is now suspect
+   for grid-independence.**  `exp_12` runs at GRID=65³ and
+   reports $k_\text{min} = 0.0970$ vs $k_\text{Bohr} = 0.0971$.  If
+   the apparent resonance is itself partially a confinement effect,
+   the same scan at 113³ might give a different $k_\text{min}$.
+   This is the most important follow-up question — it touches the
+   audit table's headline `Two-body hydrogen (4 sig figs)` PASS row.
+   `exp_12d` is queued to test this directly.
+
+3. **`exp_10`/`exp_11` may be similarly affected.**  Both run at
+   65³ with fixed Coulomb wells.  Single-session experiments don't
+   have proton recoil, but they do have boundaries.
+
+4. **Emission and recoil claims are not directly threatened.**
+   `exp_20` confirmed joint $\mathcal{A}=1$ at machine precision;
+   that is a structural conservation, not an orbital-stability
+   claim.  The orbital-settling question that was already open
+   (audit-table row `Photon emission as A=1 necessity`, `PART`)
+   stays open in roughly the same shape.
+
+5. **The audit-table entry `Two-body long-horizon stability`
+   (PART, `exp_12b`)** should be re-characterised in a v1.0 cycle:
+
+   > *exp_12b's tick ~2000 escape on 65³ is a finite-volume
+   > stabilisation artefact.  Bare two-body orbital lifetime is
+   > ~140 ticks on grids $\ge 81^3$ at the chosen calibration.
+   > Dephasing is unitary; A=1 preserved at machine precision.
+   > The framework's lock-in mechanism may itself be
+   > grid-dependent (exp_12d, queued).*
+
 ## Status
 
-- **Implementation**: complete, smoke-tested ✓
-- **Full grid sweep**: pending
-- **Full init variant**: pending
-- **Full drift diagnostic**: pending (run after grid + init)
-- **Audit-table impact**: depends on outcome. If cause 2 is
-  confirmed, the existing `Two-body long-horizon stability` row
-  (`exp_12b`, `PART`) gets refined or moved toward `PASS`. If
-  cause 1 is the lead, the row's wording shifts to "finite-volume
-  artefact".  If cause 3, broader implications for all dynamic
-  experiments.
+- **Implementation**: complete ✓
+- **Full grid sweep**: complete ✓ (2026-05-05)
+- **Full init variant**: complete ✓ (2026-05-04)
+- **Full drift diagnostic**: complete ✓ (2026-05-04)
+- **Diagnosis**: cause 2 ruled out; cause 3 not confirmed in its
+  strongest form; cause 1 confirmed but inverted (small grid
+  stabilises rather than destabilises).
+- **Audit-table impact**: re-characterise the
+  `Two-body long-horizon stability` row in a v1.0 cycle as above.
+- **Next experimental step**: `exp_12d` to test whether `exp_12`'s
+  $k_\text{min}$ resonance is grid-independent.
 
 ## References
 
