@@ -493,6 +493,86 @@ extracted and published on its own ahead of the rest.
 
 ---
 
+## 15. Clock-Density Photon Decoherence
+
+**The idea:** Local clock-density gradients $\nabla\rho_\phi(x)$
+modify the phase evolution and decoherence rate of EM wave packets,
+predicting (a) stochastic timing jitter in pulse arrival times beyond
+the deterministic Shapiro / geodesic delay, and (b) an
+environment-dependent decoherence profile with a *spatial coherence
+length* set by the clock-fluid correlation structure --- distinct
+from QFT-in-curved-spacetime expectations and from the white-noise
+phase-scrambling channel measured in `exp_04`.
+
+**Distinguishing from existing gravitational-decoherence proposals
+(Diósi 1987, Penrose 1996, Bassi-Lochan-Satin-Singh-Ulbricht 2017).**
+Those predict decoherence scaling with the absolute mass-distribution
+superposition energy $\Delta E_\text{grav}$.  The clock-density
+hypothesis predicts:
+
+- decoherence rate scaling with $\int_\Gamma |\nabla\rho_\phi|^2\,ds$
+  along the photon path (not absolute mass);
+- a spatial coherence length $\ell_c$ in the decoherence kernel;
+- direction-dependent decoherence rate along the bipartite optical
+  axis $(1,1,-1)$ --- a potential sixth observation channel for
+  P9 multi-channel concordance.
+
+These three are the load-bearing falsifiers; without them the
+hypothesis collapses into Diósi-Penrose with relabeled variables.
+
+**Magnitude (P7-gated).**  GRB time-of-flight already constrains the
+lattice spacing to $a \le 10^{-19}$ m.  Random-walk timing jitter
+on a 1 kpc baseline is $\sigma_t \sim \sqrt{a \cdot L}/c$, giving:
+
+- $a = 10^{-19}$ m (P7 boundary): $\sigma_t \sim 6$ ns over 1 kpc
+  --- *within ms-pulsar timing precision*
+- $a = \ell_P$: $\sigma_t \sim 20$ attoseconds --- unmeasurable
+
+So the prediction is observable iff $a$ sits near the P7 upper
+bound.  The framework's residual calibration ambiguity becomes a
+quantitative discriminator here.
+
+**Tests:**
+
+- *Astrophysical:* pulsar timing residuals (NANOGrav / EPTA),
+  FRB pulse-width broadening, CMB photon arrival-time decoherence
+- *Numerical (in our hands):* `exp_4b` extending `exp_04` to
+  compare correlated (clock-fluid-like) versus white-noise
+  environment scrambling.  Predicted distinction: structured
+  environment shows a coherence plateau at path separations
+  $< \ell_c$ followed by a knee at the correlation length;
+  white-noise shows monotonic exponential decay.  If the knee is
+  visible numerically, the real-world signature is concrete.
+
+**Open questions before this becomes a paper:**
+
+- What sets the coupling $\alpha$ in
+  $\delta\omega = \alpha\,\rho_\phi$?  Should be derivable from
+  the bipartite tick rule's $\delta\phi$-dependent residence term,
+  not a free parameter.
+- What is $\ell_c$?  Lattice spacing $a$, or longer (set by
+  collective session dynamics through `TickScheduler` pairwise
+  interactions)?
+- Does the calculation actually predict anisotropy along
+  $(1,1,-1)$, or merely allow it?  Anisotropy is what makes this
+  a sixth P9 channel rather than a Diósi-Penrose redux.
+
+**Written up in (working hypothesis):**
+
+- `notes/clock_density_photon_decoherence.md` --- standalone note
+  with math sketch, magnitude estimate, distinguishing falsifiers,
+  and `exp_4b` proposal.
+
+**Priority:** Back-pocket, but the magnitude estimate is unusually
+favourable for a follow-on prediction (ns jitter is already at
+pulsar-timing precision) --- worth deriving the coupling $\alpha$
+from first principles to see whether the numbers tighten or
+loosen.  If a precision millisecond-pulsar dataset shows residual
+$\sqrt{L}$-scaling jitter at the predicted level, that's a direct
+confirmation channel independent of P9.
+
+---
+
 ## Priority Order for Follow-On Papers
 
 1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
@@ -508,3 +588,4 @@ extracted and published on its own ahead of the rest.
 7. **Vacuum birefringence** (#11) — medium priority; Euler-Heisenberg calibration is the gate; first quantitative QED test if it passes
 8. **Operation algebra** (#13) — back-pocket; foundational mathematical scaffolding for the framework's "single conservation law" claim; best published alongside or after exp_20 results to lend the central claim formal proof structure
 9. **Balanced equations and birefringent channels** (#14) — back-pocket; site-level master equations + force-channel gradients + entanglement evolution + birefringence diagram; sits one resolution above #13; the birefringent-channel diagram could be extracted early if P9 gets observational corroboration
+10. **Clock-density photon decoherence** (#15) — magnitude unusually favourable (ns jitter at P7's upper bound, within pulsar-timing precision); needs the coupling $\alpha$ derived from first principles, then `exp_4b` to test the spatial-coherence-length signature numerically; potential sixth P9 channel if anisotropy along $(1,1,-1)$ falls out of the calculation
