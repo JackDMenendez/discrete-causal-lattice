@@ -201,6 +201,35 @@ Two-body long-horizon stability
       invalidate \texttt{exp\_12}'s 4-sig-fig PASS, which is scored
       on a shorter $k$-scan resonance peak
     & \texttt{PART} \\
+Long-horizon escape mechanism
+    & Bare two-body orbit metastable; escape onset varies with
+      grid size
+    & Standard QM has no lattice substrate to exhibit finite-volume
+      effects
+    & \texttt{exp\_12c} 2026-05-05 grid sweep: orbit escapes at
+      tick $\sim 140$ on $\text{GRID} \geq 81^3$ and tick $\sim 2000$
+      on $65^3$.  The $65^3$ ``stability'' is a finite-volume
+      artefact: boundary reflections confine the wave packet near
+      $R_1$.  True orbital lifetime is hundreds of ticks, not
+      thousands.  Init-mode and drift-mode controls rule out
+      initial-condition asymmetry and systematic operator drift as
+      causes
+    & \texttt{PART} \\
+Lock-in resonance grid-independence
+    & \texttt{exp\_12} chassis on $\text{GRID} \in \{65, 81, 97,
+      113\}^3$, pre-escape window (tick 30--119)
+    & Standard QM has no lattice substrate to vary
+    & \texttt{exp\_12d\_tight} 2026-05-05 four-grid sweep:
+      $r$ at $k_\text{Bohr} = 0.0971$ in $[11.54, 12.30]$
+      across all grids ($\Delta r \approx 0.8$); three of four
+      grids' $k_\text{min}$ within $\pm 0.003$ of $k_\text{Bohr}$;
+      $r_\text{std} \in [1.1, 2.9]$ across all configurations
+      except two isolated outliers at $k=0.101$ on 81 and 113
+      traced to early-escape tail of \texttt{exp\_12c}'s
+      metastable-orbit mechanism (\texttt{exp\_12d\_outlier\_trace},
+      abrupt escape at tick 119); lock-in attractor is
+      grid-independent
+    & \texttt{PART} \\
 Bound state requires active proton
     & Static well collapses; live proton explores well
     & Proton as symmetry-breaking session
@@ -223,6 +252,30 @@ Proton mass lower bound
       threshold lies above swept range
     & \texttt{exp\_16}
     & \texttt{PART} \\
+Standard Model gauge group as automorphism
+    & $\mathrm{Aut}(\Tdiamond, \mathcal{A}=1) \stackrel{?}{=}
+      SO(3,1) \times SU(3) \times SU(2) \times U(1)$
+      on extended per-site $\mathbb{C}^{12}$ amplitude
+    & 18-dimensional Lie-algebra equality;
+      structure constants must match
+      $\mathfrak{so}(3,1) \oplus \mathfrak{su}(3) \oplus
+      \mathfrak{su}(2) \oplus \mathfrak{u}(1)$ factor-by-factor
+    & Six \texttt{src/utilities/automorphism\_*} and
+      \texttt{tick\_rule\_*} sympy scripts (2026-05-05) establish:
+      discrete spatial $\mathrm{Aut}(\Gamma, V)$ is order 48
+      ($B_3 \cong O_h$ abstractly, 12 elements orthogonal); existing
+      RGB symmetry contributes only $\mathbb{Z}_3 \subset SU(3)$;
+      per-site $SU(2)$ on $\mathbb{C}^2$ overlaps with
+      Lorentz rotations (not a separate factor); the conjecture's
+      direct-product structure is achievable on the extended
+      $\mathbb{C}^{12} = \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes
+      \mathbb{C}^3$ amplitude (verified, all 18 generators commute
+      pairwise across factors); trivial tensor extension preserves
+      $\mathcal{A}=1$ and parity; Wilson plaquette
+      $V_1, -V_2, -V_1, V_2$ is gauge-invariant.  Three structural
+      questions open: exact equality of Aut, SM-chirality coupling,
+      explicit $1/g^2$ prefactors
+    & \texttt{STUB} \\
 \hline
 % ── Falsifiability framework ─────────────────────────────────────────────────
 Multi-channel concordance (P9)
