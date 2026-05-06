@@ -260,18 +260,18 @@
 \contentsline {subsection}{\numberline {15.8}Connection to the Gravitational Programme}{116}{subsection.15.8}%
 \contentsline {section}{\numberline {16}Conclusion}{117}{section.16}%
 \contentsline {paragraph}{A discrete lattice plus a scheduler implies a preferred frame; how can this be Lorentz invariant?}{124}{section*.169}%
-\contentsline {paragraph}{Claiming to derive the Standard Model is a strong claim without a full mass-spectrum calculation.}{124}{section*.170}%
+\contentsline {paragraph}{Claiming to derive the Standard Model is a strong claim without a full mass-spectrum calculation.}{125}{section*.170}%
 \contentsline {paragraph}{How do we know the continuum matching to QM and GR is not tuned?}{125}{section*.171}%
 \contentsline {paragraph}{Is $\mathcal {A}=1$ truly unitary, given that sessions can be created or destroyed (photon emission)?}{125}{section*.172}%
 \contentsline {paragraph}{Black-hole thermodynamics rests on stated modelling assumptions; is this circular?}{125}{section*.173}%
-\contentsline {paragraph}{How does this compare with causal sets, Wolfram, and 't~Hooft's cellular automaton?}{125}{section*.174}%
+\contentsline {paragraph}{How does this compare with causal sets, Wolfram, and 't~Hooft's cellular automaton?}{126}{section*.174}%
 \contentsline {section}{\numberline {A}Code and Data}{126}{section.A}%
-\contentsline {section}{\numberline {B}The Induced Gauge Action}{129}{section.B}%
+\contentsline {section}{\numberline {B}The Induced Gauge Action}{130}{section.B}%
 \contentsline {subsection}{\numberline {B.1}Setup}{130}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Plaquette holonomy in the small-$a$ limit}{130}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.2}Plaquette holonomy in the small-$a$ limit}{131}{subsection.B.2}%
 \contentsline {subsection}{\numberline {B.3}The plaquette sum: tensor form of the leading induced action}{131}{subsection.B.3}%
 \contentsline {subsection}{\numberline {B.4}Eigenstructure of $\mathbf {Q}$: the gauge-sector birefringence}{132}{subsection.B.4}%
 \contentsline {subsection}{\numberline {B.5}$O_h$ averaging recovers Maxwell}{133}{subsection.B.5}%
 \contentsline {subsection}{\numberline {B.6}Status of the induced-action programme}{134}{subsection.B.6}%
 \contentsline {subsection}{\numberline {B.7}Reproducibility}{135}{subsection.B.7}%
-\contentsline {section}{\numberline {C}Reproducibility Quickstart}{135}{section.C}%
+\contentsline {section}{\numberline {C}Reproducibility Quickstart}{136}{section.C}%

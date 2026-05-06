@@ -263,41 +263,77 @@ the lattice via the gauge connection (`paper/sections/induced_gauge_action.tex`)
 
 ---
 
-## Step 4 — internal $SU(2)$ from per-session bipartite chirality
+## Step 4 — internal $SU(2)$ overlaps with $SO(3,1)$ on the existing framework
 
-The per-site spinor $(\psi_R, \psi_L) \in \mathbb{C}^2$ admits
-$SU(2)$ rotations $U \in SU(2)$:
+An earlier draft of this note claimed that the per-site spinor
+$(\psi_R, \psi_L) \in \mathbb{C}^2$ admits a 3-dimensional $SU(2)$
+rotation that is a separate direct factor in the automorphism group.
+Computational verification
+(`src/utilities/automorphism_direct_product.py`, sympy, 2026-05-05)
+shows this is structurally incorrect: the proposed per-site $SU(2)$
+generators are *the same matrices* as the Lorentz rotation
+generators acting on the same $\mathbb{C}^2$.
+
+### Computational verification
+
+On the per-site $\mathbb{C}^2 = (\psi_R, \psi_L)$:
+
+- Lorentz rotation generators: $J_a = \tfrac{1}{2}\sigma_a$ (Hermitian).
+- Lorentz boost generators: $K_a = \tfrac{i}{2}\sigma_a$ (anti-Hermitian
+  in this 2-spinor representation).
+- Proposed per-site $SU(2)$ generators: $T_a = \tfrac{1}{2}\sigma_a$.
+
+Direct comparison gives $T_a = J_a$ literally.  The per-site $SU(2)$
+on $\mathbb{C}^2$ *is* the Lorentz rotation subgroup, not a separate
+factor.
+
+The full $\mathfrak{so}(3,1)$ commutation relations all check (script
+output):
 
 $$
-\begin{pmatrix}\psi_R \\ \psi_L\end{pmatrix}
-\;\mapsto\;
-U \begin{pmatrix}\psi_R \\ \psi_L\end{pmatrix},
-\qquad U \in SU(2).
+[J_a, J_b] = i\epsilon_{abc} J_c,\qquad
+[K_a, K_b] = -i\epsilon_{abc} J_c,\qquad
+[J_a, K_b] = i\epsilon_{abc} K_c.
 $$
 
-For this to be an automorphism of $(\mathcal{T}_\diamond^3, \mathcal{A}=1)$:
+The per-site $U(1)$ generator $Q = iI$ commutes with all of $J_a,
+K_a$ and is central, as expected.
 
-- $\mathcal{A}=1$: $U$ unitary $\Rightarrow$ $|\psi_R|^2 + |\psi_L|^2$
-  preserved.  ✓
-- Bipartite parity: the parity map sends $\psi_R \leftrightarrow \psi_L$,
-  which is one specific element of $SU(2)$ (Pauli $\sigma_x$).  $U$
-  must commute with $\sigma_x$ for the parity to be respected, OR $U$
-  must transform the parity automorphism by conjugation in a way that
-  preserves the parity action's order.  The full $SU(2)$ does the
-  latter: any $U \in SU(2)$ sends the parity automorphism to a
-  conjugate element of $SU(2)$, which is again a valid parity map.
+### Implication for the conjecture
 
-So the full $SU(2)$ acts as automorphism.  This is $+3$ dimensions.
+The proof sketch's earlier claim was that the framework's existing
+per-site $\mathbb{C}^2$ already supplies three of the four direct
+factors: $SO(3,1) \times SU(2) \times U(1)$ (dim 10).  This is wrong:
+$SO(3,1)$ and the proposed per-site $SU(2)$ overlap exactly in the
+rotation subgroup.  They cannot both be direct factors of the same
+automorphism group acting on the same $\mathbb{C}^2$.  The framework's
+existing $\mathbb{C}^2$ amplitude carries
 
-The induced action on $\mathcal{H}_\text{session}$ is the standard
-$SU(2)$ doublet rotation generator $\hat{T}^a$ ($a = 1, 2, 3$), which
-is the weak isospin operator.  The bipartite parity is exactly the
-chirality basis of weak interactions: $\psi_R$ and $\psi_L$ as right-
-and left-chiral components.
+$$
+SO(3,1) \,\times\, U(1) \quad (\text{dim } 6 + 1 = 7),
+$$
 
-The Standard Model identification is therefore $SU(2) \cong SU(2)_W$
-(weak isospin).  The bipartite parity is the chirality structure that
-distinguishes weak-isospin doublets from singlets.
+not $SO(3,1) \times SU(2) \times U(1)$.
+
+To recover an $SU(2)$ direct factor — i.e., to support the Standard
+Model's $SU(2)_W$ as a separate gauge symmetry — the framework must
+be extended with an additional **per-site internal $\mathbb{C}^2$
+isospin index** distinct from the chiral $(\psi_R, \psi_L)$ pair.
+This is structurally analogous to the per-site $\mathbb{C}^3$ colour
+extension required for $SU(3)$ (Step 5 below): both $SU(2)_W$ and
+$SU(3)$ are *structural additions* to the existing framework, not
+continuations of its existing symmetry.
+
+### Bipartite parity stays in $O(3,1)$, not $SU(2)$
+
+The bipartite parity (the swap $\psi_R \leftrightarrow \psi_L$ via
+$\sigma_x$) is the spatial parity transformation $P : \mathbf{x}
+\mapsto -\mathbf{x}$ acting on the spinor.  As a discrete
+$\mathbb{Z}_2$ element of the full Lorentz group $O(3,1)$ (the not-
+connected-to-identity component), it is part of $O(3,1)$, not an
+independent factor.  The earlier identification of $\sigma_x$ with
+the bipartite parity is correct, but its identification with an
+$SU(2)$ direct factor is not.
 
 ---
 
@@ -486,21 +522,50 @@ verification of this assumption is research-level work for v1.0+.
 
 ## Dimension count summary
 
-If all five steps close, the dimension count matches:
+After the Step 4 correction (per-site $SU(2)$ overlaps with $SO(3,1)$
+rotations on the existing framework), the breakdown is:
 
 | Source | Continuum group | Dimension | Status |
 |---|---|---:|---|
-| Step 1+2: $O_h$-averaged spatial | $SO(3,1)$ | 6 | Done in §6 |
-| Step 3: per-site phase | $U(1)$ | 1 | Done in path-counting Born rule |
-| Step 4: per-site spinor | $SU(2)$ | 3 | Done; bipartite parity = chirality |
-| Step 5: RGB triplet weights | $SU(3)$ | 8 | **Open** |
-| **Total** | | **18** | matches conjecture |
+| Step 1+2: $O_h$-averaged spatial $\to SO(3) \times C_2$ + boosts | $SO(3,1)$ | 6 | **Established** in §6 |
+| Step 3: per-site phase | $U(1)$ | 1 | **Established** via path-counting Born rule |
+| Step 4: per-site $\mathbb{C}^2$ isospin (extension) | $SU(2)_W$ | 3 | **Open: requires structural addition** |
+| Step 5: per-site $\mathbb{C}^3$ colour (extension) | $SU(3)$ | 8 | **Open: requires structural addition** |
+| **Total** | | **18** | 7 established + 11 require extensions |
 
-The match of dimension count is *necessary* but not *sufficient*.  The
-sufficient condition is that the structure constants of the lattice's
-automorphism Lie algebra match those of $SO(3,1) \times SU(3) \times
-SU(2) \times U(1)$.  Computing these structure constants explicitly
-from the lattice rule is the v1.0+ research target.
+The framework's *existing* per-site $\mathbb{C}^2$ amplitude carries
+$SO(3,1) \times U(1)$ as its automorphism algebra (dim 7).  Both
+$SU(2)_W$ and $SU(3)$ require structural additions to the
+framework: a per-site $\mathbb{C}^2$ isospin index for $SU(2)_W$ and
+a per-site $\mathbb{C}^3$ colour index for $SU(3)$.  Without these
+additions, the conjecture's right-hand side overshoots.
+
+The match of total dimension (18) is *necessary* but not *sufficient*.
+The sufficient condition is that the structure constants of the
+extended automorphism Lie algebra match those of $SO(3,1) \times
+SU(3) \times SU(2) \times U(1)$.  Computing these structure constants
+from the extended lattice rule is the v1.0+ research target.
+
+### What this honest accounting changes
+
+The original four-factor direct-product framing is preserved as the
+*target* of the conjecture.  What changed: two of the four factors
+($SU(2)_W$ and $SU(3)$) are now identified as *structural extensions*
+the framework needs, not as direct continuations of its existing
+symmetries.  The conjecture is then properly:
+
+> Assuming the framework is extended by per-site $\mathbb{C}^2$
+> isospin and per-site $\mathbb{C}^3$ colour indices, the resulting
+> automorphism algebra equals $\mathfrak{so}(3,1) \oplus
+> \mathfrak{su}(3) \oplus \mathfrak{su}(2) \oplus \mathfrak{u}(1)$.
+
+The *existing* automorphism algebra is $\mathfrak{so}(3,1) \oplus
+\mathfrak{u}(1)$ (dim 7), proven on the per-site $\mathbb{C}^2$.
+
+This is the clean statement.  Stronger than the earlier framing in
+that the structural extensions are now explicit and concrete; weaker
+than the earlier framing in that the SM-derivation claim now requires
+two additions, not one.
 
 ---
 

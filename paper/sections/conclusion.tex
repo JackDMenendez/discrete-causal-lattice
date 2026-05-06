@@ -205,34 +205,53 @@ factor.  The five contributing structures are:
 group $O_h$ acting on the spatial sublattice, plus boosts emerging
 from the $O_h$-averaged Dirac equation
 (Section~\ref{subsec:dirac_limit}).
-\item $\mathrm{SU}(2)$ (dim 3): per-site rotation of the bipartite
-chiral spinor $(\psi_R, \psi_L)$, with the bipartite parity identified
-as $\sigma_x \in \mathrm{SU}(2)$.
 \item $\mathrm{U}(1)$ (dim 1): per-site phase rotation $\psi \mapsto
 e^{i\theta}\psi$; the $\mathcal{A}=1$ conservation law is exactly the
 corresponding Noether charge.
-\item $\mathrm{SU}(3)$ (dim 8): rotation of the per-site weights
-$(\alpha_1, \alpha_2, \alpha_3) \in \mathbb{C}^3$ assigned to the
-three RGB basis vectors, with the frame condition
-$\sum_i \mathbf{V}_i \mathbf{V}_i^T = 3 I$ determining the modulus
-structure $|\alpha_i|^2 = 1/3$ and leaving the phases $\arg \alpha_i$
-free for $\mathrm{SU}(3)$ rotation.
+\item $\mathrm{SU}(2)_W$ (dim 3): rotation of a per-site internal
+$\mathbb{C}^2$ isospin doublet, distinct from the chiral $(\psi_R,
+\psi_L)$ pair; this index is a structural extension of the framework
+analogous to the per-site colour index below.
+\item $\mathrm{SU}(3)$ (dim 8): rotation of a per-site internal
+$\mathbb{C}^3$ colour triplet recording the amplitude that the
+wavefunction's most recent RGB tick was along $\mathbf{V}_1$,
+$\mathbf{V}_2$, $\mathbf{V}_3$ respectively; this index is a
+structural extension making explicit a choice that the bipartite
+tick rule already makes implicitly per tick.
 \end{itemize}
 
-The first three structures are explicitly present in the framework
-(Sections~\ref{subsec:dirac_limit},~\ref{subsec:macro_tick}, and the
-$\mathcal{A}=1$ axiom); identification with their Standard Model
-counterparts ($\mathrm{SU}(2)_W$ via the chirality basis,
-$\mathrm{U}(1)_Y$ via the phase oscillator, $\mathrm{SO}(3,1)$ via
-$O_h$-averaging) is structural and established.  $\mathrm{SU}(3)$
-acting on the RGB triplet weights is the central open piece; a
-complete proof requires explicit computation of the lattice's
-automorphism Lie-algebra structure constants and verification that
-they reproduce $\mathfrak{so}(3,1)\oplus\mathfrak{su}(3)\oplus
-\mathfrak{su}(2)\oplus\mathfrak{u}(1)$.  This is a tractable
-finite-dimensional computation using existing Lie-algebra software
-(GAP, SymPy~\cite{sympy_lie}); the verification is the central open
-problem of the program and the subject of a companion paper.
+Of these four, $\mathrm{SO}(3,1)$ and $\mathrm{U}(1)$ are
+\emph{established} on the framework's existing per-site
+$\mathbb{C}^2 = (\psi_R, \psi_L)$: the chiral spinor carries the
+Lorentz $SO(3,1)$ representation (Section~\ref{subsec:dirac_limit})
+and the per-site phase rotation is the Noether charge of
+$\mathcal{A}=1$.  Computational verification on the existing
+$\mathbb{C}^2$ confirms $\mathfrak{so}(3,1) \oplus \mathfrak{u}(1)$
+as the established automorphism algebra (dim 7), and shows that the
+proposed ``per-site $SU(2)$'' on $(\psi_R, \psi_L)$ overlaps
+exactly with the Lorentz rotation subgroup of $SO(3,1)$ rather than
+forming a separate factor.
+
+The remaining two factors, $\mathrm{SU}(2)_W$ and $\mathrm{SU}(3)$,
+are open: each requires the framework to carry an additional per-site
+internal index (a $\mathbb{C}^2$ isospin doublet for $\mathrm{SU}(2)_W$
+and a $\mathbb{C}^3$ colour triplet for $\mathrm{SU}(3)$) beyond
+the existing chiral spinor.  The discrete RGB symmetry of the
+existing framework embeds in $U(3)$ but contributes only the cyclic
+subgroup $\mathbb{Z}_3 \subset SU(3)$, which is abelian and cannot
+generate the full non-abelian $\mathrm{SU}(3)$ by any Lie-theoretic
+operation; analogous obstructions apply to the $\mathrm{SU}(2)_W$
+extension.
+
+A complete proof requires identifying the structural extensions and
+explicit computation of the extended lattice's automorphism Lie
+algebra structure constants, verifying they reproduce $\mathfrak{so}
+(3,1) \oplus \mathfrak{su}(3) \oplus \mathfrak{su}(2) \oplus
+\mathfrak{u}(1)$.  The verification is a tractable finite-dimensional
+computation using existing Lie-algebra software (GAP,
+SymPy~\cite{sympy_lie}); the structural-extension question is the
+central open problem of the program and the subject of a companion
+paper.
 
 If Eq.~\eqref{eq:automorphism_conjecture} succeeds, the Standard Model
 gauge group is derived from a single conservation axiom on a discrete
