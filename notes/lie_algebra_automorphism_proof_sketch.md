@@ -567,6 +567,124 @@ that the structural extensions are now explicit and concrete; weaker
 than the earlier framing in that the SM-derivation claim now requires
 two additions, not one.
 
+## Computational verification on the extended amplitude
+
+`src/utilities/automorphism_direct_product_extended.py` (sympy,
+2026-05-05) constructs the proposed extended per-site amplitude
+
+$$
+\psi \in \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes \mathbb{C}^3
+\;=\; \mathbb{C}^{12}
+$$
+
+— chirality $(\psi_R, \psi_L)$ on the first $\mathbb{C}^2$, weak
+isospin doublet on the second $\mathbb{C}^2$, colour triplet on
+$\mathbb{C}^3$ — and builds explicit generator matrices for all
+four conjecture factors:
+
+- $SO(3,1)$: 3 rotations $J_a = \tfrac{1}{2}\sigma_a \otimes I_2
+  \otimes I_3$ + 3 boosts $K_a = \tfrac{i}{2}\sigma_a \otimes I_2
+  \otimes I_3$ (act on the chirality factor only).
+- $SU(2)_W$: 3 generators $T_a = I_2 \otimes \tfrac{1}{2}\sigma_a
+  \otimes I_3$ (act on the isospin factor only).
+- $SU(3)$: 8 Gell-Mann generators $G_a = I_2 \otimes I_2 \otimes
+  \tfrac{1}{2}\lambda_a$ (act on the colour factor only).
+- $U(1)$: $Q = i\, I_{12}$ (overall phase, central).
+
+By construction, generators acting on disjoint tensor factors commute.
+The script verifies:
+
+### Within-factor algebras
+
+- $\mathfrak{so}(3,1)$: all relations $[J_a, J_b] = i\epsilon_{abc} J_c$,
+  $[K_a, K_b] = -i\epsilon_{abc} J_c$, $[J_a, K_b] = i\epsilon_{abc}
+  K_c$ — verified.
+- $\mathfrak{su}(2)$: $[T_a, T_b] = i\epsilon_{abc} T_c$ — verified.
+- $\mathfrak{su}(3)$: $[G_1, G_2] = i G_3$ in the normalised
+  Gell-Mann basis — verified (sample, illustrating the non-abelian
+  closure).
+
+### Pairwise commutation between distinct factors
+
+- $[\mathfrak{so}(3,1), \mathfrak{su}(2)_W] = 0$ — verified.
+- $[\mathfrak{so}(3,1), \mathfrak{su}(3)] = 0$ — verified.
+- $[\mathfrak{su}(2)_W, \mathfrak{su}(3)] = 0$ — verified.
+- $[U(1), \text{all}] = 0$ — verified (the central $iI_{12}$
+  commutes with everything).
+
+### Dimension count completion
+
+The full extended Lie algebra has dimension
+
+$$
+\underbrace{6}_{\mathfrak{so}(3,1)} \;+\; \underbrace{8}_{\mathfrak{su}(3)}
+\;+\; \underbrace{3}_{\mathfrak{su}(2)} \;+\; \underbrace{1}_{\mathfrak{u}(1)}
+\;=\; 18
+$$
+
+matching the conjecture exactly.  The direct-sum structure is
+manifest: each factor acts on a disjoint tensor factor of the
+extended amplitude, so commutativity follows by construction rather
+than by check.
+
+### What this verification actually establishes
+
+This is a sufficiency argument, not a necessity argument.  It shows:
+
+> *If* the framework is extended with per-site internal isospin and
+> colour indices, *then* the automorphism algebra of the extended
+> structure contains $\mathfrak{so}(3,1) \oplus \mathfrak{su}(3)
+> \oplus \mathfrak{su}(2) \oplus \mathfrak{u}(1)$ as a direct sum of
+> dim 18.
+
+What it does *not* establish:
+
+- That the extended structure is consistent with the bipartite tick
+  rule (the rule was defined for the existing $\mathbb{C}^2$; the
+  extension to $\mathbb{C}^{12}$ requires the tick rule to act
+  "trivially" on the new internal indices, which is the natural
+  but unverified extension).
+- That the *full* automorphism algebra of the extended structure
+  equals — rather than merely contains — the four-factor product.
+  Additional symmetries could arise.
+- That the framework's bipartite chirality (RGB/CMY) couples to
+  $SU(2)_W$ in the SM-correct way (only left-handed components
+  form weak doublets; this is not yet verified for the extended
+  structure).
+
+The first two points are tractable: extending the tick rule by tensor
+product preserves linearity, and any additional automorphisms would
+have to commute with the four established factors (constraining their
+form).  The third point is the substantive open question — the
+SM-chirality coupling is a non-trivial structural alignment between
+the framework's bipartite parity and the conjecture's $SU(2)_W$.
+
+### Net status of the conjecture after this Step 5 pass
+
+**Proven on the existing framework** (per-site $\mathbb{C}^2$):
+
+$$
+\mathrm{Aut}_\text{existing}(\Tdiamond, \mathcal{A}=1)
+\;\supseteq\; SO(3,1) \times U(1) \quad (\text{dim } 7).
+$$
+
+**Conjectured on the extended framework** (per-site $\mathbb{C}^{12}
+= \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes \mathbb{C}^3$):
+
+$$
+\mathrm{Aut}_\text{extended}(\Tdiamond, \mathcal{A}=1)
+\;\stackrel{?}{=}\; SO(3,1) \times SU(3) \times SU(2) \times U(1)
+\quad (\text{dim } 18).
+$$
+
+The conjecture's RHS is *achievable as a direct product on the
+extended structure*; this is verified by the script.  Whether the
+extended structure preserves the framework's other invariants
+(bipartite tick rule consistency, frame condition, A=1 in the
+extended form) and whether the conjecture's "=" is exact rather than
+just "⊇" are the substantive open questions for the follow-on
+paper.
+
 ---
 
 ## Why the *direct product* structure?
