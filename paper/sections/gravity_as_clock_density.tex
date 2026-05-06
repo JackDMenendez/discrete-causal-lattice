@@ -400,7 +400,65 @@ groupings (e.g.\ a session occupying a different number of cells, or
 a non-trivial fractional packing) would replace the $1/4$ with another
 geometric constant while leaving the area law intact.
 
-% ── 7.6 Connection to GR and falsifiable predictions ─────────────────────────
+% ── 7.6 The metric tensor from clock density ────────────────────────────────
+\subsection{The metric tensor as a functional of $\rho_\text{clock}$}
+\label{subsec:metric_from_rho}
+
+Equation~\eqref{eq:boltzmann_clock} closes the chain from the bipartite
+tick rule to the Boltzmann clock-density distribution; what remains is
+the explicit functional form of the metric tensor $g_{\mu\nu}$ in
+terms of $\rho_\text{clock}$.  Solving Eq.~\eqref{eq:boltzmann_clock}
+for the Newtonian potential gives
+\begin{equation}
+\phi_\mathrm{Newton}(\mathbf{x})
+\;=\; -c^2\,\ln\!\bigl(\rho_\text{clock}(\mathbf{x})/\bar\rho\bigr).
+\label{eq:phi_of_rho}
+\end{equation}
+Substituting into the weak-field Schwarzschild metric in isotropic
+coordinates yields
+\begin{equation}
+g_{\mu\nu}(\mathbf{x}) \;=\; \mathrm{diag}\!\Bigl(
+  -(\rho_\text{clock}/\bar\rho)^{-2},\;
+  (\rho_\text{clock}/\bar\rho)^{2}\,\delta_{ij}\Bigr)
+\;+\; O(\phi^2/c^4).
+\label{eq:metric_from_rho}
+\end{equation}
+Equation~\eqref{eq:metric_from_rho} is the explicit metric tensor as
+a functional of the clock-density field.  This is the gravitational
+analogue of $|\psi|^2$ as the explicit probability measure on
+$\mathcal{H}_\text{session}$: in both cases an emergent geometric
+quantity --- the metric here, the probability measure in
+Section~\ref{subsec:born_rule_paths} --- is forced to a unique form by
+combining the conservation axiom $\mathcal{A}=1$ with a structural
+property of the bipartite lattice (chiral parity in the gravity
+derivation, hop unitarity in the Born rule).
+
+Three structural inputs of the Boltzmann derivation in
+Section~\ref{subsec:newtonian_limit} deserve explicit notice as the
+load-bearing structure.  (i)~Detailed balance holds because every RGB
+hop $\mathbf{x} \to \mathbf{x} + \mathbf{V}_i$ is matched by a CMY
+reverse hop $\mathbf{x} + \mathbf{V}_i \to \mathbf{x}$ via the same
+basis vector $\mathbf{V}_i$; a non-bipartite tick rule would not
+satisfy this and the derivation would not close.  (ii)~The hop
+probability $p_\mathrm{hop}(\mathbf{x})$ depends on the source-side
+$V(\mathbf{x})$ only --- not on the destination --- which is what
+makes the equilibrium ratio in Eq.~\eqref{eq:equil} a function of
+$V(\mathbf{x})$ alone.  (iii)~The frame-condition averaging
+$\sum_\text{RGB} \mathbf{V}_i + \sum_\text{CMY} \mathbf{V}_i =
+\mathbf{0}$ ensures the equilibrium distribution is independent of
+which particular basis vector was traversed, producing isotropy at
+the same level as the Laplacian in the Poisson derivation
+(Eq.~\eqref{eq:poisson_derive}).
+
+The post-Newtonian corrections beyond first order in $\phi/c^2$
+require systematic expansion of $p_\mathrm{hop}$ in higher orders of
+$V$ and the inclusion of the kinetic terms in the clock-fluid
+stress-energy tensor; these are deferred to follow-up work.  The
+Schwarzschild-radius regime $\rho_\text{clock} \to \ell_P^{-3}$ is
+the scheduler-saturation horizon (Section~\ref{subsec:black_holes})
+and is treated separately.
+
+% ── 7.7 Connection to GR and falsifiable predictions ─────────────────────────
 \subsection{Connection to General Relativity}
 \label{subsec:gr_connection}
 
@@ -409,8 +467,8 @@ satisfy the conservation equation~\eqref{eq:continuity} and a momentum
 equation derived from the phase-alignment weighting of the tick rule
 (Section~\ref{sec:clock_fluid}).
 In the continuum limit $a \to 0$ these equations reduce to the Einstein
-field equations with the metric identified as a functional of
-$(\rho_\text{clock}, \mathbf{J}_\text{clock})$.
+field equations with the metric identified as the functional in
+Eq.~\eqref{eq:metric_from_rho}.
 The derivation of this continuum limit --- the gravitational analogue of
 the Dirac derivation in Section~\ref{sec:kinematics} --- is developed in
 Section~\ref{sec:clock_fluid}.

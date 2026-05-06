@@ -11,7 +11,71 @@
 The Born rule --- the statement that the probability of finding
 a session at node $\mathbf{x}$ is $|\psi(\mathbf{x})|^2$ --- is
 a postulate in standard quantum mechanics.
-In the $\unity$ framework it is a counting identity.
+In the $\unity$ framework it is a counting identity, with the
+quadratic form forced by Gleason's theorem rather than chosen.
+The path-counting derivation below gives the operational realisation
+on the discrete lattice; we first record the uniqueness statement
+that fixes the form to $|\psi|^2$ rather than $|\psi|^p$ for some
+other $p$.
+
+\subsubsection*{Uniqueness via Gleason}
+\label{subsubsec:born_gleason}
+
+The path-counting identity below shows $\rho = |\psi_R|^2 + |\psi_L|^2$
+is \emph{consistent} with $\mathcal{A}=1$ on the bipartite tick rule.
+That is sufficiency.  The remaining technical question is necessity:
+why this measure and not, e.g., $|\psi|^p$ for $p \ne 2$?
+
+The answer is Gleason's theorem~\cite{gleason1957}.  The per-session
+state space $\mathcal{H}_\text{session} = \ell^2(\Tdiamond,\mathbb{C}^2)$
+is a separable Hilbert space; for any practical lattice
+$\dim \mathcal{H}_\text{session} \gg 3$.  The bipartite tick rule is
+unitary, preserving the inner product
+$\langle\psi, \phi\rangle = \sum_x (\psi_R^*\phi_R + \psi_L^*\phi_L)$.
+
+A \emph{frame function} on the projection lattice
+$\mathcal{P}(\mathcal{H}_\text{session})$ is a function
+$\mu : \mathcal{P} \to [0,1]$ with $\mu(I) = 1$ and
+$\sigma$-additivity on countable orthogonal families.  $\mathcal{A}=1$
+gives normalisation; the parallelogram identity for orthogonal ranges
+of unitary projections gives $\sigma$-additivity.  Both hypotheses are
+satisfied --- and they are exactly the structural intuition that
+motivated $\mathcal{A}=1$ in the first place: probability conservation
+imposed at every tick on the simplest geometry capable of supporting
+it produces a quadratic measure under unitary evolution.
+
+Gleason's theorem then gives uniquely $\mu(P) = \mathrm{tr}(\rho P)$
+for a unique density operator $\rho$, and for pure $\psi$ this is
+$\|P\psi\|^2$.  Specialising to the projection onto site $\mathbf{x}$
+summed over spinor components, $\mu(P_\mathbf{x}) =
+|\psi_R(\mathbf{x})|^2 + |\psi_L(\mathbf{x})|^2$.  The Born rule is
+forced.
+
+The non-trivial point of Gleason is that the same is \emph{not} true
+for non-orthogonal projection families: $\mu(P_1) + \mu(P_2) \ne
+\mu(P_1 + P_2)$ when $P_1, P_2$ have non-orthogonal ranges.  This is
+the source of interference in standard QM, inherited by the
+bipartite-tick framework as a structural consequence rather than a
+postulate.
+
+Three scope caveats:
+
+\begin{enumerate}
+\item Multi-session events (\texttt{exp\_20} arm B beam splitter,
+\texttt{exp\_19c} drain) move between Hilbert spaces of different
+session count $N$.  The Born rule holds on each fixed-$N$ projection
+lattice; transitions between are creation/annihilation operations
+governed by the operation algebra (notes/lattice\_operation\_algebra.md,
+follow-on paper~\#13).
+\item The bipartite RGB/CMY parity gives a $\mathbb{Z}_2$ grading on
+$\mathcal{H}_\text{session}$ but the projection lattice is unchanged;
+Gleason applies as stated.
+\item The path-counting derivation that follows is the
+\emph{operational realisation} of the Gleason-uniqueness measure on
+the discrete bipartite lattice --- it tells you how to compute
+$|\psi|^2$ from Feynman-style path sums; Gleason tells you why the
+result must be quadratic in $\psi$.
+\end{enumerate}
 
 \paragraph{Paths on the lattice.}
 After $N$ ticks, a massless session ($\omega = 0$, $p_\mathrm{hop} = 1$)
