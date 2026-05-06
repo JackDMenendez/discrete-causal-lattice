@@ -201,9 +201,11 @@ algebra must reproduce those of the right-hand side, factor by
 factor.  The five contributing structures are:
 
 \begin{itemize}
-\item $\mathrm{SO}(3,1)$ (dim 6): continuum lift of the cubic point
-group $O_h$ acting on the spatial sublattice, plus boosts emerging
-from the $O_h$-averaged Dirac equation
+\item $\mathrm{SO}(3,1)$ (dim 6): continuum lift of the orthogonal
+subgroup $S_3 \times C_2 \subset O_h$ (the subgroup of the discrete
+basis-vector automorphism group that also preserves the standard
+Euclidean metric on $\mathbb{R}^3$) acting on the spatial sublattice,
+plus boosts emerging from the $O_h$-averaged Dirac equation
 (Section~\ref{subsec:dirac_limit}).
 \item $\mathrm{U}(1)$ (dim 1): per-site phase rotation $\psi \mapsto
 e^{i\theta}\psi$; the $\mathcal{A}=1$ conservation law is exactly the
@@ -378,14 +380,17 @@ analytical or experimental path forward.
 
 \begin{enumerate}
 
-\item The clock-density coupling $\rho_\text{clock} \propto
-\exp(-\phi/c^2)$ is motivated by the exponential suppression of
-session density in a deep potential well, but has not yet been derived
-from the tick rule alone.
-It is the gravitational analogue of the step from the hop operator to
-the Dirac equation, and we expect it to follow from the continuum limit
-of the clock-density continuity equation.
-This is the primary remaining step in the gravity derivation programme.
+\item The post-Newtonian corrections to the metric tensor
+(Eq.~\ref{eq:metric_from_rho}) require systematic expansion in
+$\phi/c^2$ beyond first order, and the kinetic terms in the
+clock-fluid stress-energy tensor $T^{\mu\nu}$ require a variational
+derivation from the clock-fluid momentum equation
+(Section~\ref{sec:clock_fluid}).  The first-order result --- the
+Boltzmann clock-density distribution (Eq.~\ref{eq:boltzmann_clock})
+and the explicit weak-field metric (Eq.~\ref{eq:metric_from_rho}) ---
+is closed at v1.0; the strong-field regime, including the
+$\rho_\text{clock} \to \ell_P^{-3}$ scheduler-saturation horizon
+limit, is the next step in the gravity-derivation programme.
 
 \item The automorphism group calculation
 $\mathrm{Aut}(\Tdiamond,\mathcal{A}=1) \stackrel{?}{=}
