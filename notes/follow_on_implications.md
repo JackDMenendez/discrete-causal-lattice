@@ -632,15 +632,43 @@ $\mathbb{C}^2$ couple asymmetrically to $\psi_R$ vs $\psi_L$, as
 required by the SM, or symmetrically (which would predict no chiral
 fermions and is empirically wrong)?
 
-**(iv) Gauge-field connection.**  The four factors as currently
-constructed are *global* symmetries (act the same way at every
-site).  Promoting them to *gauge* symmetries (different rotations at
-different sites) requires a connection field interpolating between
-adjacent sites — the lattice analogues of the gluon ($SU(3)$),
-$W^\pm/Z$ ($SU(2)_W$), photon ($U(1)$), and graviton ($SO(3,1)$)
-fields.  The connection-field construction is implicit in the
-existing `paper/sections/induced_gauge_action.tex` (1/g² prefactor
-calculation pending) but not extended to the new factors.
+**(iv) Gauge-field connection** (formal-framework piece BEGUN,
+2026-05-05).  The four factors as currently constructed are *global*
+symmetries (act the same way at every site).  Promoting them to
+*gauge* symmetries (different rotations at different sites) requires
+a connection field interpolating between adjacent sites — the lattice
+analogues of the gluon ($SU(3)$), $W^\pm/Z$ ($SU(2)_W$), photon
+($U(1)$), and graviton ($SO(3,1)$) fields.  The connection-field
+construction is implicit in the existing
+`paper/sections/induced_gauge_action.tex` (1/g² prefactor calculation
+pending) but not extended to the new factors.
+
+`src/utilities/tick_rule_gauge_invariance.py` (sympy, 2026-05-05)
+verifies the formal-framework foundation:
+
+- The U(1) matter bilinear $\psi^\dagger(x)\,U_i(x)\,\psi(x+V_i)$
+  is gauge-invariant under local $U(1)$ (verified symbolically).
+- The SU(2) matter bilinear is gauge-invariant under local SU(2)
+  (sample verification with diagonal SU(2) elements; general
+  non-abelian case follows by $V V^\dagger = I$).
+- The smallest non-trivial bipartite plaquette is a 4-link square
+  $V_1, -V_2, -V_1, V_2$ (the bipartite octahedral lattice has no
+  triangular plaquettes since $V_1 + V_2 + V_3 \neq 0$).  Its trace
+  $\mathrm{Tr}(W) = 2\cos(a_1 + a_2 + a_3 + a_4)$ is gauge-invariant
+  by the cyclic property of trace.
+
+The Wilson action template
+$$
+S_W \;=\; \frac{1}{g^2} \sum_\text{plaquettes} \bigl(1 - \tfrac{1}{N}
+\mathrm{Re}\,\mathrm{Tr}\,W_p\bigr)
+$$
+generalises the existing U(1) gauge action to $SU(2)_W$ and $SU(3)$
+without modification beyond the matrix-valued link variables.
+
+*Open follow-on:* the explicit $1/g^2$ prefactor calculation for
+$SU(2)_W$ and $SU(3)$ on the bipartite octahedral lattice (analogous
+to `induced_gauge_action.tex`'s U(1) calculation), and the
+continuum-limit identification with the SM gauge-boson dynamics.
 
 **Distinct from #13, #14.**  #13 (operation algebra) and #14
 (balanced equations) sit at the *dynamics* level; #16 sits at the
