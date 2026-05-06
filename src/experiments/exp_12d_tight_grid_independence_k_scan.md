@@ -168,12 +168,19 @@ Three structural features:
 
 Two isolated outliers warrant note: on 81³ and 113³ at $k = 0.101$,
 $r_\text{mean}$ jumps to $\sim 15.8$ with $r_\text{std} \approx 9.3$.
-These are early-escape cases (the orbit lost lock and walked outward
-inside the 30-119 window).  They are isolated to $k = 0.101$ on two
-grids; neighbouring $k$ values stay tight.  Two-out-of-forty
-suggests the orbit is metastable in this regime and occasionally
-escapes earlier than the tick-140 estimate from `exp_12c` — but the
-phenomenon is a tail, not the centre of the distribution.
+`exp_12d_outlier_trace` (2026-05-05) ran both configurations with
+$\text{TICKS} = 200$ and recorded $r(t)$ at every check window.  The
+result: both orbits settle for ticks 9-109 ($r$ oscillating in
+$[9.4, 17.7]$, returning to $r \approx 9.4$–$9.8$ near $R_1$ by tick
+109), then *abruptly escape* at tick 119 (jump from $r \approx 10$
+to $r \approx 41$ within one CHECK\_EVERY window).  On 81³ the
+escape is box-bounded at $r \approx 41$; on 113³ it walks outward
+and reaches $r = 61$ by tick 199.  The mechanism is the same generic
+late-time escape that `exp_12c` documented for $\geq 81^3$ — not a
+$k = 0.101$ resonance with the lattice.  The two outliers caught the
+early tail of `exp_12c`'s metastable-orbit escape distribution
+inside the tick-30-119 measurement window.  See
+`exp_12d_outlier_trace.md` for the full traces.
 
 ### Outcome (against the falsification matrix)
 
@@ -231,7 +238,10 @@ Lock-in resonance grid-independence
       across all grids ($\Delta r \approx 0.8$); three of four
       grids' $k_\min$ within $\pm 0.003$ of $k_\text{Bohr}$;
       $r_\text{std} \in [1.1, 2.9]$ across all configurations except
-      two isolated outliers at $k=0.101$ on 81 and 113;
+      two isolated outliers at $k=0.101$ on 81 and 113 traced to
+      early-escape tail of \texttt{exp\_12c}'s metastable-orbit
+      mechanism (\texttt{exp\_12d\_outlier\_trace}, abrupt escape
+      at tick 119);
       lock-in attractor is grid-independent
     & \texttt{PART} \\
 ```
