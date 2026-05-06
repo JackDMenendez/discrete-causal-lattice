@@ -380,6 +380,108 @@ candidate mechanisms:
 A definitive Lie-algebra calculation is needed to distinguish these,
 or to show they are equivalent (different gauges of the same group).
 
+### Computational verification (`src/utilities/automorphism_rgb_su3.py`)
+
+Running the explicit embedding (sympy, 2026-05-05) confirms what the
+existing framework gives in $U(3)$ and where the gap to SU(3) sits:
+
+- The 6 permutations of $\{\mathbf{V}_1, \mathbf{V}_2, \mathbf{V}_3\}$
+  embed in $U(3)$ as 6 permutation matrices acting on the weight
+  triplet $(\alpha_1, \alpha_2, \alpha_3) \in \mathbb{C}^3$.  All six
+  are unitary by construction.
+- Three of the six (the even permutations: identity, $(123)$,
+  $(132)$) have $\det = +1$ and lie in $SU(3)$.  The other three
+  (transpositions) have $\det = -1$ and lie in $U(3) \setminus SU(3)$.
+- The three even permutations form the cyclic subgroup
+  $\mathbb{Z}_3 = A_3 \subset SU(3)$, with $P^3 = I$ for each
+  non-identity element.
+- $\mathbb{Z}_3$ is closed under multiplication; the closure does not
+  grow.  All commutators of $\mathbb{Z}_3$ elements vanish (the group
+  is abelian).
+
+**The structural obstruction.**  $\mathbb{Z}_3$ is finite and abelian.
+Non-abelian $SU(3)$ (dimension 8, with non-trivial structure
+constants $f^{abc}$) cannot be generated from $\mathbb{Z}_3$ by any
+natural Lie-theoretic operation:
+
+- Topological closure: $\mathbb{Z}_3$ is already closed; closure is
+  itself.
+- Commutator algebra: all $\mathbb{Z}_3$ commutators are zero, so the
+  generated Lie subalgebra is also zero.
+- Exponentiation: $\mathbb{Z}_3$ has no infinitesimal generators
+  (it's discrete), so the exponential map does not extend it.
+
+This is the **key structural finding for Step 5**: the framework's
+existing RGB symmetry, considered as a subgroup of $SU(3)$ via the
+weight-permutation embedding, gives only $\mathbb{Z}_3$.  $SU(3)$
+is *not* a continuous extension of this; it requires an additional
+structural input.
+
+### The required structural addition
+
+To support $SU(3)$, the framework must carry a per-site complex
+3-dimensional internal index — what standard QCD calls a "colour
+triplet" — beyond the existing per-site $\mathbb{C}^2$ Dirac spinor.
+Two natural candidates for what this $\mathbb{C}^3$ represents:
+
+1. **Per-site colour memory.**  Each site carries a complex amplitude
+   $\chi = (\chi_1, \chi_2, \chi_3) \in \mathbb{C}^3$ recording the
+   amplitude that the wavefunction's most recent RGB tick was along
+   $\mathbf{V}_1$, $\mathbf{V}_2$, $\mathbf{V}_3$ respectively.  The
+   bipartite tick rule already makes this choice implicitly per
+   tick; making it explicit as a per-site index is a structural
+   *clarification* of existing dynamics, not a new physical field.
+   $SU(3)$ then acts on $\chi$ as the standard fundamental
+   representation, leaving the spatial structure and the Dirac
+   spinor unchanged.
+
+2. **Per-basis-vector spinor decoration.**  Each basis vector
+   $\mathbf{V}_i$ carries its own copy of the Dirac spinor: the
+   per-site amplitude becomes $(\psi_R^i, \psi_L^i)_{i=1,2,3} \in
+   \mathbb{C}^2 \otimes \mathbb{C}^3 = \mathbb{C}^6$.  $SU(3)$ acts
+   on the colour-triplet factor.  This is a richer structural change
+   than (1) and would require the kinetic-step rule to factorise
+   correctly across colour indices.
+
+Mechanism (1) is the more conservative addition: the existing tick
+rule already chooses among $\mathbf{V}_i$ at each tick, so making
+that choice an explicit per-site amplitude is largely a bookkeeping
+move.  Mechanism (2) would change the per-tick dynamics in a
+structurally visible way.  Without further analysis it's not yet
+clear whether (1) and (2) are gauge-equivalent or genuinely distinct
+extensions.
+
+### What this sub-step delivers vs leaves open
+
+**Closed by this sub-step:**
+
+- The framework's existing discrete RGB symmetry contributes
+  $\mathbb{Z}_3 \subset SU(3)$, not the full $SU(3)$.
+- $SU(3)$ requires a structural addition beyond what the bipartite
+  tick rule currently provides.
+- Two concrete candidate additions identified, with mechanism (1)
+  being the more conservative.
+
+**Still open for v1.0+:**
+
+- Choosing between mechanism (1) and (2), or proving them gauge-
+  equivalent.
+- Verifying that the chosen mechanism's $SU(3)$ action commutes with
+  the spatial $SO(3,1)$, the chiral $SU(2)$, and the phase $U(1)$
+  (the direct-product structure check).
+- Computing the explicit structure constants of the $SU(3)$ action
+  on the framework and matching them to the standard
+  $f^{abc}$ of $\mathfrak{su}(3)$.
+- Identifying the gauge-field connection that interpolates between
+  different $SU(3)$ choices on neighbouring sites, and matching it
+  to the gluon field of QCD.
+
+Each of these is a tractable sub-problem given the framework laid
+out here.  The Step 5 conjecture is now precisely: "*assuming the
+framework is extended by mechanism (1) or (2), the resulting
+automorphism group contains $SU(3)$ as a direct factor*".  The
+verification of this assumption is research-level work for v1.0+.
+
 ---
 
 ## Dimension count summary
