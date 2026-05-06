@@ -573,6 +573,136 @@ confirmation channel independent of P9.
 
 ---
 
+## 16. Standard Model Gauge Derivation: Extended-Amplitude Direct-Product Construction
+
+**The idea:** The conjecture
+$\mathrm{Aut}(\Tdiamond, \mathcal{A}=1) = SO(3,1) \times SU(3) \times
+SU(2) \times U(1)$ (paper §15) is now precisely scoped after the
+v1.0 Step 5 work.  The *existing* per-site $\mathbb{C}^2 = (\psi_R,
+\psi_L)$ amplitude carries $SO(3,1) \times U(1)$ only (dim 7), proven
+in `automorphism_direct_product.py`.  The conjecture's full RHS
+(dim 18) requires the framework to be extended to a per-site
+$\mathbb{C}^{12} = \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes
+\mathbb{C}^3$ amplitude (chirality $\otimes$ weak isospin $\otimes$
+colour), at which point the four factors commute pairwise as a
+direct product (verified in
+`automorphism_direct_product_extended.py`).
+
+The follow-on paper takes up the three substantive questions that
+remain open after the v1.0 paper closes:
+
+**(i) Tick-rule consistency on $\mathbb{C}^{12}$.**  Extend the
+bipartite tick rule from $\mathbb{C}^2$ to $\mathbb{C}^{12}$ by
+tensor product (acting trivially on the new internal indices), and
+verify it preserves $\mathcal{A}=1$, the frame condition, the
+bipartite parity action, and the $O_h$-averaged isotropy of the
+continuum limit.  Tractable by linearity but requires explicit
+verification.
+
+**(ii) Exact equality vs containment** in
+$\mathrm{Aut}_\text{extended}$.  The verified statement is
+$\mathrm{Aut}_\text{extended} \supseteq SO(3,1) \times SU(3) \times
+SU(2) \times U(1)$ (dim $\geq 18$).  The conjecture asserts equality.
+Open question: does the extended structure admit additional
+symmetries beyond the four-factor product?  Constrained by
+commutation with the established factors; tractable by Lie-algebra
+enumeration on the extended generators.
+
+**(iii) SM-chirality coupling.**  The Standard Model's $SU(2)_W$ acts
+only on left-handed fermion doublets; right-handed fermions are
+$SU(2)_W$ singlets.  In the framework, $(\psi_R, \psi_L)$ is the
+bipartite chirality structure inherited from the RGB/CMY sublattice
+parity.  Whether the framework's bipartite chirality aligns with the
+SM's left-vs-right coupling to $SU(2)_W$ is a substantive structural
+alignment problem.  Two natural sub-questions:
+
+First sub-question: is the bipartite RGB/CMY parity the same
+$\mathbb{Z}_2$ as the SM's chirality projector?  Second sub-question:
+does the proposed $SU(2)_W$ extension on the per-site isospin
+$\mathbb{C}^2$ couple asymmetrically to $\psi_R$ vs $\psi_L$, as
+required by the SM, or symmetrically (which would predict no chiral
+fermions and is empirically wrong)?
+
+**(iv) Gauge-field connection.**  The four factors as currently
+constructed are *global* symmetries (act the same way at every
+site).  Promoting them to *gauge* symmetries (different rotations at
+different sites) requires a connection field interpolating between
+adjacent sites — the lattice analogues of the gluon ($SU(3)$),
+$W^\pm/Z$ ($SU(2)_W$), photon ($U(1)$), and graviton ($SO(3,1)$)
+fields.  The connection-field construction is implicit in the
+existing `paper/sections/induced_gauge_action.tex` (1/g² prefactor
+calculation pending) but not extended to the new factors.
+
+**Distinct from #13, #14.**  #13 (operation algebra) and #14
+(balanced equations) sit at the *dynamics* level; #16 sits at the
+*symmetry-group* level.  The three are complementary: #13 gives the
+algebra of operations preserving the symmetries; #14 gives the
+master-equation form of the dynamics; #16 identifies the symmetries
+themselves.
+
+**Why this earns its keep:**
+
+- It is the precise statement of the SM-derivation claim, not the
+  programmatic version of earlier drafts.  Either the three
+  structural questions resolve favourably (and the SM gauge group is
+  derived) or they don't (and the framework's verified scope is
+  $SO(3,1) \times U(1)$ on the existing $\mathbb{C}^2$).  Both are
+  publishable outcomes.
+- It identifies the *minimal* structural extensions the framework
+  needs (per-site $\mathbb{C}^2 \otimes \mathbb{C}^3$ internal index,
+  not a richer or arbitrary structure).
+- It is computationally tractable: the four scripts that established
+  the v1.0 picture (`automorphism_discrete.py`,
+  `automorphism_rgb_su3.py`, `automorphism_direct_product.py`,
+  `automorphism_direct_product_extended.py`) provide the
+  symbolic-algebra scaffolding the follow-on calculations build on.
+
+**Computational scaffolding already in place** (`src/utilities/`):
+
+- `automorphism_discrete.py` — discrete enumeration: 48 elements,
+  12 orthogonal, isomorphic to $B_3 \cong O_h$.
+- `automorphism_rgb_su3.py` — the existing RGB symmetry contributes
+  only $\mathbb{Z}_3 \subset SU(3)$; abelian → cannot generate full
+  $SU(3)$.
+- `automorphism_direct_product.py` — per-site $SU(2)$ and $SO(3,1)$
+  rotations are *the same generators* on existing $\mathbb{C}^2$;
+  only $SO(3,1) \times U(1)$ is established.
+- `automorphism_direct_product_extended.py` — on extended
+  $\mathbb{C}^{12}$, the four factors commute pairwise; dim 18
+  matches conjecture; direct-sum structure verified.
+
+**Written up in:**
+
+- `notes/lie_algebra_automorphism_proof_sketch.md` — proof skeleton
+  with the v1.0 status (existing $SO(3,1) \times U(1)$ established,
+  $SU(2)_W$ and $SU(3)$ require structural extension, conjecture's
+  RHS achievable on the extended amplitude).
+- `paper/sections/conclusion.tex` §15 — paper-text version of the
+  conjecture with corrected bullet decomposition (two factors
+  established, two require extensions).
+
+**Future draft material:** lives in the external research repo
+(`external/research/dcl/` per the convention used by entries 4, 6,
+12, 14, 15).  dcl carries the index entry; the follow-on paper
+draft itself will be developed externally.
+
+**Dependencies:**
+
+- v1.0 paper release with the corrected §15 conjecture statement.
+- Closure of the 1/g² prefactor calculation in
+  `paper/sections/induced_gauge_action.tex` provides the existing
+  framework's $U(1)$ gauge-action template that (iv) generalises to
+  the other three factors.
+
+**Priority:** High structural-impact follow-on (this is *the*
+SM-derivation paper) but with the substantive questions (i)–(iv)
+each tractable as separate sub-papers if needed.  Best framed as a
+single paper if all four resolve in the same direction; if (iii)
+fails, the paper becomes a precise statement of the obstruction
+rather than a derivation.
+
+---
+
 ## Priority Order for Follow-On Papers
 
 1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
@@ -589,3 +719,4 @@ confirmation channel independent of P9.
 8. **Operation algebra** (#13) — back-pocket; foundational mathematical scaffolding for the framework's "single conservation law" claim; best published alongside or after exp_20 results to lend the central claim formal proof structure
 9. **Balanced equations and birefringent channels** (#14) — back-pocket; site-level master equations + force-channel gradients + entanglement evolution + birefringence diagram; sits one resolution above #13; the birefringent-channel diagram could be extracted early if P9 gets observational corroboration
 10. **Clock-density photon decoherence** (#15) — magnitude unusually favourable (ns jitter at P7's upper bound, within pulsar-timing precision); needs the coupling $\alpha$ derived from first principles, then `exp_4b` to test the spatial-coherence-length signature numerically; potential sixth P9 channel if anisotropy along $(1,1,-1)$ falls out of the calculation
+11. **SM gauge derivation: extended-amplitude direct-product construction** (#16) — *the* SM-derivation paper, scoped precisely after v1.0 Step 5; the four-factor direct product $SO(3,1) \times SU(3) \times SU(2) \times U(1)$ is achievable on the extended per-site $\mathbb{C}^{12}$ amplitude (verified); three substantive open questions remain (tick-rule extension consistency, exact equality of Aut, SM-chirality coupling); computational scaffolding already in place via four `src/utilities/automorphism_*.py` scripts; structural-impact follow-on with publishable outcomes whether (iii) resolves favourably or as an obstruction statement
