@@ -71,6 +71,50 @@ frequencies in the bipartite lattice geometry.
   tongues are adjacent in the harmonic landscape
 - Predicts which masses are possible (stable tongues) and which are not
 
+### Connection to the Veneziano amplitude
+
+The Farey-Cantor mass hierarchy is structurally a *generalisation* of the
+linear Regge trajectory underlying Veneziano's 1968 amplitude
+$B(s,t) = \Gamma(-\alpha(s))\Gamma(-\alpha(t)) / \Gamma(-\alpha(s)-\alpha(t))$.
+Three connecting observations:
+
+1. **Linear Regge is the limiting case.** Veneziano's amplitude has poles
+   at integer $\alpha(s) = n$, giving a mass tower $m_n^2 \sim n$ — the
+   simplest possible resonance spectrum. The A=1 framework's Arnold-tongue
+   lock-ins predict a richer Cantor-set structure indexed by the Farey
+   sequence (rationals $p/q$ in $[0,1]$ ordered by tongue width). Linear
+   Regge is the limit where only integer rationals matter; the Farey-
+   Cantor structure predicts *deviations* from linear Regge at the
+   few-percent level, indexed by sub-integer Farey positions.
+
+2. **Lattice route to Veneziano.** The bipartite Wilson plaquette
+   $V_1, -V_2, -V_1, V_2$ identified for follow-on #16 is the smallest
+   non-trivial closed loop in the lattice. In standard lattice QCD the
+   area law of Wilson loops in the confining phase yields linear Regge
+   trajectories — the Veneziano resonance structure at low energies.
+   Once the A=1 framework's SU(3) extension is in place (#16), the
+   standard lattice-QCD → Regge → Veneziano route applies more or less
+   mechanically. The framework recovers Veneziano without new ingredients;
+   what it adds is a *substrate explanation* for why the resonance tower
+   exists at all.
+
+3. **Falsifiability handle.** Deviations from linear Regge at the
+   few-percent level, indexed by Farey-sequence positions, should be
+   detectable in existing meson and baryon spectroscopy data — no new
+   experiments required. This converts #3 from speculative numerology
+   into a concrete prediction with an existing-data validation path.
+   The framework predicts *where* the deviations should fall; standard
+   Regge phenomenology would call them noise.
+
+**Net upgrade to #3 from this connection:** the paper now has (i) a
+literature-recognised hook (Veneziano was a phenomenological *guess*
+that turned out to encode the deep fact of string-like extended
+objects; A=1 claims the deeper fact is a bipartite lattice), and
+(ii) a defined falsifier accessible from existing data. The Farey
+claim alone reads as ambitious-but-untestable; tied to Veneziano with
+a specific deviation prediction, it becomes a real paper with a
+concrete validation path.
+
 **Written up in:** notes/shortcomings_of_quantum_mathematics.md (hierarchy
 problem section), notes/harmonics_music_and_existence.md
 
