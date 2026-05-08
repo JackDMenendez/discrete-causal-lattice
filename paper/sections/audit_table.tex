@@ -14,7 +14,7 @@ on a $k$-scan resonance peak (short-run quantitative match);
 long-horizon two-body stability is captured separately by the
 \texttt{exp\_12b} and \texttt{exp\_12c} entries below.}}
 \label{tab:audit}
-\footnotesize
+\scriptsize
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{0.95}
 \begin{tabular}{@{}p{2.6cm}p{3.8cm}p{3.2cm}p{4.4cm}p{1.0cm}@{}}
@@ -139,27 +139,18 @@ Photon emission as $\mathcal{A}=1$ necessity
     & Joint $\mathcal{A}=1$ + momentum-transfer recoil at orbit;
       tongue-jump mandates third session
     & Spontaneous emission without separate field quantization
-    & \texttt{exp\_19c} v10 sweeps 2026-04-26 showed 0 recoils
-      across rates $0.01$--$0.5$; \texttt{exp\_20} 2026-05-02
-      three-arm comparison (drain, unitary beam splitter, phase
-      rotation) did not yet exhibit orbital lock-in -- baseline
-      two-body instability dominates (\texttt{exp\_12b}); next
-      attempt awaits resolution of the long-horizon stability
-      question
+    & \texttt{exp\_19c} (no recoils across rates 0.01--0.5);
+      \texttt{exp\_20} three-arm comparison did not exhibit orbital
+      lock-in --- baseline two-body instability dominates
+      (\texttt{exp\_12b})
     & \texttt{PART} \\
 Emission-operator joint $\mathcal{A}=1$ conservation
     & Pointwise unitary 2-mode rotation between electron and photon
       sessions with joint amplitude enforced
     & QED postulates a separately quantised electromagnetic field
-    & \texttt{exp\_20} 2026-05-02 sweep at $\text{GRID}=65^3$,
-      rate $=0.05$, 6000 ticks per arm.  Joint $\mathcal{A}=1$
-      preserved to machine precision ($8.9\!\times\!10^{-16}$) by
-      arm B (beam splitter); arm A (the as-written drain in
-      \texttt{exp\_19c}) violates by $1.0$; arm C (phase rotation)
-      trivial.  Phase-dependent non-monotonic transfer in arm B is
-      an unanticipated refinement of the operation-algebra
-      prediction (see \nolinkurl{notes/lattice_operation_algebra.md}
-      row~6 caveat)
+    & \texttt{exp\_20}: joint $\mathcal{A}=1$ preserved to
+      machine precision ($8.9\!\times\!10^{-16}$) by arm B (beam
+      splitter); arm A (drain) violates by $1.0$; arm C trivial
     & \texttt{PART} \\
 Induced gauge action (Sakharov form)
     & $-\mathrm{Tr}\ln D_\text{lat}[U]$;
@@ -195,41 +186,27 @@ Two-body hydrogen (4 sig.\ figs.)
 Two-body long-horizon stability
     & Bare \texttt{exp\_12} chassis run for 6000 ticks (no emission)
     & Standard QM treats Bohr orbits as stationary
-    & \texttt{exp\_12b} 2026-05-02 single run at $\text{GRID}=65^3$;
-      $r_\text{peak}$ escapes from $\sim R_1$ to grid edge ($\sim 83$)
-      by tick $\sim 2000$; $\mathcal{A}=1$ preserved at machine
-      precision ($8.9\!\times\!10^{-16}$).  Refines but does not
-      invalidate \texttt{exp\_12}'s 4-sig-fig PASS, which is scored
-      on a shorter $k$-scan resonance peak
+    & \texttt{exp\_12b}: $r_\text{peak}$ escapes from $\sim R_1$
+      to grid edge by tick $\sim 2000$ on $65^3$;
+      $\mathcal{A}=1$ preserved at machine precision
     & \texttt{PART} \\
 Long-horizon escape mechanism
     & Bare two-body orbit metastable; escape onset varies with
       grid size
     & Standard QM has no lattice substrate to exhibit finite-volume
       effects
-    & \texttt{exp\_12c} 2026-05-05 grid sweep: orbit escapes at
-      tick $\sim 140$ on $\text{GRID} \geq 81^3$ and tick $\sim 2000$
-      on $65^3$.  The $65^3$ ``stability'' is a finite-volume
-      artefact: boundary reflections confine the wave packet near
-      $R_1$.  True orbital lifetime is hundreds of ticks, not
-      thousands.  Init-mode and drift-mode controls rule out
-      initial-condition asymmetry and systematic operator drift as
-      causes
+    & \texttt{exp\_12c}: escape at tick $\sim 140$ on
+      $\text{GRID}\!\geq\!81^3$, $\sim 2000$ on $65^3$.  The $65^3$
+      ``stability'' is a finite-volume artefact (boundary reflection)
     & \texttt{PART} \\
 Lock-in resonance grid-independence
     & \texttt{exp\_12} chassis on $\text{GRID} \in \{65, 81, 97,
-      113\}^3$, pre-escape window (tick 30--119)
+      113\}^3$, pre-escape window
     & Standard QM has no lattice substrate to vary
-    & \texttt{exp\_12d\_tight} 2026-05-05 four-grid sweep:
-      $r$ at $k_\text{Bohr} = 0.0971$ in $[11.54, 12.30]$
-      across all grids ($\Delta r \approx 0.8$); three of four
-      grids' $k_\text{min}$ within $\pm 0.003$ of $k_\text{Bohr}$;
-      $r_\text{std} \in [1.1, 2.9]$ across all configurations
-      except two isolated outliers at $k=0.101$ on 81 and 113
-      traced to early-escape tail of \texttt{exp\_12c}'s
-      metastable-orbit mechanism (\texttt{exp\_12d\_outlier\_trace},
-      abrupt escape at tick 119); lock-in attractor is
-      grid-independent
+    & \texttt{exp\_12d\_tight}: $r$ at $k_\text{Bohr}$ in
+      $[11.54, 12.30]$ across all four grids
+      ($\Delta r \approx 0.8$); three of four $k_\text{min}$ within
+      $\pm 0.003$ of $k_\text{Bohr}$; lock-in grid-independent
     & \texttt{PART} \\
 Bound state requires active proton
     & Static well collapses; live proton explores well
@@ -261,16 +238,11 @@ Standard Model gauge group as automorphism
       structure constants must match
       $\mathfrak{so}(3,1) \oplus \mathfrak{su}(3) \oplus
       \mathfrak{su}(2) \oplus \mathfrak{u}(1)$ factor-by-factor
-    & Six sympy scripts in \nolinkurl{src/utilities/}
-      (2026-05-05) verify: existing per-site $\mathbb{C}^2$
-      carries $\mathfrak{so}(3,1) \oplus \mathfrak{u}(1)$ only
-      (dim 7; per-site $SU(2)$ overlaps with Lorentz rotations);
-      extended $\mathbb{C}^{12}$ supports the full dim-18
-      direct product, all 18 generators commuting pairwise across
-      factors; bipartite Wilson plaquette
-      $V_1,\,-V_2,\,-V_1,\,V_2$ is gauge-invariant.  Open: exact
-      Aut equality; SM-chirality coupling; explicit $1/g^2$
-      prefactors.  Details:
+    & Six sympy scripts (2026-05-05) verify: existing
+      $\mathbb{C}^2$ carries dim-7 $\mathfrak{so}(3,1) \oplus
+      \mathfrak{u}(1)$ only; extended $\mathbb{C}^{12}$ supports
+      dim-18 direct product.  Open: SM-chirality coupling, $1/g^2$,
+      exact Aut equality.  Detail:
       \nolinkurl{notes/lie_algebra_automorphism_proof_sketch.md}
     & \texttt{STUB} \\
 \hline
