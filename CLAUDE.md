@@ -6,30 +6,43 @@ project without the full conversation history.
 
 ---
 
-## CURRENT STATUS (2026-04-25) -- RECENT WORK COMPLETED
+## CURRENT STATUS (2026-05-07) -- v1.0 RELEASED
 
-### ✅ Documentation Infrastructure Complete (2026-04-25)
-- **20 experiment documentation files** created in `src/experiments/` (.md format)
-- **PAPER_COMPLETION_TODO_PRINTABLE.md** - comprehensive 15-task roadmap for paper completion
-- **Git line ending issues resolved** - .gitattributes configured for cross-platform compatibility
-- **All experiment docs committed** - 37 files, 2915 insertions, 638 deletions
+### 🎉 Paper v1.0 shipped 2026-05-07
 
-### 🔄 Critical Issue: Windows "nul" File
-- **Problem**: Special Windows device file "nul" in root directory breaking git operations
-- **Status**: File is currently in use (open in VS Code editor), preventing deletion
-- **Solution**: Close VS Code to release file handle, then delete "nul" file
-- **Impact**: Blocks git operations until resolved
+- **DOI**: [10.5281/zenodo.20078529](https://doi.org/10.5281/zenodo.20078529)
+- **GitHub tag**: v1.0 pushed to origin
+- **Pages**: 144
+- **Series**: Paper I of the A=1 Discrete Causal Lattice series
+- **Release commit**: fa41653 ("release: promote paper to v1.0 (Zenodo doi:20078529)")
+- **Release-message commit (GitHub Release body)**: c9f8435
+- **Files**: `release_notes/v1.0.md` (change log) + `release_notes/v1.0-release-message.md` (Release body)
 
-### 📋 Paper Completion Priority (from PAPER_COMPLETION_TODO_PRINTABLE.md)
-1. **Predictions Section** - Most critical missing piece for scientific completeness
-2. **Build System Fixes** - Immediate blocker for paper compilation
-3. **STUB Section Completion** - Fill remaining theoretical gaps
-4. **Validation Tasks** - Ensure all claims are falsifiable
+### Substantive additions in v1.0 (since v0.98-RC)
 
-### 🔬 Experiment Status Updates
-- **exp_16**: COMPLETE - Proton mass sweep confirms binding ≠ quantization distinction
-- **exp_19 v5**: READY TO RUN - Phase-rotation drain (A=1-compatible) implemented
-- **exp_20**: REDESIGNED - Needs two-body foundation, unblocked after exp_15 superseded
+- **§10.7.1 Born rule via Gleason** — uniqueness of |ψ|² (Tier 1 proof item)
+- **§7.7 Explicit metric tensor** g_μν as functional of ρ_clock in weak-field limit (Tier 2)
+- **§15 Refined automorphism conjecture** — precise 18-dim Lie-algebra equality with established-vs-extension decomposition (Tier 2)
+- **Acknowledgements section** between Conclusion and Appendices
+- **Three new audit-table rows**: exp_12c (long-horizon escape, PART), exp_12d_tight (lock-in grid-independence, PART), SM gauge group automorphism (STUB)
+- **Six computational scaffolding scripts** in `src/utilities/` for the SM-derivation programme (follow-on #16): automorphism_discrete, automorphism_rgb_su3, automorphism_direct_product, automorphism_direct_product_extended, tick_rule_extended_consistency, tick_rule_gauge_invariance
+- **Audit table converted to longtable** for clean multi-page rendering
+- **Title-page consolidated** — single \thanks{} footnote with version + DOI + GitHub + series identifier; release-notes block moved below abstract
+
+### Step 5 / SM-derivation conjecture status (key structural finding)
+
+The proposed "per-site SU(2)" generators on the existing C² = (ψ_R, ψ_L) amplitude are LITERALLY THE SAME MATRICES as the Lorentz rotation generators (verified by sympy). So the framework's existing C² carries SO(3,1) × U(1) only (dim 7), proven. SU(2)_W and SU(3) require structural extensions: per-site C² isospin and C³ colour indices respectively. The full conjecture Aut(T_diamond, A=1) = SO(3,1) × SU(3) × SU(2) × U(1) (dim 18) is achievable on the extended C^12 amplitude (verified). See `notes/lie_algebra_automorphism_proof_sketch.md`.
+
+### What is NOT in v1.0 (explicit follow-on scope)
+
+Per `notes/follow_on_implications.md`:
+
+- **#1** Plasma / gradient ionization | **#2** Recombination | **#3** Farey-sequence masses + Veneziano | **#9** Tidal ionization
+- **#16** SM gauge derivation (proton interior gated by this) | **#17** Measurement theory | **#18** Hilbert's 6th / combinatorial foundations of continuum physics
+
+### LaTeX layout idioms (learned in v1.0 polish pass)
+
+See memory file `paper_layout_idioms.md`. Key defaults: `\nolinkurl{}` for paths (not `\texttt{}`); `\url{}` for URLs in `\href{}`; `longtable` for tall tables; `\scriptsize` for long verbatim Python; pad bold table headers; `\newpage` before `\begin{abstract}` if title page fills.
 
 ---
 
@@ -89,8 +102,13 @@ See notes/the_theme_of_the_paper.md and notes/shortcomings_of_quantum_mathematic
 | exp_17 | PENDING | Pair annihilation efficiency at ω=π/2 |
 | exp_18 | PENDING | Tidal ionization / quantum Roche limit M_min(d) |
 | exp_19 v4 | FAIL | Amplitude drain cancelled by enforce_unity_spinor; amp_e=1.0000 throughout |
-| exp_19 v5 | READY TO RUN | Phase-rotation drain (A=1-compatible); see below |
-| exp_20 | REDESIGNED, NOT RUN | See below |
+| exp_19 v5 | RAN, no settling | Phase-rotation drain ran in v0.98-RC; orbital lock-in not exhibited |
+| exp_19c | PART | Coulomb-driven drain + A=1 recoil; v10 sweeps 2026-04-26 showed 0 recoils across rates 0.01–0.5 |
+| exp_20 | PART | Three-arm emission-operator comparison: arm B (beam splitter) preserves joint A=1 to 8.9e-16; arms A and C as predicted |
+| exp_12b | PART | Bare two-body baseline: r_peak escapes to grid edge by tick ~2000 on 65³, 6000-tick run |
+| exp_12c | PART | Long-horizon escape diagnosis: orbit escapes at tick ~140 on grids ≥81³; 65³ "stability" was finite-volume artefact |
+| exp_12d / exp_12d_tight | PART | Cross-grid k-scan validating exp_12's PASS across {65,81,97,113}³; lock-in grid-independent |
+| exp_12d_outlier_trace | (supports exp_12d_tight) | Two outliers at k=0.101 traced to early-escape tail of exp_12c mechanism, not k-specific instability |
 
 ---
 
