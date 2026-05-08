@@ -9,10 +9,20 @@
 %% Page geometry (also set here as fallback in case packages.tex path fails)
 \geometry{top=1in, bottom=1in, left=1in, right=1in}
 
-\title{\textbf{Beta -- Version 0.98-RC}\\[0.5em]
-       Geometry First:\\
+\title{Geometry First:\\
        Quantum Mechanics, Gravity, and the Origin of the Standard Model\\
-       from a Single Conservation Law}
+       from a Single Conservation Law%
+       \thanks{Version 1.0.
+       \href{https://doi.org/10.5281/zenodo.NNNNNNNN}%
+            {DOI: 10.5281/zenodo.NNNNNNNN}.
+       \href{https://github.com/JackDMenendez/discrete-causal-lattice}%
+            {GitHub: JackDMenendez/discrete-causal-lattice}.
+       Paper~I of the A=1 Discrete Causal Lattice series; companion
+       papers in preparation address the Standard Model gauge
+       derivation, the Farey-sequence mass spectrum (and its
+       Veneziano-amplitude limiting case), plasma and
+       gradient-ionization phenomenology, the proton-interior
+       structure, and quantum measurement theory.}}
 \author{Jack Menendez\\
         \small Eugene, OR\\
         \small ORCID: \href{https://orcid.org/0009-0003-1166-307X}{0009-0003-1166-307X}\\
@@ -23,14 +33,6 @@
 
 \maketitle
 
-\noindent
-\href{https://doi.org/10.5281/zenodo.20017133}%
-     {\texttt{Zenodo DOI: 10.5281/zenodo.20017133}}\quad
-\href{https://github.com/JackDMenendez/discrete-causal-lattice}{GitHub: JackDMenendez/discrete-causal-lattice}
-
-\noindent\textbf{Disclaimer:} This is a working paper, and the content herein is subject to change. The author welcomes feedback and constructive criticism. Please reach out via email or social media with any comments or questions.
-
-\medskip
 \noindent\textbf{License.}  Paper text and figures: Creative Commons
 Attribution 4.0 (CC BY 4.0).  Source code in the companion
 repository: MIT License.
@@ -41,10 +43,10 @@ data files, and the LaTeX source for this paper are publicly
 available at
 \href{https://github.com/JackDMenendez/discrete-causal-lattice}%
      {\texttt{github.com/JackDMenendez/discrete-causal-lattice}}.
-The exact commit corresponding to this release is the v0.98-RC tag,
+The exact commit corresponding to this release is the v1.0 tag,
 archived at
-\href{https://doi.org/10.5281/zenodo.20017133}%
-     {\texttt{doi:10.5281/zenodo.20017133}}.
+\href{https://doi.org/10.5281/zenodo.NNNNNNNN}%
+     {\texttt{doi:10.5281/zenodo.NNNNNNNN}}.
 A compact reproducibility quickstart, including a 10-line minimal
 verification snippet, is in
 Appendix~\ref{sec:reproducibility}.
@@ -55,82 +57,64 @@ lattice; single conservation law; emergent quantum mechanics;
 clock-fluid gravity; Arnold-tongue quantization; induced gauge
 action; lattice birefringence.
 
-\bigskip
-\noindent\textbf{What changed in v0.98-RC (since v0.97-RC).}
-v0.98-RC is an experimental-progress and content-alignment release.
-Two new experiments completed their first runs; two new entries were
-added to the audit table (Table~\ref{tab:audit}, both \texttt{PART});
-and the paper text was systematically reconciled with the audit-table
-statuses, with the help of an automated consistency-check pass
-introduced in this release:
-
-\begin{itemize}
-\item \textbf{\texttt{exp\_20} --- three-arm emission-operator
-    comparison.}  First experiment to test whether a unitary 2-mode
-    rotation (beam splitter, row 6 of the operation algebra) is the
-    correct emission operator for the lattice's joint $\mathcal{A}=1$
-    conservation, compared directly against the as-written drain in
-    \texttt{exp\_19c} (arm A) and the phase-rotation drain (arm C).
-    Joint $\mathcal{A}=1$ preserved to machine precision
-    ($8.9\!\times\!10^{-16}$) under the beam splitter; the
-    \texttt{exp\_19c} drain reproduces the row-5 non-unitarity
-    arithmetic exactly.  Phase-dependent non-monotonic transfer in
-    arm B is an unanticipated refinement to the operation-algebra
-    table that a follow-on calculation will need to address.
-    Orbital settling not achieved at the swept rate; see next item.
-\item \textbf{\texttt{exp\_12b} --- long-duration two-body baseline
-    (no emission).}  The bare \texttt{exp\_12} setup, run for 6000 ticks.
-    $r_\text{peak}$ escapes from $R_1$ to grid edge ($\sim 83$) by
-    tick $\sim 2000$ and never returns.  $\mathcal{A}=1$ preserved at
-    machine precision throughout.  The orbital escape seen across all
-    three arms of \texttt{exp\_20} is inherited from this baseline,
-    not caused by the emission operator.  Refines but does not
-    invalidate \texttt{exp\_12}'s 4-sig-fig PASS, which is scored on
-    a shorter $k$-scan resonance peak.
-\item \textbf{Two new entries in the audit table} (both
-    \texttt{PART}, both additive --- no existing entries downgraded):
-    ``Two-body long-horizon stability'' (the \texttt{exp\_12b}
-    finding) and ``Emission-operator joint $\mathcal{A}=1$
-    conservation'' (the \texttt{exp\_20} arm B finding).  The
-    evidence column for the existing entry ``Photon emission as
-    $\mathcal{A}=1$ necessity'' was updated to reflect the
-    \texttt{exp\_20} results; that entry remains \texttt{PART}.
-\item \textbf{Paper-text reconciliation.}  Four sites with
-    pre-\texttt{exp\_20} \texttt{exp\_19c} overstatement aligned with
-    the audit-table: \texttt{abstract.tex} items (v) and (vi),
-    \texttt{introduction.tex} ($\times 2$ mentions),
-    \texttt{hydrogen\_spectrum.tex}, and
-    \texttt{vacuum\_twist\_field\_equations.tex}.  The row-5
-    amplitude-drain non-unitarity arithmetic
-    $(1 - 2m + 2m^2)\lVert\psi_e\rVert^2$ is now explicitly cited in
-    the hydrogen-spectrum write-up of \texttt{exp\_19c}.
-\item \textbf{New introduction paragraph: ``One law at three
-    resolutions.''}  Identifies the clock fluid density
-    $\rho_\phi(x) = \sum_i \omega_i\,|\psi_i(x)|^2$ as the
-    $\omega$-weighted form of the joint amplitude density
-    $\mathcal{A}_\text{joint}(x) = \sum_i |\psi_i(x)|^2$.  Probability
-    conservation, mass-energy conservation, and gravity all share one
-    structural origin --- sharpens the framework's ``single
-    conservation law'' claim from assertion to identification.
-\end{itemize}
-
-An automated consistency-check tool
-(committed at \texttt{.claude/agents/dcl-claim-auditor.md}) was added
-to compare paper prose against the audit-table statuses; during this
-release cycle it identified two further overstatements in the abstract
-that the manual sweep had missed.  Eight follow-on or speculative
-notes were moved out of the project repository into a separate
-private archive, leaving \texttt{notes/} at 53 files (down from 61),
-each tied to a main-paper claim or an active experiment.
-
-A more detailed change log lives in
-\texttt{release\_notes/v0.98-RC.md} in the project repository.
-Earlier versions remain available at the Zenodo deposit's prior
-DOIs.
-
 \begin{abstract}
     \input{sections/abstract}
 \end{abstract}
+
+\bigskip
+\noindent\textbf{Release notes for v1.0 (since v0.98-RC).}
+v1.0 closes the release-candidate cycle.  The principal additions
+since v0.98-RC are:
+
+\begin{itemize}
+\item Three new audit-table rows (Table~\ref{tab:audit}):
+  long-horizon escape mechanism (\texttt{exp\_12c}, \texttt{PART});
+  lock-in resonance grid-independence
+  (\texttt{exp\_12d\_tight} + \texttt{exp\_12d\_outlier\_trace},
+  \texttt{PART}) --- cross-grid validation of \texttt{exp\_12}'s
+  4-sig-fig PASS across $\{65, 81, 97, 113\}^3$; and the Standard
+  Model gauge-group conjecture as a precise Lie-algebra equality
+  (\texttt{STUB}).
+\item A Gleason-uniqueness subsubsection in the Born-rule
+  discussion (§\ref{subsubsec:born_gleason}), addressing the
+  necessity question for the $|\psi|^2$ measure that the
+  v0.98-RC text only handled with a sufficiency argument.
+\item An explicit metric-tensor formula in the gravity section
+  (§\ref{subsec:metric_from_rho}), identifying $g_{\mu\nu}$ as a
+  functional of $\rho_\text{clock}$ in the weak-field limit.
+\item Refined automorphism conjecture
+  (Eq.~\ref{eq:automorphism_conjecture}): now stated as an
+  18-dimensional Lie-algebra equality with explicit decomposition
+  into established factors ($SO(3,1) \times U(1)$ on the existing
+  per-site $\mathbb{C}^2$ amplitude) and structural-extension
+  factors ($SU(2)_W$ on a per-site $\mathbb{C}^2$ isospin index;
+  $SU(3)$ on a per-site $\mathbb{C}^3$ colour index).  Six
+  computational scaffolding scripts in \texttt{src/utilities/}
+  establish each component.
+\item Acknowledgements section
+  (Section~\ref{sec:acknowledgements}).
+\end{itemize}
+
+\emph{Status legend used throughout.}  \texttt{PASS} = derivation
+complete or experiment confirms the claim to stated precision.
+\texttt{PART} = mechanism demonstrated, full quantitative match
+pending; specific gaps documented in the evidence column of
+Table~\ref{tab:audit}.  \texttt{STUB} = analytical result with no
+numerical confirmation yet.  \texttt{FAIL} = tested and
+disconfirmed.
+
+\emph{Out-of-scope for v1.0.}  The Standard Model gauge-group
+derivation, the Farey-sequence mass spectrum, the proton-interior
+structure, plasma and gradient-ionization phenomenology, quantum
+measurement theory, and the combinatorial foundations of
+continuum physics (Hilbert's 6th problem) are explicit subjects
+of follow-on papers; the present paper establishes the
+foundational framework on which they build.
+
+A detailed change log is in
+\texttt{release\_notes/v1.0.md} in the project repository.
+Earlier versions remain available at the Zenodo deposit's prior
+DOIs.
 
 \newpage
 \tableofcontents
