@@ -58,13 +58,13 @@ only on the initial state and the lattice geometry.
 Random numbers enter in two places only:
 
 \begin{enumerate}
-\item \texttt{src/core/TickScheduler.py} uses
+\item \nolinkurl{src/core/TickScheduler.py} uses
 \texttt{np.random.default\_rng(seed=42)} when an experiment requests
 randomised tick ordering. \texttt{exp\_05} relies on this for the
 shuffle-invariance test; all other experiments use the deterministic
 sequential schedule.
 
-\item \texttt{src/experiments/exp\_04\_decoherence.py} draws random
+\item \nolinkurl{src/experiments/exp_04_decoherence.py} draws random
 phase scrambles via \texttt{np.random.default\_rng(42)} for the
 many-bath ensemble; the per-realisation seed is \texttt{i + 100} for
 the $i$-th member of the ensemble.
@@ -77,7 +77,7 @@ software stack.
 \subsection*{Running the numerical experiments}
 
 Individual experiments are exposed as targets in
-\texttt{src/experiments/makefile}:
+\nolinkurl{src/experiments/makefile}:
 
 \begin{quote}
 \texttt{make -C src/experiments exp\_12}\\
@@ -162,17 +162,17 @@ Each experiment writes its raw arrays and a human-readable log to
 files are:
 
 \begin{itemize}
-\item \texttt{data/exp\_06\_path\_counts.npy} --- exact path-count
+\item \nolinkurl{data/exp_06_path_counts.npy} --- exact path-count
 integers $P(N,a,b,c)$ underlying the discrete-correction prediction
 P1 (Section~\ref{sec:predictions}).
-\item \texttt{data/exp\_09\_harmonic\_hires.npy} ---
+\item \nolinkurl{data/exp_09_harmonic_hires.npy} ---
 $(f,\omega)$-resolved spectral power, the source array for the
 harmonic landscape (Figure~\ref{fig:harmonic_pair}).
-\item \texttt{data/exp\_12\_twobody\_scan.npy} --- two-body
+\item \nolinkurl{data/exp_12_twobody_scan.npy} --- two-body
 $k$-scan with the live proton, source for the
 $k_\text{min} = 0.0970$ vs.\ $k_\text{Bohr} = 0.0971$ result
 (Section~\ref{sec:hydrogen}, Figure~\ref{fig:exp12_twobody}).
-\item \texttt{data/exp\_16\_proton\_mass\_sweep.npy} --- proton-mass
+\item \nolinkurl{data/exp_16_proton_mass_sweep.npy} --- proton-mass
 sweep establishing the three-regime structure
 (Section~\ref{sec:hydrogen}).
 \end{itemize}
