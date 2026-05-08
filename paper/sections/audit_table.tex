@@ -3,24 +3,36 @@
 % Updated 2026-04-29 (post v0.96-RC + Appendix B + P9 concordance)
 % ============================================================
 
-\begin{table}[htbp]
-\centering
-{\small\caption{System Audit: $\Tdiamond$ predictions mapped to
+{\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{0.95}
+\begin{longtable}{@{}p{2.6cm}p{3.8cm}p{3.2cm}p{4.4cm}p{1.0cm}@{}}
+\caption{\small System Audit: $\Tdiamond$ predictions mapped to
 experiments and supporting derivations.  Status semantics in the
 post-abstract release notes (\texttt{PASS} / \texttt{PART} /
 \texttt{STUB} / \texttt{FAIL}).  \emph{Scoring note:}
 \texttt{exp\_12}'s four-significant-figure \texttt{PASS} is scored
 on a $k$-scan resonance peak (short-run quantitative match);
 long-horizon two-body stability is captured separately by the
-\texttt{exp\_12b} and \texttt{exp\_12c} entries below.}}
-\label{tab:audit}
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{0.95}
-\begin{tabular}{@{}p{2.6cm}p{3.8cm}p{3.2cm}p{4.4cm}p{1.0cm}@{}}
+\texttt{exp\_12b} and \texttt{exp\_12c} entries below.}
+\label{tab:audit} \\
 \hline
 \textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Continuum Limit} & \textbf{Experiment} & \textbf{Status} \\
 \hline
+\endfirsthead
+
+\multicolumn{5}{l}{\textit{(Table~\ref{tab:audit}, continued from previous page)}} \\
+\hline
+\textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Continuum Limit} & \textbf{Experiment} & \textbf{Status} \\
+\hline
+\endhead
+
+\hline
+\multicolumn{5}{r}{\textit{(continued on next page)}} \\
+\endfoot
+
+\hline
+\endlastfoot
 % ── Kinematics ───────────────────────────────────────────────────────────────
 Speed of light limit
     & Topological adjacency $v_\text{max}=1$
@@ -256,6 +268,5 @@ Multi-channel concordance (P9)
       empirical test via GRB / CMB / LIGO / atomic-clock data
     & \texttt{STUB} \\
 \hline
-\end{tabular}
-\normalsize
-\end{table}
+\end{longtable}
+}

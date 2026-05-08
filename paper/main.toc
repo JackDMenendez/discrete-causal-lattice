@@ -4,274 +4,274 @@
 \contentsline {paragraph}{Methodology and the role of $\mathcal {A}=1$.}{13}{section*.4}%
 \contentsline {paragraph}{Computational resources.}{14}{section*.5}%
 \contentsline {paragraph}{Organisation of the paper.}{14}{section*.6}%
-\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{14}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Nodes, Edges, and Causal Adjacency}{16}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}The Bipartite Structure and Chirality}{16}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Same-Sublattice Exclusion}{17}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}The Causal Cone}{17}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Calibration and Physical Units}{19}{subsection.2.5}%
-\contentsline {paragraph}{Two lengths, one convention.}{19}{section*.9}%
+\contentsline {section}{\numberline {2}The Octahedral Substrate ($\mathcal {T}_\diamond ^3$)}{16}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Nodes, Edges, and Causal Adjacency}{17}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The Bipartite Structure and Chirality}{18}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Same-Sublattice Exclusion}{18}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}The Causal Cone}{20}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Calibration and Physical Units}{20}{subsection.2.5}%
+\contentsline {paragraph}{Two lengths, one convention.}{20}{section*.8}%
 \contentsline {subsection}{\numberline {2.6}Relation to Prior Discrete Spacetime Frameworks}{21}{subsection.2.6}%
 \contentsline {section}{\numberline {3}Causal Sessions and the Phase Oscillator}{21}{section.3}%
-\contentsline {subsection}{\numberline {3.1}The Phase Oscillator: U(1) Group and Algebra}{21}{subsection.3.1}%
-\contentsline {paragraph}{The phase mismatch as local Hamiltonian.}{23}{section*.12}%
-\contentsline {paragraph}{Why this matters.}{23}{section*.13}%
-\contentsline {subsection}{\numberline {3.2}The Causal Session: Spinor Amplitude on the Lattice}{23}{subsection.3.2}%
-\contentsline {paragraph}{Massless sessions.}{24}{section*.14}%
-\contentsline {subsection}{\numberline {3.3}The Tick Rule as Gauge Transformation}{24}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Inertia as Phase-Gradient Stability}{25}{subsection.3.4}%
-\contentsline {paragraph}{Summary.}{25}{section*.16}%
-\contentsline {section}{\numberline {4}The Tick Scheduler}{26}{section.4}%
-\contentsline {subsection}{\numberline {4.1}The Macro-Tick}{26}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}The Combinatorial Clock Space}{27}{subsection.4.2}%
-\contentsline {paragraph}{Shuffle schemes as experimental variables.}{27}{section*.17}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_05}).}{27}{section*.18}%
-\contentsline {subsection}{\numberline {4.3}Pairwise Coupling and the Binding Dial}{28}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Three-Session Coupling and Emission}{29}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Clock Density and Time Dilation}{29}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Queue Saturation and the Event Horizon}{30}{subsection.4.6}%
-\contentsline {paragraph}{Hawking radiation as queue-drop.}{30}{section*.19}%
-\contentsline {paragraph}{The Hawking temperature from boundary surface gravity.}{30}{section*.20}%
-\contentsline {paragraph}{Honest scope of Eq.~\eqref {eq:hawking_T}.}{31}{section*.21}%
-\contentsline {subsection}{\numberline {4.7}Architectural Irreversibility and the Arrow of Time}{31}{subsection.4.7}%
-\contentsline {subsection}{\numberline {4.8}Falsifiable Consequences}{32}{subsection.4.8}%
-\contentsline {paragraph}{Minimum time-dilation quantum.}{32}{section*.22}%
-\contentsline {paragraph}{Discrete corrections in queue dynamics.}{32}{section*.23}%
-\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{33}{section.5}%
-\contentsline {subsection}{\numberline {5.1}The Tick Operator}{33}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Linearity and Superposition}{33}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Phase Routing and the Discrete Hamiltonian}{34}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}The Unity Constraint in Operation}{34}{subsection.5.4}%
-\contentsline {paragraph}{Conservation.}{35}{section*.24}%
-\contentsline {paragraph}{Projection.}{35}{section*.25}%
-\contentsline {subsection}{\numberline {5.5}The Continuum Limit: From Tick Rule to Schr\"odinger}{35}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Boundary Conditions}{36}{subsection.5.6}%
-\contentsline {paragraph}{Periodic.}{36}{section*.26}%
-\contentsline {paragraph}{Absorbing.}{36}{section*.27}%
-\contentsline {paragraph}{Reflecting.}{36}{section*.28}%
-\contentsline {paragraph}{Choice of boundary condition.}{36}{section*.29}%
-\contentsline {paragraph}{Summary.}{36}{section*.30}%
-\contentsline {section}{\numberline {6}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{37}{section.6}%
-\contentsline {subsection}{\numberline {6.1}The Bipartite Velocity}{37}{subsection.6.1}%
-\contentsline {paragraph}{What drives the oscillation?}{37}{section*.31}%
-\contentsline {subsection}{\numberline {6.2}Phase Gradient as Momentum}{38}{subsection.6.2}%
-\contentsline {paragraph}{Massless limit.}{39}{section*.33}%
-\contentsline {paragraph}{Numerical verification.}{40}{section*.34}%
-\contentsline {subsection}{\numberline {6.3}Acceleration and Force}{40}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}The Continuum Limit: Emergence of the Dirac Equation}{40}{subsection.6.4}%
-\contentsline {paragraph}{The hop operator in Fourier space.}{40}{section*.35}%
-\contentsline {paragraph}{Isotropy at the operator level: the lattice is birefringent.}{41}{section*.36}%
-\contentsline {paragraph}{Recovery of $\mathrm {SO}(3)$ at the observable level.}{41}{section*.37}%
-\contentsline {paragraph}{The Dirac equation.}{42}{section*.38}%
-\contentsline {paragraph}{Summary of structural consequences.}{42}{section*.39}%
-\contentsline {paragraph}{Lie-theoretic structure.}{43}{section*.40}%
-\contentsline {section}{\numberline {7}Gravity as Clock Density}{44}{section.7}%
-\contentsline {subsection}{\numberline {7.1}The Clock Density Field}{44}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Gravitational Attraction as Refractive Bias}{44}{subsection.7.2}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_02}).}{44}{section*.41}%
-\contentsline {paragraph}{The microscopic mechanism: virtual-session cloud.}{45}{section*.42}%
-\contentsline {subsection}{\numberline {7.3}The Continuum Limit: Newtonian Gravity}{45}{subsection.7.3}%
-\contentsline {paragraph}{Step 1: Force from phase mismatch (Newton's second law).}{45}{section*.43}%
-\contentsline {paragraph}{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}{47}{section*.44}%
-\contentsline {paragraph}{The classical domain.}{47}{section*.45}%
-\contentsline {paragraph}{Structural consequence: the equivalence principle.}{48}{section*.46}%
-\contentsline {subsection}{\numberline {7.4}Gravitational Time Dilation as Scheduler Load}{48}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Conservation of Clock Density}{49}{subsection.7.5}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{49}{section*.47}%
-\contentsline {subsection}{\numberline {7.6}Black Holes as Scheduler Saturation}{49}{subsection.7.6}%
-\contentsline {paragraph}{The Bekenstein-Hawking entropy from boundary session counting.}{49}{section*.48}%
-\contentsline {paragraph}{Honest scope of Eq.~\eqref {eq:bekenstein}.}{50}{section*.49}%
-\contentsline {subsection}{\numberline {7.7}The metric tensor as a functional of $\rho _\text {clock}$}{50}{subsection.7.7}%
-\contentsline {subsection}{\numberline {7.8}Connection to General Relativity}{51}{subsection.7.8}%
-\contentsline {subsection}{\numberline {7.9}The Quantum Roche Limit}{52}{subsection.7.9}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_18}).}{52}{section*.50}%
-\contentsline {paragraph}{Comparison with entropic gravity.}{53}{section*.52}%
-\contentsline {section}{\numberline {8}Clock Fluid Dynamics and the Continuum Limit}{53}{section.8}%
-\contentsline {subsection}{\numberline {8.1}The Global Clock Budget}{53}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}The Continuity Equation}{54}{subsection.8.2}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{54}{section*.53}%
-\contentsline {subsection}{\numberline {8.3}The Momentum Equation and Emergent Gravity}{54}{subsection.8.3}%
-\contentsline {subsection}{\numberline {8.4}The Clock Fluid as a Compressible Superfluid}{55}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}Gravitational Waves as Clock Fluid Phonons}{55}{subsection.8.5}%
-\contentsline {subsection}{\numberline {8.6}General Relativity as the Continuum Limit}{56}{subsection.8.6}%
-\contentsline {paragraph}{Numerical verification (\texttt {exp\_08}).}{56}{section*.54}%
-\contentsline {paragraph}{Discrete corrections.}{56}{section*.55}%
-\contentsline {subsection}{\numberline {8.7}Black Hole Formation as a Clock Fluid Shock Wave}{57}{subsection.8.7}%
-\contentsline {subsection}{\numberline {8.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{57}{subsection.8.8}%
-\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{58}{section*.56}%
-\contentsline {paragraph}{Plasma as a clock fluid phase.}{58}{section*.57}%
-\contentsline {paragraph}{The quantum Roche limit.}{58}{section*.58}%
-\contentsline {paragraph}{Open questions.}{59}{section*.59}%
-\contentsline {section}{\numberline {9}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{60}{section.9}%
-\contentsline {subsection}{\numberline {9.1}The Two Channels of Vacuum Deformation}{60}{subsection.9.1}%
-\contentsline {paragraph}{The microscopic mechanism: sublattice-sorted virtual-session clouds.}{61}{section*.60}%
-\contentsline {subsection}{\numberline {9.2}The Divergence Channel: Gravity (Recap)}{61}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}The Curl Channel: Matter-Side Derivation}{62}{subsection.9.3}%
-\contentsline {paragraph}{The link variable is forced.}{62}{section*.61}%
-\contentsline {paragraph}{Gauge covariance of the tick rule.}{62}{section*.62}%
-\contentsline {paragraph}{The plaquette is the field strength.}{63}{section*.63}%
-\contentsline {paragraph}{The Dirac current.}{63}{section*.64}%
-\contentsline {subsection}{\numberline {9.4}Maxwell's Equations from the Wilson Action}{64}{subsection.9.4}%
-\contentsline {subsection}{\numberline {9.5}Reductions and Numerical Confirmation}{64}{subsection.9.5}%
-\contentsline {paragraph}{Massless photon (vacuum).}{64}{section*.65}%
-\contentsline {paragraph}{Static charge (Coulomb's law).}{64}{section*.66}%
-\contentsline {paragraph}{Static current (Biot--Savart).}{65}{section*.67}%
-\contentsline {paragraph}{Numerical confirmation (\texttt {exp\_08}, \texttt {exp\_09}, \texttt {exp\_19c}).}{65}{section*.68}%
-\contentsline {subsection}{\numberline {9.6}Honest Scope: What is Derived and What is Postulated}{65}{subsection.9.6}%
-\contentsline {subsection}{\numberline {9.7}Open Program: The Induced Gauge Action}{66}{subsection.9.7}%
-\contentsline {section}{\numberline {10}Interference and the Huygens Lantern}{68}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Why Complex Amplitudes Are Essential}{68}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}The Huygens Lantern: Each Node a Secondary Source}{69}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}The Double-Slit Setup}{69}{subsection.10.3}%
+\contentsline {subsection}{\numberline {3.1}The Phase Oscillator: U(1) Group and Algebra}{23}{subsection.3.1}%
+\contentsline {paragraph}{The phase mismatch as local Hamiltonian.}{23}{section*.11}%
+\contentsline {paragraph}{Why this matters.}{25}{section*.12}%
+\contentsline {subsection}{\numberline {3.2}The Causal Session: Spinor Amplitude on the Lattice}{25}{subsection.3.2}%
+\contentsline {paragraph}{Massless sessions.}{25}{section*.13}%
+\contentsline {subsection}{\numberline {3.3}The Tick Rule as Gauge Transformation}{26}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Inertia as Phase-Gradient Stability}{27}{subsection.3.4}%
+\contentsline {paragraph}{Summary.}{27}{section*.15}%
+\contentsline {section}{\numberline {4}The Tick Scheduler}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}The Macro-Tick}{28}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}The Combinatorial Clock Space}{28}{subsection.4.2}%
+\contentsline {paragraph}{Shuffle schemes as experimental variables.}{29}{section*.16}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_05}).}{29}{section*.17}%
+\contentsline {subsection}{\numberline {4.3}Pairwise Coupling and the Binding Dial}{29}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Three-Session Coupling and Emission}{30}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Clock Density and Time Dilation}{31}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Queue Saturation and the Event Horizon}{31}{subsection.4.6}%
+\contentsline {paragraph}{Hawking radiation as queue-drop.}{32}{section*.18}%
+\contentsline {paragraph}{The Hawking temperature from boundary surface gravity.}{32}{section*.19}%
+\contentsline {paragraph}{Honest scope of Eq.~\eqref {eq:hawking_T}.}{33}{section*.20}%
+\contentsline {subsection}{\numberline {4.7}Architectural Irreversibility and the Arrow of Time}{33}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Falsifiable Consequences}{33}{subsection.4.8}%
+\contentsline {paragraph}{Minimum time-dilation quantum.}{33}{section*.21}%
+\contentsline {paragraph}{Discrete corrections in queue dynamics.}{34}{section*.22}%
+\contentsline {section}{\numberline {5}Phase Propagation and the Unity Constraint}{34}{section.5}%
+\contentsline {subsection}{\numberline {5.1}The Tick Operator}{34}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Linearity and Superposition}{35}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Phase Routing and the Discrete Hamiltonian}{35}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}The Unity Constraint in Operation}{36}{subsection.5.4}%
+\contentsline {paragraph}{Conservation.}{36}{section*.23}%
+\contentsline {paragraph}{Projection.}{36}{section*.24}%
+\contentsline {subsection}{\numberline {5.5}The Continuum Limit: From Tick Rule to Schr\"odinger}{37}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Boundary Conditions}{37}{subsection.5.6}%
+\contentsline {paragraph}{Periodic.}{37}{section*.25}%
+\contentsline {paragraph}{Absorbing.}{38}{section*.26}%
+\contentsline {paragraph}{Reflecting.}{38}{section*.27}%
+\contentsline {paragraph}{Choice of boundary condition.}{38}{section*.28}%
+\contentsline {paragraph}{Summary.}{38}{section*.29}%
+\contentsline {section}{\numberline {6}Emergent Kinematics on the $\mathcal {T}_\diamond ^3$ Lattice}{38}{section.6}%
+\contentsline {subsection}{\numberline {6.1}The Bipartite Velocity}{39}{subsection.6.1}%
+\contentsline {paragraph}{What drives the oscillation?}{39}{section*.30}%
+\contentsline {subsection}{\numberline {6.2}Phase Gradient as Momentum}{40}{subsection.6.2}%
+\contentsline {paragraph}{Massless limit.}{41}{section*.32}%
+\contentsline {paragraph}{Numerical verification.}{41}{section*.33}%
+\contentsline {subsection}{\numberline {6.3}Acceleration and Force}{42}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}The Continuum Limit: Emergence of the Dirac Equation}{42}{subsection.6.4}%
+\contentsline {paragraph}{The hop operator in Fourier space.}{42}{section*.34}%
+\contentsline {paragraph}{Isotropy at the operator level: the lattice is birefringent.}{43}{section*.35}%
+\contentsline {paragraph}{Recovery of $\mathrm {SO}(3)$ at the observable level.}{43}{section*.36}%
+\contentsline {paragraph}{The Dirac equation.}{44}{section*.37}%
+\contentsline {paragraph}{Summary of structural consequences.}{44}{section*.38}%
+\contentsline {paragraph}{Lie-theoretic structure.}{45}{section*.39}%
+\contentsline {section}{\numberline {7}Gravity as Clock Density}{45}{section.7}%
+\contentsline {subsection}{\numberline {7.1}The Clock Density Field}{45}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Gravitational Attraction as Refractive Bias}{46}{subsection.7.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_02}).}{46}{section*.40}%
+\contentsline {paragraph}{The microscopic mechanism: virtual-session cloud.}{47}{section*.41}%
+\contentsline {subsection}{\numberline {7.3}The Continuum Limit: Newtonian Gravity}{47}{subsection.7.3}%
+\contentsline {paragraph}{Step 1: Force from phase mismatch (Newton's second law).}{47}{section*.42}%
+\contentsline {paragraph}{Step 2: The source produces a $1/r^2$ force (Poisson's equation).}{49}{section*.43}%
+\contentsline {paragraph}{The classical domain.}{49}{section*.44}%
+\contentsline {paragraph}{Structural consequence: the equivalence principle.}{49}{section*.45}%
+\contentsline {subsection}{\numberline {7.4}Gravitational Time Dilation as Scheduler Load}{50}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Conservation of Clock Density}{50}{subsection.7.5}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{50}{section*.46}%
+\contentsline {subsection}{\numberline {7.6}Black Holes as Scheduler Saturation}{50}{subsection.7.6}%
+\contentsline {paragraph}{The Bekenstein-Hawking entropy from boundary session counting.}{51}{section*.47}%
+\contentsline {paragraph}{Honest scope of Eq.~\eqref {eq:bekenstein}.}{52}{section*.48}%
+\contentsline {subsection}{\numberline {7.7}The metric tensor as a functional of $\rho _\text {clock}$}{52}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Connection to General Relativity}{53}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}The Quantum Roche Limit}{53}{subsection.7.9}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_18}).}{54}{section*.49}%
+\contentsline {paragraph}{Comparison with entropic gravity.}{54}{section*.51}%
+\contentsline {section}{\numberline {8}Clock Fluid Dynamics and the Continuum Limit}{55}{section.8}%
+\contentsline {subsection}{\numberline {8.1}The Global Clock Budget}{55}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}The Continuity Equation}{55}{subsection.8.2}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_07}).}{56}{section*.52}%
+\contentsline {subsection}{\numberline {8.3}The Momentum Equation and Emergent Gravity}{56}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}The Clock Fluid as a Compressible Superfluid}{56}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Gravitational Waves as Clock Fluid Phonons}{57}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}General Relativity as the Continuum Limit}{57}{subsection.8.6}%
+\contentsline {paragraph}{Numerical verification (\texttt {exp\_08}).}{58}{section*.53}%
+\contentsline {paragraph}{Discrete corrections.}{58}{section*.54}%
+\contentsline {subsection}{\numberline {8.7}Black Hole Formation as a Clock Fluid Shock Wave}{58}{subsection.8.7}%
+\contentsline {subsection}{\numberline {8.8}Gradient Ionization: Plasma as a Clock Fluid Phase}{59}{subsection.8.8}%
+\contentsline {paragraph}{Arnold tongue compression and quantum number dependence.}{59}{section*.55}%
+\contentsline {paragraph}{Plasma as a clock fluid phase.}{60}{section*.56}%
+\contentsline {paragraph}{The quantum Roche limit.}{60}{section*.57}%
+\contentsline {paragraph}{Open questions.}{61}{section*.58}%
+\contentsline {section}{\numberline {9}The Vacuum Twist: Gravity, Electromagnetism, and the Unified Phase Field}{61}{section.9}%
+\contentsline {subsection}{\numberline {9.1}The Two Channels of Vacuum Deformation}{62}{subsection.9.1}%
+\contentsline {paragraph}{The microscopic mechanism: sublattice-sorted virtual-session clouds.}{62}{section*.59}%
+\contentsline {subsection}{\numberline {9.2}The Divergence Channel: Gravity (Recap)}{63}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}The Curl Channel: Matter-Side Derivation}{63}{subsection.9.3}%
+\contentsline {paragraph}{The link variable is forced.}{63}{section*.60}%
+\contentsline {paragraph}{Gauge covariance of the tick rule.}{64}{section*.61}%
+\contentsline {paragraph}{The plaquette is the field strength.}{64}{section*.62}%
+\contentsline {paragraph}{The Dirac current.}{65}{section*.63}%
+\contentsline {subsection}{\numberline {9.4}Maxwell's Equations from the Wilson Action}{65}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Reductions and Numerical Confirmation}{66}{subsection.9.5}%
+\contentsline {paragraph}{Massless photon (vacuum).}{66}{section*.64}%
+\contentsline {paragraph}{Static charge (Coulomb's law).}{66}{section*.65}%
+\contentsline {paragraph}{Static current (Biot--Savart).}{66}{section*.66}%
+\contentsline {paragraph}{Numerical confirmation (\texttt {exp\_08}, \texttt {exp\_09}, \texttt {exp\_19c}).}{66}{section*.67}%
+\contentsline {subsection}{\numberline {9.6}Honest Scope: What is Derived and What is Postulated}{67}{subsection.9.6}%
+\contentsline {subsection}{\numberline {9.7}Open Program: The Induced Gauge Action}{68}{subsection.9.7}%
+\contentsline {section}{\numberline {10}Interference and the Huygens Lantern}{69}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Why Complex Amplitudes Are Essential}{69}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}The Huygens Lantern: Each Node a Secondary Source}{70}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}The Double-Slit Setup}{70}{subsection.10.3}%
 \contentsline {subsection}{\numberline {10.4}Fringe Formation and the Path-Length Condition}{71}{subsection.10.4}%
-\contentsline {paragraph}{Numerical result (\texttt {exp\_03}).}{71}{section*.70}%
-\contentsline {paragraph}{The path-length condition.}{71}{section*.71}%
-\contentsline {subsection}{\numberline {10.5}Decoherence: Which-Path Information Collapses the Fringes}{71}{subsection.10.5}%
-\contentsline {paragraph}{Numerical result (\texttt {exp\_04}).}{71}{section*.72}%
-\contentsline {subsection}{\numberline {10.6}Discrete versus Continuous: Falsifiable Corrections}{72}{subsection.10.6}%
-\contentsline {subsection}{\numberline {10.7}The Born Rule as a Path-Counting Identity}{73}{subsection.10.7}%
-\contentsline {paragraph}{Paths on the lattice.}{74}{section*.74}%
-\contentsline {paragraph}{A=1 is the Born normalisation.}{74}{section*.75}%
-\contentsline {paragraph}{Continuum limit: the Gaussian probability.}{75}{section*.76}%
-\contentsline {paragraph}{Massive sessions.}{75}{section*.77}%
-\contentsline {paragraph}{Discrete corrections.}{75}{section*.78}%
-\contentsline {paragraph}{Summary.}{76}{section*.79}%
-\contentsline {section}{\numberline {11}The Observer as a Clock}{76}{section.11}%
-\contentsline {subsection}{\numberline {11.1}Observation as Clock Registration}{76}{subsection.11.1}%
-\contentsline {subsection}{\numberline {11.2}Asymmetric Phase Exchange and Apparent Collapse}{77}{subsection.11.2}%
-\contentsline {paragraph}{The mechanism of apparent collapse.}{78}{section*.80}%
-\contentsline {subsection}{\numberline {11.3}Irreversibility and Entropy}{78}{subsection.11.3}%
-\contentsline {paragraph}{No special role for consciousness.}{79}{section*.81}%
-\contentsline {subsection}{\numberline {11.4}Entanglement as Correlated Cone Structure}{79}{subsection.11.4}%
-\contentsline {section}{\numberline {12}Path Counting and Falsifiable Predictions}{79}{section.12}%
-\contentsline {subsection}{\numberline {12.1}The Calibration Question}{80}{subsection.12.1}%
-\contentsline {paragraph}{Planck calibration ($a \sim \ell _P \approx 1.6 \times 10^{-35}\,\text {m}$).}{80}{section*.82}%
-\contentsline {paragraph}{Compton calibration ($a \sim \lambda _C \approx 2.4 \times 10^{-12}\,\text {m}$).}{80}{section*.83}%
-\contentsline {paragraph}{Other calibrations.}{80}{section*.84}%
-\contentsline {paragraph}{Compton-calibration numbers as upper bounds.}{80}{section*.85}%
-\contentsline {subsection}{\numberline {12.2}P1: Discrete Corrections to Interference at Small N}{81}{subsection.12.2}%
-\contentsline {paragraph}{Claim.}{81}{section*.86}%
-\contentsline {paragraph}{Lattice mechanism.}{81}{section*.87}%
-\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{81}{section*.88}%
-\contentsline {paragraph}{Experimental signature.}{82}{section*.89}%
-\contentsline {paragraph}{Falsification.}{82}{section*.90}%
-\contentsline {subsection}{\numberline {12.3}P2: Minimum Time-Dilation Quantum}{82}{subsection.12.3}%
-\contentsline {paragraph}{Claim.}{82}{section*.91}%
-\contentsline {paragraph}{Lattice mechanism.}{82}{section*.92}%
-\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{82}{section*.93}%
-\contentsline {paragraph}{Experimental signature.}{83}{section*.94}%
-\contentsline {paragraph}{Falsification.}{83}{section*.95}%
-\contentsline {subsection}{\numberline {12.4}P3: Octahedral Anisotropy}{83}{subsection.12.4}%
-\contentsline {paragraph}{Claim.}{83}{section*.96}%
-\contentsline {paragraph}{Lattice mechanism.}{83}{section*.97}%
-\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{83}{section*.98}%
-\contentsline {paragraph}{Experimental signature.}{83}{section*.99}%
-\contentsline {paragraph}{Falsification.}{84}{section*.100}%
-\contentsline {subsection}{\numberline {12.5}P4: Decay-Rate Clock-Density Correction}{84}{subsection.12.5}%
-\contentsline {paragraph}{Claim.}{84}{section*.101}%
-\contentsline {paragraph}{Lattice mechanism.}{84}{section*.102}%
-\contentsline {paragraph}{Derivation of the lattice correction.}{84}{section*.103}%
-\contentsline {paragraph}{Numerical scale.}{85}{section*.104}%
-\contentsline {paragraph}{Experimental signature.}{85}{section*.105}%
-\contentsline {paragraph}{Falsification.}{85}{section*.106}%
-\contentsline {subsection}{\numberline {12.6}P5: Arnold Tongue Width and the Stark/Lamb Discontinuity}{86}{subsection.12.6}%
-\contentsline {paragraph}{Claim.}{86}{section*.107}%
-\contentsline {paragraph}{Lattice mechanism.}{86}{section*.108}%
-\contentsline {paragraph}{Numerical scale.}{86}{section*.109}%
-\contentsline {paragraph}{Critical field from the Peierls substitution.}{86}{section*.110}%
-\contentsline {paragraph}{Experimental signature.}{87}{section*.111}%
-\contentsline {paragraph}{Falsification.}{87}{section*.112}%
-\contentsline {subsection}{\numberline {12.7}P6: Emission-Rate Corrections Near Mass Concentrations}{88}{subsection.12.7}%
-\contentsline {paragraph}{Claim.}{88}{section*.113}%
-\contentsline {paragraph}{Lattice mechanism.}{88}{section*.114}%
-\contentsline {paragraph}{Numerical scale (order-of-magnitude estimates).}{88}{section*.115}%
-\contentsline {paragraph}{Experimental signature.}{88}{section*.116}%
-\contentsline {paragraph}{Falsification.}{88}{section*.117}%
-\contentsline {subsection}{\numberline {12.8}P7: Photon Dispersion at the Lattice Cutoff}{89}{subsection.12.8}%
-\contentsline {paragraph}{Claim.}{89}{section*.118}%
-\contentsline {paragraph}{Lattice mechanism.}{89}{section*.119}%
-\contentsline {paragraph}{Numerical scale.}{89}{section*.120}%
-\contentsline {paragraph}{Experimental signature.}{89}{section*.121}%
-\contentsline {paragraph}{Falsification.}{89}{section*.122}%
-\contentsline {paragraph}{Direction-resolved refinement (lattice birefringence).}{89}{section*.123}%
-\contentsline {subsection}{\numberline {12.9}P8: The Quantum Roche Limit (Atomic ISCO)}{90}{subsection.12.9}%
-\contentsline {paragraph}{Claim, brief.}{90}{section*.124}%
-\contentsline {paragraph}{Numerical scale and signature.}{90}{section*.125}%
-\contentsline {subsection}{\numberline {12.10}P9: Multi-Channel Concordance of the Optical Axis}{91}{subsection.12.10}%
-\contentsline {paragraph}{Claim.}{91}{section*.126}%
-\contentsline {paragraph}{Lattice mechanism.}{91}{section*.127}%
-\contentsline {paragraph}{The five observational channels.}{91}{section*.128}%
-\contentsline {paragraph}{Time-dependence: three scenarios.}{92}{section*.129}%
-\contentsline {paragraph}{Numerical scale.}{92}{section*.130}%
-\contentsline {paragraph}{Experimental signature.}{93}{section*.131}%
-\contentsline {paragraph}{Falsification.}{93}{section*.132}%
-\contentsline {subsection}{\numberline {12.11}Summary Table of Predictions}{94}{subsection.12.11}%
-\contentsline {paragraph}{The calibration window.}{94}{section*.133}%
-\contentsline {paragraph}{What would falsify the framework as a whole.}{95}{section*.134}%
-\contentsline {section}{\numberline {13}Lattice Harmonics and Quantization}{95}{section.13}%
-\contentsline {subsection}{\numberline {13.1}The Zitterbewegung Mass Spectrum}{96}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}The Vacuum Carrier and the A Structure}{96}{subsection.13.2}%
-\contentsline {paragraph}{The A structure.}{97}{section*.135}%
-\contentsline {paragraph}{The 2:1 fixed point.}{97}{section*.136}%
-\contentsline {subsection}{\numberline {13.3}Arnold Tongues and the Farey Hierarchy}{97}{subsection.13.3}%
-\contentsline {paragraph}{Tongues, not lines.}{98}{section*.137}%
-\contentsline {paragraph}{The Farey hierarchy.}{98}{section*.138}%
-\contentsline {paragraph}{The Lorentz oscillator identification.}{98}{section*.139}%
-\contentsline {subsection}{\numberline {13.4}The Hydrogen Connection: $\omega \times R_1 = \pi /3$}{99}{subsection.13.4}%
-\contentsline {paragraph}{Bohr shells as multiples of $\pi /3$.}{99}{section*.140}%
-\contentsline {paragraph}{Why the 3:1 specifically?}{99}{section*.141}%
-\contentsline {subsection}{\numberline {13.5}Tongue Width and the Stark/Lamb Corrections}{99}{subsection.13.5}%
-\contentsline {paragraph}{The threshold prediction.}{100}{section*.142}%
-\contentsline {paragraph}{Comparison with QED predictions.}{100}{section*.143}%
-\contentsline {subsection}{\numberline {13.6}The Brillouin Zone and Photon Dispersion}{100}{subsection.13.6}%
-\contentsline {paragraph}{Photon dispersion.}{100}{section*.144}%
-\contentsline {paragraph}{Falsifiable prediction.}{101}{section*.145}%
-\contentsline {subsection}{\numberline {13.7}Music, Hofstadter, and the Temperament Problem}{101}{subsection.13.7}%
-\contentsline {paragraph}{The musical correspondence.}{101}{section*.146}%
-\contentsline {paragraph}{The temperament problem.}{102}{section*.147}%
-\contentsline {subsection}{\numberline {13.8}Open: The Particle Mass Spectrum as a Farey Hierarchy?}{102}{subsection.13.8}%
-\contentsline {section}{\numberline {14}The Universe is a Fractal}{103}{section.14}%
-\contentsline {subsection}{\numberline {14.1}The Tick Rule is Symplectic}{104}{subsection.14.1}%
-\contentsline {subsection}{\numberline {14.2}The KAM Theorem Forces a Cantor Set}{104}{subsection.14.2}%
-\contentsline {subsection}{\numberline {14.3}The Hausdorff Dimension is a Prediction}{105}{subsection.14.3}%
-\contentsline {subsection}{\numberline {14.4}The Devil's Staircase and the Farey Hierarchy of Masses}{106}{subsection.14.4}%
-\contentsline {paragraph}{Lie-theoretic restatement.}{106}{section*.149}%
-\contentsline {subsection}{\numberline {14.5}Connection to the Hofstadter Butterfly}{107}{subsection.14.5}%
-\contentsline {subsection}{\numberline {14.6}What It Means for the Universe}{107}{subsection.14.6}%
-\contentsline {section}{\numberline {15}The Hydrogen Spectrum from Lattice Geometry}{108}{section.15}%
-\contentsline {subsection}{\numberline {15.1}The Two-Session Requirement}{108}{subsection.15.1}%
-\contentsline {subsection}{\numberline {15.2}The Coulomb Clock-Density Well}{109}{subsection.15.2}%
-\contentsline {subsection}{\numberline {15.3}Bohr Spectrum from a Fixed Well}{110}{subsection.15.3}%
-\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{110}{section*.150}%
-\contentsline {subsection}{\numberline {15.4}Spontaneous Quantization and the Arnold Tongue}{110}{subsection.15.4}%
-\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{110}{section*.151}%
-\contentsline {subsection}{\numberline {15.5}Two-Body Hydrogen: Four Significant Figures}{110}{subsection.15.5}%
-\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{110}{section*.153}%
-\contentsline {subsection}{\numberline {15.6}Binding and Quantization are Separate Conditions}{113}{subsection.15.6}%
-\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{113}{section*.155}%
-\contentsline {subsection}{\numberline {15.7}Photon Emission as a Three-Session Event}{113}{subsection.15.7}%
-\contentsline {paragraph}{Why a single session cannot emit.}{113}{section*.156}%
-\contentsline {paragraph}{The three-session necessity.}{114}{section*.157}%
-\contentsline {paragraph}{Status of the numerical implementation (\texttt {exp\_19c}).}{114}{section*.158}%
-\contentsline {paragraph}{Three threads unified.}{115}{section*.159}%
-\contentsline {paragraph}{Contrast with QED.}{115}{section*.160}%
-\contentsline {paragraph}{Falsifiable consequences.}{115}{section*.161}%
-\contentsline {paragraph}{The Lorentz oscillator identification.}{116}{section*.162}%
-\contentsline {subsection}{\numberline {15.8}Connection to the Gravitational Programme}{116}{subsection.15.8}%
-\contentsline {section}{\numberline {16}Conclusion}{117}{section.16}%
-\contentsline {paragraph}{A discrete lattice plus a scheduler implies a preferred frame; how can this be Lorentz invariant?}{124}{section*.169}%
-\contentsline {paragraph}{Claiming to derive the Standard Model is a strong claim without a full mass-spectrum calculation.}{125}{section*.170}%
-\contentsline {paragraph}{How do we know the continuum matching to QM and GR is not tuned?}{125}{section*.171}%
-\contentsline {paragraph}{Is $\mathcal {A}=1$ truly unitary, given that sessions can be created or destroyed (photon emission)?}{125}{section*.172}%
-\contentsline {paragraph}{Black-hole thermodynamics rests on stated modelling assumptions; is this circular?}{126}{section*.173}%
-\contentsline {paragraph}{How does this compare with causal sets, Wolfram, and 't~Hooft's cellular automaton?}{126}{section*.174}%
-\contentsline {section}{\numberline {A}Code and Data}{127}{section.A}%
-\contentsline {section}{\numberline {B}The Induced Gauge Action}{130}{section.B}%
-\contentsline {subsection}{\numberline {B.1}Setup}{131}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Plaquette holonomy in the small-$a$ limit}{131}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}The plaquette sum: tensor form of the leading induced action}{132}{subsection.B.3}%
-\contentsline {subsection}{\numberline {B.4}Eigenstructure of $\mathbf {Q}$: the gauge-sector birefringence}{133}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}$O_h$ averaging recovers Maxwell}{133}{subsection.B.5}%
-\contentsline {subsection}{\numberline {B.6}Status of the induced-action programme}{135}{subsection.B.6}%
-\contentsline {subsection}{\numberline {B.7}Reproducibility}{136}{subsection.B.7}%
-\contentsline {section}{\numberline {C}Reproducibility Quickstart}{136}{section.C}%
+\contentsline {paragraph}{Numerical result (\texttt {exp\_03}).}{71}{section*.69}%
+\contentsline {paragraph}{The path-length condition.}{71}{section*.70}%
+\contentsline {subsection}{\numberline {10.5}Decoherence: Which-Path Information Collapses the Fringes}{73}{subsection.10.5}%
+\contentsline {paragraph}{Numerical result (\texttt {exp\_04}).}{73}{section*.71}%
+\contentsline {subsection}{\numberline {10.6}Discrete versus Continuous: Falsifiable Corrections}{73}{subsection.10.6}%
+\contentsline {subsection}{\numberline {10.7}The Born Rule as a Path-Counting Identity}{74}{subsection.10.7}%
+\contentsline {paragraph}{Paths on the lattice.}{75}{section*.73}%
+\contentsline {paragraph}{A=1 is the Born normalisation.}{76}{section*.74}%
+\contentsline {paragraph}{Continuum limit: the Gaussian probability.}{76}{section*.75}%
+\contentsline {paragraph}{Massive sessions.}{77}{section*.76}%
+\contentsline {paragraph}{Discrete corrections.}{77}{section*.77}%
+\contentsline {paragraph}{Summary.}{77}{section*.78}%
+\contentsline {section}{\numberline {11}The Observer as a Clock}{77}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Observation as Clock Registration}{78}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Asymmetric Phase Exchange and Apparent Collapse}{78}{subsection.11.2}%
+\contentsline {paragraph}{The mechanism of apparent collapse.}{79}{section*.79}%
+\contentsline {subsection}{\numberline {11.3}Irreversibility and Entropy}{80}{subsection.11.3}%
+\contentsline {paragraph}{No special role for consciousness.}{80}{section*.80}%
+\contentsline {subsection}{\numberline {11.4}Entanglement as Correlated Cone Structure}{80}{subsection.11.4}%
+\contentsline {section}{\numberline {12}Path Counting and Falsifiable Predictions}{81}{section.12}%
+\contentsline {subsection}{\numberline {12.1}The Calibration Question}{81}{subsection.12.1}%
+\contentsline {paragraph}{Planck calibration ($a \sim \ell _P \approx 1.6 \times 10^{-35}\,\text {m}$).}{81}{section*.81}%
+\contentsline {paragraph}{Compton calibration ($a \sim \lambda _C \approx 2.4 \times 10^{-12}\,\text {m}$).}{82}{section*.82}%
+\contentsline {paragraph}{Other calibrations.}{82}{section*.83}%
+\contentsline {paragraph}{Compton-calibration numbers as upper bounds.}{82}{section*.84}%
+\contentsline {subsection}{\numberline {12.2}P1: Discrete Corrections to Interference at Small N}{82}{subsection.12.2}%
+\contentsline {paragraph}{Claim.}{82}{section*.85}%
+\contentsline {paragraph}{Lattice mechanism.}{83}{section*.86}%
+\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{83}{section*.87}%
+\contentsline {paragraph}{Experimental signature.}{83}{section*.88}%
+\contentsline {paragraph}{Falsification.}{83}{section*.89}%
+\contentsline {subsection}{\numberline {12.3}P2: Minimum Time-Dilation Quantum}{83}{subsection.12.3}%
+\contentsline {paragraph}{Claim.}{83}{section*.90}%
+\contentsline {paragraph}{Lattice mechanism.}{84}{section*.91}%
+\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{84}{section*.92}%
+\contentsline {paragraph}{Experimental signature.}{84}{section*.93}%
+\contentsline {paragraph}{Falsification.}{84}{section*.94}%
+\contentsline {subsection}{\numberline {12.4}P3: Octahedral Anisotropy}{84}{subsection.12.4}%
+\contentsline {paragraph}{Claim.}{84}{section*.95}%
+\contentsline {paragraph}{Lattice mechanism.}{84}{section*.96}%
+\contentsline {paragraph}{Numerical scale (upper bound at Compton calibration).}{85}{section*.97}%
+\contentsline {paragraph}{Experimental signature.}{85}{section*.98}%
+\contentsline {paragraph}{Falsification.}{85}{section*.99}%
+\contentsline {subsection}{\numberline {12.5}P4: Decay-Rate Clock-Density Correction}{85}{subsection.12.5}%
+\contentsline {paragraph}{Claim.}{85}{section*.100}%
+\contentsline {paragraph}{Lattice mechanism.}{86}{section*.101}%
+\contentsline {paragraph}{Derivation of the lattice correction.}{86}{section*.102}%
+\contentsline {paragraph}{Numerical scale.}{86}{section*.103}%
+\contentsline {paragraph}{Experimental signature.}{87}{section*.104}%
+\contentsline {paragraph}{Falsification.}{87}{section*.105}%
+\contentsline {subsection}{\numberline {12.6}P5: Arnold Tongue Width and the Stark/Lamb Discontinuity}{87}{subsection.12.6}%
+\contentsline {paragraph}{Claim.}{87}{section*.106}%
+\contentsline {paragraph}{Lattice mechanism.}{87}{section*.107}%
+\contentsline {paragraph}{Numerical scale.}{87}{section*.108}%
+\contentsline {paragraph}{Critical field from the Peierls substitution.}{88}{section*.109}%
+\contentsline {paragraph}{Experimental signature.}{89}{section*.110}%
+\contentsline {paragraph}{Falsification.}{89}{section*.111}%
+\contentsline {subsection}{\numberline {12.7}P6: Emission-Rate Corrections Near Mass Concentrations}{89}{subsection.12.7}%
+\contentsline {paragraph}{Claim.}{89}{section*.112}%
+\contentsline {paragraph}{Lattice mechanism.}{89}{section*.113}%
+\contentsline {paragraph}{Numerical scale (order-of-magnitude estimates).}{89}{section*.114}%
+\contentsline {paragraph}{Experimental signature.}{90}{section*.115}%
+\contentsline {paragraph}{Falsification.}{90}{section*.116}%
+\contentsline {subsection}{\numberline {12.8}P7: Photon Dispersion at the Lattice Cutoff}{90}{subsection.12.8}%
+\contentsline {paragraph}{Claim.}{90}{section*.117}%
+\contentsline {paragraph}{Lattice mechanism.}{90}{section*.118}%
+\contentsline {paragraph}{Numerical scale.}{90}{section*.119}%
+\contentsline {paragraph}{Experimental signature.}{90}{section*.120}%
+\contentsline {paragraph}{Falsification.}{91}{section*.121}%
+\contentsline {paragraph}{Direction-resolved refinement (lattice birefringence).}{91}{section*.122}%
+\contentsline {subsection}{\numberline {12.9}P8: The Quantum Roche Limit (Atomic ISCO)}{91}{subsection.12.9}%
+\contentsline {paragraph}{Claim, brief.}{92}{section*.123}%
+\contentsline {paragraph}{Numerical scale and signature.}{92}{section*.124}%
+\contentsline {subsection}{\numberline {12.10}P9: Multi-Channel Concordance of the Optical Axis}{92}{subsection.12.10}%
+\contentsline {paragraph}{Claim.}{92}{section*.125}%
+\contentsline {paragraph}{Lattice mechanism.}{92}{section*.126}%
+\contentsline {paragraph}{The five observational channels.}{92}{section*.127}%
+\contentsline {paragraph}{Time-dependence: three scenarios.}{93}{section*.128}%
+\contentsline {paragraph}{Numerical scale.}{94}{section*.129}%
+\contentsline {paragraph}{Experimental signature.}{94}{section*.130}%
+\contentsline {paragraph}{Falsification.}{94}{section*.131}%
+\contentsline {subsection}{\numberline {12.11}Summary Table of Predictions}{96}{subsection.12.11}%
+\contentsline {paragraph}{The calibration window.}{96}{section*.132}%
+\contentsline {paragraph}{What would falsify the framework as a whole.}{97}{section*.133}%
+\contentsline {section}{\numberline {13}Lattice Harmonics and Quantization}{97}{section.13}%
+\contentsline {subsection}{\numberline {13.1}The Zitterbewegung Mass Spectrum}{98}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}The Vacuum Carrier and the A Structure}{98}{subsection.13.2}%
+\contentsline {paragraph}{The A structure.}{99}{section*.134}%
+\contentsline {paragraph}{The 2:1 fixed point.}{99}{section*.135}%
+\contentsline {subsection}{\numberline {13.3}Arnold Tongues and the Farey Hierarchy}{99}{subsection.13.3}%
+\contentsline {paragraph}{Tongues, not lines.}{100}{section*.136}%
+\contentsline {paragraph}{The Farey hierarchy.}{100}{section*.137}%
+\contentsline {paragraph}{The Lorentz oscillator identification.}{100}{section*.138}%
+\contentsline {subsection}{\numberline {13.4}The Hydrogen Connection: $\omega \times R_1 = \pi /3$}{101}{subsection.13.4}%
+\contentsline {paragraph}{Bohr shells as multiples of $\pi /3$.}{101}{section*.139}%
+\contentsline {paragraph}{Why the 3:1 specifically?}{101}{section*.140}%
+\contentsline {subsection}{\numberline {13.5}Tongue Width and the Stark/Lamb Corrections}{101}{subsection.13.5}%
+\contentsline {paragraph}{The threshold prediction.}{102}{section*.141}%
+\contentsline {paragraph}{Comparison with QED predictions.}{102}{section*.142}%
+\contentsline {subsection}{\numberline {13.6}The Brillouin Zone and Photon Dispersion}{102}{subsection.13.6}%
+\contentsline {paragraph}{Photon dispersion.}{102}{section*.143}%
+\contentsline {paragraph}{Falsifiable prediction.}{103}{section*.144}%
+\contentsline {subsection}{\numberline {13.7}Music, Hofstadter, and the Temperament Problem}{103}{subsection.13.7}%
+\contentsline {paragraph}{The musical correspondence.}{103}{section*.145}%
+\contentsline {paragraph}{The temperament problem.}{104}{section*.146}%
+\contentsline {subsection}{\numberline {13.8}Open: The Particle Mass Spectrum as a Farey Hierarchy?}{104}{subsection.13.8}%
+\contentsline {section}{\numberline {14}The Universe is a Fractal}{105}{section.14}%
+\contentsline {subsection}{\numberline {14.1}The Tick Rule is Symplectic}{106}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}The KAM Theorem Forces a Cantor Set}{106}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}The Hausdorff Dimension is a Prediction}{107}{subsection.14.3}%
+\contentsline {subsection}{\numberline {14.4}The Devil's Staircase and the Farey Hierarchy of Masses}{108}{subsection.14.4}%
+\contentsline {paragraph}{Lie-theoretic restatement.}{108}{section*.148}%
+\contentsline {subsection}{\numberline {14.5}Connection to the Hofstadter Butterfly}{109}{subsection.14.5}%
+\contentsline {subsection}{\numberline {14.6}What It Means for the Universe}{109}{subsection.14.6}%
+\contentsline {section}{\numberline {15}The Hydrogen Spectrum from Lattice Geometry}{110}{section.15}%
+\contentsline {subsection}{\numberline {15.1}The Two-Session Requirement}{110}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}The Coulomb Clock-Density Well}{111}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}Bohr Spectrum from a Fixed Well}{112}{subsection.15.3}%
+\contentsline {paragraph}{Experiment \texttt {exp\_10}.}{112}{section*.149}%
+\contentsline {subsection}{\numberline {15.4}Spontaneous Quantization and the Arnold Tongue}{112}{subsection.15.4}%
+\contentsline {paragraph}{Experiment \texttt {exp\_11}.}{112}{section*.150}%
+\contentsline {subsection}{\numberline {15.5}Two-Body Hydrogen: Four Significant Figures}{112}{subsection.15.5}%
+\contentsline {paragraph}{Experiment \texttt {exp\_12}.}{112}{section*.152}%
+\contentsline {subsection}{\numberline {15.6}Binding and Quantization are Separate Conditions}{115}{subsection.15.6}%
+\contentsline {paragraph}{Experiment \texttt {exp\_16}.}{115}{section*.154}%
+\contentsline {subsection}{\numberline {15.7}Photon Emission as a Three-Session Event}{115}{subsection.15.7}%
+\contentsline {paragraph}{Why a single session cannot emit.}{115}{section*.155}%
+\contentsline {paragraph}{The three-session necessity.}{116}{section*.156}%
+\contentsline {paragraph}{Status of the numerical implementation (\texttt {exp\_19c}).}{116}{section*.157}%
+\contentsline {paragraph}{Three threads unified.}{117}{section*.158}%
+\contentsline {paragraph}{Contrast with QED.}{117}{section*.159}%
+\contentsline {paragraph}{Falsifiable consequences.}{117}{section*.160}%
+\contentsline {paragraph}{The Lorentz oscillator identification.}{118}{section*.161}%
+\contentsline {subsection}{\numberline {15.8}Connection to the Gravitational Programme}{118}{subsection.15.8}%
+\contentsline {section}{\numberline {16}Conclusion}{119}{section.16}%
+\contentsline {paragraph}{A discrete lattice plus a scheduler implies a preferred frame; how can this be Lorentz invariant?}{126}{section*.168}%
+\contentsline {paragraph}{Claiming to derive the Standard Model is a strong claim without a full mass-spectrum calculation.}{127}{section*.169}%
+\contentsline {paragraph}{How do we know the continuum matching to QM and GR is not tuned?}{127}{section*.170}%
+\contentsline {paragraph}{Is $\mathcal {A}=1$ truly unitary, given that sessions can be created or destroyed (photon emission)?}{127}{section*.171}%
+\contentsline {paragraph}{Black-hole thermodynamics rests on stated modelling assumptions; is this circular?}{128}{section*.172}%
+\contentsline {paragraph}{How does this compare with causal sets, Wolfram, and 't~Hooft's cellular automaton?}{128}{section*.173}%
+\contentsline {section}{\numberline {A}Code and Data}{129}{section.A}%
+\contentsline {section}{\numberline {B}The Induced Gauge Action}{132}{section.B}%
+\contentsline {subsection}{\numberline {B.1}Setup}{133}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Plaquette holonomy in the small-$a$ limit}{133}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}The plaquette sum: tensor form of the leading induced action}{134}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}Eigenstructure of $\mathbf {Q}$: the gauge-sector birefringence}{135}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.5}$O_h$ averaging recovers Maxwell}{135}{subsection.B.5}%
+\contentsline {subsection}{\numberline {B.6}Status of the induced-action programme}{137}{subsection.B.6}%
+\contentsline {subsection}{\numberline {B.7}Reproducibility}{138}{subsection.B.7}%
+\contentsline {section}{\numberline {C}Reproducibility Quickstart}{138}{section.C}%
