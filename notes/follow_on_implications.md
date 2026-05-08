@@ -784,6 +784,206 @@ rather than a derivation.
 
 ---
 
+## 17. Measurement Theory on the A=1 Lattice
+
+**The idea:** The A=1 framework dissolves the measurement *postulate*
+(Born rule is derived via Gleason in §10.7.1) but does not yet have a
+measurement *mechanism*.  The substantive part of the measurement
+problem — why definite outcomes emerge from superpositions — is still
+open.  This follow-on collects the framework's existing pieces into a
+coherent measurement theory.
+
+**What is already in place:**
+
+- The observer is just another session
+  (§\texttt{observer\_as\_clock}); there is no fundamental system /
+  observer divide.
+- \texttt{exp\_04} derives decoherence as phase scrambling under
+  pairwise session interaction.
+- \texttt{exp\_05} confirms observer-ordering invariance: sequential,
+  random, and priority orderings produce identical statistical
+  outcomes.
+- §10.7.1 settles the probability rule — $|\psi|^2$ is forced by
+  Gleason's theorem applied to the framework's emergent Hilbert space.
+
+**What is open:**
+
+- A formal criterion distinguishing *measurement* (recording) from
+  *decoherence* (scrambling).  The TickScheduler's pairwise machinery
+  produces both; what makes some interactions "record" outcomes and
+  others merely scramble phases?  Likely candidate: persistent
+  correlation between $\mathcal{A}_\text{joint}$ structure of the
+  observer session and the system session, vs transient phase
+  scrambling that decays.
+- The role of $\mathcal{A}_\text{joint}$ in encoding observer-system
+  correlations.  In a measurement, the observer's amplitude becomes
+  correlated with the system's; this is structurally identical to
+  entanglement (follow-on #6) but differs in that the observer's
+  internal state is "macroscopic" (large session count, classical
+  regime).
+- Wigner's friend, EPR, delayed-choice experiments: the framework has
+  the structural ingredients (multi-session amplitudes, joint
+  $\mathcal{A}=1$, scheduler invariance) but no closed treatment.
+- The classical limit: when does the lattice reproduce the appearance
+  of definite outcomes?  Likely connected to many-session decoherence
+  bath approximations.
+
+**Distinct from #6 (Entanglement / CHSH).**  #6 is about whether the
+A=1 framework reproduces Bell-violating correlations between
+spatially-separated post-interaction sessions.  #17 is about what an
+observation of those correlations *is* in the framework — when does a
+session count as "measuring" another?  The two papers share machinery
+but address different audiences (Bell-tests for #6, foundations-of-QM
+for #17).
+
+**Why this earns its keep:**
+
+- The Born rule derivation in §10.7.1 is incomplete without a
+  matching mechanism story.  Reviewers familiar with the measurement
+  problem will ask "Born rule is derived, but how does the lattice
+  produce definite outcomes?" and the framework needs an answer.
+- It connects directly to the foundations-of-QM audience (Spekkens,
+  Hardy, Brukner, Bub) which is structurally pluralistic and
+  receptive to outsider work.
+- The dissolved-postulate / mechanism-gap framing is honest: the
+  framework's contribution is identifying which part of the
+  measurement problem dissolves and which remains.
+
+**Written up in (existing pieces):**
+
+- §\texttt{observer\_as\_clock} (paper text) — observer as session.
+- \texttt{src/experiments/exp\_04} — decoherence via phase scrambling.
+- \texttt{src/experiments/exp\_05} — observer-ordering invariance.
+- §10.7.1 (paper text) — Born rule via Gleason.
+- \texttt{notes/born\_rule\_gleason\_uniqueness.md} — proof sketch.
+
+**Future draft material:** lives in the external research repo per
+established convention.  dcl carries the index entry; the follow-on
+paper draft develops externally.
+
+**Dependencies:** v1.0 paper release; closure of follow-on #6
+(Entanglement) helpful but not strictly required.
+
+**Priority:** High structural-significance follow-on but lower
+calendar priority than #16 (gauge group) or #9 (tidal ionization)
+because it has no new experimental observables — it's a foundational
+paper that ties existing pieces together, not a new prediction.
+Probably best published *after* the framework has accumulated more
+experimental/theoretical credibility, so reviewers are inclined to
+read a foundations paper rather than dismiss it.
+
+---
+
+## 18. Combinatorial Foundations of Continuum Physics — A Hilbert-6th-Style Axiomatization
+
+**The idea:** The A=1 framework already *does* what Hilbert's sixth
+problem (1900) asked for — axiomatize physics with the same rigour as
+Euclid axiomatized geometry — but the framework has not yet stated
+this as its central methodological claim.  Each continuum equation
+(Dirac, Maxwell, Newton-gravity, the clock-fluid hydrodynamics) is
+the $a \to 0$ limit of a *combinatorial* tick rule on the lattice.
+The framework converts continuum analysis into discrete combinatorics
+as its core move.
+
+**The methodological claim:**
+
+> **Continuum PDEs are convenient summaries of underlying combinatorial
+> tick dynamics; they are not fundamental.**  Apparently-hard analysis
+> problems become tractable when reformulated combinatorially on the
+> A=1 lattice.
+
+**Specific applications:**
+
+1. **Navier-Stokes regularity.**  The clock-fluid equations
+   (§\texttt{clock\_fluid\_dynamics}) are a Navier-Stokes-like system
+   derived combinatorially from session counting.  The Clay
+   Millennium Problem asks whether smooth solutions to continuum
+   Navier-Stokes persist for all time — but the framework's
+   substantive claim is that *continuum NS is the wrong question*.
+   The lattice has a UV cutoff at $a$; singularity formation in
+   continuum NS is an artefact of taking $a \to 0$ too aggressively.
+   The Hilbert-6th-style answer: regularity is decidable
+   combinatorially on the lattice, and the continuum question is
+   ill-posed.  This is a *structural* dissolution of the Clay
+   problem, not an analytic solution.
+
+2. **Boltzmann equation.**  The framework's detailed-balance argument
+   (used in the §7.7 $g_{\mu\nu}$ derivation) is the Boltzmann
+   H-theorem mechanism in disguise.  The Boltzmann equation emerges
+   as a continuum limit of session-ensemble hop dynamics on the
+   lattice; the H-theorem follows from the lattice's chiral parity
+   forcing detailed balance on every neighbour pair.  Rigorous
+   axiomatization of statistical mechanics from the A=1 axiom is
+   tractable.
+
+3. **Maxwell's equations.**  Already in place
+   (§\texttt{vacuum\_twist\_field\_equations}; Wilson plaquette
+   construction).  Combinatorial origin → continuum result.
+
+4. **Dirac equation.**  Already in place
+   (§\texttt{emergent\_kinematics} §6 derivation).  Combinatorial
+   origin → continuum result.
+
+5. **Einstein field equations** (weak-field).  Already in place
+   (§7.7 metric formula).  Combinatorial origin → continuum result.
+
+6. **Other classical analysis problems** that may be tractable
+   combinatorially: heat equation (clock-density diffusion),
+   wave equation (lattice harmonics, exp\_09), Schrödinger equation
+   (Dirac in non-relativistic limit), Helmholtz equation (lattice
+   eigenmodes).
+
+**Distinct from #14 (Balanced equations).**  Entry 14 is about
+*site-level master equations* and entanglement evolution at the
+dynamics level.  This entry (18) is broader — it is the framework's
+claim to a Hilbert-6th-style axiomatization of all of continuum
+physics.  Entry 14 is one application of entry 18's general
+principle; entry 18 is the unifying mathematical statement.
+
+**Why this earns its keep:**
+
+- Hilbert's 6th has been an open problem for 125 years.  Even a
+  *partial* answer addressing some of the sciences (e.g., classical
+  fluid mechanics, statistical mechanics) is publishable.
+- The framework's combinatorial-substrate claim is its most
+  distinctive structural feature; not stating it as the unifying
+  principle leaves the methodology implicit.
+- Mathematicians (not just physicists) are an audience for this
+  paper: the claim that hard analysis problems become tractable
+  combinatorially on the right lattice is mathematically interesting
+  in its own right, independent of the physics.
+- The Clay problem reframing is high-stakes: if accepted, the
+  framework changes how the problem is conceived; if rejected, the
+  framework is forced to clarify why continuum NS is the right
+  question after all.
+
+**Written up in (scattered pieces):**
+
+- §\texttt{emergent\_kinematics} §6 — Dirac from tick rule.
+- §\texttt{gravity\_as\_clock\_density} §7.3, §7.7 — Newton + metric
+  from clock-fluid.
+- §\texttt{vacuum\_twist\_field\_equations} — Maxwell from Wilson
+  plaquettes.
+- §\texttt{clock\_fluid\_dynamics} — Navier-Stokes-like equations.
+- \texttt{notes/g\_mu\_nu\_clock\_density\_identification.md} —
+  detailed-balance / Boltzmann mechanism on the bipartite lattice.
+
+**Future draft material:** lives in the external research repo per
+established convention.
+
+**Dependencies:** v1.0 paper release.  Some material can be drafted
+in parallel with the v1.0 paper since it is largely a re-organisation
+of existing content under a unifying methodological claim.
+
+**Priority:** Highest *long-term* impact follow-on — addresses
+Hilbert's 6th and reframes the Clay Navier-Stokes problem.  Likely
+the right paper to publish *after* several individual-result follow-
+ons (proton, H₂, plasma) have established that the framework
+*works*.  Stating the methodological claim too early reads as
+ambitious; stating it after demonstrated success reads as deserved.
+
+---
+
 ## Priority Order for Follow-On Papers
 
 1. **Tidal ionization mass** (#9) — direct, testable prediction with a number;
@@ -801,3 +1001,5 @@ rather than a derivation.
 9. **Balanced equations and birefringent channels** (#14) — back-pocket; site-level master equations + force-channel gradients + entanglement evolution + birefringence diagram; sits one resolution above #13; the birefringent-channel diagram could be extracted early if P9 gets observational corroboration
 10. **Clock-density photon decoherence** (#15) — magnitude unusually favourable (ns jitter at P7's upper bound, within pulsar-timing precision); needs the coupling $\alpha$ derived from first principles, then `exp_4b` to test the spatial-coherence-length signature numerically; potential sixth P9 channel if anisotropy along $(1,1,-1)$ falls out of the calculation
 11. **SM gauge derivation: extended-amplitude direct-product construction** (#16) — *the* SM-derivation paper, scoped precisely after v1.0 Step 5; the four-factor direct product $SO(3,1) \times SU(3) \times SU(2) \times U(1)$ is achievable on the extended per-site $\mathbb{C}^{12}$ amplitude (verified); three substantive open questions remain (tick-rule extension consistency, exact equality of Aut, SM-chirality coupling); computational scaffolding already in place via four `src/utilities/automorphism_*.py` scripts; structural-impact follow-on with publishable outcomes whether (iii) resolves favourably or as an obstruction statement
+12. **Measurement theory on the A=1 lattice** (#17) — foundational paper unifying observer-as-session, decoherence-via-phase-scrambling (\texttt{exp\_04}), observer-ordering invariance (\texttt{exp\_05}), and the Born-rule-via-Gleason result; dissolves the measurement *postulate* but identifies the measurement *mechanism* gap as the substantive open piece; pairs with #6 (Entanglement / CHSH) but addresses different audience (foundations-of-QM rather than Bell-tests); best published after the framework has accumulated experimental credibility so reviewers engage rather than dismiss
+13. **Hilbert's 6th: combinatorial foundations of continuum physics** (#18) — highest *long-term* impact follow-on, addresses Hilbert's sixth problem (1900) and reframes the Clay Navier-Stokes regularity question as ill-posed in the continuum.  Methodological claim: continuum PDEs (Dirac, Maxwell, Newton-gravity, Navier-Stokes, Boltzmann) are summaries of underlying combinatorial tick dynamics; hard analysis problems become tractable when reformulated combinatorially on the A=1 lattice.  Right paper to publish *after* several individual-result follow-ons have established the framework works — stating the methodological claim too early reads as ambitious, after demonstrated success it reads as deserved
