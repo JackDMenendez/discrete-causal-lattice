@@ -15,12 +15,10 @@ from leaving a workstation undisturbed for hours to days.
 \subsection*{Repository and archived release}
 
 \begin{itemize}
-\item Source code, paper sources, and data files:
-\href{https://github.com/JackDMenendez/discrete-causal-lattice}%
-{\texttt{https://github.com/JackDMenendez/discrete-causal-lattice}}
-\item Archived release (this version):
-\href{https://doi.org/10.5281/zenodo.20017133}%
-{\texttt{doi:10.5281/zenodo.20017133}}
+\item Source code, paper sources, and data files:\\
+\url{https://github.com/JackDMenendez/discrete-causal-lattice}
+\item Archived release (this version):\\
+\url{https://doi.org/10.5281/zenodo.NNNNNNNN}
 \item Citation metadata: \texttt{CITATION.cff} at the repository root.
 \item License: MIT.
 \end{itemize}
@@ -104,47 +102,48 @@ in Table~\ref{tab:experiment_parameters}.
 
 \begin{table}[htbp]
 \centering
-\small
-\caption{Parameter values for the numerical experiments cited in the
-audit table. Lattice units throughout: distance in nodes, time in
-ticks, $\hbar = c = 1$. \texttt{GRID} is the side length of a cubic
-grid; \texttt{TICKS} is the total simulated time per run.}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{\small Parameter values for the numerical experiments cited
+in the audit table. Lattice units throughout: distance in nodes,
+time in ticks, $\hbar = c = 1$. \texttt{GRID} is the side length of
+a cubic grid; \texttt{TICKS} is the total simulated time per run.}
 \label{tab:experiment_parameters}
-\begin{tabular}{lllll}
+\begin{tabular}{@{}p{1.4cm}p{1.0cm}p{2.4cm}p{4.4cm}p{4.6cm}@{}}
 \hline
 \textbf{Experiment} & \textbf{GRID} & \textbf{TICKS} &
 \textbf{Key parameters} & \textbf{Source} \\
 \hline
 \texttt{exp\_00} & $51^3$ & $20$ &
 $\omega \in \{0,\, 0.5,\, 1.0\}$ &
-\texttt{exp\_00\_causal\_cone.py} \\
+\nolinkurl{exp_00_causal_cone.py} \\
 \texttt{exp\_02} & $65^3$ & $4000$ &
 test particle, mass well at centre &
-\texttt{exp\_02\_gravity\_clock\_density.py} \\
+\nolinkurl{exp_02_gravity_clock_density.py} \\
 \texttt{exp\_06} & --- & $N \in \{4,\dots,64\}$ &
 exact path-count integers &
-\texttt{exp\_06\_path\_counting.py} \\
+\nolinkurl{exp_06_path_counting.py} \\
 \texttt{exp\_08} & $65^3$ & $1500$ &
 EM vs.\ gravity, Peierls $A\!\cdot\!v$ coupling &
-\texttt{exp\_08\_vacuum\_twist.py} \\
+\nolinkurl{exp_08_vacuum_twist.py} \\
 \texttt{exp\_09} & $65^3$ & $4000$ &
 $f\!\in\!(0,1)$, $\omega\!\in\!(0,2\pi)$ harmonic scan &
-\texttt{exp\_09c\_harmonic\_hires.py} \\
+\nolinkurl{exp_09c_harmonic_hires.py} \\
 \texttt{exp\_10} & $65^3$ & $8000$ &
 $\omega = 0.1019$, \texttt{STRENGTH} $= 30.0$ &
-\texttt{exp\_10\_hydrogen\_spectrum.py} \\
+\nolinkurl{exp_10_hydrogen_spectrum.py} \\
 \texttt{exp\_11} & $65^3$ & $8000$ &
 $\omega = 0.1019$, \texttt{STRENGTH} $= 30.0$,
 \texttt{BURN\_IN} $= 500$ &
-\texttt{exp\_11\_quantization\_scan.py} \\
+\nolinkurl{exp_11_quantization_scan.py} \\
 \texttt{exp\_12} & $65^3$ &
 $1500$ orbit / $2500$ scan &
 $\omega_e = 0.1019$, $\omega_p = \pi/2$,
 \texttt{STRENGTH} $= 30.0$ &
-\texttt{exp\_12\_hydrogen\_twobody.py} \\
+\nolinkurl{exp_12_hydrogen_twobody.py} \\
 \texttt{exp\_16} & $65^3$ & $20000$ &
 $\omega_p \in [0.3,\, \pi/2]$, \texttt{BURN\_IN} $= 4000$ &
-\texttt{exp\_16\_proton\_mass\_sweep.py} \\
+\nolinkurl{exp_16_proton_mass_sweep.py} \\
 \hline
 \end{tabular}
 \end{table}

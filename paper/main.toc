@@ -271,7 +271,7 @@
 \contentsline {subsection}{\numberline {B.2}Plaquette holonomy in the small-$a$ limit}{133}{subsection.B.2}%
 \contentsline {subsection}{\numberline {B.3}The plaquette sum: tensor form of the leading induced action}{134}{subsection.B.3}%
 \contentsline {subsection}{\numberline {B.4}Eigenstructure of $\mathbf {Q}$: the gauge-sector birefringence}{135}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}$O_h$ averaging recovers Maxwell}{135}{subsection.B.5}%
+\contentsline {subsection}{\numberline {B.5}$O_h$ averaging recovers Maxwell}{136}{subsection.B.5}%
 \contentsline {subsection}{\numberline {B.6}Status of the induced-action programme}{137}{subsection.B.6}%
 \contentsline {subsection}{\numberline {B.7}Reproducibility}{138}{subsection.B.7}%
 \contentsline {section}{\numberline {C}Reproducibility Quickstart}{138}{section.C}%
