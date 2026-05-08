@@ -31,9 +31,9 @@ expects:
 \begin{itemize}
 \item Python~3 with the packages pinned in
 \nolinkurl{virtual-env-requirements.txt}
-(\texttt{numpy~2.4.3}, \texttt{scipy~1.17.1},
-\texttt{matplotlib~3.10.8}, \texttt{pandas~3.0.1},
-\texttt{networkx~3.6.1}, \texttt{seaborn~0.13.2}; full list in
+(\texttt{numpy}~2.4.3, \texttt{scipy}~1.17.1,
+\texttt{matplotlib}~3.10.8, \texttt{pandas}~3.0.1,
+\texttt{networkx}~3.6.1, \texttt{seaborn}~0.13.2; full list in
 the file).
 \item GNU Make $\geq$ 4.3 (the grouped-target \texttt{\&:} syntax is used).
 \item \texttt{pdflatex} and \texttt{bibtex} (MiKTeX or TeX Live) for
@@ -59,15 +59,15 @@ Random numbers enter in two places only:
 
 \begin{enumerate}
 \item \nolinkurl{src/core/TickScheduler.py} uses
-\texttt{np.random.default\_rng(seed=42)} when an experiment requests
+\nolinkurl{np.random.default_rng(seed=42)} when an experiment requests
 randomised tick ordering. \texttt{exp\_05} relies on this for the
 shuffle-invariance test; all other experiments use the deterministic
 sequential schedule.
 
-\item \nolinkurl{src/experiments/exp_04_decoherence.py} draws random
-phase scrambles via \texttt{np.random.default\_rng(42)} for the
-many-bath ensemble; the per-realisation seed is \texttt{i + 100} for
-the $i$-th member of the ensemble.
+\item \nolinkurl{src/experiments/exp_04_decoherence.py} draws
+random phase scrambles via \nolinkurl{np.random.default_rng(42)}
+for the many-bath ensemble; the per-realisation seed is
+\texttt{i + 100} for the $i$-th member of the ensemble.
 \end{enumerate}
 
 With these seeds fixed at the values committed to the repository,
