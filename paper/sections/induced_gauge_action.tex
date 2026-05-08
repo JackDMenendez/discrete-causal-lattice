@@ -350,6 +350,7 @@ calculation requires only \texttt{sympy}; no specialised lattice
 gauge theory infrastructure.
 
 The five-line core verification of $\mathbf{Q}$'s eigenvalues is
+{\footnotesize
 \begin{verbatim}
     import sympy as sp
     V1, V2, V3 = sp.Matrix([1,1,1]), sp.Matrix([1,-1,-1]), sp.Matrix([-1,1,-1])
@@ -357,6 +358,7 @@ The five-line core verification of $\mathbf{Q}$'s eigenvalues is
     proj = lambda Va, Vb: sum(Va[i]*Vb[j]*F[i,j] for i in range(3) for j in range(3))
     Q_density = sum(sp.expand(proj(V,W)**2) for V,W in [(V1,V2),(V1,V3),(V2,V3)])
 \end{verbatim}
+}
 extracting $\mathbf{Q}$ from the quadratic form in the $\{F_{12},F_{13},F_{23}\}$
 basis yields Eq.~\eqref{eq:Q_matrix} and the eigenvalues
 $\{4, 4, 16\}$.
