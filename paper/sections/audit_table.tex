@@ -15,8 +15,8 @@ resonance peak (a short-run quantitative match); long-horizon
 two-body stability is a separate question and is captured by the
 \texttt{exp\_12b} \texttt{PART} entry below.}
 \label{tab:audit}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{lllll}
+\footnotesize
+\begin{tabular}{@{}p{2.6cm}p{2.8cm}p{3.2cm}p{5.4cm}p{1.0cm}@{}}
 \hline
 \textbf{Physical Phenomenon} & \textbf{Lattice Logic} & \textbf{Continuum Limit} & \textbf{Experiment} & \textbf{Status} \\
 \hline
@@ -157,7 +157,7 @@ Emission-operator joint $\mathcal{A}=1$ conservation
       \texttt{exp\_19c}) violates by $1.0$; arm C (phase rotation)
       trivial.  Phase-dependent non-monotonic transfer in arm B is
       an unanticipated refinement of the operation-algebra
-      prediction (see \texttt{notes/lattice\_operation\_algebra.md}
+      prediction (see \nolinkurl{notes/lattice_operation_algebra.md}
       row~6 caveat)
     & \texttt{PART} \\
 Induced gauge action (Sakharov form)
@@ -260,21 +260,22 @@ Standard Model gauge group as automorphism
       structure constants must match
       $\mathfrak{so}(3,1) \oplus \mathfrak{su}(3) \oplus
       \mathfrak{su}(2) \oplus \mathfrak{u}(1)$ factor-by-factor
-    & Six \texttt{src/utilities/automorphism\_*} and
-      \texttt{tick\_rule\_*} sympy scripts (2026-05-05) establish:
+    & Six \nolinkurl{src/utilities/automorphism_*} and
+      \nolinkurl{tick_rule_*} sympy scripts (2026-05-05) establish:
       discrete spatial $\mathrm{Aut}(\Gamma, V)$ is order 48
-      ($B_3 \cong O_h$ abstractly, 12 elements orthogonal); existing
-      RGB symmetry contributes only $\mathbb{Z}_3 \subset SU(3)$;
-      per-site $SU(2)$ on $\mathbb{C}^2$ overlaps with
-      Lorentz rotations (not a separate factor); the conjecture's
-      direct-product structure is achievable on the extended
-      $\mathbb{C}^{12} = \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes
-      \mathbb{C}^3$ amplitude (verified, all 18 generators commute
-      pairwise across factors); trivial tensor extension preserves
-      $\mathcal{A}=1$ and parity (verified in
-      \texttt{tick\_rule\_extended\_consistency.py});
+      ($B_3 \cong O_h$ abstractly, 12 elements orthogonal);
+      existing RGB symmetry contributes only $\mathbb{Z}_3
+      \subset SU(3)$; per-site $SU(2)$ on $\mathbb{C}^2$ overlaps
+      with Lorentz rotations (not a separate factor); the
+      conjecture's direct-product structure is achievable on the
+      extended $\mathbb{C}^{12} = \mathbb{C}^2 \otimes
+      \mathbb{C}^2 \otimes \mathbb{C}^3$ amplitude (verified,
+      all 18 generators commute pairwise across factors);
+      trivial tensor extension preserves $\mathcal{A}=1$ and
+      parity (verified in
+      \nolinkurl{tick_rule_extended_consistency.py});
       Wilson plaquette $V_1, -V_2, -V_1, V_2$ is gauge-invariant
-      (verified in \texttt{tick\_rule\_gauge\_invariance.py}).
+      (verified in \nolinkurl{tick_rule_gauge_invariance.py}).
       Three structural questions open: exact equality of
       Aut, SM-chirality coupling, explicit $1/g^2$ prefactors
     & \texttt{STUB} \\
@@ -291,5 +292,5 @@ Multi-channel concordance (P9)
     & \texttt{STUB} \\
 \hline
 \end{tabular}
-\end{adjustbox}
+\normalsize
 \end{table}
