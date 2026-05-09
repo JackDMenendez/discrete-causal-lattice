@@ -7,6 +7,8 @@ __pycache__/
 .external/
 external/
 .scratchpad
+# Durable versioned PDF snapshots (kept across `make clean`)
+.stage/
 # C extensions
 *.so
 # Block all Windows reserved device names
